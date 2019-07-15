@@ -30,6 +30,6 @@
     "source.button.showselectedCollections": "Mostrar coleções selecionadas",
     "source.button.selectAllCollections": "Selecione todas as coleções",
     "source.button.showAllCollections": "Mostrar todas as coleções",
-    "source.modal.selectAllCollections.success": "O processo foi iniciado. Pode levar algum tempo até que todos os ISILs sejam adicionados ao campo SelectedBy.",
+    "source.modal.selectAllCollections.success": "O processo foi iniciado. Pode levar algum tempo até que todos os ISILs sejam adicionados ao selecionado pelo campo.",
     "source.modal.selectAllCollections.error": "O processo não pôde ser iniciado."
 }
