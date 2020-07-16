@@ -1,4 +1,4 @@
-import { faker, trait } from '@bigtest/mirage';
+import faker from 'faker';
 
 import Factory from './application';
 
@@ -12,9 +12,12 @@ export default Factory.extend({
     fileId: '',
   }],
 
-  withFilterFile: trait({
-    afterCreate(file, server) {
-      server.createList('finc-select-filter-file', 9, { file });
-    }
-  }),
+  withFilterFile: {
+    extension: {
+      afterCreate(file, server) {
+        server.createList('finc-select-filter-file', 9, { file });
+      }
+    },
+    __isTrait__: true
+  },
 });
