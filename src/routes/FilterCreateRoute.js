@@ -60,6 +60,7 @@ class FilterCreateRoute extends React.Component {
     const collectionIdsForSave = filter.collectionIds;
     const filterForSave = _.omit(filter, ['collectionIds']);
 
+    // THIS IS WHERE THE FUCKING PROBLEM IS: filter object has no collectionIds
     mutator.filters
       .POST(filterForSave)
       .then(({ id }) => {
