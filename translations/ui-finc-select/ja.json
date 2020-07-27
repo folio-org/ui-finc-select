@@ -72,5 +72,14 @@
     "filter.collections.modal.cancel": "キャンセル",
     "filter.collectionAccordion": "Metadata collections",
     "filter.collections.viewCollection": "View collections",
-    "filter.edit": "Edit"
+    "filter.edit": "Edit",
+    "settings.ezbCredentials.label": "EZB credentials",
+    "settings.ezbCredentials.user": "user",
+    "settings.ezbCredentials.password": "password",
+    "settings.ezbCredentials.libId": "libId",
+    "settings.ezbCredentials.isil": "isil",
+    "settings.ezbCredentials.save": "Save",
+    "settings.changePassword.hidePassword": "Hide password",
+    "settings.changePassword.showPassword": "Show password",
+    "collection.collectionId": "Collection ID"
 }

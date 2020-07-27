@@ -72,5 +72,14 @@
     "filter.collections.modal.cancel": "取消",
     "filter.collectionAccordion": "元数据集合",
     "filter.collections.viewCollection": "查看集合",
-    "filter.edit": "Edit"
+    "filter.edit": "编辑",
+    "settings.ezbCredentials.label": "EZB凭证",
+    "settings.ezbCredentials.user": "用户",
+    "settings.ezbCredentials.password": "密码",
+    "settings.ezbCredentials.libId": "馆ID",
+    "settings.ezbCredentials.isil": "ISIL",
+    "settings.ezbCredentials.save": "保存",
+    "settings.changePassword.hidePassword": "隐藏密码",
+    "settings.changePassword.showPassword": "显示密码",
+    "collection.collectionId": "Collection ID"
 }

@@ -72,5 +72,14 @@
     "filter.collections.modal.cancel": "Annuler",
     "filter.collectionAccordion": "Collections de métadonnées",
     "filter.collections.viewCollection": "Voir les collections",
-    "filter.edit": "Modifier"
+    "filter.edit": "Modifier",
+    "settings.ezbCredentials.label": "EZB credentials",
+    "settings.ezbCredentials.user": "Utilisateur",
+    "settings.ezbCredentials.password": "Mot de passe",
+    "settings.ezbCredentials.libId": "libId",
+    "settings.ezbCredentials.isil": "isil",
+    "settings.ezbCredentials.save": "Sauvegarder",
+    "settings.changePassword.hidePassword": "Masquer le mot de passe",
+    "settings.changePassword.showPassword": "Afficher le mot de passe",
+    "collection.collectionId": "ID de la collection"
 }

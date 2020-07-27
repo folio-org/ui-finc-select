@@ -72,5 +72,14 @@
     "filter.collections.modal.cancel": "Отменить",
     "filter.collectionAccordion": "Коллекции метаданных",
     "filter.collections.viewCollection": "Посмотреть коллекции",
-    "filter.edit": "Редактировать"
+    "filter.edit": "Редактировать",
+    "settings.ezbCredentials.label": "EZB credentials",
+    "settings.ezbCredentials.user": "user",
+    "settings.ezbCredentials.password": "password",
+    "settings.ezbCredentials.libId": "libId",
+    "settings.ezbCredentials.isil": "isil",
+    "settings.ezbCredentials.save": "Save",
+    "settings.changePassword.hidePassword": "Hide password",
+    "settings.changePassword.showPassword": "Show password",
+    "collection.collectionId": "Идентификатор коллекции"
 }
