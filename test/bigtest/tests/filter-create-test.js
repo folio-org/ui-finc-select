@@ -11,7 +11,7 @@ import EditFilterPage from '../interactors/filter-edit-page';
 import FilterDetailsPage from '../interactors/filter-details-page';
 import FiltersList from '../interactors/filters-list';
 
-describe.only('Create Filter', () => {
+describe('Create Filter', () => {
   setupApplication();
   const filtersList = new FiltersList();
   const filterDetailsPage = new FilterDetailsPage();
@@ -46,7 +46,6 @@ describe.only('Create Filter', () => {
       });
 
       it('filter details view should be open and create filter form should be closed', () => {
-        // ALERT: 'ERROR: in module @folio/finc-select, operation POST on resource 'filters' failed, saying: Unexpected end of JSON input'
         expect(filterDetailsPage.isPresent).to.be.true;
         expect(editFilterPage.isPresent).to.be.false;
       });

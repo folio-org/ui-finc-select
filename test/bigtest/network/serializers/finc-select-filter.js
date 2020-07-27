@@ -13,7 +13,7 @@ export default ApplicationSerializer.extend({
         totalRecords: json.fincSelectFilters.length
       });
     } else {
-      return json.fincSelectFilters;
+      return json.fincSelectFilters || {};
     }
   }
 
