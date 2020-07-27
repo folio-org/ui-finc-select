@@ -17,9 +17,8 @@ describe('Create Filter', () => {
   const filterDetailsPage = new FilterDetailsPage();
   const editFilterPage = new EditFilterPage();
 
-  beforeEach(async function () {
-    this.visit('/finc-select/filters?filters=type.Whitelist');
-    await filtersList.whenLoaded();
+  beforeEach(function () {
+    return this.visit('/finc-select/filters?filters=type.Whitelist');
   });
 
   it('shows filter details pane', () => {
@@ -46,6 +45,7 @@ describe('Create Filter', () => {
       });
 
       it('filter details view should be open and create filter form should be closed', () => {
+        // ALERT: 'ERROR: in module @folio/finc-select, operation POST on resource 'filters' failed, saying: Unexpected end of JSON input'
         expect(filterDetailsPage.isPresent).to.be.true;
         expect(editFilterPage.isPresent).to.be.false;
       });

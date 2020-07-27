@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import PropTypes from 'prop-types';
 import Switch from 'react-router-dom/Switch';
 
 import { Route } from '@folio/stripes/core';
@@ -13,13 +14,23 @@ import FilterViewRoute from './routes/FilterViewRoute';
 import FilterEditRoute from './routes/FilterEditRoute';
 import FilterCreateRoute from './routes/FilterCreateRoute';
 
+import Settings from './settings';
+
 class FincSelect extends React.Component {
   static propTypes = {
+    actAs: PropTypes.string.isRequired,
     match: ReactRouterPropTypes.match.isRequired,
+    stripes: PropTypes.object.isRequired,
   }
 
   render() {
-    const { match: { path } } = this.props;
+    const { actAs, match: { path } } = this.props;
+
+    if (actAs === 'settings') {
+      return (
+        <Settings {...this.props} />
+      );
+    }
 
     return (
       <Switch>
@@ -40,4 +51,3 @@ class FincSelect extends React.Component {
 }
 
 export default FincSelect;
-// export { default as MetadataSources } from './components/MetadataSources/MetadataSources';

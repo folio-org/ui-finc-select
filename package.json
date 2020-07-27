@@ -1,6 +1,6 @@
 {
   "name": "@folio/finc-select",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "description for finc-select-app",
   "main": "src/index.js",
   "repository": "folio-org/ui-finc-select",
@@ -71,7 +71,8 @@
   },
   "stripes": {
     "actsAs": [
-      "app"
+      "app",
+      "settings"
     ],
     "displayName": "ui-finc-select.meta.title",
     "route": "/finc-select",
@@ -88,6 +89,14 @@
       {
         "permissionName": "module.finc-select.enabled",
         "displayName": "UI: finc-select module is enabled",
+        "visible": true
+      },
+      {
+        "permissionName": "settings.finc-select.enabled",
+        "displayName": "Settings (finc-select): display list of settings pages",
+        "subPermissions": [
+          "settings.enabled"
+        ],
         "visible": true
       },
       {

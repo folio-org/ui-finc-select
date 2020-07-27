@@ -7,6 +7,7 @@
   "collection.facetLabel": "Facet label",
   "collection.filters": "Active filters",
   "collection.freeContent": "Free content",
+  "collection.collectionId": "Collection ID",
   "collection.generalNotes": "General notes",
   "collection.label": "Collection name",
   "collection.mdSource": "Source name",
@@ -84,5 +85,14 @@
   "filter.form.createFilter": "Create filter",
   "filter.form.cancel": "Cancel",
   "filter.form.close": "Close filter dialog",
-  "filter.form.missingRequiredField": "File is required!"
+  "filter.form.missingRequiredField": "File is required!",
+
+  "settings.ezbCredentials.label": "EZB credentials",
+  "settings.ezbCredentials.user": "user",
+  "settings.ezbCredentials.password": "password",
+  "settings.ezbCredentials.libId": "libId",
+  "settings.ezbCredentials.isil": "isil",
+  "settings.ezbCredentials.save": "Save",
+  "settings.changePassword.hidePassword": "Hide password",
+  "settings.changePassword.showPassword": "Show password"
 }
