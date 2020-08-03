@@ -19,7 +19,6 @@ export default Factory.extend({
     note: ''
   },
   collectionId: '',
-  facetLabel: '',
   tickets: [],
   contentFiles: [],
   solrMegaCollections: [],

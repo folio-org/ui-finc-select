@@ -57,12 +57,6 @@ class CollectionTechnicalView extends React.Component {
             />
           </Row>
           <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.facetLabel" />}
-              value={_.get(metadataCollection, 'facetLabel', '-')}
-            />
-          </Row>
-          <Row>
             <Headline
               size="medium"
               className={BasicCss.styleForHeadline}

@@ -4,7 +4,6 @@
   "collections.title": "Metadata collections",
   "collection.searchInputLabel": "Search collection",
   "collection.description": "Description",
-  "collection.facetLabel": "Facet label",
   "collection.filters": "Active filters",
   "collection.freeContent": "Free content",
   "collection.collectionId": "Collection ID",
