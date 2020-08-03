@@ -64,7 +64,7 @@ class SourceTechnicalView extends React.Component {
           </Row>
           <Row>
             <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.sourceId" />}
+              label={<FormattedMessage id="ui-finc-select.source.id" />}
               value={_.get(metadataSource, 'sourceId', '-')}
             />
           </Row>

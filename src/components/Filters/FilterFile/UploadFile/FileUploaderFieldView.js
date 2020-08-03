@@ -56,7 +56,7 @@ export default class FileUploaderFieldView extends React.Component {
     } = this.props;
 
     return (
-      <FormattedMessage id="ui-finc-select.filter.file.buttonAriaLabel">
+      <FormattedMessage id="ui-finc-select.filter.file.upload">
         { buttonAriaLabel => (
           <FileUploader
             errorMessage={error}
