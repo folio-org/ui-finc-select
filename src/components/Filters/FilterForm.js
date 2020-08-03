@@ -177,8 +177,12 @@ class FilterForm extends React.Component {
     });
   }
 
+  handleDelete = () => {
+    this.props.onDelete();
+  }
+
   render() {
-    const { initialValues, isLoading, onDelete } = this.props;
+    const { initialValues, isLoading } = this.props;
     const { confirmDelete, sections } = this.state;
     const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.filter.form.createFilter" />;
 
@@ -245,7 +249,7 @@ class FilterForm extends React.Component {
                 id="delete-filter-confirmation"
                 message={`Do you really want to delete ${initialValues.label}?`}
                 onCancel={() => { this.confirmDelete(false); }}
-                onConfirm={onDelete}
+                onConfirm={() => this.props.onDelete()}
                 open={confirmDelete}
               />
             </div>

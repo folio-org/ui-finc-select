@@ -17,7 +17,7 @@ describe('Source Details', () => {
   let source = null;
 
   beforeEach(async function () {
-    source = this.server.create('finc-select-metadata-source');
+    source = this.server.create('finc-select-metadata-source', 'withOrganizations');
     await this.visit('/finc-select/metadata-sources?filters=status.active');
   });
 
