@@ -9,7 +9,7 @@
   "collection.collectionId": "Collection ID",
   "collection.generalNotes": "General notes",
   "collection.label": "Collection name",
-  "collection.mdSource": "Source name",
+  "collection.mdSource": "Metadata source",
   "collection.permitted": "Usage permitted",
   "collection.selected": "Selected",
   "collection.tickets": "Tickets",
@@ -34,6 +34,7 @@
   "source.sourceId": "Source ID",
   "source.status": "Implementation status",
   "source.tickets": "Tickets",
+  "source.selected": "Selected",
 
   "source.generalAccordion": "General",
   "source.accordion.management": "Management",

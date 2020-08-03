@@ -5,10 +5,7 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -52,7 +49,6 @@ class MetadataCollections extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    intl: PropTypes.object,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -92,11 +88,9 @@ class MetadataCollections extends React.Component {
 
   resultsFormatter = {
     label: collection => collection.label,
-    // mdSource: collection => collection.mdSource.name,
     mdSource: collection => _.get(collection, 'mdSource.name', '-'),
     permitted: collection => collection.permitted,
     selected: collection => collection.selected,
-    filters: collection => collection.filters.join('; '),
     freeContent: collection => collection.freeContent,
   };
 
@@ -252,7 +246,7 @@ class MetadataCollections extends React.Component {
   }
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
+    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
     const count = collection ? collection.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -368,12 +362,12 @@ class MetadataCollections extends React.Component {
                     <MultiColumnList
                       autosize
                       columnMapping={{
-                        label: intl.formatMessage({ id: 'ui-finc-select.collection.label' }),
-                        mdSource: intl.formatMessage({ id: 'ui-finc-select.collection.mdSource' }),
-                        permitted: intl.formatMessage({ id: 'ui-finc-select.collection.permitted' }),
-                        selected: intl.formatMessage({ id: 'ui-finc-select.collection.selected' }),
-                        filters: intl.formatMessage({ id: 'ui-finc-select.collection.filters' }),
-                        freeContent: intl.formatMessage({ id: 'ui-finc-select.collection.freeContent' })
+                        label: <FormattedMessage id="ui-finc-select.collection.label" />,
+                        mdSource: <FormattedMessage id="ui-finc-select.collection.mdSource" />,
+                        permitted: <FormattedMessage id="ui-finc-select.collection.permitted" />,
+                        selected: <FormattedMessage id="ui-finc-select.collection.selected" />,
+                        filters: <FormattedMessage id="ui-finc-select.collection.filters" />,
+                        freeContent: <FormattedMessage id="ui-finc-select.collection.freeContent" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -404,4 +398,4 @@ class MetadataCollections extends React.Component {
   }
 }
 
-export default withRouter(injectIntl(MetadataCollections));
+export default withRouter(MetadataCollections);

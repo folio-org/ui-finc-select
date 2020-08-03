@@ -3,9 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
 import {
-  Headline,
   KeyValue,
   List,
   Row,
@@ -13,8 +11,6 @@ import {
 
 import SelectUnselect from './SelectUnselect';
 import urls from '../../DisplayUtils/urls';
-
-import BasicCss from '../../BasicStyle.css';
 
 class CollectionInfoView extends React.Component {
   static propTypes = {
@@ -93,17 +89,6 @@ class CollectionInfoView extends React.Component {
               label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
               value={_.get(metadataCollection, 'permitted', '-')}
             />
-          </Row>
-          <Row>
-            <Headline
-              size="medium"
-              className={BasicCss.styleForHeadline}
-            >
-              <FormattedMessage id="ui-finc-select.collection.filters" />
-            </Headline>
-          </Row>
-          <Row>
-            { this.renderList('filters') }
           </Row>
           <Row>
             <this.connectedSelectUnselect

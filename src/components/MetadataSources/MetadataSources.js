@@ -5,10 +5,7 @@ import {
   withRouter,
   Link,
 } from 'react-router-dom';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -49,7 +46,6 @@ class MetadataSources extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    intl: PropTypes.object,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -244,7 +240,7 @@ class MetadataSources extends React.Component {
   }
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
+    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -359,10 +355,10 @@ class MetadataSources extends React.Component {
                     <MultiColumnList
                       autosize
                       columnMapping={{
-                        label: intl.formatMessage({ id: 'ui-finc-select.source.label' }),
-                        sourceId: intl.formatMessage({ id: 'ui-finc-select.source.id' }),
-                        status: intl.formatMessage({ id: 'ui-finc-select.source.status' }),
-                        lastProcessed: intl.formatMessage({ id: 'ui-finc-select.source.lastProcessed' }),
+                        label: <FormattedMessage id="ui-finc-select.source.label" />,
+                        sourceId: <FormattedMessage id="ui-finc-select.source.id" />,
+                        status: <FormattedMessage id="ui-finc-select.source.status" />,
+                        lastProcessed: <FormattedMessage id="ui-finc-select.source.lastProcessed" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -393,4 +389,4 @@ class MetadataSources extends React.Component {
   }
 }
 
-export default withRouter(injectIntl(MetadataSources));
+export default withRouter(MetadataSources);
