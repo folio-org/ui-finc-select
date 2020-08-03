@@ -92,11 +92,9 @@ class MetadataCollections extends React.Component {
 
   resultsFormatter = {
     label: collection => collection.label,
-    // mdSource: collection => collection.mdSource.name,
     mdSource: collection => _.get(collection, 'mdSource.name', '-'),
     permitted: collection => collection.permitted,
     selected: collection => collection.selected,
-    filters: collection => collection.filters.join('; '),
     freeContent: collection => collection.freeContent,
   };
 
@@ -372,7 +370,6 @@ class MetadataCollections extends React.Component {
                         mdSource: intl.formatMessage({ id: 'ui-finc-select.collection.mdSource' }),
                         permitted: intl.formatMessage({ id: 'ui-finc-select.collection.permitted' }),
                         selected: intl.formatMessage({ id: 'ui-finc-select.collection.selected' }),
-                        filters: intl.formatMessage({ id: 'ui-finc-select.collection.filters' }),
                         freeContent: intl.formatMessage({ id: 'ui-finc-select.collection.freeContent' })
                       }}
                       contentData={this.props.contentData}
