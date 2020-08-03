@@ -4,6 +4,6 @@
 export default function defaultScenario(server) {
   server.create('finc-select-metadata-source');
   server.create('finc-select-metadata-collection');
-  server.create('finc-select-filter', 'withFilterFile');
+  server.create('finc-select-filter', 'withFilterFile', 'withFilterCollections');
   server.create('tiny-metadata-source');
 }

@@ -120,4 +120,10 @@ export default function config() {
   this.get('/finc-config/tiny-metadata-sources', ({ tinyMetadataSources }) => {
     return tinyMetadataSources.all();
   });
+  this.get('/finc-select/filters/:id/collections', ({ fincSelectFilterCollections }) => {
+    return fincSelectFilterCollections.all();
+  });
+  this.put('/finc-select/filters/:id/collections', {
+    collectionIds: [],
+  });
 }
