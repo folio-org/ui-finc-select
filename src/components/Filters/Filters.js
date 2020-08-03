@@ -5,10 +5,7 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -44,7 +41,6 @@ class Filters extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    intl: PropTypes.object,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -231,7 +227,7 @@ class Filters extends React.Component {
   }
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, filter } = this.props;
+    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, filter } = this.props;
     const count = filter ? filter.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -343,8 +339,8 @@ class Filters extends React.Component {
                     <MultiColumnList
                       autosize
                       columnMapping={{
-                        label: intl.formatMessage({ id: 'ui-finc-select.filter.label' }),
-                        type: intl.formatMessage({ id: 'ui-finc-select.filter.type' }),
+                        label: <FormattedMessage id="ui-finc-select.filter.label" />,
+                        type: <FormattedMessage id="ui-finc-select.filter.type" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -375,4 +371,4 @@ class Filters extends React.Component {
   }
 }
 
-export default withRouter(injectIntl(Filters));
+export default withRouter(Filters);
