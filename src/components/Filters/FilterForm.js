@@ -182,7 +182,7 @@ class FilterForm extends React.Component {
   }
 
   render() {
-    const { initialValues, isLoading, onDelete = () => {} } = this.props;
+    const { initialValues, isLoading } = this.props;
     const { confirmDelete, sections } = this.state;
     const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.filter.form.createFilter" />;
 

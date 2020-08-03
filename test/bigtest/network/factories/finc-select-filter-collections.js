@@ -1,5 +1,5 @@
 
-import { faker } from '@bigtest/mirage';
+import faker from 'faker';
 
 import Factory from './application';
 
