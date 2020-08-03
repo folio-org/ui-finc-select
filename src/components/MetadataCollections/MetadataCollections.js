@@ -366,7 +366,6 @@ class MetadataCollections extends React.Component {
                         mdSource: <FormattedMessage id="ui-finc-select.collection.mdSource" />,
                         permitted: <FormattedMessage id="ui-finc-select.collection.permitted" />,
                         selected: <FormattedMessage id="ui-finc-select.collection.selected" />,
-                        filters: <FormattedMessage id="ui-finc-select.collection.filters" />,
                         freeContent: <FormattedMessage id="ui-finc-select.collection.freeContent" />,
                       }}
                       contentData={this.props.contentData}
@@ -384,7 +383,7 @@ class MetadataCollections extends React.Component {
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize
-                      visibleColumns={['label', 'mdSource', 'permitted', 'filters', 'freeContent']}
+                      visibleColumns={['label', 'mdSource', 'permitted', 'freeContent']}
                     />
                   </Pane>
                   {this.props.children}
