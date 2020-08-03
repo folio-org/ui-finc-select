@@ -5,9 +5,9 @@ export default ApplicationSerializer.extend({
   serialize(...args) {
     const json = ApplicationSerializer.prototype.serialize.apply(this, args);
 
-    const { collectionIds = [] } = json;
+    const { organizations = [] } = json;
 
-    json.totalRecords = collectionIds.length;
+    json.totalRecords = organizations.length;
 
     return json;
   }

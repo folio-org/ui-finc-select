@@ -126,4 +126,10 @@ export default function config() {
   this.put('/finc-select/filters/:id/collections', {
     collectionIds: [],
   });
+  this.get('/organizations-storage/organizations', ({ fincSelectOrganizations }) => {
+    return fincSelectOrganizations.all();
+  });
+  this.get('/organizations-storage/organizations', {
+    organizations: [],
+  });
 }

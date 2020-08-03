@@ -80,7 +80,7 @@ class MetadataSourceView extends React.Component {
   render() {
     const { record } = this.props;
     const label = _.get(record, 'label', '-');
-    const organizationId = _.get(record, 'organization.id', '-');
+    const organizationId = _.get(record, 'organization.id', '');
 
     return (
       <React.Fragment>
