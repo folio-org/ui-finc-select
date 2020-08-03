@@ -6,10 +6,10 @@ export default Factory.extend({
   id: () => faker.random.uuid(),
   label: (i) => 'COLLECTION ' + i,
   description: (i) => 'description' + i,
-  // mdSource: {
-  //   id: 'mdSource id',
-  //   name: 'mdSource name'
-  // },
+  mdSource: {
+    id: 'uuid-1234',
+    name: 'mdSource name'
+  },
   metadataAvailable: '',
   usageRestricted: '',
   permitted: '',
@@ -19,10 +19,8 @@ export default Factory.extend({
     note: ''
   },
   collectionId: '',
-  facetLabel: '',
   tickets: [],
   contentFiles: [],
   solrMegaCollections: [],
   selected: '',
-  filters: [],
 });

@@ -17,8 +17,10 @@ describe('Create Filter', () => {
   const filterDetailsPage = new FilterDetailsPage();
   const editFilterPage = new EditFilterPage();
 
-  beforeEach(function () {
-    return this.visit('/finc-select/filters?filters=type.Whitelist');
+  beforeEach(async function () {
+    // const filter = this.server.create('finc-select-filter', 'withFilterFile', 'withFilterCollections');
+    this.visit('/finc-select/filters?filters=type.Whitelist');
+    await filtersList.whenLoaded();
   });
 
   it('shows filter details pane', () => {

@@ -5,14 +5,12 @@ import {
   withRouter,
   Link,
 } from 'react-router-dom';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
+  CollapseFilterPaneButton,
+  ExpandFilterPaneButton,
   SearchAndSortQuery,
-  SearchAndSortSearchButton as FilterPaneToggle,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -30,9 +28,10 @@ import SourceFilters from './SourceFilters';
 import Navigation from '../Navigation/Navigation';
 
 const searchableIndexes = [
-  { label: 'All', value: '', makeQuery: term => `(label="${term}*" or sourceId="${term}*")` },
+  { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or sourceId="${term}*")` },
   { label: 'Source Name', value: 'label', makeQuery: term => `(label="${term}*")` },
-  { label: 'Source ID', value: 'sourceId', makeQuery: term => `(sourceId="${term}*")` }
+  { label: 'Description', value: 'description', makeQuery: term => `(description="${term}*")` },
+  { label: 'Source ID', value: 'sourceId', makeQuery: term => `(sourceId="${term}*")` },
 ];
 
 const defaultFilter = { state: { status: ['active', 'implementation'] }, string: 'status.active,status.implementation' };
@@ -47,7 +46,6 @@ class MetadataSources extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    intl: PropTypes.object,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -133,24 +131,16 @@ class MetadataSources extends React.Component {
   renderResultsFirstMenu = (filters) => {
     const { filterPaneIsVisible } = this.state;
     const filterCount = filters.string !== '' ? filters.string.split(',').length : 0;
-    const hideOrShowMessageId = filterPaneIsVisible ?
-      'stripes-smart-components.hideSearchPane' : 'stripes-smart-components.showSearchPane';
+    if (filterPaneIsVisible) {
+      return null;
+    }
 
     return (
       <PaneMenu>
-        <FormattedMessage id="stripes-smart-components.numberOfFilters" values={{ count: filterCount }}>
-          {appliedFiltersMessage => (
-            <FormattedMessage id={hideOrShowMessageId}>
-              {hideOrShowMessage => (
-                <FilterPaneToggle
-                  aria-label={`${hideOrShowMessage}...${appliedFiltersMessage}`}
-                  onClick={this.toggleFilterPane}
-                  visible={filterPaneIsVisible}
-                />
-              )}
-            </FormattedMessage>
-          )}
-        </FormattedMessage>
+        <ExpandFilterPaneButton
+          filterCount={filterCount}
+          onClick={this.toggleFilterPane}
+        />
       </PaneMenu>
     );
   }
@@ -250,7 +240,7 @@ class MetadataSources extends React.Component {
   }
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
+    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -288,7 +278,13 @@ class MetadataSources extends React.Component {
                     <Pane
                       defaultWidth="18%"
                       id="pane-sourcefilter"
-                      onClose={this.toggleFilterPane}
+                      lastMenu={
+                        <PaneMenu>
+                          <CollapseFilterPaneButton
+                            onClick={this.toggleFilterPane}
+                          />
+                        </PaneMenu>
+                      }
                       paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
                     >
                       <form onSubmit={onSubmitSearch}>
@@ -359,10 +355,10 @@ class MetadataSources extends React.Component {
                     <MultiColumnList
                       autosize
                       columnMapping={{
-                        label: intl.formatMessage({ id: 'ui-finc-select.source.label' }),
-                        sourceId: intl.formatMessage({ id: 'ui-finc-select.source.id' }),
-                        status: intl.formatMessage({ id: 'ui-finc-select.source.status' }),
-                        lastProcessed: intl.formatMessage({ id: 'ui-finc-select.source.lastProcessed' }),
+                        label: <FormattedMessage id="ui-finc-select.source.label" />,
+                        sourceId: <FormattedMessage id="ui-finc-select.source.id" />,
+                        status: <FormattedMessage id="ui-finc-select.source.status" />,
+                        lastProcessed: <FormattedMessage id="ui-finc-select.source.lastProcessed" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -393,4 +389,4 @@ class MetadataSources extends React.Component {
   }
 }
 
-export default withRouter(injectIntl(MetadataSources));
+export default withRouter(MetadataSources);

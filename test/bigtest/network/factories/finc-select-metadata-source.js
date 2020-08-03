@@ -1,3 +1,4 @@
+import { trait } from 'miragejs';
 import faker from 'faker';
 
 import Factory from './application';
@@ -28,4 +29,9 @@ export default Factory.extend({
   updateRhythm: '',
   inferiorTo: [],
   selected: '',
+  withOrganizations: trait({
+    afterCreate(organizations, server) {
+      server.createList('finc-select-organizations', 9, { organizations });
+    }
+  }),
 });

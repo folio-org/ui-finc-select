@@ -5,14 +5,12 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import {
-  FormattedMessage,
-  injectIntl,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import {
+  CollapseFilterPaneButton,
+  ExpandFilterPaneButton,
   SearchAndSortQuery,
-  SearchAndSortSearchButton as FilterPaneToggle,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -43,7 +41,6 @@ class Filters extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    intl: PropTypes.object,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -123,24 +120,16 @@ class Filters extends React.Component {
   renderResultsFirstMenu = (filters) => {
     const { filterPaneIsVisible } = this.state;
     const filterCount = filters.string !== '' ? filters.string.split(',').length : 0;
-    const hideOrShowMessageId = filterPaneIsVisible ?
-      'stripes-smart-components.hideSearchPane' : 'stripes-smart-components.showSearchPane';
+    if (filterPaneIsVisible) {
+      return null;
+    }
 
     return (
       <PaneMenu>
-        <FormattedMessage id="stripes-smart-components.numberOfFilters" values={{ count: filterCount }}>
-          {appliedFiltersMessage => (
-            <FormattedMessage id={hideOrShowMessageId}>
-              {hideOrShowMessage => (
-                <FilterPaneToggle
-                  aria-label={`${hideOrShowMessage}...${appliedFiltersMessage}`}
-                  onClick={this.toggleFilterPane}
-                  visible={filterPaneIsVisible}
-                />
-              )}
-            </FormattedMessage>
-          )}
-        </FormattedMessage>
+        <ExpandFilterPaneButton
+          filterCount={filterCount}
+          onClick={this.toggleFilterPane}
+        />
       </PaneMenu>
     );
   }
@@ -238,7 +227,7 @@ class Filters extends React.Component {
   }
 
   render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, filter } = this.props;
+    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, filter } = this.props;
     const count = filter ? filter.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
@@ -276,7 +265,13 @@ class Filters extends React.Component {
                       data-test-filter-pane-filter
                       defaultWidth="18%"
                       id="pane-filterfilter"
-                      onClose={this.toggleFilterPane}
+                      lastMenu={
+                        <PaneMenu>
+                          <CollapseFilterPaneButton
+                            onClick={this.toggleFilterPane}
+                          />
+                        </PaneMenu>
+                      }
                       paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
                     >
                       <form onSubmit={onSubmitSearch}>
@@ -332,19 +327,20 @@ class Filters extends React.Component {
                   <Pane
                     appIcon={<AppIcon app="finc-select" />}
                     data-test-filter-pane-results
-                    defaultWidth="42%"
+                    defaultWidth="fill"
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-filterresults"
                     lastMenu={this.renderResultsLastMenu()}
                     padContent={false}
                     paneTitle={<FormattedMessage id="ui-finc-select.filters.title" />}
                     paneSub={this.renderResultsPaneSubtitle(filter)}
+                    style={{ minWidth: '42%' }}
                   >
                     <MultiColumnList
                       autosize
                       columnMapping={{
-                        label: intl.formatMessage({ id: 'ui-finc-select.filter.label' }),
-                        type: intl.formatMessage({ id: 'ui-finc-select.filter.type' }),
+                        label: <FormattedMessage id="ui-finc-select.filter.label" />,
+                        type: <FormattedMessage id="ui-finc-select.filter.type" />,
                       }}
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
@@ -375,4 +371,4 @@ class Filters extends React.Component {
   }
 }
 
-export default withRouter(injectIntl(Filters));
+export default withRouter(Filters);

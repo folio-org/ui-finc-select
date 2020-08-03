@@ -103,7 +103,7 @@ class DocumentsFieldArray extends React.Component {
 
     return items.map((doc, i) => (
       <EditCard
-        ariaLabel={`delete filter file ${name}`}
+        deletebuttonarialabel={`delete filter file ${name}`}
         data-test-filter-file
         deleteBtnProps={{
           'id': `${name}-delete-${i}`,
