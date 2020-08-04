@@ -1,12 +1,11 @@
 {
     "meta.title": "Sélectionner finc.",
     "collection.description": "Description",
-    "collection.facetLabel": "Libellé de facette",
     "collection.filters": "Filtres actifs",
     "collection.freeContent": "Contenu gratuit",
     "collection.generalNotes": "Commentaires généraux",
     "collection.label": "Nom de la collection",
-    "collection.mdSource": "Nom de la source",
+    "collection.mdSource": "Source des métadonnées",
     "collection.permitted": "Utilisation autorisée",
     "collection.selected": "Sélectionné",
     "collection.tickets": "Tickets",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "Sauvegarder",
     "settings.changePassword.hidePassword": "Masquer le mot de passe",
     "settings.changePassword.showPassword": "Afficher le mot de passe",
-    "collection.collectionId": "ID de la collection"
+    "collection.collectionId": "ID de la collection",
+    "source.selected": "Sélectionné"
 }

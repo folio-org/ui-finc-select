@@ -1,7 +1,6 @@
 {
     "meta.title": "Finc select",
     "collection.description": "Description",
-    "collection.facetLabel": "Facet label",
     "collection.filters": "Active filters",
     "collection.freeContent": "Free content",
     "collection.generalNotes": "General notes",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "Save",
     "settings.changePassword.hidePassword": "Hide password",
     "settings.changePassword.showPassword": "Show password",
-    "collection.collectionId": "Collection ID"
+    "collection.collectionId": "Collection ID",
+    "source.selected": "Selected"
 }
