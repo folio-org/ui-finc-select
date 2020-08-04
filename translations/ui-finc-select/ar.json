@@ -1,7 +1,6 @@
 {
     "meta.title": "تحديد Finc",
     "collection.description": "الوصف",
-    "collection.facetLabel": "ملصق الفاسِت",
     "collection.filters": "المنقحات النشطة",
     "collection.freeContent": "محتوى مجاني",
     "collection.generalNotes": "ملاحظات عامة",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "حفظ",
     "settings.changePassword.hidePassword": "إخفاء كلمة المرور",
     "settings.changePassword.showPassword": "إظهار كلمة المرور",
-    "collection.collectionId": "معرّف المجموعة"
+    "collection.collectionId": "معرّف المجموعة",
+    "source.selected": "المحدد"
 }

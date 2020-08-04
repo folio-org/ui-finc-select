@@ -1,7 +1,6 @@
 {
     "meta.title": "Finc select",
     "collection.description": "Описание",
-    "collection.facetLabel": "Фасетная метка",
     "collection.filters": "Активные фильтры",
     "collection.freeContent": "Бесплатный контент",
     "collection.generalNotes": "Общие замечания",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "Save",
     "settings.changePassword.hidePassword": "Hide password",
     "settings.changePassword.showPassword": "Show password",
-    "collection.collectionId": "Идентификатор коллекции"
+    "collection.collectionId": "Идентификатор коллекции",
+    "source.selected": "Selected"
 }
