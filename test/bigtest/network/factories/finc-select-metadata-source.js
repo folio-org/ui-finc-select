@@ -30,7 +30,7 @@ export default Factory.extend({
   selected: '',
   withOrganizations: trait({
     afterCreate(organizations, server) {
-      server.createList('finc-select-organizations', 9, { organizations });
+      server.createList('finc-select-organization', 9, { organizations });
     }
   }),
 });
