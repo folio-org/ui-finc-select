@@ -290,7 +290,7 @@ class MetadataSources extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('source')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.source.searchInputLabel">
+                          <FormattedMessage id="ui-finc-select.searchInputLabel">
                             {ariaLabel => (
                               <SearchField
                                 ariaLabel={ariaLabel}

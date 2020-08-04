@@ -153,7 +153,7 @@ class Filters extends React.Component {
     return (
       <IfPermission perm="finc-select.filters.item.post">
         <PaneMenu>
-          <FormattedMessage id="ui-finc-select.filter.form.createFilter">
+          <FormattedMessage id="ui-finc-select.form.create">
             {ariaLabel => (
               <Button
                 aria-label={ariaLabel}
@@ -277,7 +277,7 @@ class Filters extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('filter')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.filter.searchInputLabel">
+                          <FormattedMessage id="ui-finc-select.searchInputLabel">
                             {ariaLabel => (
                               <SearchField
                                 ariaLabel={ariaLabel}
