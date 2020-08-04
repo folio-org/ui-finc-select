@@ -4,5 +4,5 @@ import {
 } from 'miragejs';
 
 export default Model.extend({
-  organizations: belongsTo('finc-select-metadata-source'),
+  organization: belongsTo('finc-select-metadata-source'),
 });

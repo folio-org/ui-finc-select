@@ -1,12 +1,11 @@
 {
     "meta.title": "Finc select",
     "collection.description": "Description",
-    "collection.facetLabel": "Facet label",
     "collection.filters": "Active filters",
     "collection.freeContent": "Free content",
     "collection.generalNotes": "General notes",
     "collection.label": "Collection name",
-    "collection.mdSource": "Source name",
+    "collection.mdSource": "Metadata source",
     "collection.permitted": "Usage permitted",
     "collection.selected": "Selected",
     "collection.tickets": "Tickets",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "Save",
     "settings.changePassword.hidePassword": "Hide password",
     "settings.changePassword.showPassword": "Show password",
-    "collection.collectionId": "Collection ID"
+    "collection.collectionId": "Collection ID",
+    "source.selected": "Selected"
 }
