@@ -85,7 +85,7 @@ class FilterForm extends React.Component {
   getFirstMenu() {
     return (
       <PaneMenu>
-        <FormattedMessage id="ui-finc-select.filter.form.close">
+        <FormattedMessage id="ui-finc-select.form.close">
           { ariaLabel => (
             <IconButton
               ariaLabel={ariaLabel}
@@ -116,7 +116,7 @@ class FilterForm extends React.Component {
             onClick={this.beginDelete}
             title="delete"
           >
-            <FormattedMessage id="ui-finc-select.filter.form.deleteFilter" />
+            <FormattedMessage id="ui-finc-select.form.delete" />
           </Button>
         </IfPermission>
         )}
@@ -143,7 +143,7 @@ class FilterForm extends React.Component {
         buttonStyle="default mega"
         onClick={onClose}
       >
-        <FormattedMessage id="ui-finc-select.filter.form.cancel" />
+        <FormattedMessage id="ui-finc-select.form.cancel" />
       </Button>
     );
 
@@ -157,7 +157,7 @@ class FilterForm extends React.Component {
         onClick={handleSubmit}
         disabled={disabled}
       >
-        <FormattedMessage id="ui-finc-select.filter.form.saveAndClose" />
+        <FormattedMessage id="ui-finc-select.form.saveAndClose" />
       </Button>
     );
 
@@ -180,7 +180,7 @@ class FilterForm extends React.Component {
   render() {
     const { initialValues, isLoading, onDelete } = this.props;
     const { confirmDelete, sections } = this.state;
-    const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.filter.form.createFilter" />;
+    const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.form.create" />;
 
     const firstMenu = this.getFirstMenu();
     const lastMenu = this.getLastMenu();
@@ -241,7 +241,7 @@ class FilterForm extends React.Component {
                 />
               </AccordionSet>
               <ConfirmationModal
-                heading={<FormattedMessage id="ui-finc-select.filter.form.deleteFilter" />}
+                heading={<FormattedMessage id="ui-finc-select.form.delete" />}
                 id="delete-filter-confirmation"
                 message={`Do you really want to delete ${initialValues.label}?`}
                 onCancel={() => { this.confirmDelete(false); }}

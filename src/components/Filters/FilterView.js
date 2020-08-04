@@ -86,7 +86,7 @@ class FilterView extends React.Component {
             buttonRef={this.editButton}
             marginBottom0
           >
-            <FormattedMessage id="ui-finc-select.filter.edit" />
+            <FormattedMessage id="ui-finc-select.edit" />
           </Button>
         </PaneMenu>
       </IfPermission>
