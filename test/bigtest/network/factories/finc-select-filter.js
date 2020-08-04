@@ -19,7 +19,7 @@ export default Factory.extend({
   }),
   withFilterCollections: trait({
     afterCreate(collectionIds, server) {
-      server.createList('finc-select-filter-collections', 9, { collectionIds });
+      server.createList('finc-select-filter-collection', 9, { collectionIds });
     }
   }),
 });
