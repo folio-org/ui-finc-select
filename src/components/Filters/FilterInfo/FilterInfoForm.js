@@ -34,12 +34,10 @@ class FilterInfoForm extends React.Component {
               component={TextField}
               fullWidth
               id="addfilter_label"
-              label={
-                <FormattedMessage id="ui-finc-select.filter.label">
-                  {(msg) => msg + ' *'}
-                </FormattedMessage>}
+              label={<FormattedMessage id="ui-finc-select.filter.label" />}
               name="label"
               placeholder="Enter a name to identify the filter"
+              required
               validate={Required}
             />
           </Col>
@@ -51,12 +49,10 @@ class FilterInfoForm extends React.Component {
               dataOptions={dataType}
               fullWidth
               id="addfilter_type"
-              label={
-                <FormattedMessage id="ui-finc-select.filter.type">
-                  {(msg) => msg + ' *'}
-                </FormattedMessage>}
+              label={<FormattedMessage id="ui-finc-select.filter.type" />}
               name="type"
               placeholder="Enter a type for the filter"
+              required
               validate={Required}
             />
           </Col>
