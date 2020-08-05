@@ -5,6 +5,7 @@
 
 * Increment `@folio/stripes` to `v5.0` and `react-router` to `v5.2` (and, bugfix, move it to peer)
 * Replace deprecated `babel-polyfill` with `core-js` and `regenerator-runtime`
+* Replace `bigtest/mirage` with `miragejs`
 
 ## [1.5.1](https://github.com/folio-org/ui-finc-select/tree/v1.5.1) (2020-03-13)
 * Bugfix: Update version of required okapiInterface "finc-select/filters" to v1.1

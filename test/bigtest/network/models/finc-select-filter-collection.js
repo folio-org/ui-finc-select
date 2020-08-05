@@ -1,7 +1,7 @@
 import {
   belongsTo,
   Model,
-} from '@bigtest/mirage';
+} from 'miragejs';
 
 export default Model.extend({
   collectionIds: belongsTo('finc-select-filter'),
