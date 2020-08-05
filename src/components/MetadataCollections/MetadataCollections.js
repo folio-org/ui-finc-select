@@ -296,7 +296,7 @@ class MetadataCollections extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('collection')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.collection.searchInputLabel">
+                          <FormattedMessage id="ui-finc-select.searchInputLabel">
                             {ariaLabel => (
                               <SearchField
                                 ariaLabel={ariaLabel}
