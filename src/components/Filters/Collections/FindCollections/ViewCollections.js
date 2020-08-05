@@ -62,13 +62,6 @@ class ViewCollections extends React.Component {
 
     return (
       <React.Fragment>
-        {/* <Row>
-          <Label className={BasicCss.styleForFormLabel}>
-            <FormattedMessage id="ui-finc-select.filter.collections.viewCollection">
-              {(msg) => msg}
-            </FormattedMessage>
-          </Label>
-        </Row> */}
         <Row>
           <Col xs={6}>
             { pluggable }

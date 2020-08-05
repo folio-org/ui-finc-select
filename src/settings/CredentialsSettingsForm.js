@@ -101,12 +101,10 @@ class CredentialsSettingsForm extends React.Component {
                   component={TextField}
                   fullWidth
                   id="add_ezbcredentials_user"
-                  label={
-                    <FormattedMessage id="ui-finc-select.settings.ezbCredentials.user">
-                      {(msg) => msg + ' *'}
-                    </FormattedMessage>}
+                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.user" />}
                   name="user"
                   placeholder="Enter a user"
+                  required
                   validate={Required}
                 />
               </Col>
@@ -118,12 +116,10 @@ class CredentialsSettingsForm extends React.Component {
                   type={passwordType}
                   fullWidth
                   id="add_ezbcredentials_password"
-                  label={
-                    <FormattedMessage id="ui-finc-select.settings.ezbCredentials.password">
-                      {(msg) => msg + ' *'}
-                    </FormattedMessage>}
+                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.password" />}
                   name="password"
                   placeholder="Enter a password"
+                  required
                   validate={Required}
                 />
               </Col>
@@ -145,12 +141,10 @@ class CredentialsSettingsForm extends React.Component {
                   component={TextField}
                   fullWidth
                   id="add_ezbcredentials_libId"
-                  label={
-                    <FormattedMessage id="ui-finc-select.settings.ezbCredentials.libId">
-                      {(msg) => msg + ' *'}
-                    </FormattedMessage>}
+                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.libId" />}
                   name="libId"
                   placeholder="Enter a libId"
+                  required
                   validate={Required}
                 />
               </Col>
