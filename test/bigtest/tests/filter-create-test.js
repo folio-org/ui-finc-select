@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {
   beforeEach,
   describe,
@@ -46,6 +47,7 @@ describe('Create Filter', () => {
       });
 
       it('filter details view should be open and create filter form should be closed', () => {
+        // ALERT: 'ERROR: in module @folio/finc-select, operation POST on resource 'filters' failed, saying: Unexpected end of JSON input'
         expect(filterDetailsPage.isPresent).to.be.true;
         expect(editFilterPage.isPresent).to.be.false;
       });

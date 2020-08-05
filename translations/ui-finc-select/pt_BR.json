@@ -1,7 +1,6 @@
 {
     "meta.title": "Selecionar Finc",
     "collection.description": "Descrição",
-    "collection.facetLabel": "Rótulo da faceta",
     "collection.filters": "Filtros ativos",
     "collection.freeContent": "Conteúdo gratuito",
     "collection.generalNotes": "Notas gerais",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "Salvar",
     "settings.changePassword.hidePassword": "Ocultar a senha",
     "settings.changePassword.showPassword": "Mostrar a senha",
-    "collection.collectionId": "ID da coleção"
+    "collection.collectionId": "ID da coleção",
+    "source.selected": "Selected"
 }

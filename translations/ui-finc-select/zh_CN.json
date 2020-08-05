@@ -1,7 +1,6 @@
 {
     "meta.title": "Finc选择",
     "collection.description": "描述",
-    "collection.facetLabel": "分面标签",
     "collection.filters": "激活筛选",
     "collection.freeContent": "免费内容",
     "collection.generalNotes": "通用附注",
@@ -81,5 +80,6 @@
     "settings.ezbCredentials.save": "保存",
     "settings.changePassword.hidePassword": "隐藏密码",
     "settings.changePassword.showPassword": "显示密码",
-    "collection.collectionId": "Collection ID"
+    "collection.collectionId": "Collection ID",
+    "source.selected": "Selected"
 }
