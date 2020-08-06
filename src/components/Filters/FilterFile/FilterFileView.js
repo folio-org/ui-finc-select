@@ -65,6 +65,7 @@ class FilterFileView extends React.Component {
               e.preventDefault();
             }}
             rel="noopener noreferrer"
+            style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
             target="_blank"
           >
             <FormattedMessage id="ui-finc-select.filter.file.download" />
