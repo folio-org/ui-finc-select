@@ -6,6 +6,13 @@
 * Increment `@folio/stripes` to `v5.0` and `react-router` to `v5.2` (and, bugfix, move it to peer)
 * Replace deprecated `babel-polyfill` with `core-js` and `regenerator-runtime`
 * Replace `bigtest/mirage` with `miragejs`
+* Add collections to filters (UIFC-139)
+* Add navigation to organizations app (UIFC-138)
+* Bugfix: Content not displayed for some metadata sources (UIFC-162)
+* Add record last updated information to metadata sources and collections (UIFC-155)
+* Add credentials to settings in order to enable automatic harvesting of EZB files (UIFC-154)
+* Enable field search on description for sources & collections (UIFC-172)
+* Replace deprecated `@bigest/mirage` by `miragejs`
 
 ## [1.5.1](https://github.com/folio-org/ui-finc-select/tree/v1.5.1) (2020-03-13)
 * Bugfix: Update version of required okapiInterface "finc-select/filters" to v1.1
