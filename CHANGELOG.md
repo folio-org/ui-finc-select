@@ -1,9 +1,6 @@
 # Change history for ui-finc-select
 
-
-## 2.0.0 (IN PROGRESS)
-
-* Increment `@folio/stripes` to `v5.0` and `react-router` to `v5.2` (and, bugfix, move it to peer)
+## [1.6.0](https://github.com/folio-org/ui-finc-select/tree/v1.6.0) (2020-08-28)
 * Replace deprecated `babel-polyfill` with `core-js` and `regenerator-runtime`
 * Replace `bigtest/mirage` with `miragejs`
 * Add collections to filters (UIFC-139)
