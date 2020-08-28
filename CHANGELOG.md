@@ -1,5 +1,8 @@
 # Change history for ui-finc-select
 
+## [1.6.1](https://github.com/folio-org/ui-finc-select/tree/v1.6.1) (2020-08-28)
+* Bugfix: User interface finc-select/metadata-sources v2.0
+
 ## [1.6.0](https://github.com/folio-org/ui-finc-select/tree/v1.6.0) (2020-08-28)
 * Replace deprecated `babel-polyfill` with `core-js` and `regenerator-runtime`
 * Replace `bigtest/mirage` with `miragejs`
