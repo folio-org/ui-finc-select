@@ -248,7 +248,7 @@ class MetadataSources extends React.Component {
     return (
       <div data-test-sources>
         <SearchAndSortQuery
-          // NEED FILTER: {"status":["active","implementation","wish"]}
+          // NEED FILTER: {"status":["active","implementation","request"]}
           initialFilterState={this.state.storedFilter.state}
           initialSearchState={this.getCombinedSearch()}
           initialSortState={{ sort: 'label' }}
