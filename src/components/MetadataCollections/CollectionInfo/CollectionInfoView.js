@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import {
   KeyValue,
   List,
+  NoValue,
   Row,
 } from '@folio/stripes/components';
 
@@ -54,14 +55,13 @@ class CollectionInfoView extends React.Component {
     const selectedInitial = _.get(metadataCollection, 'selected');
 
     // get id and name of the source out of the fields, saved in the current collection
-    const sourceId = _.get(metadataCollection, 'mdSource.id', '-');
-    const sourceName = _.get(metadataCollection, 'mdSource.name', '-');
+    const sourceId = _.get(metadataCollection, 'mdSource.id', <NoValue />);
+    const sourceName = _.get(metadataCollection, 'mdSource.name', <NoValue />);
     // set the complete source link with name and status
     const sourceLink = (
       <React.Fragment>
         <Link to={{
           pathname: `${urls.sourceView(sourceId)}`,
-          // search: `?filters=status.${sourceStatus}`
         }}
         >
           {sourceName}
@@ -75,7 +75,7 @@ class CollectionInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.label" />}
-              value={_.get(metadataCollection, 'label', '-')}
+              value={_.get(metadataCollection, 'label', <NoValue />)}
             />
           </Row>
           <Row>
@@ -87,7 +87,7 @@ class CollectionInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
-              value={_.get(metadataCollection, 'permitted', '-')}
+              value={_.get(metadataCollection, 'permitted', <NoValue />)}
             />
           </Row>
           <Row>

@@ -8,6 +8,7 @@ import {
   Button,
   Col,
   KeyValue,
+  NoValue,
   Pane,
   PaneFooter,
   Paneset,
@@ -152,7 +153,7 @@ class CredentialsSettingsForm extends React.Component {
             <Row style={{ marginLeft: '0.1em' }}>
               <KeyValue
                 label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.isil" />}
-                value={_.get(initialValues, 'isil', '-')}
+                value={_.get(initialValues, 'isil', <NoValue />)}
               />
             </Row>
           </Pane>

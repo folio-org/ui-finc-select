@@ -7,7 +7,8 @@ import {
   Headline,
   KeyValue,
   List,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 
 import BasicCss from '../../BasicStyle.css';
@@ -47,13 +48,13 @@ class CollectionTechnicalView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.id" />}
-              value={_.get(metadataCollection, 'collectionId', '-')}
+              value={_.get(metadataCollection, 'collectionId', <NoValue />)}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.generalNotes" />}
-              value={_.get(metadataCollection, 'generalNotes', '-')}
+              value={_.get(metadataCollection, 'generalNotes', <NoValue />)}
             />
           </Row>
           <Row>

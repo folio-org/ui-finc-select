@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   KeyValue,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 
 class SourceInfoView extends React.Component {
@@ -27,19 +28,19 @@ class SourceInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.label" />}
-              value={_.get(metadataSource, 'label', '-')}
+              value={_.get(metadataSource, 'label', <NoValue />)}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.description" />}
-              value={_.get(metadataSource, 'description', '-')}
+              value={_.get(metadataSource, 'description', <NoValue />)}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.status" />}
-              value={_.get(metadataSource, 'status', '-')}
+              value={_.get(metadataSource, 'status', <NoValue />)}
             />
           </Row>
         </div>
