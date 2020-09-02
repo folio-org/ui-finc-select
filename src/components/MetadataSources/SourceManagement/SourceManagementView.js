@@ -11,7 +11,8 @@ import {
   Button,
   Col,
   KeyValue,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -50,14 +51,14 @@ class SourceManagementView extends React.Component {
   render() {
     const { metadataSource, stripes, id } = this.props;
     const sourceId = _.get(metadataSource, 'id', '-');
-    const organization = _.get(this.props.metadataSource, 'organization', '-');
+    const organization = _.get(this.props.metadataSource, 'organization', <NoValue />);
 
     let orgValue;
     if (this.props.resources.org && this.props.resources.org.failed) {
       if (organization.name) {
         orgValue = organization.name;
       } else {
-        orgValue = '-';
+        orgValue = <NoValue />;
       }
     } else {
       orgValue = (
@@ -89,25 +90,12 @@ class SourceManagementView extends React.Component {
 
           <Row>
             <Col xs={6}>
-              {/* TODO: Select All Collections */}
               <this.connectedSelectAllCollections
                 stripes={stripes}
                 sourceId={sourceId}
               />
             </Col>
             <Col xs={6}>
-              {/* showAllCollections as link */}
-              {/* <Link to={{
-                pathname: '/finc-select/metadata-collections',
-                search: `?filters=mdSource.${sourceId}`
-              }}
-              >
-                <span>
-                  <FormattedMessage id="ui-finc-select.source.button.showAllCollections" />
-                  {sourceId}
-                </span>
-              </Link> */}
-
               {/* showAllCollections as button */}
               <Button
                 buttonStyle="primary"
@@ -121,20 +109,19 @@ class SourceManagementView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.organization" />}
-              // value={_.get(metadataSource, 'organization.name', '-')}
               value={orgValue}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.indexingLevel" />}
-              value={_.get(metadataSource, 'indexingLevel', '-')}
+              value={_.get(metadataSource, 'indexingLevel', <NoValue />)}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.generalNotes" />}
-              value={_.get(metadataSource, 'generalNotes', '-')}
+              value={_.get(metadataSource, 'generalNotes', <NoValue />)}
             />
           </Row>
         </div>

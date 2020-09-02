@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   KeyValue,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 
 class FilterInfoView extends React.Component {
@@ -24,13 +25,13 @@ class FilterInfoView extends React.Component {
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.filter.label" />}
-            value={_.get(filter, 'label', '-')}
+            value={_.get(filter, 'label', <NoValue />)}
           />
         </Row>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.filter.type" />}
-            value={_.get(filter, 'type', '-')}
+            value={_.get(filter, 'type', <NoValue />)}
           />
         </Row>
       </React.Fragment>

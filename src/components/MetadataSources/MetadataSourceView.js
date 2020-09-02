@@ -10,6 +10,7 @@ import {
   ExpandAllButton,
   Icon,
   Layout,
+  NoValue,
   Pane,
   Row,
 } from '@folio/stripes/components';
@@ -79,7 +80,7 @@ class MetadataSourceView extends React.Component {
 
   render() {
     const { record } = this.props;
-    const label = _.get(record, 'label', '-');
+    const label = _.get(record, 'label', <NoValue />);
     const organizationId = _.get(record, 'organization.id', '');
 
     return (

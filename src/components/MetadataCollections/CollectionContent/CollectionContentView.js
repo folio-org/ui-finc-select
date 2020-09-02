@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   KeyValue,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 
 class CollectionContentView extends React.Component {
@@ -23,13 +24,13 @@ class CollectionContentView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.description" />}
-              value={_.get(metadataCollection, 'description', '-')}
+              value={_.get(metadataCollection, 'description', <NoValue />)}
             />
           </Row>
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
-              value={_.get(metadataCollection, 'freeContent', '-')}
+              value={_.get(metadataCollection, 'freeContent', <NoValue />)}
             />
           </Row>
         </div>

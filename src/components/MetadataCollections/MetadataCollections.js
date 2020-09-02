@@ -16,6 +16,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
+  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -88,7 +89,7 @@ class MetadataCollections extends React.Component {
 
   resultsFormatter = {
     label: collection => collection.label,
-    mdSource: collection => _.get(collection, 'mdSource.name', '-'),
+    mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
     permitted: collection => collection.permitted,
     selected: collection => collection.selected,
     freeContent: collection => collection.freeContent,

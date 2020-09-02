@@ -7,7 +7,8 @@ import {
   Headline,
   KeyValue,
   List,
-  Row
+  NoValue,
+  Row,
 } from '@folio/stripes/components';
 
 import BasicCss from '../../BasicStyle.css';
@@ -47,7 +48,7 @@ class SourceTechnicalView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
-              value={_.get(metadataSource, 'lastProcessed', '-')}
+              value={_.get(metadataSource, 'lastProcessed', <NoValue />)}
             />
           </Row>
           {/* TICKET is repeatable */}
@@ -65,7 +66,7 @@ class SourceTechnicalView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.id" />}
-              value={_.get(metadataSource, 'sourceId', '-')}
+              value={_.get(metadataSource, 'sourceId', <NoValue />)}
             />
           </Row>
         </div>

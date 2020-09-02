@@ -10,6 +10,7 @@ import {
   ExpandAllButton,
   Icon,
   Layout,
+  NoValue,
   Pane,
   Row,
 } from '@folio/stripes/components';
@@ -83,7 +84,7 @@ class CollectionViewRoute extends React.Component {
 
   render() {
     const { record, isLoading, stripes } = this.props;
-    const label = _.get(record, 'label', '-');
+    const label = _.get(record, 'label', <NoValue />);
 
     if (isLoading) return this.renderLoadingPane();
 

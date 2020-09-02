@@ -11,15 +11,13 @@ import {
   ExpandAllButton,
   Icon,
   Layout,
+  NoValue,
   Pane,
   PaneMenu,
   Row
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import {
-  IfPermission,
-  TitleManager
-} from '@folio/stripes/core';
+import { IfPermission } from '@folio/stripes/core';
 
 import FilterInfoView from './FilterInfo/FilterInfoView';
 import FilterFileView from './FilterFile/FilterFileView';
@@ -120,8 +118,8 @@ class FilterView extends React.Component {
 
     if (isLoading) return this.renderLoadingPane();
 
-    const label = _.get(record, 'label', '-');
-    const docs = _.get(record, 'filterFiles', '-');
+    const label = _.get(record, 'label', <NoValue />);
+    const docs = _.get(record, 'filterFiles', []);
 
     return (
       <React.Fragment>
@@ -133,7 +131,6 @@ class FilterView extends React.Component {
           onClose={this.props.handlers.onClose}
           paneTitle={<span data-test-filter-header-title>{label}</span>}
         >
-          <TitleManager record={label} />
           <div id="filterDetails">
             <AccordionSet>
               <this.connectedViewMetaData
