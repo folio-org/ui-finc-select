@@ -81,10 +81,10 @@
   "filter.form.missingRequiredField": "File is required!",
 
   "settings.ezbCredentials.label": "EZB credentials",
-  "settings.ezbCredentials.user": "user",
-  "settings.ezbCredentials.password": "password",
-  "settings.ezbCredentials.libId": "libId",
-  "settings.ezbCredentials.isil": "isil",
+  "settings.ezbCredentials.user": "User",
+  "settings.ezbCredentials.password": "Password",
+  "settings.ezbCredentials.libId": "LibID",
+  "settings.ezbCredentials.isil": "Isil",
   "settings.ezbCredentials.save": "Save",
   "settings.changePassword.hidePassword": "Hide password",
   "settings.changePassword.showPassword": "Show password"
