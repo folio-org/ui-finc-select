@@ -12,7 +12,6 @@ import {
 
 import SelectUnselect from './SelectUnselect';
 import urls from '../../DisplayUtils/urls';
-import usagePermittedOptions from '../../DataOptions/usagePermitted';
 
 class CollectionInfoView extends React.Component {
   static propTypes = {
@@ -70,11 +69,6 @@ class CollectionInfoView extends React.Component {
       </React.Fragment>
     );
 
-    const dataWithPermittedValue = usagePermittedOptions.find(
-      (e) => e.value === permitted
-    );
-    const permittedLabel = _.get(dataWithPermittedValue, 'label', <NoValue />);
-
     return (
       <React.Fragment>
         <div id={id}>
@@ -93,7 +87,7 @@ class CollectionInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
-              value={permittedLabel}
+              value={_.upperFirst(permitted)}
             />
           </Row>
           <Row>

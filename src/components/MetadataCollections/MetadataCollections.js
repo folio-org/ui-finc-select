@@ -28,7 +28,6 @@ import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
 import Navigation from '../Navigation/Navigation';
 import freeContentOptions from '../DataOptions/freeContent';
-import usagePermittedOptions from '../DataOptions/usagePermitted';
 
 const searchableIndexes = [
   { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
@@ -98,19 +97,10 @@ class MetadataCollections extends React.Component {
     return freeContentLabel;
   }
 
-  getUsagePermittedLabel(usagePermittedValue) {
-    const dataWithUsagePermittedValue = usagePermittedOptions.find(
-      (e) => e.value === usagePermittedValue
-    );
-    const usagePermittedLabel = _.get(dataWithUsagePermittedValue, 'label', <NoValue />);
-
-    return usagePermittedLabel;
-  }
-
   resultsFormatter = {
     label: collection => collection.label,
     mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
-    permitted: collection => this.getUsagePermittedLabel(collection.permitted),
+    permitted: collection => _.upperFirst(collection.permitted),
     selected: collection => collection.selected,
     freeContent: collection => this.getFreeContentLabel(collection.freeContent),
   };

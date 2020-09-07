@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -149,7 +150,7 @@ class SelectUnselect extends React.Component {
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.selected" />}
-            value={this.state.selected}
+            value={_.upperFirst(this.state.selected)}
           />
         </Col>
         <Col xs={3}>
