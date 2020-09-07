@@ -90,9 +90,9 @@ class MetadataCollections extends React.Component {
   resultsFormatter = {
     label: collection => collection.label,
     mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
-    permitted: collection => collection.permitted,
+    permitted: collection => _.upperFirst(collection.permitted),
     selected: collection => collection.selected,
-    freeContent: collection => collection.freeContent,
+    freeContent: collection => _.upperFirst(collection.freeContent),
   };
 
   rowFormatter = (row) => {

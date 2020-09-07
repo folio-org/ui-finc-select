@@ -84,7 +84,7 @@ class MetadataSources extends React.Component {
   resultsFormatter = {
     label: source => source.label,
     sourceId: source => source.sourceId,
-    status: source => source.status,
+    status: source => _.upperFirst(source.status),
     lastProcessed: source => source.lastProcessed,
   };
 

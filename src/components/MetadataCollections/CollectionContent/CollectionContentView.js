@@ -30,7 +30,7 @@ class CollectionContentView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
-              value={_.get(metadataCollection, 'freeContent', <NoValue />)}
+              value={_.upperFirst(_.get(metadataCollection, 'freeContent', <NoValue />))}
             />
           </Row>
         </div>

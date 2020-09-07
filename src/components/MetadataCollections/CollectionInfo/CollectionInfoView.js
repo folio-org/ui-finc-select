@@ -87,7 +87,7 @@ class CollectionInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
-              value={_.get(metadataCollection, 'permitted', <NoValue />)}
+              value={_.upperFirst(permitted)}
             />
           </Row>
           <Row>

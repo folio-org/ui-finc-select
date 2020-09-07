@@ -40,7 +40,7 @@ class SourceInfoView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.source.status" />}
-              value={_.get(metadataSource, 'status', <NoValue />)}
+              value={_.upperFirst(_.get(metadataSource, 'status', <NoValue />))}
             />
           </Row>
         </div>
