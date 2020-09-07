@@ -9,6 +9,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import freeContentOptions from '../../DataOptions/freeContent';
+
 class CollectionContentView extends React.Component {
   static propTypes = {
     metadataCollection: PropTypes.object,
@@ -17,6 +19,13 @@ class CollectionContentView extends React.Component {
 
   render() {
     const { metadataCollection, id } = this.props;
+
+    const freeContentValue = _.get(metadataCollection, 'freeContent', '');
+    const dataWithFreeContentValue = freeContentOptions.find(
+      (e) => e.value === freeContentValue
+    );
+    const freeContentLabel = _.get(dataWithFreeContentValue, 'label', <NoValue />);
+
 
     return (
       <React.Fragment>
@@ -30,7 +39,7 @@ class CollectionContentView extends React.Component {
           <Row>
             <KeyValue
               label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
-              value={_.get(metadataCollection, 'freeContent', <NoValue />)}
+              value={freeContentLabel}
             />
           </Row>
         </div>

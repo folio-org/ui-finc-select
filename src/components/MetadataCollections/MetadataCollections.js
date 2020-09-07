@@ -27,6 +27,8 @@ import { AppIcon } from '@folio/stripes/core';
 import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
 import Navigation from '../Navigation/Navigation';
+import freeContentOptions from '../DataOptions/freeContent';
+import usagePermittedOptions from '../DataOptions/usagePermitted';
 
 const searchableIndexes = [
   { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
@@ -87,12 +89,30 @@ class MetadataCollections extends React.Component {
     };
   }
 
+  getFreeContentLabel(freeContentValue) {
+    const dataWithFreeContentValue = freeContentOptions.find(
+      (e) => e.value === freeContentValue
+    );
+    const freeContentLabel = _.get(dataWithFreeContentValue, 'label', <NoValue />);
+
+    return freeContentLabel;
+  }
+
+  getUsagePermittedLabel(usagePermittedValue) {
+    const dataWithUsagePermittedValue = usagePermittedOptions.find(
+      (e) => e.value === usagePermittedValue
+    );
+    const usagePermittedLabel = _.get(dataWithUsagePermittedValue, 'label', <NoValue />);
+
+    return usagePermittedLabel;
+  }
+
   resultsFormatter = {
     label: collection => collection.label,
     mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
-    permitted: collection => collection.permitted,
+    permitted: collection => this.getUsagePermittedLabel(collection.permitted),
     selected: collection => collection.selected,
-    freeContent: collection => collection.freeContent,
+    freeContent: collection => this.getFreeContentLabel(collection.freeContent),
   };
 
   rowFormatter = (row) => {
