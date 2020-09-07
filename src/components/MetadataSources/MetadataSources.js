@@ -16,7 +16,6 @@ import {
   Button,
   Icon,
   MultiColumnList,
-  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -27,7 +26,6 @@ import { AppIcon } from '@folio/stripes/core';
 import urls from '../DisplayUtils/urls';
 import SourceFilters from './SourceFilters';
 import Navigation from '../Navigation/Navigation';
-import implementationStatusOptions from '../DataOptions/implementationStatus';
 
 const searchableIndexes = [
   { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or sourceId="${term}*")` },
@@ -83,19 +81,10 @@ class MetadataSources extends React.Component {
     };
   }
 
-  getStatusLabel(statusValue) {
-    const dataWithStatusValue = implementationStatusOptions.find(
-      (e) => e.value === statusValue
-    );
-    const statusLabel = _.get(dataWithStatusValue, 'label', <NoValue />);
-
-    return statusLabel;
-  }
-
   resultsFormatter = {
     label: source => source.label,
     sourceId: source => source.sourceId,
-    status: source => this.getStatusLabel(source.status),
+    status: source => _.upperFirst(source.status),
     lastProcessed: source => source.lastProcessed,
   };
 

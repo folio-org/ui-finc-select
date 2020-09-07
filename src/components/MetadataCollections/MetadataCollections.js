@@ -27,7 +27,6 @@ import { AppIcon } from '@folio/stripes/core';
 import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
 import Navigation from '../Navigation/Navigation';
-import freeContentOptions from '../DataOptions/freeContent';
 
 const searchableIndexes = [
   { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
@@ -88,21 +87,12 @@ class MetadataCollections extends React.Component {
     };
   }
 
-  getFreeContentLabel(freeContentValue) {
-    const dataWithFreeContentValue = freeContentOptions.find(
-      (e) => e.value === freeContentValue
-    );
-    const freeContentLabel = _.get(dataWithFreeContentValue, 'label', <NoValue />);
-
-    return freeContentLabel;
-  }
-
   resultsFormatter = {
     label: collection => collection.label,
     mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
     permitted: collection => _.upperFirst(collection.permitted),
     selected: collection => collection.selected,
-    freeContent: collection => this.getFreeContentLabel(collection.freeContent),
+    freeContent: collection => _.upperFirst(collection.freeContent),
   };
 
   rowFormatter = (row) => {
