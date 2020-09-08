@@ -1,9 +1,11 @@
 # Change history for ui-finc-select
 
-
 ## 2.0.0 (IN PROGRESS)
-
 * Increment `@folio/stripes` to `v5.0` and `react-router` to `v5.2` (and, bugfix, move it to peer)
+
+## [1.7.0](https://github.com/folio-org/ui-finc-select/tree/v1.7.0) (2020-09-08)
+* Be compliant to language rules (UIFC-212)
+* Increment interface version `finc-select/metadata-sources` to 3.0
 
 ## [1.6.1](https://github.com/folio-org/ui-finc-select/tree/v1.6.1) (2020-08-28)
 * Bugfix: User interface finc-select/metadata-sources v2.0
