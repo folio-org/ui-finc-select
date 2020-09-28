@@ -75,5 +75,9 @@
     "form.create": "Criar",
     "form.cancel": "Cancelar",
     "form.close": "Fechar caixa de diálogo de filtro",
-    "collection.id": "ID"
+    "collection.id": "ID",
+    "permission.module.enabled": "Seleção Finc: O módulo está habilitado",
+    "permission.settings.manage": "Configurações (Seleção Finc): Pode visualizar e editar as configurações",
+    "permission.all": "Seleção Finc: Todas as permissões",
+    "permission.view": "Seleção Finc: Pode visualizar fontes de metadados, coleções de metadados e filtros"
 }
