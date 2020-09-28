@@ -75,5 +75,9 @@
     "form.create": "创建",
     "form.cancel": "取消",
     "form.close": "关闭筛选对话框",
-    "collection.id": "ID"
+    "collection.id": "ID",
+    "permission.module.enabled": "Finc select: module is enabled",
+    "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
+    "permission.all": "Finc select: All permissions",
+    "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
 }

@@ -75,5 +75,9 @@
     "form.create": "생성",
     "form.cancel": "취소",
     "form.close": "필터 대화 상자 닫기",
-    "collection.id": "ID"
+    "collection.id": "ID",
+    "permission.module.enabled": "Finc select: module is enabled",
+    "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
+    "permission.all": "Finc select: All permissions",
+    "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
 }

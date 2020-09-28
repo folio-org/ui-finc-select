@@ -75,5 +75,9 @@
     "form.create": "Créer",
     "form.cancel": "Annuler",
     "form.close": "Fermer la boîte de dialogue du/des filtre-s",
-    "collection.id": "ID"
+    "collection.id": "ID",
+    "permission.module.enabled": "Finc select: module is enabled",
+    "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
+    "permission.all": "Finc select: All permissions",
+    "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
 }

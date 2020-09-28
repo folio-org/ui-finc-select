@@ -75,5 +75,9 @@
     "form.create": "إنشاء",
     "form.cancel": "إلغاء",
     "form.close": "غلق مربع حوار المنقح",
-    "collection.id": "المعرّف"
+    "collection.id": "المعرّف",
+    "permission.module.enabled": "Finc select: module is enabled",
+    "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
+    "permission.all": "Finc select: All permissions",
+    "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
 }
