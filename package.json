@@ -88,12 +88,28 @@
     },
     "permissionSets": [
       {
-        "permissionName": "finc-select.module.enabled",
+        "permissionName": "module.finc-select.enabled",
+        "displayName": "UI: finc-select module is enabled",
+        "visible": false
+      },
+      {
+        "permissionName": "ui-finc-select.module.enabled",
         "displayName": "Finc select: module is enabled",
+        "subPermissions": [
+          "module.finc-select.enabled"
+        ],
         "visible": true
       },
       {
-        "permissionName": "finc-select.settings.enabled",
+        "permissionName": "settings.finc-select.enabled",
+        "displayName": "Settings (finc-select): display list of settings pages",
+        "subPermissions": [
+          "settings.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-finc-select.settings.manage",
         "displayName": "Settings (Finc select): Can view and edit settings",
         "subPermissions": [
           "finc-select.module.enabled",
@@ -102,7 +118,8 @@
           "finc-select.ezb-credentials.item.get",
           "finc-config.ezb-credentials.item.post",
           "finc-select.ezb-credentials.item.put",
-          "finc-select.ezb-credentials.item.delete"
+          "finc-select.ezb-credentials.item.delete",
+          "settings.finc-select.enabled"
         ],
         "visible": true
       },
@@ -131,6 +148,15 @@
           "finc-select.files.item.delete",
           "finc-select.files.item.post",
           "finc-select.settings.enabled"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-finc-select.all",
+        "displayName": "Finc select: All permissions",
+        "description": "All permissions for finc select",
+        "subPermissions": [
+          "finc-select.all"
         ],
         "visible": true
       },
