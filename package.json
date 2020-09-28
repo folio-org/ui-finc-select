@@ -88,25 +88,65 @@
     },
     "permissionSets": [
       {
-        "permissionName": "module.finc-select.enabled",
-        "displayName": "UI: finc-select module is enabled",
+        "permissionName": "finc-select.module.enabled",
+        "displayName": "Finc select: module is enabled",
         "visible": true
       },
       {
-        "permissionName": "settings.finc-select.enabled",
-        "displayName": "Settings (finc-select): display list of settings pages",
+        "permissionName": "finc-select.settings.enabled",
+        "displayName": "Settings (Finc select): Can view and edit settings",
         "subPermissions": [
-          "settings.enabled"
+          "finc-select.module.enabled",
+          "settings.enabled",
+          "finc-config.ezb-credentials.collection.get",
+          "finc-select.ezb-credentials.item.get",
+          "finc-config.ezb-credentials.item.post",
+          "finc-select.ezb-credentials.item.put",
+          "finc-select.ezb-credentials.item.delete"
+        ],
+        "visible": true
+      },
+      {
+        "permissionName": "finc-select.all",
+        "displayName": "Finc select: All permissions",
+        "description": "All permissions for finc select",
+        "subPermissions": [
+          "finc-select.metadata-collections.collection.get",
+          "finc-select.metadata-collections.item.get",
+          "finc-select.metadata-collections.item.select",
+          "finc-select.metadata-collections.item.filters",
+          "finc-select.metadata-sources.collection.get",
+          "finc-select.metadata-sources.item.get",
+          "finc-select.metadata-sources.item.select-all",
+          "finc-select.filters.collection.get",
+          "finc-select.filters.item.get",
+          "finc-select.filters.item.put",
+          "finc-select.filters.item.delete",
+          "finc-select.filters.item.post",
+          "finc-select.filter-files.collection.get",
+          "finc-select.filter-files.item.get",
+          "finc-select.filter-files.item.delete",
+          "finc-select.filter-files.item.post",
+          "finc-select.files.item.get",
+          "finc-select.files.item.delete",
+          "finc-select.files.item.post",
+          "finc-select.settings.enabled"
         ],
         "visible": true
       },
       {
         "permissionName": "ui-finc-select.view",
-        "displayName": "fincSelect: Can view metadatasources, metadatacollections and filters",
+        "displayName": "Finc select: Can view metadatasources, metadatacollections and filters",
         "description": "Can view metadatasources, metadatacollections and filters",
         "subPermissions": [
-          "module.finc-select.enabled",
-          "fincSelect.view",
+          "finc-select.module.enabled",
+          "finc-select.metadata-collections.collection.get",
+          "finc-select.metadata-collections.item.get",
+          "finc-select.metadata-sources.collection.get",
+          "finc-select.metadata-sources.item.get",
+          "finc-select.filters.collection.get",
+          "finc-select.filters.item.get",
+          "finc-select.files.item.get",
           "organizations-storage.organizations.collection.get",
           "organizations-storage.organizations.item.get"
         ],

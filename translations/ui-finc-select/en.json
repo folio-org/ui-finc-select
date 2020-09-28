@@ -87,5 +87,10 @@
   "settings.ezbCredentials.isil": "Isil",
   "settings.ezbCredentials.save": "Save",
   "settings.changePassword.hidePassword": "Hide password",
-  "settings.changePassword.showPassword": "Show password"
+  "settings.changePassword.showPassword": "Show password",
+
+  "permission.module.enabled": "Finc select: module is enabled",
+  "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
+  "permission.all": "Finc select: All permissions",
+  "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
 }
