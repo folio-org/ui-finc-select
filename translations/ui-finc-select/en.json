@@ -85,6 +85,10 @@
 
   "filter.form.missingRequiredField": "File is required!",
 
+  "navigation.sources": "Sources",
+  "navigation.collections": "Collections",
+  "navigation.filters": "Filters",
+
   "settings.ezbCredentials.label": "EZB credentials",
   "settings.ezbCredentials.user": "User",
   "settings.ezbCredentials.password": "Password",
