@@ -37,7 +37,7 @@ class FindCollections extends React.Component {
           });
         }}
         searchButtonStyle="default"
-        searchLabel="Add metadata collection"
+        searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" />}
         selectCollection={this.selectCollection}
         selectRecordsModal={this.getSelectedCollections}
         type="find-finc-metadata-collection"

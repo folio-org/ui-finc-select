@@ -52,7 +52,7 @@ class ViewCollections extends React.Component {
           });
         }}
         searchButtonStyle="default"
-        searchLabel="View metadata collection"
+        searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />}
         selectCollection={this.selectCollection}
         type="find-finc-metadata-collection"
         visibleColumns={['label']}

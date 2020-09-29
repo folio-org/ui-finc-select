@@ -56,25 +56,20 @@ export default class FileUploaderFieldView extends React.Component {
     } = this.props;
 
     return (
-      <FormattedMessage id="ui-finc-select.filter.file.upload">
-        { buttonAriaLabel => (
-          <FileUploader
-            errorMessage={error}
-            footer={this.renderFileInfo()}
-            isDropZoneActive={isDropZoneActive}
-            multiple={false}
-            onDragEnter={onDragEnter}
-            onDragLeave={onDragLeave}
-            onDrop={onDrop}
-            title={<FormattedMessage id="ui-finc-select.filter.file.dragDrop" />}
-            uploadButtonAriaLabel={buttonAriaLabel}
-            uploadButtonText={<FormattedMessage id="ui-finc-select.filter.file.choose" />}
-            uploadInProgress={uploadInProgress}
-            uploadInProgressText={<FormattedMessage id="ui-finc-select.filter.file.upload" />}
-            {...rest}
-          />
-        )}
-      </FormattedMessage>
+      <FileUploader
+        errorMessage={error}
+        footer={this.renderFileInfo()}
+        isDropZoneActive={isDropZoneActive}
+        multiple={false}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        title={<FormattedMessage id="ui-finc-select.filter.file.dragDrop" />}
+        uploadButtonText={<FormattedMessage id="ui-finc-select.filter.file.choose" />}
+        uploadInProgress={uploadInProgress}
+        uploadInProgressText={<FormattedMessage id="ui-finc-select.filter.file.upload" />}
+        {...rest}
+      />
     );
   }
 }

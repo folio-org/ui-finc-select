@@ -11,6 +11,8 @@
   "form.close": "Close filter dialog",
 
   "plugin.notFound": "Plugin not found",
+  "plugin.buttonLabel.collection.add": "Add metadata collections",
+  "plugin.buttonLabel.collection.view": "View metadata collections",
 
   "collections.title": "Metadata collections",
   "collection.description": "Description",
