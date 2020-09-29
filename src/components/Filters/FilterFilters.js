@@ -84,7 +84,7 @@ class FilterFilters extends React.Component {
   render() {
     return (
       <AccordionSet>
-        {this.renderCheckboxFilter('type', 'Type')}
+        {this.renderCheckboxFilter('type')}
       </AccordionSet>
     );
   }

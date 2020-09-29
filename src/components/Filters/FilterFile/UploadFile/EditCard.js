@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import {
   Button,
   Card,
-  Icon
+  Icon,
 } from '@folio/stripes/components';
 
 
 export default class EditCard extends React.Component {
   static propTypes = {
-    deletebuttonarialabel: PropTypes.string,
     children: PropTypes.node.isRequired,
     deleteBtnProps: PropTypes.object,
+    deletebuttonarialabel: PropTypes.string,
     header: PropTypes.node.isRequired,
     onDelete: PropTypes.func,
   }

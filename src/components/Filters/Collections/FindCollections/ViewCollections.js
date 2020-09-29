@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Col,
@@ -35,10 +36,13 @@ class ViewCollections extends React.Component {
       <Pluggable
         aria-haspopup="true"
         buttonProps={buttonProps}
+        collectionIds={this.props.collectionIds}
         columnMapping={this.columnMapping}
         dataKey="collection"
         disableRecordCreation={disableRecordCreation}
+        filterId={this.props.filterId}
         id="clickable-find-collection"
+        isEditable={this.props.isEditable}
         marginTop0
         onCloseModal={(modalProps) => {
           modalProps.parentMutator.query.update({
@@ -52,12 +56,9 @@ class ViewCollections extends React.Component {
         selectCollection={this.selectCollection}
         type="find-finc-metadata-collection"
         visibleColumns={['label']}
-        filterId={this.props.filterId}
-        collectionIds={this.props.collectionIds}
-        isEditable={this.props.isEditable}
         {...this.props}
       >
-        <div style={{ background: 'red' }}>Plugin not found</div>
+        <div style={{ background: 'red' }}><FormattedMessage id="ui-finc-select.plugin.notFound" /></div>
       </Pluggable>;
 
     return (
@@ -66,16 +67,6 @@ class ViewCollections extends React.Component {
           <Col xs={6}>
             { pluggable }
           </Col>
-          {/* Field has to be removed for Show Collections */}
-          {/* <Field
-            ariaLabel="Add metadata collection"
-            component={TextField}
-            fullWidth
-            id="addfilter_collection"
-            name="collectionIds"
-            placeholder="Please add a metadata collection"
-            readOnly
-          /> */}
         </Row>
       </React.Fragment>
     );
@@ -83,17 +74,17 @@ class ViewCollections extends React.Component {
 }
 
 ViewCollections.propTypes = {
-  filterId: PropTypes.string,
   collectionIds: PropTypes.arrayOf(PropTypes.object),
-  isEditable: PropTypes.bool,
-  intialCollectionId: PropTypes.string,
-  intialCollection: PropTypes.object,
-  stripes: PropTypes.object,
+  filterId: PropTypes.string,
   form: PropTypes.shape({
     mutators: PropTypes.shape({
       setCollection: PropTypes.func,
     }),
   }),
+  intialCollection: PropTypes.object,
+  intialCollectionId: PropTypes.string,
+  isEditable: PropTypes.bool,
+  stripes: PropTypes.object,
 };
 
 export default ViewCollections;

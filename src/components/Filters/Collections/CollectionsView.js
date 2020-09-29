@@ -6,6 +6,8 @@ import ViewCollections from './FindCollections/ViewCollections';
 
 class CollectionsView extends React.Component {
   static propTypes = {
+    collectionIds: PropTypes.arrayOf(PropTypes.object),
+    filter: PropTypes.object,
     listedPermissions: PropTypes.arrayOf(PropTypes.object),
     stripes: PropTypes.shape({
       hasPerm: PropTypes.func.isRequired,
@@ -14,8 +16,6 @@ class CollectionsView extends React.Component {
         listInvisiblePerms: PropTypes.bool,
       }).isRequired,
     }).isRequired,
-    filter: PropTypes.object,
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
   };
 
   render() {
@@ -25,10 +25,10 @@ class CollectionsView extends React.Component {
       <React.Fragment>
         <div>
           <ViewCollections
-            name="collectionIds"
-            filterId={filterId}
             collectionIds={this.props.collectionIds}
+            filterId={filterId}
             isEditable={false}
+            name="collectionIds"
             stripes={this.props.stripes}
             {...this.props}
           />

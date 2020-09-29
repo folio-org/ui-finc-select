@@ -70,23 +70,11 @@ class DocumentsFieldArray extends React.Component {
         </React.Fragment>
       );
     } else {
-      const fileConnectedText = `The filter file ${doc.label} is connected.`;
+      const filename = doc.label;
+      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
       return (
         <React.Fragment>
           {fileConnectedText}
-          {/* delete-Button */}
-          {/* <Button
-            buttonStyle="link slim"
-            style={{ margin: 0, padding: 0 }}
-            onClick={e => {
-              e.stopPropagation();
-              onDeleteField(i, doc);
-              // onMarkforDeletion(doc); // need this and additionaly need to remove the file-FK in the filters table
-              // onReplaceField(i, doc);
-            }}
-          >
-            <Icon icon="trash" />
-          </Button> */}
         </React.Fragment>
       );
     }
@@ -103,8 +91,8 @@ class DocumentsFieldArray extends React.Component {
 
     return items.map((doc, i) => (
       <EditCard
-        deletebuttonarialabel={`delete filter file ${name}`}
         data-test-filter-file
+        deletebuttonarialabel={`delete filter file ${name}`}
         deleteBtnProps={{
           'id': `${name}-delete-${i}`,
           'data-test-delete-filter-file-button': true

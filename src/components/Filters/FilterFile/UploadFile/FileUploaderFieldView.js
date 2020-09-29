@@ -72,9 +72,7 @@ export default class FileUploaderFieldView extends React.Component {
             uploadInProgress={uploadInProgress}
             uploadInProgressText={<FormattedMessage id="ui-finc-select.filter.file.upload" />}
             {...rest}
-          >
-            {/* <FormattedMessage id="maxFileSize" /> */}
-          </FileUploader>
+          />
         )}
       </FormattedMessage>
     );

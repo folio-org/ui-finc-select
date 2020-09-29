@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import ReactDropzone from 'react-dropzone';
 import {
   isFunction,
-  pickBy
+  pickBy,
 } from 'lodash';
 
 import {
   Button,
-  Icon
+  Icon,
 } from '@folio/stripes/components';
 
 import css from './FileUploader.css';
@@ -32,14 +32,14 @@ export default class FileUploader extends React.Component {
     footer: PropTypes.node,
     isDropZoneActive: PropTypes.bool.isRequired,
     maxSize: PropTypes.number,
-    onDrop: PropTypes.func.isRequired,
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
+    onDrop: PropTypes.func.isRequired,
     rejectClassName: PropTypes.string,
     style: PropTypes.object,
     title: PropTypes.node.isRequired,
-    uploadButtonText: PropTypes.node.isRequired,
     uploadButtonAriaLabel: PropTypes.string,
+    uploadButtonText: PropTypes.node.isRequired,
     uploadInProgress: PropTypes.bool,
     uploadInProgressText: PropTypes.node,
   };
@@ -147,8 +147,8 @@ export default class FileUploader extends React.Component {
         accept={accept}
         acceptClassName={acceptClassName}
         activeClassName={activeClassName}
-        disableClick
         disabledClassName={disabledClassName}
+        disableClick
         maxSize={maxSize}
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}

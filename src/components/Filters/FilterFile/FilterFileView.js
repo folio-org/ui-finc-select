@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import {
   MultiColumnList,
-  Button
+  Button,
 } from '@folio/stripes/components';
 
 class FilterFileView extends React.Component {
@@ -35,9 +35,6 @@ class FilterFileView extends React.Component {
         'X-Okapi-Token': okapi.token,
       },
     }).then(response => response.blob())
-      // .then(text => {
-      //   console.log(text);
-      // });
       .then(blob => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

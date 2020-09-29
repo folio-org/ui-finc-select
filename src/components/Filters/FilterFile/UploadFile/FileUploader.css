@@ -19,12 +19,6 @@
   text-align: center;
 }
 
-.activeUpload {
-  border-style: dashed;
-  color: var(--bg);
-  background-color: var(--color-fill-current);
-}
-
 .activeUploadTitle {
   font-size: var(--font-size-large);
 }

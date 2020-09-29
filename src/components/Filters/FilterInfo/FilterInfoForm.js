@@ -8,7 +8,7 @@ import {
   Col,
   Row,
   Select,
-  TextField
+  TextField,
 } from '@folio/stripes/components';
 
 import { Required } from '../../DisplayUtils/Validate';
@@ -25,8 +25,8 @@ class FilterInfoForm extends React.Component {
       <Accordion
         id={accordionId}
         label={<FormattedMessage id="ui-finc-select.filter.generalAccordion" />}
-        open={expanded}
         onToggle={onToggle}
+        open={expanded}
       >
         <Row>
           <Col xs={8}>

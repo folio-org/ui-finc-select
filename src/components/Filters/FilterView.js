@@ -14,7 +14,7 @@ import {
   NoValue,
   Pane,
   PaneMenu,
-  Row
+  Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
 import { IfPermission } from '@folio/stripes/core';
@@ -25,13 +25,13 @@ import CollectionsView from './Collections/CollectionsView';
 
 class FilterView extends React.Component {
   static propTypes = {
+    collectionIds: PropTypes.arrayOf(PropTypes.object),
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
       onEdit: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
     stripes: PropTypes.shape({
       connect: PropTypes.func,
       okapi: PropTypes.object.isRequired,
@@ -77,12 +77,12 @@ class FilterView extends React.Component {
       <IfPermission perm="finc-select.filters.item.put">
         <PaneMenu>
           <Button
-            id="clickable-edit-filter"
-            buttonStyle="primary"
-            onClick={handlers.onEdit}
             aria-label="Edit Filter"
             buttonRef={this.editButton}
+            buttonStyle="primary"
+            id="clickable-edit-filter"
             marginBottom0
+            onClick={handlers.onEdit}
           >
             <FormattedMessage id="ui-finc-select.edit" />
           </Button>
@@ -138,8 +138,8 @@ class FilterView extends React.Component {
                 stripes={this.props.stripes}
               />
               <FilterInfoView
-                id="filterInfo"
                 filter={record}
+                id="filterInfo"
                 stripes={stripes}
               />
               <Row end="xs">
@@ -158,10 +158,10 @@ class FilterView extends React.Component {
                 open={this.state.accordions.fileAccordion}
               >
                 <FilterFileView
-                  id="filterInfo"
-                  filter={record}
-                  stripes={stripes}
                   docs={docs}
+                  filter={record}
+                  id="filterInfo"
+                  stripes={stripes}
                 />
               </Accordion>
               <Accordion
@@ -171,9 +171,9 @@ class FilterView extends React.Component {
                 open={this.state.accordions.collectionAccordion}
               >
                 <CollectionsView
-                  id="collections"
-                  filter={record}
                   collectionIds={this.props.collectionIds}
+                  filter={record}
+                  id="collections"
                   stripes={stripes}
                 />
               </Accordion>
@@ -184,6 +184,5 @@ class FilterView extends React.Component {
     );
   }
 }
-
 
 export default FilterView;

@@ -23,7 +23,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AppIcon,
-  IfPermission
+  IfPermission,
 } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
@@ -38,6 +38,7 @@ class Filters extends React.Component {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
     disableRecordCreation: PropTypes.bool,
+    filter: PropTypes.object,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -53,7 +54,6 @@ class Filters extends React.Component {
     queryGetter: PropTypes.func,
     querySetter: PropTypes.func,
     searchString: PropTypes.string,
-    filter: PropTypes.object,
     selectedRecordId: PropTypes.string,
   };
 
@@ -92,9 +92,7 @@ class Filters extends React.Component {
       <RowComponent
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
+        data-label={[rowData.name]}
         key={`row-${rowIndex}`}
         role="row"
         {...rowProps}
@@ -172,9 +170,7 @@ class Filters extends React.Component {
   }
 
   renderNavigation = (id) => (
-    <Navigation
-      id={id}
-    />
+    <Navigation id={id} />
   );
 
   cacheFilter(activeFilters, searchValue) {
@@ -351,9 +347,7 @@ class Filters extends React.Component {
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize

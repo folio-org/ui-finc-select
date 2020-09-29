@@ -8,6 +8,8 @@
   "form.cancel": "Cancel",
   "form.close": "Close filter dialog",
 
+  "plugin.notFound": "Plugin not found",
+
   "collections.title": "Metadata collections",
   "collection.description": "Description",
   "collection.filters": "Active filters",
@@ -63,6 +65,7 @@
   "filter.file.upload": "uploading",
   "filter.file.addFile": "Add file to filter",
   "filter.file.empty": "Filter has no file",
+  "filter.file.connected": "The filter file {filename} is connected.",
 
   "filter.collections.empty": "Filter has no collection",
   "filter.collections.addCollection": "Add collections",
