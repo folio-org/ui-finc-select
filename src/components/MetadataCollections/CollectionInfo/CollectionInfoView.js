@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+
 import {
   KeyValue,
   List,
@@ -30,19 +31,19 @@ class CollectionInfoView extends React.Component {
 
   renderList = (values) => {
     const { metadataCollection } = this.props;
+    const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
 
     if (!metadataCollection) {
-      return 'no values';
+      return isEmptyMessage;
     } else {
       const valueItems = metadataCollection[values];
       const valueFormatter = (valueItem) => (<li key={valueItem}>{valueItem}</li>);
-      const isEmptyMessage = 'No items to show';
 
       return (
         <List
+          isEmptyMessage={isEmptyMessage}
           items={valueItems}
           itemFormatter={valueFormatter}
-          isEmptyMessage={isEmptyMessage}
         />
       );
     }
@@ -60,10 +61,7 @@ class CollectionInfoView extends React.Component {
     // set the complete source link with name and status
     const sourceLink = (
       <React.Fragment>
-        <Link to={{
-          pathname: `${urls.sourceView(sourceId)}`,
-        }}
-        >
+        <Link to={{ pathname: `${urls.sourceView(sourceId)}` }}>
           {sourceName}
         </Link>
       </React.Fragment>
@@ -92,10 +90,10 @@ class CollectionInfoView extends React.Component {
           </Row>
           <Row>
             <this.connectedSelectUnselect
-              stripes={stripes}
-              selectedInitial={selectedInitial}
               collectionId={collectionId}
               permitted={permitted}
+              selectedInitial={selectedInitial}
+              stripes={stripes}
             />
           </Row>
         </div>

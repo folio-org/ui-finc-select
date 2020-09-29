@@ -11,8 +11,8 @@ import {
 
 class CollectionContentView extends React.Component {
   static propTypes = {
-    metadataCollection: PropTypes.object,
     id: PropTypes.string,
+    metadataCollection: PropTypes.object,
   };
 
   render() {

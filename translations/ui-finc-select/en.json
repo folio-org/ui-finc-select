@@ -2,6 +2,8 @@
   "meta.title": "Finc select",
   "searchInputLabel": "Search",
   "edit": "Edit",
+  "renderList.isEmpty": "No items to show",
+
   "form.saveAndClose": "Save & close",
   "form.delete": "Delete",
   "form.create": "Create",

@@ -103,9 +103,7 @@ class MetadataSources extends React.Component {
       <RowComponent
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
+        data-label={[rowData.name]}
         key={`row-${rowIndex}`}
         role="row"
         {...rowProps}
@@ -156,9 +154,7 @@ class MetadataSources extends React.Component {
   }
 
   renderNavigation = (id) => (
-    <Navigation
-      id={id}
-    />
+    <Navigation id={id} />
   );
 
   cacheFilter(activeFilters, searchValue) {
@@ -349,8 +345,8 @@ class MetadataSources extends React.Component {
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-sourceresults"
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
                   >
                     <MultiColumnList
                       autosize
@@ -369,9 +365,7 @@ class MetadataSources extends React.Component {
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize

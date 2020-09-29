@@ -15,25 +15,25 @@ import BasicCss from '../../BasicStyle.css';
 
 class SourceTechnicalView extends React.Component {
   static propTypes = {
-    metadataSource: PropTypes.object,
     id: PropTypes.string,
+    metadataSource: PropTypes.object,
   };
 
   renderUrlList = (values) => {
     const { metadataSource } = this.props;
+    const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
 
     if (!metadataSource) {
-      return 'no values';
+      return isEmptyMessage;
     } else {
       const valueItems = metadataSource[values];
       const valueFormatter = (valueItem) => (<li key={valueItem}><a href={valueItem} target="_blank" rel="noopener noreferrer">{valueItem}</a></li>);
-      const isEmptyMessage = 'No items to show';
 
       return (
         <List
+          isEmptyMessage={isEmptyMessage}
           items={valueItems}
           itemFormatter={valueFormatter}
-          isEmptyMessage={isEmptyMessage}
         />
       );
     }
@@ -54,8 +54,8 @@ class SourceTechnicalView extends React.Component {
           {/* TICKET is repeatable */}
           <Row>
             <Headline
-              size="medium"
               className={BasicCss.styleForHeadline}
+              size="medium"
             >
               <FormattedMessage id="ui-finc-select.source.tickets" />
             </Headline>

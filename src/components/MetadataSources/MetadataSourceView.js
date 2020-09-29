@@ -113,23 +113,23 @@ class MetadataSourceView extends React.Component {
               </Col>
             </Row>
             <Accordion
-              open={this.state.accordions.managementAccordion}
-              onToggle={this.handleAccordionToggle}
-              label={<FormattedMessage id="ui-finc-select.source.accordion.management" />}
               id="managementAccordion"
+              label={<FormattedMessage id="ui-finc-select.source.accordion.management" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.managementAccordion}
             >
               <SourceManagementView
                 id="sourceManagement"
                 metadataSource={record}
-                stripes={this.props.stripes}
                 organizationId={organizationId}
+                stripes={this.props.stripes}
               />
             </Accordion>
             <Accordion
+              id="technicalAccordion"
+              label={<FormattedMessage id="ui-finc-select.source.accordion.technical" />}
               open={this.state.accordions.technicalAccordion}
               onToggle={this.handleAccordionToggle}
-              label={<FormattedMessage id="ui-finc-select.source.accordion.technical" />}
-              id="technicalAccordion"
             >
               <SourceTechnicalView
                 id="sourceTechnical"

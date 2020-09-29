@@ -15,25 +15,25 @@ import BasicCss from '../../BasicStyle.css';
 
 class CollectionTechnicalView extends React.Component {
   static propTypes = {
-    metadataCollection: PropTypes.object,
     id: PropTypes.string,
+    metadataCollection: PropTypes.object,
   };
 
   renderUrlList = (values) => {
     const { metadataCollection } = this.props;
+    const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
 
     if (!metadataCollection) {
-      return 'no values';
+      return isEmptyMessage;
     } else {
       const valueItems = metadataCollection[values];
       const valueFormatter = (valueItem) => (<li key={valueItem}><a href={valueItem} target="_blank" rel="noopener noreferrer">{valueItem}</a></li>);
-      const isEmptyMessage = 'No items to show';
 
       return (
         <List
+          isEmptyMessage={isEmptyMessage}
           items={valueItems}
           itemFormatter={valueFormatter}
-          isEmptyMessage={isEmptyMessage}
         />
       );
     }
@@ -59,8 +59,8 @@ class CollectionTechnicalView extends React.Component {
           </Row>
           <Row>
             <Headline
-              size="medium"
               className={BasicCss.styleForHeadline}
+              size="medium"
             >
               <FormattedMessage id="ui-finc-select.collection.tickets" />
             </Headline>

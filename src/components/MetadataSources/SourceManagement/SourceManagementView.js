@@ -17,7 +17,6 @@ import {
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../../DisplayUtils/urls';
-
 import SelectAllCollections from './SelectAllCollections';
 
 class SourceManagementView extends React.Component {
@@ -31,15 +30,15 @@ class SourceManagementView extends React.Component {
   });
 
   static propTypes = {
-    metadataSource: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }),
     id: PropTypes.string,
+    metadataSource: PropTypes.object,
     resources: PropTypes.shape({
       org: PropTypes.object,
       failed: PropTypes.object,
     }).isRequired,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }),
   };
 
   constructor(props) {
@@ -63,10 +62,7 @@ class SourceManagementView extends React.Component {
     } else {
       orgValue = (
         <React.Fragment>
-          <Link to={{
-            pathname: `${urls.organizationView(organization.id)}`,
-          }}
-          >
+          <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
             {organization.name}
           </Link>
         </React.Fragment>
@@ -91,8 +87,8 @@ class SourceManagementView extends React.Component {
           <Row>
             <Col xs={6}>
               <this.connectedSelectAllCollections
-                stripes={stripes}
                 sourceId={sourceId}
+                stripes={stripes}
               />
             </Col>
             <Col xs={6}>

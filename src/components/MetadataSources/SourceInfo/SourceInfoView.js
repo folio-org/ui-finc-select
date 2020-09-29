@@ -11,12 +11,11 @@ import {
 
 class SourceInfoView extends React.Component {
   static propTypes = {
-    metadataSource: PropTypes.object,
-    stripes: PropTypes
-      .shape({
-        connect: PropTypes.func.isRequired,
-      }),
     id: PropTypes.string,
+    metadataSource: PropTypes.object,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }),
   };
 
   render() {
