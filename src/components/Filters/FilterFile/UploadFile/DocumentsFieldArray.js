@@ -15,6 +15,7 @@ import {
 import EditCard from './EditCard';
 import FileUploaderField from './FileUploaderField';
 import withKiwtFieldArray from './withKiwtFieldArray';
+import Required from '../../../DisplayUtils/Validate';
 
 class DocumentsFieldArray extends React.Component {
   static propTypes = {
@@ -39,10 +40,6 @@ class DocumentsFieldArray extends React.Component {
     isEmptyMessage: <FormattedMessage id="ui-finc-select.filter.file.empty" />,
   }
 
-  validateRequired = (value) => (
-    !value ? <FormattedMessage id="ui-finc-select.filter.form.missingRequiredField" /> : undefined
-  )
-
   renderFileUpload = (doc, onUploadFile, onDownloadFile, name, i) => {
     if (_.isEmpty(doc.fileId)) {
       return (
@@ -56,12 +53,11 @@ class DocumentsFieldArray extends React.Component {
                     data-test-filter-file-card-fileid
                     fileLabel={doc.label}
                     id={`filter-file-card-fileId-${i}`}
-                    label={<FormattedMessage id="doc.fileId" />}
                     name={`${name}[${i}].fileId`}
                     onDownloadFile={onDownloadFile}
                     onUploadFile={onUploadFile}
                     required
-                    validate={this.validateRequired}
+                    validate={Required}
                   />
                 </Col>
               </Row>
@@ -113,7 +109,7 @@ class DocumentsFieldArray extends React.Component {
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
                   name={`${name}[${i}].label`}
                   required
-                  validate={this.validateRequired}
+                  validate={Required}
                 />
               </Col>
             </Row>

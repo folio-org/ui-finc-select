@@ -35,9 +35,10 @@ export default class FileUploaderFieldView extends React.Component {
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue label={<FormattedMessage id="ui-finc-select.filter.file.filename" />}>
-            {fileLabel}
-          </KeyValue>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.filter.file.name" />}
+            value={fileLabel}
+          />
         </Col>
       </Row>
     );

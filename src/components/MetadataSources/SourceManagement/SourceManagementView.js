@@ -92,7 +92,6 @@ class SourceManagementView extends React.Component {
               />
             </Col>
             <Col xs={6}>
-              {/* showAllCollections as button */}
               <Button
                 buttonStyle="primary"
                 id="showAllCollections"

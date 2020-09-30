@@ -249,7 +249,7 @@ class FilterForm extends React.Component {
                 heading={<FormattedMessage id="ui-finc-select.form.delete" />}
                 id="delete-filter-confirmation"
                 message={<FormattedMessage
-                  id="ui-finc-config.form.delete.confirm.message"
+                  id="ui-finc-select.form.delete.confirm.message"
                   values={{ name }}
                 />}
                 onCancel={() => { this.confirmDelete(false); }}

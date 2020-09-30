@@ -4,6 +4,8 @@
   "edit": "Edit",
   "noPermission": "No permission",
   "renderList.isEmpty": "No items to show",
+  "noSourceYet": "No source yet",
+  "button.ok": "OK",
 
   "form.saveAndClose": "Save & close",
   "form.delete": "Delete",
@@ -65,7 +67,7 @@
   "filter.file.label": "File",
   "filter.file.criteria": "Criteria",
   "filter.file.download": "Download",
-  "filter.file.filename": "Name",
+  "filter.file.name": "Name",
   "filter.file.remove": "Remove",
   "filter.file.dragDrop": "Drag and drop to upload",
   "filter.file.choose": "or choose file",

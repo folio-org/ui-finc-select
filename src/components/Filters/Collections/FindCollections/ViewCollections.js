@@ -23,9 +23,7 @@ class ViewCollections extends React.Component {
     ]);
 
     this.setState(() => {
-      return { collectionIds: {
-        c
-      } };
+      return { collectionIds: { c } };
     });
   }
 

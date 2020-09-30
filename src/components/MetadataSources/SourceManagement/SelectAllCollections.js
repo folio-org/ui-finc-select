@@ -97,14 +97,14 @@ class SelectAllCollections extends React.Component {
           </Col>
         </Row>
         <Modal
-          label="Select All Collections"
+          label={<FormattedMessage id="ui-finc-select.source.button.selectAllCollections" />}
           open={this.state.showInfoModal}
         >
           <div>
             { this.state.modalText }
           </div>
           <Button onClick={this.handleClose}>
-            OK
+            <FormattedMessage id="ui-finc-select.button.ok" />
           </Button>
         </Modal>
       </div>

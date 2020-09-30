@@ -169,11 +169,11 @@ class MetadataCollections extends React.Component {
 
   renderIsEmptyMessage = (query, source) => {
     if (!source) {
-      return <FormattedMessage id="ui-finc-config.noSourceYet" />;
+      return <FormattedMessage id="ui-finc-select.noSourceYet" />;
     }
 
     return (
-      <div data-test-udps-no-results-message>
+      <div data-test-collections-no-results-message>
         <NoResultsMessage
           source={source}
           searchTerm={query.query || ''}
