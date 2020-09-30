@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryFunction,
-  StripesConnectedSource
+  StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
 import urls from '../components/DisplayUtils/urls';
@@ -64,7 +64,6 @@ class CollectionsRoute extends React.Component {
       push: PropTypes.func.isRequired,
     }).isRequired,
     location: PropTypes.shape({
-      pathname: PropTypes.string,
       search: PropTypes.string,
     }).isRequired,
     match: PropTypes.shape({

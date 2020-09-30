@@ -61,13 +61,13 @@ class FilterViewRoute extends React.Component {
     return (
       <FilterView
         canEdit={stripes.hasPerm('finc-select.filters.item.put')}
+        collectionIds={collectionIds}
         handlers={{
           onClose: this.handleClose,
           onEdit: this.handleEdit,
         }}
         isLoading={_.get(this.props.resources, 'filter.isPending', true)}
         record={_.get(this.props.resources, 'filter.records', []).find(i => i.id === this.props.match.params.id)}
-        collectionIds={collectionIds}
         stripes={stripes}
       />
     );

@@ -114,11 +114,11 @@ class FilterEditRoute extends React.Component {
 
     return (
       <FilterForm
-        contentData={resources}
-        handlers={{ onClose: this.handleClose }}
-        filterData={{ mdSources: _.get(this.props.resources, 'mdSources.records', []) }}
-        initialValues={this.getInitialValues()}
         collectionIds={collectionIds}
+        contentData={resources}
+        filterData={{ mdSources: _.get(this.props.resources, 'mdSources.records', []) }}
+        handlers={{ onClose: this.handleClose }}
+        initialValues={this.getInitialValues()}
         isLoading={this.fetchIsPending()}
         onDelete={this.deleteFilter}
         onSubmit={this.handleSubmit}

@@ -56,13 +56,13 @@ class CredentialsSettingsForm extends React.Component {
 
     const endButton = (
       <Button
-        data-test-ezbcredentials-form-submit-button
-        marginBottom0
-        id="clickable-save-ezbcredentials"
         buttonStyle="primary"
-        type="submit"
-        onClick={handleSubmit}
+        data-test-ezbcredentials-form-submit-button
         disabled={disabled}
+        id="clickable-save-ezbcredentials"
+        marginBottom0
+        onClick={handleSubmit}
+        type="submit"
       >
         <FormattedMessage id="ui-finc-select.settings.ezbCredentials.save" />
       </Button>
@@ -114,22 +114,22 @@ class CredentialsSettingsForm extends React.Component {
               <Col xs={6}>
                 <Field
                   component={TextField}
-                  type={passwordType}
                   fullWidth
                   id="add_ezbcredentials_password"
                   label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.password" />}
                   name="password"
                   placeholder="Enter a password"
                   required
+                  type={passwordType}
                   validate={Required}
                 />
               </Col>
               <Col>
                 <div style={this.styles.toggleMaskButtonWrapper}>
                   <Button
-                    type="button"
                     buttonStyle="link"
                     onClick={this.togglePasswordMask}
+                    type="button"
                   >
                     <FormattedMessage id={passwordToggleLabelId} />
                   </Button>

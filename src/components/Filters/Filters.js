@@ -11,6 +11,7 @@ import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
   SearchAndSortQuery,
+  SearchAndSortNoResultsMessage as NoResultsMessage,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -172,6 +173,23 @@ class Filters extends React.Component {
   renderNavigation = (id) => (
     <Navigation id={id} />
   );
+
+  renderIsEmptyMessage = (query, source) => {
+    if (!source) {
+      return <FormattedMessage id="ui-finc-config.noSourceYet" />;
+    }
+
+    return (
+      <div data-test-udps-no-results-message>
+        <NoResultsMessage
+          source={source}
+          searchTerm={query.query || ''}
+          filterPaneIsVisible
+          toggleFilterPane={_.noop}
+        />
+      </div>
+    );
+  };
 
   cacheFilter(activeFilters, searchValue) {
     localStorage.setItem('fincSelectFilterFilters', JSON.stringify(activeFilters));
@@ -337,7 +355,7 @@ class Filters extends React.Component {
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
                       id="list-filters"
-                      isEmptyMessage="no results"
+                      isEmptyMessage={this.renderIsEmptyMessage(query, filter)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}
                       onNeedMoreData={onNeedMoreData}

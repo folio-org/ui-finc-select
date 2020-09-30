@@ -82,7 +82,6 @@ ViewCollections.propTypes = {
     }),
   }),
   intialCollection: PropTypes.object,
-  intialCollectionId: PropTypes.string,
   isEditable: PropTypes.bool,
   stripes: PropTypes.object,
 };

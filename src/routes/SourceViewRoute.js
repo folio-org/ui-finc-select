@@ -18,7 +18,6 @@ class SourceViewRoute extends React.Component {
   });
 
   static propTypes = {
-    handlers: PropTypes.object,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
@@ -47,15 +46,11 @@ class SourceViewRoute extends React.Component {
   }
 
   render() {
-    const { handlers, stripes } = this.props;
-    // const selectedRecord = this.getRecord(this.props.match.params.id);
+    const { stripes } = this.props;
 
     return (
       <MetadataSourceView
-        handlers={{
-          ...handlers,
-          onClose: this.handleClose,
-        }}
+        handlers={{ onClose: this.handleClose }}
         isLoading={_.get(this.props.resources, 'source.isPending', true)}
         record={_.get(this.props.resources, 'source.records', []).find(i => i.id === this.props.match.params.id)}
         stripes={stripes}
