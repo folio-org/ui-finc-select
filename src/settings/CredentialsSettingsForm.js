@@ -17,7 +17,7 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
-import { Required } from '../components/DisplayUtils/Validate';
+import Required from '../components/DisplayUtils/Validate';
 import BasicStyle from '../components/BasicStyle.css';
 
 class CredentialsSettingsForm extends React.Component {

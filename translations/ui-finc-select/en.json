@@ -9,6 +9,8 @@
   "form.create": "Create",
   "form.cancel": "Cancel",
   "form.close": "Close filter dialog",
+  "form.delete.confirm.message": "Do you really want to delete {name}?",
+  "form.validate.required": "Required!",
 
   "plugin.notFound": "Plugin not found",
   "plugin.buttonLabel.collection.add": "Add metadata collections",
