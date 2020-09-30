@@ -1,5 +1,5 @@
 {
-    "meta.title": "تحديد Finc",
+    "meta.title": "اختيار Finc",
     "collection.description": "الوصف",
     "collection.filters": "المنقحات النشطة",
     "collection.freeContent": "محتوى مجاني",
@@ -76,8 +76,8 @@
     "form.cancel": "إلغاء",
     "form.close": "غلق مربع حوار المنقح",
     "collection.id": "المعرّف",
-    "permission.module.enabled": "Finc select: module is enabled",
-    "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
-    "permission.all": "Finc select: All permissions",
-    "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
+    "permission.module.enabled": "اختيار Finc: تم تفعيل الوحدة",
+    "permission.settings.manage": "الإعدادات (تحديد Finc): إمكانية عرض وتحرير الإعدادات",
+    "permission.all": "اختيار Finc: كل الصلاحيات",
+    "permission.view": "اختيار Finc: إمكانية عرض مصادر الميتاداتا، ومنقحات ومجموعات الميتاداتا"
 }
