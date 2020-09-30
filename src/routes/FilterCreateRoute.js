@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -23,7 +24,6 @@ class FilterCreateRoute extends React.Component {
   });
 
   static propTypes = {
-    handlers: PropTypes.object,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -46,8 +46,12 @@ class FilterCreateRoute extends React.Component {
     }).isRequired,
   }
 
-  static defaultProps = {
-    handlers: {},
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hasPerms: props.stripes.hasPerm('finc-select.filters.item.post'),
+    };
   }
 
   handleClose = () => {
@@ -70,17 +74,16 @@ class FilterCreateRoute extends React.Component {
   }
 
   render() {
-    const { handlers, resources, stripes } = this.props;
+    const { resources, stripes } = this.props;
     const collectionIds = [];
+
+    if (!this.state.hasPerms) return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
 
     return (
       <FilterForm
         contentData={resources}
         collectionIds={collectionIds}
-        handlers={{
-          onClose: this.handleClose,
-          ...handlers,
-        }}
+        handlers={{ onClose: this.handleClose }}
         onSubmit={this.handleSubmit}
         stripes={stripes}
         selectRecords={this.getSelectedCollections}

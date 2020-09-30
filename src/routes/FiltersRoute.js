@@ -124,12 +124,12 @@ class FiltersRoute extends React.Component {
     return (
       <Filters
         contentData={_.get(this.props.resources, 'filters.records', [])}
+        filter={this.filter}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
         querySetter={this.querySetter}
         searchString={location.search}
         selectedRecordId={match.params.id}
-        filter={this.filter}
       >
         {children}
       </Filters>

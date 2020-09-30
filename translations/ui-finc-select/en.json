@@ -2,6 +2,7 @@
   "meta.title": "Finc select",
   "searchInputLabel": "Search",
   "edit": "Edit",
+  "noPermission": "No permission",
   "renderList.isEmpty": "No items to show",
 
   "form.saveAndClose": "Save & close",

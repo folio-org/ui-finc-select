@@ -22,7 +22,6 @@ class FilterViewRoute extends React.Component {
   });
 
   static propTypes = {
-    handlers: PropTypes.object,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
@@ -56,13 +55,13 @@ class FilterViewRoute extends React.Component {
   }
 
   render() {
-    const { handlers, stripes } = this.props;
+    const { stripes } = this.props;
     const collectionIds = _.get(this.props.resources, 'collectionsIds.records', []);
 
     return (
       <FilterView
+        canEdit={stripes.hasPerm('finc-select.filters.item.put')}
         handlers={{
-          ...handlers,
           onClose: this.handleClose,
           onEdit: this.handleEdit,
         }}
