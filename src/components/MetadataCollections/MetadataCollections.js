@@ -5,7 +5,7 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -29,12 +29,14 @@ import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
 import Navigation from '../Navigation/Navigation';
 
-const searchableIndexes = [
-  { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
-  { label: 'Collection Name', value: 'label', makeQuery: term => `(label="${term}*")` },
-  { label: 'Description', value: 'description', makeQuery: term => `(description="${term}*")` },
-  { label: 'Collection ID', value: 'collectionId', makeQuery: term => `(collectionId="${term}*")` },
+const rawSearchableIndexes = [
+  { label: 'all', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
+  { label: 'label', value: 'label', makeQuery: term => `(label="${term}*")` },
+  { label: 'description', value: 'description', makeQuery: term => `(description="${term}*")` },
+  { label: 'collectionId', value: 'collectionId', makeQuery: term => `(collectionId="${term}*")` },
 ];
+let searchableIndexes;
+
 const defaultFilter = { state: { permitted: ['yes'], selected: ['yes'] }, string: 'permitted.yes,selected.yes' };
 const defaultSearchString = { query: '' };
 const defaultSearchIndex = '';
@@ -51,6 +53,9 @@ class MetadataCollections extends React.Component {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }),
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
     packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
@@ -263,10 +268,16 @@ class MetadataCollections extends React.Component {
   }
 
   render() {
-    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
+    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
     const count = collection ? collection.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
+
+    if (!searchableIndexes) {
+      searchableIndexes = rawSearchableIndexes.map(index => (
+        { value: index.value, label: intl.formatMessage({ id: `ui-finc-select.collection.search.${index.label}` }) }
+      ));
+    }
 
     return (
       <div data-test-collections>
@@ -408,4 +419,4 @@ class MetadataCollections extends React.Component {
   }
 }
 
-export default withRouter(MetadataCollections);
+export default injectIntl(withRouter(MetadataCollections));
