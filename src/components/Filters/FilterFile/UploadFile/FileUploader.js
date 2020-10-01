@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDropzone from 'react-dropzone';
-import {
-  isFunction,
-  pickBy,
-} from 'lodash';
 
 import {
   Button,
@@ -21,11 +17,6 @@ export default class FileUploader extends React.Component {
     ]),
     acceptClassName: PropTypes.string,
     activeClassName: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-      PropTypes.func,
-    ]),
     className: PropTypes.string,
     disabledClassName: PropTypes.string,
     errorMessage: PropTypes.node,
@@ -97,19 +88,6 @@ export default class FileUploader extends React.Component {
     );
   }
 
-  renderChildren = (open) => {
-    const { children, isDropZoneActive } = this.props;
-    return (
-      <div
-        className={css.children}
-        data-test-filter-file-children
-        hidden={isDropZoneActive}
-      >
-        {isFunction(children) ? children(open) : children}
-      </div>
-    );
-  }
-
   renderFooter = () => {
     const { footer, isDropZoneActive } = this.props;
     return footer &&
@@ -137,10 +115,7 @@ export default class FileUploader extends React.Component {
       onDrop,
       rejectClassName,
       style,
-      ...rest
     } = this.props;
-
-    const dataTest = pickBy(rest, (_, key) => key.startsWith('data-test-'));
 
     return (
       <ReactDropzone
@@ -156,17 +131,15 @@ export default class FileUploader extends React.Component {
         rejectClassName={rejectClassName}
         style={style}
       >
-        {({ getInputProps, getRootProps, open }) => (
+        {({ getInputProps, getRootProps }) => (
           <div
             className={`${css.upload} ${className}`}
             data-test-filter-file-drop-zone
-            {...dataTest}
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             {this.renderErrorMessage()}
             {this.renderUploadFields()}
-            {this.renderChildren(open)}
             {this.renderFooter()}
           </div>
         )}

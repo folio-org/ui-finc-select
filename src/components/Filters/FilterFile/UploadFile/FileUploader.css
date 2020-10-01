@@ -23,11 +23,6 @@
   font-size: var(--font-size-large);
 }
 
-.children {
-  flex: 1;
-  padding-bottom: var(--gutter-static-one-third);
-}
-
 .footer {
   width: 100%;
   padding: var(--gutter-static-one-third) var(--gutter);

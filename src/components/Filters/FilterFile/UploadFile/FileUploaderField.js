@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy } from 'lodash';
 
 import {
   withStripes,
@@ -114,7 +113,6 @@ class FileUploaderField extends React.Component {
             onDragLeave={() => this.setState({ isDropZoneActive: false })}
             onDrop={(file) => this.handleDrop(file, intl)}
             uploadInProgress={this.state.uploadInProgress}
-            {...pickBy(this.props, (_, key) => key.startsWith('data-test-'))}
           />
         )}
       </IntlConsumer>
