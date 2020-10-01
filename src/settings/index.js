@@ -19,7 +19,7 @@ class FincConfigSettings extends React.Component {
       <Settings
         data-test-settings-finc-select
         pages={this.pages}
-        paneTitle="Finc select"
+        paneTitle={<FormattedMessage id="ui-finc-select.meta.title" />}
         {...this.props}
       />
     );

@@ -21,7 +21,6 @@
 
   "collections.title": "Metadata collections",
   "collection.description": "Description",
-  "collection.filters": "Active filters",
   "collection.freeContent": "Free content",
   "collection.id": "ID",
   "collection.generalNotes": "General notes",
@@ -31,7 +30,6 @@
   "collection.selected": "Selected",
   "collection.tickets": "Tickets",
 
-  "collection.accordion.general": "General",
   "collection.accordion.content": "Content",
   "collection.accordion.technical": "Management & technical",
 
@@ -48,12 +46,10 @@
   "source.label": "Name",
   "source.lastProcessed": "Last processed",
   "source.organization": "Organization",
-  "source.selectedCollections": "Selected collections",
   "source.status": "Implementation status",
   "source.tickets": "Tickets",
   "source.selected": "Selected",
 
-  "source.generalAccordion": "General",
   "source.accordion.management": "Management",
   "source.accordion.technical": "Technical",
 
@@ -72,13 +68,11 @@
   "filters.title": "Filters",
   "filter.label": "Name",
   "filter.type": "Type",
-  "filter.isil": "ISIL",
 
   "filter.file.label": "File",
   "filter.file.criteria": "Criteria",
   "filter.file.download": "Download",
   "filter.file.name": "Name",
-  "filter.file.remove": "Remove",
   "filter.file.dragDrop": "Drag and drop to upload",
   "filter.file.choose": "or choose file",
   "filter.file.upload": "uploading",
@@ -86,21 +80,9 @@
   "filter.file.empty": "Filter has no file",
   "filter.file.connected": "The filter file {filename} is connected.",
 
-  "filter.collections.empty": "Filter has no collection",
-  "filter.collections.addCollection": "Add collections",
-  "filter.collections.viewCollection": "View collections",
-  "filter.collections.modal.header": "Select collections",
-  "filter.collections.modal.search.header": "Search & filter",
-  "filter.collections.modal.list.pane.header": "Collections",
-  "filter.collections.modal.list.pane.subheader": "{amount} collections found",
-  "filter.collections.modal.save": "Save",
-  "filter.collections.modal.cancel": "Cancel",
-
   "filter.generalAccordion": "General",
   "filter.fileAccordion": "File",
   "filter.collectionAccordion": "Metadata collections",
-
-  "filter.form.missingRequiredField": "File is required!",
 
   "navigation.sources": "Sources",
   "navigation.collections": "Collections",
