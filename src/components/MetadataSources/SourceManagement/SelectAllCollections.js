@@ -22,9 +22,6 @@ class SelectAllCollections extends React.Component {
   });
 
   static propTypes = {
-    mutator: PropTypes.shape({
-      selectAll: PropTypes.object,
-    }),
     sourceId: PropTypes.string.isRequired,
     stripes: PropTypes.object,
   };

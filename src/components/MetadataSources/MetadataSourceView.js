@@ -24,10 +24,11 @@ class MetadataSourceView extends React.Component {
   static propTypes = {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
-      onEdit: PropTypes.func,
     }).isRequired,
     record: PropTypes.object,
-    stripes: PropTypes.object,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {

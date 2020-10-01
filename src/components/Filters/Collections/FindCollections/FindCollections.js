@@ -68,11 +68,7 @@ FindCollections.propTypes = {
     }).isRequired,
   }),
   getSelectedCollections: PropTypes.func,
-  intialCollection: PropTypes.object,
-  intialCollectionId: PropTypes.string,
   isEditable: PropTypes.bool,
-  selectRecords: PropTypes.func,
-  stripes: PropTypes.object,
 };
 
 export default FindCollections;

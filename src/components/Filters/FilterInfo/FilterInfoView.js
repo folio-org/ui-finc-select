@@ -1,5 +1,5 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -12,9 +12,6 @@ import {
 class FilterInfoView extends React.Component {
   static propTypes = {
     filter: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func,
-    }),
   };
 
   render() {

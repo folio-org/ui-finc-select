@@ -45,7 +45,6 @@ class CollectionsForm extends React.Component {
             filterId={this.props.filterId}
             isEditable
             name="collectionIds"
-            stripes={this.props.stripes}
             {...this.props}
           />
         </div>

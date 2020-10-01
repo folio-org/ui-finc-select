@@ -15,7 +15,6 @@ import BasicCss from '../../BasicStyle.css';
 
 class SourceTechnicalView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     metadataSource: PropTypes.object,
   };
 
@@ -40,36 +39,34 @@ class SourceTechnicalView extends React.Component {
   }
 
   render() {
-    const { metadataSource, id } = this.props;
+    const { metadataSource } = this.props;
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
-              value={_.get(metadataSource, 'lastProcessed', <NoValue />)}
-            />
-          </Row>
-          {/* TICKET is repeatable */}
-          <Row>
-            <Headline
-              className={BasicCss.styleForHeadline}
-              size="medium"
-            >
-              <FormattedMessage id="ui-finc-select.source.tickets" />
-            </Headline>
-          </Row>
-          <Row>
-            { this.renderUrlList('tickets') }
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.id" />}
-              value={_.get(metadataSource, 'sourceId', <NoValue />)}
-            />
-          </Row>
-        </div>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
+            value={_.get(metadataSource, 'lastProcessed', <NoValue />)}
+          />
+        </Row>
+        {/* TICKET is repeatable */}
+        <Row>
+          <Headline
+            className={BasicCss.styleForHeadline}
+            size="medium"
+          >
+            <FormattedMessage id="ui-finc-select.source.tickets" />
+          </Headline>
+        </Row>
+        <Row>
+          { this.renderUrlList('tickets') }
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.id" />}
+            value={_.get(metadataSource, 'sourceId', <NoValue />)}
+          />
+        </Row>
       </React.Fragment>
     );
   }

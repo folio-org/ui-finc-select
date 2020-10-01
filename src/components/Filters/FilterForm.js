@@ -39,13 +39,13 @@ class FilterForm extends React.Component {
     initialValues: PropTypes.object,
     invalid: PropTypes.bool,
     isLoading: PropTypes.bool,
-    onCancel: PropTypes.func,
+    // onCancel: PropTypes.func,
     onDelete: PropTypes.func,
-    onSubmit: PropTypes.func,
+    // onSubmit: PropTypes.func,
     pristine: PropTypes.bool,
-    stripes: PropTypes.shape({
-      okapi: PropTypes.object,
-    }),
+    // stripes: PropTypes.shape({
+    //   okapi: PropTypes.object,
+    // }),
     submitting: PropTypes.bool,
   };
 

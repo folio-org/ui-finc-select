@@ -18,9 +18,7 @@ class ViewCollections extends React.Component {
   }
 
   selectCollection = (c) => {
-    this.props.form.mutators.setCollection([
-      c
-    ]);
+    this.props.form.mutators.setCollection([c]);
 
     this.setState(() => {
       return { collectionIds: { c } };
@@ -81,7 +79,6 @@ ViewCollections.propTypes = {
   }),
   intialCollection: PropTypes.object,
   isEditable: PropTypes.bool,
-  stripes: PropTypes.object,
 };
 
 export default ViewCollections;

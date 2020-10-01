@@ -8,14 +8,6 @@ class CollectionsView extends React.Component {
   static propTypes = {
     collectionIds: PropTypes.arrayOf(PropTypes.object),
     filter: PropTypes.object,
-    listedPermissions: PropTypes.arrayOf(PropTypes.object),
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-      config: PropTypes.shape({
-        showPerms: PropTypes.bool,
-        listInvisiblePerms: PropTypes.bool,
-      }).isRequired,
-    }).isRequired,
   };
 
   render() {
@@ -29,7 +21,6 @@ class CollectionsView extends React.Component {
             filterId={filterId}
             isEditable={false}
             name="collectionIds"
-            stripes={this.props.stripes}
             {...this.props}
           />
         </div>

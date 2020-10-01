@@ -11,38 +11,32 @@ import {
 
 class SourceInfoView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     metadataSource: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }),
   };
 
   render() {
-    const { metadataSource, id } = this.props;
+    const { metadataSource } = this.props;
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.label" />}
-              value={_.get(metadataSource, 'label', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.description" />}
-              value={_.get(metadataSource, 'description', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.status" />}
-              value={_.upperFirst(_.get(metadataSource, 'status', <NoValue />))}
-            />
-          </Row>
-        </div>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.label" />}
+            value={_.get(metadataSource, 'label', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.description" />}
+            value={_.get(metadataSource, 'description', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.status" />}
+            value={_.upperFirst(_.get(metadataSource, 'status', <NoValue />))}
+          />
+        </Row>
       </React.Fragment>
     );
   }

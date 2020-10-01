@@ -15,7 +15,6 @@ import BasicCss from '../../BasicStyle.css';
 
 class CollectionTechnicalView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     metadataCollection: PropTypes.object,
   };
 
@@ -40,35 +39,33 @@ class CollectionTechnicalView extends React.Component {
   }
 
   render() {
-    const { metadataCollection, id } = this.props;
+    const { metadataCollection } = this.props;
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.id" />}
-              value={_.get(metadataCollection, 'collectionId', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.generalNotes" />}
-              value={_.get(metadataCollection, 'generalNotes', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <Headline
-              className={BasicCss.styleForHeadline}
-              size="medium"
-            >
-              <FormattedMessage id="ui-finc-select.collection.tickets" />
-            </Headline>
-          </Row>
-          <Row>
-            { this.renderUrlList('tickets') }
-          </Row>
-        </div>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.id" />}
+            value={_.get(metadataCollection, 'collectionId', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.generalNotes" />}
+            value={_.get(metadataCollection, 'generalNotes', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <Headline
+            className={BasicCss.styleForHeadline}
+            size="medium"
+          >
+            <FormattedMessage id="ui-finc-select.collection.tickets" />
+          </Headline>
+        </Row>
+        <Row>
+          { this.renderUrlList('tickets') }
+        </Row>
       </React.Fragment>
     );
   }

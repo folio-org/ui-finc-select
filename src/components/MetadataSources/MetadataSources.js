@@ -5,7 +5,10 @@ import {
   withRouter,
   Link,
 } from 'react-router-dom';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import {
+  injectIntl,
+  FormattedMessage,
+} from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -44,7 +47,6 @@ class MetadataSources extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
-    disableRecordCreation: PropTypes.bool,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -53,13 +55,6 @@ class MetadataSources extends React.Component {
     }),
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
-    packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
-      initialFilters: PropTypes.string, // default filters
-      moduleName: PropTypes.string, // machine-readable, for HTML ids and translation keys
-      stripes: PropTypes.shape({
-        route: PropTypes.string, // base route; used to construct URLs
-      }).isRequired,
-    }),
     queryGetter: PropTypes.func,
     querySetter: PropTypes.func,
     searchString: PropTypes.string,

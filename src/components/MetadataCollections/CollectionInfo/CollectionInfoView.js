@@ -16,7 +16,6 @@ import urls from '../../DisplayUtils/urls';
 
 class CollectionInfoView extends React.Component {
   static propTypes = {
-    id: PropTypes.string,
     metadataCollection: PropTypes.object,
     stripes: PropTypes.shape({
       connect: PropTypes.func.isRequired,
@@ -50,7 +49,7 @@ class CollectionInfoView extends React.Component {
   }
 
   render() {
-    const { metadataCollection, id, stripes } = this.props;
+    const { metadataCollection, stripes } = this.props;
     const collectionId = _.get(metadataCollection, 'id', '-');
     const permitted = _.get(metadataCollection, 'permitted', '-');
     const selectedInitial = _.get(metadataCollection, 'selected');
@@ -69,34 +68,32 @@ class CollectionInfoView extends React.Component {
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.label" />}
-              value={_.get(metadataCollection, 'label', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.mdSource" />}
-              value={sourceLink}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
-              value={_.upperFirst(permitted)}
-            />
-          </Row>
-          <Row>
-            <this.connectedSelectUnselect
-              collectionId={collectionId}
-              permitted={permitted}
-              selectedInitial={selectedInitial}
-              stripes={stripes}
-            />
-          </Row>
-        </div>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.label" />}
+            value={_.get(metadataCollection, 'label', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.mdSource" />}
+            value={sourceLink}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
+            value={_.upperFirst(permitted)}
+          />
+        </Row>
+        <Row>
+          <this.connectedSelectUnselect
+            collectionId={collectionId}
+            permitted={permitted}
+            selectedInitial={selectedInitial}
+            stripes={stripes}
+          />
+        </Row>
       </React.Fragment>
     );
   }

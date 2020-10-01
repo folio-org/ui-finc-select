@@ -34,7 +34,6 @@ class FilterView extends React.Component {
     record: PropTypes.object,
     stripes: PropTypes.shape({
       connect: PropTypes.func,
-      okapi: PropTypes.object.isRequired,
     }),
   };
 

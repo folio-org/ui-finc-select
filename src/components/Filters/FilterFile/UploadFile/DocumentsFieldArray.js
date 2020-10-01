@@ -20,12 +20,6 @@ import Required from '../../../DisplayUtils/Validate';
 class DocumentsFieldArray extends React.Component {
   static propTypes = {
     addDocBtnLabel: PropTypes.node,
-    fields: PropTypes.shape({
-      insert: PropTypes.func.isRequired,
-      name: PropTypes.string.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }).isRequired,
     isEmptyMessage: PropTypes.node,
     items: PropTypes.arrayOf(PropTypes.object),
     name: PropTypes.string.isRequired,
