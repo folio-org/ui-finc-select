@@ -11,10 +11,12 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import {
+  EditCard,
+  withKiwtFieldArray,
+} from '@folio/stripes-erm-components';
 
-import EditCard from './EditCard';
 import FileUploaderField from './FileUploaderField';
-import withKiwtFieldArray from './withKiwtFieldArray';
 import Required from '../../../DisplayUtils/Validate';
 
 class DocumentsFieldArray extends React.Component {
