@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 import {
   KeyValue,
-  List,
   NoValue,
   Row,
 } from '@folio/stripes/components';
@@ -26,26 +25,6 @@ class CollectionInfoView extends React.Component {
     super(props);
 
     this.connectedSelectUnselect = this.props.stripes.connect(SelectUnselect);
-  }
-
-  renderList = (values) => {
-    const { metadataCollection } = this.props;
-    const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
-
-    if (!metadataCollection) {
-      return isEmptyMessage;
-    } else {
-      const valueItems = metadataCollection[values];
-      const valueFormatter = (valueItem) => (<li key={valueItem}>{valueItem}</li>);
-
-      return (
-        <List
-          isEmptyMessage={isEmptyMessage}
-          items={valueItems}
-          itemFormatter={valueFormatter}
-        />
-      );
-    }
   }
 
   render() {

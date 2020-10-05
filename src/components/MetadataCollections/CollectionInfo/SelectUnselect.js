@@ -171,7 +171,7 @@ class SelectUnselect extends React.Component {
             { this.state.modalText }
           </div>
           <Button onClick={this.handleClose}>
-            OK
+            <FormattedMessage id="ui-finc-select.button.ok" />
           </Button>
         </Modal>
       </React.Fragment>

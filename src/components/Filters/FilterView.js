@@ -106,12 +106,6 @@ class FilterView extends React.Component {
     );
   }
 
-  getFilterFormData = (filter) => {
-    const filterFormData = filter ? _.cloneDeep(filter) : filter;
-
-    return filterFormData;
-  }
-
   render() {
     const { record, isLoading, stripes } = this.props;
 
