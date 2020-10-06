@@ -1,10 +1,13 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 const filterConfig = [
   {
     name: 'type',
     cql: 'type',
     values: [
-      { name: 'Whitelist', cql: 'Whitelist' },
-      { name: 'Blacklist', cql: 'Blacklist' }
+      { name: <FormattedMessage id="ui-finc-select.filterValue.whitelist" />, cql: 'Whitelist' },
+      { name: <FormattedMessage id="ui-finc-select.filterValue.blacklist" />, cql: 'Blacklist' }
     ],
   }
 ];
