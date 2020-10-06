@@ -1,27 +1,30 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 const filterConfig = [
   {
     name: 'selected',
     cql: 'selected',
     values: [
-      { name: 'Yes', cql: 'yes' },
-      { name: 'No', cql: 'no' }
+      { name: <FormattedMessage id="ui-finc-select.filterValue.yes" />, cql: 'yes' },
+      { name: <FormattedMessage id="ui-finc-select.filterValue.no" />, cql: 'no' }
     ],
   },
   {
     name: 'freeContent',
     cql: 'freeContent',
     values: [
-      { name: 'Yes', cql: 'yes' },
-      { name: 'No', cql: 'no' },
-      { name: 'Undetermined', cql: 'undetermined' }
+      { name: <FormattedMessage id="ui-finc-select.filterValue.yes" />, cql: 'yes' },
+      { name: <FormattedMessage id="ui-finc-select.filterValue.no" />, cql: 'no' },
+      { name: <FormattedMessage id="ui-finc-select.filterValue.undetermined" />, cql: 'undetermined' }
     ],
   },
   {
     name: 'permitted',
     cql: 'permitted',
     values: [
-      { name: 'Yes', cql: 'yes' },
-      { name: 'No', cql: 'no' }
+      { name: <FormattedMessage id="ui-finc-select.filterValue.yes" />, cql: 'yes' },
+      { name: <FormattedMessage id="ui-finc-select.filterValue.no" />, cql: 'no' }
     ],
   },
   {
