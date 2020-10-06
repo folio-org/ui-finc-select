@@ -5,12 +5,16 @@ import {
   withRouter,
   Link,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import {
+  injectIntl,
+  FormattedMessage,
+} from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
   SearchAndSortQuery,
+  SearchAndSortNoResultsMessage as NoResultsMessage,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -27,12 +31,13 @@ import urls from '../DisplayUtils/urls';
 import SourceFilters from './SourceFilters';
 import Navigation from '../Navigation/Navigation';
 
-const searchableIndexes = [
-  { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or sourceId="${term}*")` },
-  { label: 'Source Name', value: 'label', makeQuery: term => `(label="${term}*")` },
-  { label: 'Description', value: 'description', makeQuery: term => `(description="${term}*")` },
-  { label: 'Source ID', value: 'sourceId', makeQuery: term => `(sourceId="${term}*")` },
+const rawSearchableIndexes = [
+  { label: 'all', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or sourceId="${term}*")` },
+  { label: 'label', value: 'label', makeQuery: term => `(label="${term}*")` },
+  { label: 'description', value: 'description', makeQuery: term => `(description="${term}*")` },
+  { label: 'sourceId', value: 'sourceId', makeQuery: term => `(sourceId="${term}*")` },
 ];
+let searchableIndexes;
 
 const defaultFilter = { state: { status: ['active', 'implementation'] }, string: 'status.active,status.implementation' };
 const defaultSearchString = { query: '' };
@@ -42,19 +47,14 @@ class MetadataSources extends React.Component {
   static propTypes = {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
-    disableRecordCreation: PropTypes.bool,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }),
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
-    packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
-      initialFilters: PropTypes.string, // default filters
-      moduleName: PropTypes.string, // machine-readable, for HTML ids and translation keys
-      stripes: PropTypes.shape({
-        route: PropTypes.string, // base route; used to construct URLs
-      }).isRequired,
-    }),
     queryGetter: PropTypes.func,
     querySetter: PropTypes.func,
     searchString: PropTypes.string,
@@ -103,9 +103,7 @@ class MetadataSources extends React.Component {
       <RowComponent
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
+        data-label={[rowData.name]}
         key={`row-${rowIndex}`}
         role="row"
         {...rowProps}
@@ -156,10 +154,25 @@ class MetadataSources extends React.Component {
   }
 
   renderNavigation = (id) => (
-    <Navigation
-      id={id}
-    />
+    <Navigation id={id} />
   );
+
+  renderIsEmptyMessage = (query, source) => {
+    if (!source) {
+      return <FormattedMessage id="ui-finc-select.noSourceYet" />;
+    }
+
+    return (
+      <div data-test-sources-no-results-message>
+        <NoResultsMessage
+          source={source}
+          searchTerm={query.query || ''}
+          filterPaneIsVisible
+          toggleFilterPane={_.noop}
+        />
+      </div>
+    );
+  };
 
   cacheFilter(activeFilters, searchValue) {
     localStorage.setItem('fincSelectSourceFilters', JSON.stringify(activeFilters));
@@ -240,10 +253,16 @@ class MetadataSources extends React.Component {
   }
 
   render() {
-    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
+    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
     const count = source ? source.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
+
+    if (!searchableIndexes) {
+      searchableIndexes = rawSearchableIndexes.map(index => (
+        { value: index.value, label: intl.formatMessage({ id: `ui-finc-select.source.search.${index.label}` }) }
+      ));
+    }
 
     return (
       <div data-test-sources>
@@ -290,31 +309,27 @@ class MetadataSources extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('source')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.searchInputLabel">
-                            {ariaLabel => (
-                              <SearchField
-                                ariaLabel={ariaLabel}
-                                autoFocus
-                                id="sourceSearchField"
-                                inputRef={this.searchField}
-                                name="query"
-                                onChange={(e) => {
-                                  if (e.target.value) {
-                                    this.handleChangeSearch(e.target.value, getSearchHandlers());
-                                  } else {
-                                    this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
-                                  }
-                                }}
-                                onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
-                                value={searchValue.query}
-                                // add values for search-selectbox
-                                onChangeIndex={(e) => { this.onChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
-                                searchableIndexes={searchableIndexes}
-                                searchableIndexesPlaceholder={null}
-                                selectedIndex={this.state.storedSearchIndex}
-                              />
-                            )}
-                          </FormattedMessage>
+                          <SearchField
+                            ariaLabel="search"
+                            autoFocus
+                            id="sourceSearchField"
+                            inputRef={this.searchField}
+                            name="query"
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                this.handleChangeSearch(e.target.value, getSearchHandlers());
+                              } else {
+                                this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              }
+                            }}
+                            onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                            value={searchValue.query}
+                            // add values for search-selectbox
+                            onChangeIndex={(e) => { this.onChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                            searchableIndexes={searchableIndexes}
+                            searchableIndexesPlaceholder={null}
+                            selectedIndex={this.state.storedSearchIndex}
+                          />
                           <Button
                             buttonStyle="primary"
                             disabled={disableSearch()}
@@ -349,8 +364,8 @@ class MetadataSources extends React.Component {
                     firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-sourceresults"
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
                     paneSub={this.renderResultsPaneSubtitle(source)}
+                    paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
                   >
                     <MultiColumnList
                       autosize
@@ -363,15 +378,13 @@ class MetadataSources extends React.Component {
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
                       id="list-sources"
-                      isEmptyMessage="no results"
+                      isEmptyMessage={this.renderIsEmptyMessage(query, source)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize
@@ -389,4 +402,4 @@ class MetadataSources extends React.Component {
   }
 }
 
-export default withRouter(MetadataSources);
+export default injectIntl(withRouter(MetadataSources));

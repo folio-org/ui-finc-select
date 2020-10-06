@@ -35,9 +35,10 @@ export default class FileUploaderFieldView extends React.Component {
     return (
       <Row>
         <Col xs={6}>
-          <KeyValue label={<FormattedMessage id="ui-finc-select.filter.file.filename" />}>
-            {fileLabel}
-          </KeyValue>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.filter.file.name" />}
+            value={fileLabel}
+          />
         </Col>
       </Row>
     );
@@ -56,27 +57,20 @@ export default class FileUploaderFieldView extends React.Component {
     } = this.props;
 
     return (
-      <FormattedMessage id="ui-finc-select.filter.file.upload">
-        { buttonAriaLabel => (
-          <FileUploader
-            errorMessage={error}
-            footer={this.renderFileInfo()}
-            isDropZoneActive={isDropZoneActive}
-            multiple={false}
-            onDragEnter={onDragEnter}
-            onDragLeave={onDragLeave}
-            onDrop={onDrop}
-            title={<FormattedMessage id="ui-finc-select.filter.file.dragDrop" />}
-            uploadButtonAriaLabel={buttonAriaLabel}
-            uploadButtonText={<FormattedMessage id="ui-finc-select.filter.file.choose" />}
-            uploadInProgress={uploadInProgress}
-            uploadInProgressText={<FormattedMessage id="ui-finc-select.filter.file.upload" />}
-            {...rest}
-          >
-            {/* <FormattedMessage id="maxFileSize" /> */}
-          </FileUploader>
-        )}
-      </FormattedMessage>
+      <FileUploader
+        errorMessage={error}
+        footer={this.renderFileInfo()}
+        isDropZoneActive={isDropZoneActive}
+        multiple={false}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        title={<FormattedMessage id="ui-finc-select.filter.file.dragDrop" />}
+        uploadButtonText={<FormattedMessage id="ui-finc-select.filter.file.choose" />}
+        uploadInProgress={uploadInProgress}
+        uploadInProgressText={<FormattedMessage id="ui-finc-select.filter.file.upload" />}
+        {...rest}
+      />
     );
   }
 }

@@ -17,7 +17,6 @@ import {
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../../DisplayUtils/urls';
-
 import SelectAllCollections from './SelectAllCollections';
 
 class SourceManagementView extends React.Component {
@@ -32,14 +31,13 @@ class SourceManagementView extends React.Component {
 
   static propTypes = {
     metadataSource: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }),
-    id: PropTypes.string,
     resources: PropTypes.shape({
       org: PropTypes.object,
       failed: PropTypes.object,
     }).isRequired,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }),
   };
 
   constructor(props) {
@@ -49,7 +47,7 @@ class SourceManagementView extends React.Component {
   }
 
   render() {
-    const { metadataSource, stripes, id } = this.props;
+    const { metadataSource, stripes } = this.props;
     const sourceId = _.get(metadataSource, 'id', '-');
     const organization = _.get(this.props.metadataSource, 'organization', <NoValue />);
 
@@ -63,10 +61,7 @@ class SourceManagementView extends React.Component {
     } else {
       orgValue = (
         <React.Fragment>
-          <Link to={{
-            pathname: `${urls.organizationView(organization.id)}`,
-          }}
-          >
+          <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
             {organization.name}
           </Link>
         </React.Fragment>
@@ -75,56 +70,52 @@ class SourceManagementView extends React.Component {
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <Col xs={6}>
-              <Button
-                buttonStyle="primary"
-                id="showSelectedCollections"
-                to={urls.showSelectedCollections(sourceId)}
-              >
-                <FormattedMessage id="ui-finc-select.source.button.showselectedCollections" />
-              </Button>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs={6}>
-              <this.connectedSelectAllCollections
-                stripes={stripes}
-                sourceId={sourceId}
-              />
-            </Col>
-            <Col xs={6}>
-              {/* showAllCollections as button */}
-              <Button
-                buttonStyle="primary"
-                id="showAllCollections"
-                to={urls.showAllCollections(sourceId)}
-              >
-                <FormattedMessage id="ui-finc-select.source.button.showAllCollections" />
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.organization" />}
-              value={orgValue}
+        <Row>
+          <Col xs={6}>
+            <Button
+              buttonStyle="primary"
+              id="showSelectedCollections"
+              to={urls.showSelectedCollections(sourceId)}
+            >
+              <FormattedMessage id="ui-finc-select.source.button.showselectedCollections" />
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <this.connectedSelectAllCollections
+              sourceId={sourceId}
+              stripes={stripes}
             />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.indexingLevel" />}
-              value={_.get(metadataSource, 'indexingLevel', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.source.generalNotes" />}
-              value={_.get(metadataSource, 'generalNotes', <NoValue />)}
-            />
-          </Row>
-        </div>
+          </Col>
+          <Col xs={6}>
+            <Button
+              buttonStyle="primary"
+              id="showAllCollections"
+              to={urls.showAllCollections(sourceId)}
+            >
+              <FormattedMessage id="ui-finc-select.source.button.showAllCollections" />
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.organization" />}
+            value={orgValue}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.indexingLevel" />}
+            value={_.get(metadataSource, 'indexingLevel', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.source.generalNotes" />}
+            value={_.get(metadataSource, 'generalNotes', <NoValue />)}
+          />
+        </Row>
       </React.Fragment>
     );
   }

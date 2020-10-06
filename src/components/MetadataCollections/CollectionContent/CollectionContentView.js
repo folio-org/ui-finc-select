@@ -12,28 +12,25 @@ import {
 class CollectionContentView extends React.Component {
   static propTypes = {
     metadataCollection: PropTypes.object,
-    id: PropTypes.string,
   };
 
   render() {
-    const { metadataCollection, id } = this.props;
+    const { metadataCollection } = this.props;
 
     return (
       <React.Fragment>
-        <div id={id}>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.description" />}
-              value={_.get(metadataCollection, 'description', <NoValue />)}
-            />
-          </Row>
-          <Row>
-            <KeyValue
-              label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
-              value={_.upperFirst(_.get(metadataCollection, 'freeContent', <NoValue />))}
-            />
-          </Row>
-        </div>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.description" />}
+            value={_.get(metadataCollection, 'description', <NoValue />)}
+          />
+        </Row>
+        <Row>
+          <KeyValue
+            label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
+            value={_.upperFirst(_.get(metadataCollection, 'freeContent', <NoValue />))}
+          />
+        </Row>
       </React.Fragment>
     );
   }

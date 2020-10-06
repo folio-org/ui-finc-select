@@ -1,5 +1,5 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -24,10 +24,12 @@ class MetadataSourceView extends React.Component {
   static propTypes = {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
-      onEdit: PropTypes.func,
     }).isRequired,
+    isLoading: PropTypes.bool,
     record: PropTypes.object,
-    stripes: PropTypes.object,
+    stripes: PropTypes.shape({
+      connect: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -79,9 +81,11 @@ class MetadataSourceView extends React.Component {
   }
 
   render() {
-    const { record } = this.props;
+    const { record, isLoading } = this.props;
     const label = _.get(record, 'label', <NoValue />);
     const organizationId = _.get(record, 'organization.id', '');
+
+    if (isLoading) return this.renderLoadingPane();
 
     return (
       <React.Fragment>
@@ -113,23 +117,23 @@ class MetadataSourceView extends React.Component {
               </Col>
             </Row>
             <Accordion
-              open={this.state.accordions.managementAccordion}
-              onToggle={this.handleAccordionToggle}
-              label={<FormattedMessage id="ui-finc-select.source.accordion.management" />}
               id="managementAccordion"
+              label={<FormattedMessage id="ui-finc-select.source.accordion.management" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.managementAccordion}
             >
               <SourceManagementView
                 id="sourceManagement"
                 metadataSource={record}
-                stripes={this.props.stripes}
                 organizationId={organizationId}
+                stripes={this.props.stripes}
               />
             </Accordion>
             <Accordion
+              id="technicalAccordion"
+              label={<FormattedMessage id="ui-finc-select.source.accordion.technical" />}
               open={this.state.accordions.technicalAccordion}
               onToggle={this.handleAccordionToggle}
-              label={<FormattedMessage id="ui-finc-select.source.accordion.technical" />}
-              id="technicalAccordion"
             >
               <SourceTechnicalView
                 id="sourceTechnical"

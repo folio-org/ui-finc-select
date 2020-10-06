@@ -1,6 +1,5 @@
 const filterConfig = [
   {
-    label: 'Type',
     name: 'type',
     cql: 'type',
     values: [

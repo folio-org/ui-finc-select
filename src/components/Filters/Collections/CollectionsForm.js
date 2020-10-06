@@ -10,7 +10,6 @@ import FindCollections from './FindCollections/FindCollections';
 
 class CollectionsForm extends React.Component {
   static propTypes = {
-    stripes: stripesShape.isRequired,
     collectionIds: PropTypes.arrayOf(PropTypes.object),
     filterData: PropTypes.shape({
       mdSources: PropTypes.array,
@@ -21,6 +20,7 @@ class CollectionsForm extends React.Component {
         setCollection: PropTypes.func,
       })
     }),
+    stripes: stripesShape.isRequired,
   };
 
   setCollection = records => {
@@ -40,12 +40,11 @@ class CollectionsForm extends React.Component {
         <div>
           {/* Plugin has to be inside of Field, otherwise pristine is not working */}
           <FieldArray
+            collectionIds={this.props.collectionIds}
             component={FindCollections}
-            name="collectionIds"
             filterId={this.props.filterId}
             isEditable
-            collectionIds={this.props.collectionIds}
-            stripes={this.props.stripes}
+            name="collectionIds"
             {...this.props}
           />
         </div>

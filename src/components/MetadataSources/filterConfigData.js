@@ -1,6 +1,5 @@
 const filterConfig = [
   {
-    label: 'Implementation Status',
     name: 'status',
     cql: 'status',
     values: [
@@ -12,7 +11,6 @@ const filterConfig = [
     ],
   },
   {
-    label: 'Selected',
     name: 'selected',
     cql: 'selected',
     values: [

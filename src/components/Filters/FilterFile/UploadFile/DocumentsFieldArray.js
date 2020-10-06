@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
@@ -11,20 +11,17 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import {
+  EditCard,
+  withKiwtFieldArray,
+} from '@folio/stripes-erm-components';
 
-import EditCard from './EditCard';
 import FileUploaderField from './FileUploaderField';
-import withKiwtFieldArray from './withKiwtFieldArray';
+import Required from '../../../DisplayUtils/Validate';
 
 class DocumentsFieldArray extends React.Component {
   static propTypes = {
     addDocBtnLabel: PropTypes.node,
-    fields: PropTypes.shape({
-      insert: PropTypes.func.isRequired,
-      name: PropTypes.string.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }).isRequired,
     isEmptyMessage: PropTypes.node,
     items: PropTypes.arrayOf(PropTypes.object),
     name: PropTypes.string.isRequired,
@@ -39,10 +36,6 @@ class DocumentsFieldArray extends React.Component {
     isEmptyMessage: <FormattedMessage id="ui-finc-select.filter.file.empty" />,
   }
 
-  validateRequired = (value) => (
-    !value ? <FormattedMessage id="ui-finc-select.filter.form.missingRequiredField" /> : undefined
-  )
-
   renderFileUpload = (doc, onUploadFile, onDownloadFile, name, i) => {
     if (_.isEmpty(doc.fileId)) {
       return (
@@ -56,12 +49,11 @@ class DocumentsFieldArray extends React.Component {
                     data-test-filter-file-card-fileid
                     fileLabel={doc.label}
                     id={`filter-file-card-fileId-${i}`}
-                    label={<FormattedMessage id="doc.fileId" />}
                     name={`${name}[${i}].fileId`}
                     onDownloadFile={onDownloadFile}
                     onUploadFile={onUploadFile}
                     required
-                    validate={this.validateRequired}
+                    validate={Required}
                   />
                 </Col>
               </Row>
@@ -70,23 +62,11 @@ class DocumentsFieldArray extends React.Component {
         </React.Fragment>
       );
     } else {
-      const fileConnectedText = `The filter file ${doc.label} is connected.`;
+      const filename = doc.label;
+      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
       return (
         <React.Fragment>
           {fileConnectedText}
-          {/* delete-Button */}
-          {/* <Button
-            buttonStyle="link slim"
-            style={{ margin: 0, padding: 0 }}
-            onClick={e => {
-              e.stopPropagation();
-              onDeleteField(i, doc);
-              // onMarkforDeletion(doc); // need this and additionaly need to remove the file-FK in the filters table
-              // onReplaceField(i, doc);
-            }}
-          >
-            <Icon icon="trash" />
-          </Button> */}
         </React.Fragment>
       );
     }
@@ -103,8 +83,8 @@ class DocumentsFieldArray extends React.Component {
 
     return items.map((doc, i) => (
       <EditCard
-        deletebuttonarialabel={`delete filter file ${name}`}
         data-test-filter-file
+        deletebuttonarialabel={`delete filter file ${name}`}
         deleteBtnProps={{
           'id': `${name}-delete-${i}`,
           'data-test-delete-filter-file-button': true
@@ -125,7 +105,7 @@ class DocumentsFieldArray extends React.Component {
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
                   name={`${name}[${i}].label`}
                   required
-                  validate={this.validateRequired}
+                  validate={Required}
                 />
               </Col>
             </Row>

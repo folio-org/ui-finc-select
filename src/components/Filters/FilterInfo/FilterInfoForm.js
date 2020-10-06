@@ -8,25 +8,22 @@ import {
   Col,
   Row,
   Select,
-  TextField
+  TextField,
 } from '@folio/stripes/components';
 
-import { Required } from '../../DisplayUtils/Validate';
+import Required from '../../DisplayUtils/Validate';
+import typeOptions from '../../DataOptions/type';
 
 class FilterInfoForm extends React.Component {
   render() {
     const { expanded, onToggle, accordionId } = this.props;
-    const dataType = [
-      { value: 'Whitelist', label: 'Whitelist' },
-      { value: 'Blacklist', label: 'Blacklist' }
-    ];
 
     return (
       <Accordion
         id={accordionId}
         label={<FormattedMessage id="ui-finc-select.filter.generalAccordion" />}
-        open={expanded}
         onToggle={onToggle}
+        open={expanded}
       >
         <Row>
           <Col xs={8}>
@@ -46,7 +43,7 @@ class FilterInfoForm extends React.Component {
           <Col xs={8}>
             <Field
               component={Select}
-              dataOptions={dataType}
+              dataOptions={typeOptions}
               fullWidth
               id="addfilter_type"
               label={<FormattedMessage id="ui-finc-select.filter.type" />}

@@ -6,7 +6,7 @@ import {
   Button,
   Col,
   Modal,
-  Row
+  Row,
 } from '@folio/stripes/components';
 
 class SelectAllCollections extends React.Component {
@@ -24,9 +24,6 @@ class SelectAllCollections extends React.Component {
   static propTypes = {
     sourceId: PropTypes.string.isRequired,
     stripes: PropTypes.object,
-    mutator: PropTypes.shape({
-      selectAll: PropTypes.object,
-    }),
   };
 
   constructor(props) {
@@ -88,8 +85,8 @@ class SelectAllCollections extends React.Component {
         <Row>
           <Col xs={6}>
             <Button
-              id="selectAllCollections"
               buttonStyle="primary"
+              id="selectAllCollections"
               onClick={() => this.selectAllCollections(sourceId)}
             >
               <FormattedMessage id="ui-finc-select.source.button.selectAllCollections" />
@@ -97,20 +94,19 @@ class SelectAllCollections extends React.Component {
           </Col>
         </Row>
         <Modal
+          label={<FormattedMessage id="ui-finc-select.source.button.selectAllCollections" />}
           open={this.state.showInfoModal}
-          label="Select All Collections"
         >
           <div>
             { this.state.modalText }
           </div>
-          <Button
-            onClick={this.handleClose}
-          >
-            OK
+          <Button onClick={this.handleClose}>
+            <FormattedMessage id="ui-finc-select.button.ok" />
           </Button>
         </Modal>
       </div>
     );
   }
 }
+
 export default SelectAllCollections;

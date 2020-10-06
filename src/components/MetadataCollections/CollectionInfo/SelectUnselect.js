@@ -7,14 +7,14 @@ import {
   Col,
   Button,
   KeyValue,
-  Modal
+  Modal,
 } from '@folio/stripes/components';
 
 class SelectUnselect extends React.Component {
   static propTypes = {
     collectionId: PropTypes.string,
-    selectedInitial: PropTypes.string,
     permitted: PropTypes.string,
+    selectedInitial: PropTypes.string,
     stripes: PropTypes.object,
   };
 
@@ -155,25 +155,23 @@ class SelectUnselect extends React.Component {
         </Col>
         <Col xs={3}>
           <Button
-            id="unselect"
             buttonStyle="primary"
-            onClick={() => this.selectUnselect(collectionId, this.state.selected)}
             disabled={this.isUsagePermitted(permitted)}
+            id="unselect"
+            onClick={() => this.selectUnselect(collectionId, this.state.selected)}
           >
             {this.state.selectedLabel}
           </Button>
         </Col>
         <Modal
-          open={this.state.showInfoModal}
           label="Select/Unselect Collection"
+          open={this.state.showInfoModal}
         >
           <div>
             { this.state.modalText }
           </div>
-          <Button
-            onClick={this.handleClose}
-          >
-            OK
+          <Button onClick={this.handleClose}>
+            <FormattedMessage id="ui-finc-select.button.ok" />
           </Button>
         </Modal>
       </React.Fragment>

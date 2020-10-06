@@ -9,13 +9,13 @@ import DocumentsFieldArray from './UploadFile/DocumentsFieldArray';
 
 class FilterFileForm extends React.Component {
   static propTypes = {
+    onToggle: PropTypes.func,
     stripes: PropTypes.shape({
       okapi: PropTypes.shape({
         tenant: PropTypes.string.isRequired,
         token: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
-    onToggle: PropTypes.func,
   };
 
   handleUploadFile = (file) => {
@@ -60,8 +60,8 @@ class FilterFileForm extends React.Component {
       <Accordion
         id={accordionId}
         label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
-        open={expanded}
         onToggle={onToggle}
+        open={expanded}
       >
         <FieldArray
           addDocBtnLabel={<FormattedMessage id="ui-finc-select.filter.file.addFile" />}

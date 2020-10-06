@@ -24,8 +24,7 @@ import CollectionTechnicalView from './CollectionTechnical/CollectionTechnicalVi
 class CollectionViewRoute extends React.Component {
   static propTypes = {
     handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-      onEdit: PropTypes.func,
+      onClose: PropTypes.func.isRequired
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,

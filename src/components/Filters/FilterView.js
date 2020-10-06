@@ -1,5 +1,5 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
@@ -14,10 +14,9 @@ import {
   NoValue,
   Pane,
   PaneMenu,
-  Row
+  Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
-import { IfPermission } from '@folio/stripes/core';
 
 import FilterInfoView from './FilterInfo/FilterInfoView';
 import FilterFileView from './FilterFile/FilterFileView';
@@ -25,16 +24,16 @@ import CollectionsView from './Collections/CollectionsView';
 
 class FilterView extends React.Component {
   static propTypes = {
+    canEdit: PropTypes.bool,
+    collectionIds: PropTypes.arrayOf(PropTypes.object),
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired,
       onEdit: PropTypes.func,
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
     stripes: PropTypes.shape({
       connect: PropTypes.func,
-      okapi: PropTypes.object.isRequired,
     }),
   };
 
@@ -71,23 +70,23 @@ class FilterView extends React.Component {
   }
 
   renderEditPaneMenu = () => {
-    const { handlers } = this.props;
+    const { canEdit, handlers } = this.props;
 
     return (
-      <IfPermission perm="finc-select.filters.item.put">
-        <PaneMenu>
+      <PaneMenu>
+        {canEdit && (
           <Button
-            id="clickable-edit-filter"
-            buttonStyle="primary"
-            onClick={handlers.onEdit}
-            aria-label="Edit Filter"
+            aria-label={<FormattedMessage id="ui-finc-select.edit" />}
             buttonRef={this.editButton}
+            buttonStyle="primary"
+            id="clickable-edit-filter"
             marginBottom0
+            onClick={handlers.onEdit}
           >
             <FormattedMessage id="ui-finc-select.edit" />
           </Button>
-        </PaneMenu>
-      </IfPermission>
+        )}
+      </PaneMenu>
     );
   }
 
@@ -107,12 +106,6 @@ class FilterView extends React.Component {
     );
   }
 
-  getFilterFormData = (filter) => {
-    const filterFormData = filter ? _.cloneDeep(filter) : filter;
-
-    return filterFormData;
-  }
-
   render() {
     const { record, isLoading, stripes } = this.props;
 
@@ -124,6 +117,7 @@ class FilterView extends React.Component {
     return (
       <React.Fragment>
         <Pane
+          data-test-filter-pane-details
           defaultWidth="40%"
           dismissible
           id="pane-filterdetails"
@@ -131,59 +125,56 @@ class FilterView extends React.Component {
           onClose={this.props.handlers.onClose}
           paneTitle={<span data-test-filter-header-title>{label}</span>}
         >
-          <div id="filterDetails">
-            <AccordionSet>
-              <this.connectedViewMetaData
-                metadata={_.get(record, 'metadata', {})}
-                stripes={this.props.stripes}
-              />
-              <FilterInfoView
-                id="filterInfo"
+          <AccordionSet>
+            <this.connectedViewMetaData
+              metadata={_.get(record, 'metadata', {})}
+              stripes={this.props.stripes}
+            />
+            <FilterInfoView
+              filter={record}
+              id="filterInfo"
+              stripes={stripes}
+            />
+            <Row end="xs">
+              <Col xs>
+                <ExpandAllButton
+                  accordionStatus={this.state.accordions}
+                  onToggle={this.handleExpandAll}
+                  setStatus={null}
+                />
+              </Col>
+            </Row>
+            <Accordion
+              id="fileAccordion"
+              label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.fileAccordion}
+            >
+              <FilterFileView
+                docs={docs}
                 filter={record}
+                id="filterInfo"
                 stripes={stripes}
               />
-              <Row end="xs">
-                <Col xs>
-                  <ExpandAllButton
-                    accordionStatus={this.state.accordions}
-                    onToggle={this.handleExpandAll}
-                    setStatus={null}
-                  />
-                </Col>
-              </Row>
-              <Accordion
-                id="fileAccordion"
-                label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
-                onToggle={this.handleAccordionToggle}
-                open={this.state.accordions.fileAccordion}
-              >
-                <FilterFileView
-                  id="filterInfo"
-                  filter={record}
-                  stripes={stripes}
-                  docs={docs}
-                />
-              </Accordion>
-              <Accordion
-                id="collectionAccordion"
-                label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
-                onToggle={this.handleAccordionToggle}
-                open={this.state.accordions.collectionAccordion}
-              >
-                <CollectionsView
-                  id="collections"
-                  filter={record}
-                  collectionIds={this.props.collectionIds}
-                  stripes={stripes}
-                />
-              </Accordion>
-            </AccordionSet>
-          </div>
+            </Accordion>
+            <Accordion
+              id="collectionAccordion"
+              label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
+              onToggle={this.handleAccordionToggle}
+              open={this.state.accordions.collectionAccordion}
+            >
+              <CollectionsView
+                collectionIds={this.props.collectionIds}
+                filter={record}
+                id="collections"
+                stripes={stripes}
+              />
+            </Accordion>
+          </AccordionSet>
         </Pane>
       </React.Fragment>
     );
   }
 }
-
 
 export default FilterView;

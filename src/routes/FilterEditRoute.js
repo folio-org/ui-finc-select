@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { stripesConnect } from '@folio/stripes/core';
 
@@ -28,7 +29,6 @@ class FilterEditRoute extends React.Component {
   });
 
   static propTypes = {
-    handlers: PropTypes.object,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -56,8 +56,12 @@ class FilterEditRoute extends React.Component {
     }).isRequired,
   }
 
-  static defaultProps = {
-    handlers: {},
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hasPerms: props.stripes.hasPerm('finc-select.filters.item.put')
+    };
   }
 
   getInitialValues = () => {
@@ -102,23 +106,19 @@ class FilterEditRoute extends React.Component {
   }
 
   render() {
-    const { handlers, resources, stripes } = this.props;
+    const { resources, stripes } = this.props;
     const collectionIds = _.get(this.props.resources, 'collectionsIds.records', []);
 
+    if (!this.state.hasPerms) return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
     if (this.fetchIsPending()) return 'loading';
 
     return (
       <FilterForm
-        contentData={resources}
-        handlers={{
-          ...handlers,
-          onClose: this.handleClose,
-        }}
-        filterData={{
-          mdSources: _.get(this.props.resources, 'mdSources.records', []),
-        }}
-        initialValues={this.getInitialValues()}
         collectionIds={collectionIds}
+        contentData={resources}
+        filterData={{ mdSources: _.get(this.props.resources, 'mdSources.records', []) }}
+        handlers={{ onClose: this.handleClose }}
+        initialValues={this.getInitialValues()}
         isLoading={this.fetchIsPending()}
         onDelete={this.deleteFilter}
         onSubmit={this.handleSubmit}

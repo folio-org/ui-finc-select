@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy } from 'lodash';
 
 import {
   withStripes,
-  IntlConsumer
+  IntlConsumer,
 } from '@folio/stripes/core';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
@@ -47,7 +46,6 @@ class FileUploaderField extends React.Component {
   processError(resp, intl) {
     const contentType = resp.headers ? resp.headers.get('Content-Type') : '';
 
-    // if (contentType.startsWith('application/octet-stream')) {
     if (contentType.startsWith('application/json')) {
       throw new Error(`${resp.message} (${resp.error})`);
     } else {
@@ -56,10 +54,6 @@ class FileUploaderField extends React.Component {
   }
 
   handleDrop = (acceptedFiles, intl) => {
-    // const {
-    //   input: { value, onChange }
-    // } = this.props;
-
     if (acceptedFiles.length !== 1) return;
 
     let mounted = true;
@@ -80,7 +74,6 @@ class FileUploaderField extends React.Component {
             if (mounted) {
               this.setState({ file: { fileId } });
             }
-            // console.log(this.state.file);
           });
         } else {
           this.processError(response, intl);
@@ -94,7 +87,6 @@ class FileUploaderField extends React.Component {
         });
       })
       .finally(() => this.setState({ uploadInProgress: false }));
-
     mounted = false;
   }
 
@@ -121,7 +113,6 @@ class FileUploaderField extends React.Component {
             onDragLeave={() => this.setState({ isDropZoneActive: false })}
             onDrop={(file) => this.handleDrop(file, intl)}
             uploadInProgress={this.state.uploadInProgress}
-            {...pickBy(this.props, (_, key) => key.startsWith('data-test-'))}
           />
         )}
       </IntlConsumer>

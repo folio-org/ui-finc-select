@@ -11,6 +11,7 @@ import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
   SearchAndSortQuery,
+  SearchAndSortNoResultsMessage as NoResultsMessage,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -23,7 +24,7 @@ import {
 } from '@folio/stripes/components';
 import {
   AppIcon,
-  IfPermission
+  IfPermission,
 } from '@folio/stripes/core';
 
 import urls from '../DisplayUtils/urls';
@@ -38,22 +39,15 @@ class Filters extends React.Component {
     children: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
     disableRecordCreation: PropTypes.bool,
+    filter: PropTypes.object,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
-    packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
-      initialFilters: PropTypes.string, // default filters
-      moduleName: PropTypes.string, // machine-readable, for HTML ids and translation keys
-      stripes: PropTypes.shape({
-        route: PropTypes.string, // base route; used to construct URLs
-      }).isRequired,
-    }),
     queryGetter: PropTypes.func,
     querySetter: PropTypes.func,
     searchString: PropTypes.string,
-    filter: PropTypes.object,
     selectedRecordId: PropTypes.string,
   };
 
@@ -92,9 +86,7 @@ class Filters extends React.Component {
       <RowComponent
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
+        data-label={[rowData.name]}
         key={`row-${rowIndex}`}
         role="row"
         {...rowProps}
@@ -172,10 +164,25 @@ class Filters extends React.Component {
   }
 
   renderNavigation = (id) => (
-    <Navigation
-      id={id}
-    />
+    <Navigation id={id} />
   );
+
+  renderIsEmptyMessage = (query, source) => {
+    if (!source) {
+      return <FormattedMessage id="ui-finc-select.noSourceYet" />;
+    }
+
+    return (
+      <div data-test-filters-no-results-message>
+        <NoResultsMessage
+          source={source}
+          searchTerm={query.query || ''}
+          filterPaneIsVisible
+          toggleFilterPane={_.noop}
+        />
+      </div>
+    );
+  };
 
   cacheFilter(activeFilters, searchValue) {
     localStorage.setItem('fincSelectFilterFilters', JSON.stringify(activeFilters));
@@ -277,26 +284,22 @@ class Filters extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('filter')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.searchInputLabel">
-                            {ariaLabel => (
-                              <SearchField
-                                ariaLabel={ariaLabel}
-                                autoFocus
-                                id="filterSearchField"
-                                inputRef={this.searchField}
-                                name="query"
-                                onChange={(e) => {
-                                  if (e.target.value) {
-                                    this.handleChangeSearch(e.target.value, getSearchHandlers());
-                                  } else {
-                                    this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
-                                  }
-                                }}
-                                onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
-                                value={searchValue.query}
-                              />
-                            )}
-                          </FormattedMessage>
+                          <SearchField
+                            ariaLabel="search"
+                            autoFocus
+                            id="filterSearchField"
+                            inputRef={this.searchField}
+                            name="query"
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                this.handleChangeSearch(e.target.value, getSearchHandlers());
+                              } else {
+                                this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              }
+                            }}
+                            onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                            value={searchValue.query}
+                          />
                           <Button
                             buttonStyle="primary"
                             disabled={disableSearch()}
@@ -345,15 +348,13 @@ class Filters extends React.Component {
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
                       id="list-filters"
-                      isEmptyMessage="no results"
+                      isEmptyMessage={this.renderIsEmptyMessage(query, filter)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize

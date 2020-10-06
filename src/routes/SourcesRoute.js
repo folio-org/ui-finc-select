@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryFunction,
-  StripesConnectedSource
+  StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
 import urls from '../components/DisplayUtils/urls';
@@ -50,7 +50,6 @@ class SourcesRoute extends React.Component {
       push: PropTypes.func.isRequired,
     }).isRequired,
     location: PropTypes.shape({
-      pathname: PropTypes.string,
       search: PropTypes.string,
     }).isRequired,
     match: PropTypes.shape({
@@ -117,8 +116,6 @@ class SourcesRoute extends React.Component {
 
   // add update if search-selectbox is changing
   onChangeIndex = (qindex) => {
-    // const qindex = e.target.value;
-
     this.props.mutator.query.update({ qindex });
   }
 

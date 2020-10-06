@@ -29,6 +29,9 @@ import BasicStyle from '../BasicStyle.css';
 class FilterForm extends React.Component {
   static propTypes = {
     collectionIds: PropTypes.arrayOf(PropTypes.object),
+    filterData: PropTypes.shape({
+      mdSources: PropTypes.array,
+    }),
     handlers: PropTypes.PropTypes.shape({
       onClose: PropTypes.func.isRequired,
     }),
@@ -36,17 +39,9 @@ class FilterForm extends React.Component {
     initialValues: PropTypes.object,
     invalid: PropTypes.bool,
     isLoading: PropTypes.bool,
-    onCancel: PropTypes.func,
     onDelete: PropTypes.func,
-    onSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    stripes: PropTypes.shape({
-      okapi: PropTypes.object,
-    }),
-    filterData: PropTypes.shape({
-      mdSources: PropTypes.array,
-    }),
   };
 
   static defaultProps = {
@@ -137,10 +132,10 @@ class FilterForm extends React.Component {
 
     const startButton = (
       <Button
-        data-test-filter-form-cancel-button
-        marginBottom0
-        id="clickable-close-filter-form"
         buttonStyle="default mega"
+        data-test-filter-form-cancel-button
+        id="clickable-close-filter-form"
+        marginBottom0
         onClick={onClose}
       >
         <FormattedMessage id="ui-finc-select.form.cancel" />
@@ -149,13 +144,13 @@ class FilterForm extends React.Component {
 
     const endButton = (
       <Button
-        data-test-filter-form-submit-button
-        marginBottom0
-        id="clickable-savefilter"
         buttonStyle="primary mega"
-        type="submit"
-        onClick={handleSubmit}
+        data-test-filter-form-submit-button
         disabled={disabled}
+        id="clickable-savefilter"
+        marginBottom0
+        onClick={handleSubmit}
+        type="submit"
       >
         <FormattedMessage id="ui-finc-select.form.saveAndClose" />
       </Button>
@@ -189,6 +184,7 @@ class FilterForm extends React.Component {
     const firstMenu = this.getFirstMenu();
     const lastMenu = this.getLastMenu();
     const footer = this.getPaneFooter();
+    const name = initialValues.label;
 
     if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
 
@@ -211,8 +207,8 @@ class FilterForm extends React.Component {
                 <Row end="xs">
                   <Col xs>
                     <ExpandAllButton
-                      id="clickable-expand-all"
                       accordionStatus={sections}
+                      id="clickable-expand-all"
                       onToggle={this.handleExpandAll}
                       setStatus={null}
                     />
@@ -236,18 +232,21 @@ class FilterForm extends React.Component {
                 />
                 <CollectionsForm
                   accordionId="editCollections"
-                  expanded={sections.editCollections}
-                  onToggle={this.handleSectionToggle}
                   collectionIds={this.props.collectionIds}
+                  expanded={sections.editCollections}
                   filterData={this.props.filterData}
                   filterId={initialValues.id}
+                  onToggle={this.handleSectionToggle}
                   {...this.props}
                 />
               </AccordionSet>
               <ConfirmationModal
                 heading={<FormattedMessage id="ui-finc-select.form.delete" />}
                 id="delete-filter-confirmation"
-                message={`Do you really want to delete ${initialValues.label}?`}
+                message={<FormattedMessage
+                  id="ui-finc-select.form.delete.confirm.message"
+                  values={{ name }}
+                />}
                 onCancel={() => { this.confirmDelete(false); }}
                 onConfirm={() => this.props.onDelete()}
                 open={confirmDelete}

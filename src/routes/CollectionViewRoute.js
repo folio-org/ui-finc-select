@@ -18,7 +18,6 @@ class CollectionViewRoute extends React.Component {
   });
 
   static propTypes = {
-    handlers: PropTypes.object,
     history: ReactRouterPropTypes.history.isRequired,
     location: ReactRouterPropTypes.location.isRequired,
     match: PropTypes.shape({
@@ -52,15 +51,11 @@ class CollectionViewRoute extends React.Component {
   }
 
   render() {
-    const { handlers, stripes } = this.props;
+    const { stripes } = this.props;
 
     return (
       <MetadataCollectionView
-        handlers={{
-          ...handlers,
-          onClose: this.handleClose,
-          onEdit: this.handleEdit,
-        }}
+        handlers={{ onClose: this.handleClose }}
         isLoading={_.get(this.props.resources, 'collection.isPending', true)}
         record={_.get(this.props.resources, 'collection.records', []).find(i => i.id === this.props.match.params.id)}
         stripes={stripes}

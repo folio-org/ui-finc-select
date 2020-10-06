@@ -5,12 +5,16 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import {
+  injectIntl,
+  FormattedMessage,
+} from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
   ExpandFilterPaneButton,
   SearchAndSortQuery,
+  SearchAndSortNoResultsMessage as NoResultsMessage,
 } from '@folio/stripes/smart-components';
 import {
   Button,
@@ -28,12 +32,14 @@ import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
 import Navigation from '../Navigation/Navigation';
 
-const searchableIndexes = [
-  { label: 'All', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
-  { label: 'Collection Name', value: 'label', makeQuery: term => `(label="${term}*")` },
-  { label: 'Description', value: 'description', makeQuery: term => `(description="${term}*")` },
-  { label: 'Collection ID', value: 'collectionId', makeQuery: term => `(collectionId="${term}*")` },
+const rawSearchableIndexes = [
+  { label: 'all', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
+  { label: 'label', value: 'label', makeQuery: term => `(label="${term}*")` },
+  { label: 'description', value: 'description', makeQuery: term => `(description="${term}*")` },
+  { label: 'collectionId', value: 'collectionId', makeQuery: term => `(collectionId="${term}*")` },
 ];
+let searchableIndexes;
+
 const defaultFilter = { state: { permitted: ['yes'], selected: ['yes'] }, string: 'permitted.yes,selected.yes' };
 const defaultSearchString = { query: '' };
 const defaultSearchIndex = '';
@@ -43,22 +49,17 @@ class MetadataCollections extends React.Component {
     children: PropTypes.object,
     collection: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
-    disableRecordCreation: PropTypes.bool,
     filterData: PropTypes.shape({
       mdSources: PropTypes.array,
     }),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }),
     onNeedMoreData: PropTypes.func,
     onSelectRow: PropTypes.func,
-    packageInfo: PropTypes.shape({ // values pulled from the provider's package.json config object
-      initialFilters: PropTypes.string, // default filters
-      moduleName: PropTypes.string, // machine-readable, for HTML ids and translation keys
-      stripes: PropTypes.shape({
-        route: PropTypes.string, // base route; used to construct URLs
-      }).isRequired,
-    }),
     queryGetter: PropTypes.func,
     querySetter: PropTypes.func,
     searchString: PropTypes.string,
@@ -110,9 +111,7 @@ class MetadataCollections extends React.Component {
       <RowComponent
         aria-rowindex={rowIndex + 2}
         className={rowClass}
-        data-label={[
-          rowData.name,
-        ]}
+        data-label={[rowData.name]}
         key={`row-${rowIndex}`}
         role="row"
         {...rowProps}
@@ -163,10 +162,25 @@ class MetadataCollections extends React.Component {
   }
 
   renderNavigation = (id) => (
-    <Navigation
-      id={id}
-    />
+    <Navigation id={id} />
   );
+
+  renderIsEmptyMessage = (query, source) => {
+    if (!source) {
+      return <FormattedMessage id="ui-finc-select.noSourceYet" />;
+    }
+
+    return (
+      <div data-test-collections-no-results-message>
+        <NoResultsMessage
+          source={source}
+          searchTerm={query.query || ''}
+          filterPaneIsVisible
+          toggleFilterPane={_.noop}
+        />
+      </div>
+    );
+  };
 
   cacheFilter(activeFilters, searchValue) {
     localStorage.setItem('fincSelectCollectionFilters', JSON.stringify(activeFilters));
@@ -247,10 +261,16 @@ class MetadataCollections extends React.Component {
   }
 
   render() {
-    const { queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
+    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
     const count = collection ? collection.totalCount() : 0;
     const query = queryGetter() || {};
     const sortOrder = query.sort || '';
+
+    if (!searchableIndexes) {
+      searchableIndexes = rawSearchableIndexes.map(index => (
+        { value: index.value, label: intl.formatMessage({ id: `ui-finc-select.collection.search.${index.label}` }) }
+      ));
+    }
 
     return (
       <div data-test-collections>
@@ -297,31 +317,27 @@ class MetadataCollections extends React.Component {
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('collection')}
                         <div>
-                          <FormattedMessage id="ui-finc-select.searchInputLabel">
-                            {ariaLabel => (
-                              <SearchField
-                                ariaLabel={ariaLabel}
-                                autoFocus
-                                id="collectionSearchField"
-                                inputRef={this.searchField}
-                                name="query"
-                                onChange={(e) => {
-                                  if (e.target.value) {
-                                    this.handleChangeSearch(e.target.value, getSearchHandlers());
-                                  } else {
-                                    this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
-                                  }
-                                }}
-                                onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
-                                value={searchValue.query}
-                                // add values for search-selectbox
-                                onChangeIndex={(e) => { this.onChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
-                                searchableIndexes={searchableIndexes}
-                                searchableIndexesPlaceholder={null}
-                                selectedIndex={this.state.storedSearchIndex}
-                              />
-                            )}
-                          </FormattedMessage>
+                          <SearchField
+                            ariaLabel="search"
+                            autoFocus
+                            id="collectionSearchField"
+                            inputRef={this.searchField}
+                            name="query"
+                            onChange={(e) => {
+                              if (e.target.value) {
+                                this.handleChangeSearch(e.target.value, getSearchHandlers());
+                              } else {
+                                this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              }
+                            }}
+                            onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                            value={searchValue.query}
+                            // add values for search-selectbox
+                            onChangeIndex={(e) => { this.onChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                            searchableIndexes={searchableIndexes}
+                            searchableIndexesPlaceholder={null}
+                            selectedIndex={this.state.storedSearchIndex}
+                          />
                           <Button
                             buttonStyle="primary"
                             disabled={disableSearch()}
@@ -372,15 +388,13 @@ class MetadataCollections extends React.Component {
                       contentData={this.props.contentData}
                       formatter={this.resultsFormatter}
                       id="list-collections"
-                      isEmptyMessage="no results"
+                      isEmptyMessage={this.renderIsEmptyMessage(query, collection)}
                       isSelected={({ item }) => item.id === selectedRecordId}
                       onHeaderClick={onSort}
                       onNeedMoreData={onNeedMoreData}
                       onRowClick={onSelectRow}
                       rowFormatter={this.rowFormatter}
-                      sortDirection={
-                        sortOrder.startsWith('-') ? 'descending' : 'ascending'
-                      }
+                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
                       sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
                       totalCount={count}
                       virtualize
@@ -398,4 +412,4 @@ class MetadataCollections extends React.Component {
   }
 }
 
-export default withRouter(MetadataCollections);
+export default injectIntl(withRouter(MetadataCollections));
