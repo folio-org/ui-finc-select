@@ -39,12 +39,8 @@ class CollectionInfoView extends React.Component {
   render() {
     const { metadataCollection, stripes } = this.props;
     const collectionId = _.get(metadataCollection, 'id', '-');
-    // const permitted = _.get(metadataCollection, 'permitted', '-');
     const selectedInitial = _.get(metadataCollection, 'selected');
-
     const permittedLabel = this.getDataLable('permitted');
-    // const selectedInitialLabel = this.getDataLable('selected');
-
 
     // get id and name of the source out of the fields, saved in the current collection
     const sourceId = _.get(metadataCollection, 'mdSource.id', <NoValue />);
