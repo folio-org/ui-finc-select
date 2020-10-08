@@ -54,6 +54,9 @@
 
   "collection.button.select": "Select",
   "collection.button.unselect": "Unselect",
+  "collection.modal.selectCollection.label": "Select/Unselect Collection",
+  "collection.modal.selectCollection.error.400": "Error 4xx: Selecting this metadata collection is not permitted.",
+  "collection.modal.selectCollection.error.300": "Error 3xx: Selecting this metadata collection is not possible.",
 
   "sources.title": "Metadata sources",
   "source.description": "Description",

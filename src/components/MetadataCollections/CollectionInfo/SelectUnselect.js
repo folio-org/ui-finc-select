@@ -62,7 +62,6 @@ class SelectUnselect extends React.Component {
     // change state for selected-values, if neccessary
     this.setState(
       {
-        // shortcut for selected: selected,
         selected,
         selectedLabel: selectedButtonLable
       }
@@ -115,7 +114,7 @@ class SelectUnselect extends React.Component {
           this.setState(
             {
               showInfoModal: true,
-              modalText: 'Error 4xx: Selecting this metadata collection is not permitted'
+              modalText: <FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.400" />
             }
           );
         } else if (response.status < 400 && response.status >= 300) {
@@ -123,7 +122,7 @@ class SelectUnselect extends React.Component {
           this.setState(
             {
               showInfoModal: true,
-              modalText: 'Error 3xx'
+              modalText: <FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.300" />
             }
           );
         } else if (response.status < 300 && response.status >= 200) {
@@ -177,7 +176,7 @@ class SelectUnselect extends React.Component {
           </Button>
         </Col>
         <Modal
-          label="Select/Unselect Collection"
+          label={<FormattedMessage id="ui-finc-select.collection.modal.selectCollection.label" />}
           open={this.state.showInfoModal}
         >
           <div>
