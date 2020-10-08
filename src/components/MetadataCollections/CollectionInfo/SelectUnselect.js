@@ -145,7 +145,7 @@ class SelectUnselect extends React.Component {
     if (this.state.selected !== undefined) {
       const fieldValue = this.state.selected;
       if (fieldValue !== '') {
-        return <FormattedMessage id={`ui-finc-config.dataOption.${fieldValue}`} />;
+        return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
       } else {
         return <NoValue />;
       }
