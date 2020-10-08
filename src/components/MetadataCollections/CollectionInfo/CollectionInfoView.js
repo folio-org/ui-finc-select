@@ -27,11 +27,24 @@ class CollectionInfoView extends React.Component {
     this.connectedSelectUnselect = this.props.stripes.connect(SelectUnselect);
   }
 
+  getDataLable(field) {
+    const fieldValue = _.get(this.props.metadataCollection, field, '');
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
+
   render() {
     const { metadataCollection, stripes } = this.props;
     const collectionId = _.get(metadataCollection, 'id', '-');
-    const permitted = _.get(metadataCollection, 'permitted', '-');
+    // const permitted = _.get(metadataCollection, 'permitted', '-');
     const selectedInitial = _.get(metadataCollection, 'selected');
+
+    const permittedLabel = this.getDataLable('permitted');
+    // const selectedInitialLabel = this.getDataLable('selected');
+
 
     // get id and name of the source out of the fields, saved in the current collection
     const sourceId = _.get(metadataCollection, 'mdSource.id', <NoValue />);
@@ -62,13 +75,13 @@ class CollectionInfoView extends React.Component {
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.permitted" />}
-            value={_.upperFirst(permitted)}
+            value={permittedLabel}
           />
         </Row>
         <Row>
           <this.connectedSelectUnselect
             collectionId={collectionId}
-            permitted={permitted}
+            permitted={permittedLabel}
             selectedInitial={selectedInitial}
             stripes={stripes}
           />

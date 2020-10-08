@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -7,13 +6,14 @@ import {
   Col,
   Button,
   KeyValue,
+  NoValue,
   Modal,
 } from '@folio/stripes/components';
 
 class SelectUnselect extends React.Component {
   static propTypes = {
     collectionId: PropTypes.string,
-    permitted: PropTypes.string,
+    permitted: PropTypes.object,
     selectedInitial: PropTypes.string,
     stripes: PropTypes.object,
   };
@@ -80,9 +80,9 @@ class SelectUnselect extends React.Component {
   // get button label from the saved yes or no value
   getSelectedButtonLable(selected) {
     if (selected === 'no') {
-      return 'Select';
+      return <FormattedMessage id="ui-finc-select.collection.button.select" />;
     } else {
-      return 'Unselect';
+      return <FormattedMessage id="ui-finc-select.collection.button.unselect" />;
     }
   }
 
@@ -142,15 +142,28 @@ class SelectUnselect extends React.Component {
     this.setState({ showInfoModal: false });
   }
 
+  getSelectedDataLable() {
+    if (this.state.selected !== undefined) {
+      const fieldValue = this.state.selected;
+      if (fieldValue !== '') {
+        return <FormattedMessage id={`ui-finc-config.dataOption.${fieldValue}`} />;
+      } else {
+        return <NoValue />;
+      }
+    }
+    return null;
+  }
+
   render() {
     const { collectionId, permitted } = this.props;
+    const selectedLabel = this.getSelectedDataLable();
 
     return (
       <React.Fragment>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.selected" />}
-            value={_.upperFirst(this.state.selected)}
+            value={selectedLabel}
           />
         </Col>
         <Col xs={3}>
