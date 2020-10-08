@@ -17,6 +17,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
+  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -68,8 +69,16 @@ class Filters extends React.Component {
 
   resultsFormatter = {
     label: filter => filter.label,
-    type: filter => filter.type,
+    type: filter => this.getDataLable(_.get(filter, 'type', '')),
   };
+
+  getDataLable(fieldValue) {
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
 
   rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
