@@ -14,8 +14,19 @@ class FilterInfoView extends React.Component {
     filter: PropTypes.object,
   };
 
+  getDataLable(field) {
+    const fieldValue = _.get(this.props.filter, field, '');
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
+
   render() {
     const { filter } = this.props;
+    const typeLabel = this.getDataLable('type');
+
 
     return (
       <React.Fragment>
@@ -28,7 +39,7 @@ class FilterInfoView extends React.Component {
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.filter.type" />}
-            value={_.get(filter, 'type', <NoValue />)}
+            value={typeLabel}
           />
         </Row>
       </React.Fragment>

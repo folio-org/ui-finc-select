@@ -14,8 +14,18 @@ class SourceInfoView extends React.Component {
     metadataSource: PropTypes.object,
   };
 
+  getDataLable(field) {
+    const fieldValue = _.get(this.props.metadataSource, field, '');
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
+
   render() {
     const { metadataSource } = this.props;
+    const implementationStatusLabel = this.getDataLable('status');
 
     return (
       <React.Fragment>
@@ -34,7 +44,7 @@ class SourceInfoView extends React.Component {
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.source.status" />}
-            value={_.upperFirst(_.get(metadataSource, 'status', <NoValue />))}
+            value={implementationStatusLabel}
           />
         </Row>
       </React.Fragment>

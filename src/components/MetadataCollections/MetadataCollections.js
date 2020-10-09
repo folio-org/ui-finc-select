@@ -91,10 +91,18 @@ class MetadataCollections extends React.Component {
   resultsFormatter = {
     label: collection => collection.label,
     mdSource: collection => _.get(collection, 'mdSource.name', <NoValue />),
-    permitted: collection => _.upperFirst(collection.permitted),
-    selected: collection => collection.selected,
-    freeContent: collection => _.upperFirst(collection.freeContent),
+    permitted: collection => this.getDataLable(_.get(collection, 'permitted', '')),
+    selected: collection => this.getDataLable(_.get(collection, 'selected', '')),
+    freeContent: collection => this.getDataLable(_.get(collection, 'freeContent', '')),
   };
+
+  getDataLable(fieldValue) {
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
 
   rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;

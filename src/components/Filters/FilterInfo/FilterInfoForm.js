@@ -10,11 +10,19 @@ import {
   Select,
   TextField,
 } from '@folio/stripes/components';
+import { IntlConsumer } from '@folio/stripes/core';
 
 import Required from '../../DisplayUtils/Validate';
 import typeOptions from '../../DataOptions/type';
 
 class FilterInfoForm extends React.Component {
+  getDataOptions(intl, field) {
+    return field.map((item) => ({
+      label: intl.formatMessage({ id:`ui-finc-select.dataOption.${item.value}` }),
+      value: item.value,
+    }));
+  }
+
   render() {
     const { expanded, onToggle, accordionId } = this.props;
 
@@ -41,17 +49,21 @@ class FilterInfoForm extends React.Component {
         </Row>
         <Row>
           <Col xs={8}>
-            <Field
-              component={Select}
-              dataOptions={typeOptions}
-              fullWidth
-              id="addfilter_type"
-              label={<FormattedMessage id="ui-finc-select.filter.type" />}
-              name="type"
-              placeholder="Enter a type for the filter"
-              required
-              validate={Required}
-            />
+            <IntlConsumer>
+              {intl => (
+                <Field
+                  component={Select}
+                  dataOptions={this.getDataOptions(intl, typeOptions)}
+                  fullWidth
+                  id="addfilter_type"
+                  label={<FormattedMessage id="ui-finc-select.filter.type" />}
+                  name="type"
+                  placeholder="Enter a type for the filter"
+                  required
+                  validate={Required}
+                />
+              )}
+            </IntlConsumer>
           </Col>
         </Row>
       </Accordion>

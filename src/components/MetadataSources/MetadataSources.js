@@ -20,6 +20,7 @@ import {
   Button,
   Icon,
   MultiColumnList,
+  NoValue,
   Pane,
   PaneMenu,
   Paneset,
@@ -84,9 +85,17 @@ class MetadataSources extends React.Component {
   resultsFormatter = {
     label: source => source.label,
     sourceId: source => source.sourceId,
-    status: source => _.upperFirst(source.status),
+    status: source => this.getDataLable(_.get(source, 'status', '')),
     lastProcessed: source => source.lastProcessed,
   };
+
+  getDataLable(fieldValue) {
+    if (fieldValue !== '') {
+      return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
+    } else {
+      return <NoValue />;
+    }
+  }
 
   rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
