@@ -99,6 +99,8 @@
   "filter.file.addFile": "Add file to filter",
   "filter.file.empty": "Filter has no file",
   "filter.file.connected": "The filter file {filename} is connected.",
+  "filter.file.placeholder.name": "Enter a name to identify the connected file",
+
 
   "filter.generalAccordion": "General",
   "filter.fileAccordion": "File",
