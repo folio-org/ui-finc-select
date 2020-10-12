@@ -41,7 +41,6 @@ class FilterInfoForm extends React.Component {
               id="addfilter_label"
               label={<FormattedMessage id="ui-finc-select.filter.label" />}
               name="label"
-              placeholder="Enter a name to identify the filter"
               required
               validate={Required}
             />
@@ -58,7 +57,7 @@ class FilterInfoForm extends React.Component {
                   id="addfilter_type"
                   label={<FormattedMessage id="ui-finc-select.filter.type" />}
                   name="type"
-                  placeholder="Enter a type for the filter"
+                  placeholder=" "
                   required
                   validate={Required}
                 />

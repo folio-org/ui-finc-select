@@ -104,7 +104,6 @@ class CredentialsSettingsForm extends React.Component {
                   id="add_ezbcredentials_user"
                   label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.user" />}
                   name="user"
-                  placeholder="Enter a user"
                   required
                   validate={Required}
                 />
@@ -118,7 +117,6 @@ class CredentialsSettingsForm extends React.Component {
                   id="add_ezbcredentials_password"
                   label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.password" />}
                   name="password"
-                  placeholder="Enter a password"
                   required
                   type={passwordType}
                   validate={Required}
@@ -144,7 +142,6 @@ class CredentialsSettingsForm extends React.Component {
                   id="add_ezbcredentials_libId"
                   label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.libId" />}
                   name="libId"
-                  placeholder="Enter a libId"
                   required
                   validate={Required}
                 />
