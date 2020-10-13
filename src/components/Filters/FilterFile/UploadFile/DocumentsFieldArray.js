@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import {
+  injectIntl,
+  FormattedMessage
+} from 'react-intl';
 import { Field } from 'react-final-form';
 
 import {
@@ -22,6 +25,9 @@ import Required from '../../../DisplayUtils/Validate';
 class DocumentsFieldArray extends React.Component {
   static propTypes = {
     addDocBtnLabel: PropTypes.node,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func.isRequired,
+    }),
     isEmptyMessage: PropTypes.node,
     items: PropTypes.arrayOf(PropTypes.object),
     name: PropTypes.string.isRequired,
@@ -76,6 +82,7 @@ class DocumentsFieldArray extends React.Component {
     const {
       onDownloadFile,
       onUploadFile,
+      intl,
       items,
       name,
       onDeleteField
@@ -104,6 +111,7 @@ class DocumentsFieldArray extends React.Component {
                   id={`filter-file-label-${i}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
                   name={`${name}[${i}].label`}
+                  placeholder={intl.formatMessage({ id: 'ui-finc-select.filter.file.placeholder.name' })}
                   required
                   validate={Required}
                 />
@@ -156,4 +164,4 @@ class DocumentsFieldArray extends React.Component {
   }
 }
 
-export default withKiwtFieldArray(DocumentsFieldArray);
+export default withKiwtFieldArray(injectIntl(DocumentsFieldArray));
