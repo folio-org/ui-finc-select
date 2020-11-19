@@ -42,7 +42,7 @@
     "sources.title": "Sources de métadonnées",
     "filters.title": "Filtres",
     "filter.collectionAccordion": "Collections de métadonnées",
-    "settings.ezbCredentials.label": "EZB credentials",
+    "settings.ezbCredentials.label": "Identifiants EZB",
     "settings.ezbCredentials.user": "Utilisateur",
     "settings.ezbCredentials.password": "Mot de passe",
     "settings.ezbCredentials.libId": "LibID",
