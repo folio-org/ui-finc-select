@@ -5,6 +5,7 @@ const filterConfig = [
   {
     name: 'selected',
     cql: 'selected',
+    operator: '=',
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.yes" />, cql: 'yes' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' }
@@ -22,6 +23,7 @@ const filterConfig = [
   {
     name: 'permitted',
     cql: 'permitted',
+    operator: '=',
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.yes" />, cql: 'yes' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' }
