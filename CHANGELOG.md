@@ -1,5 +1,9 @@
 # Change history for ui-finc-select
 
+## [2.0.1](https://github.com/folio-org/ui-finc-select/tree/v2.0.1) (2020-11-20)
+* Bugifx: Metadata sources 'Selected' filter (UIFC-224)
+* Bugfix: Metadata collections 'Usage permitted' & 'selected' filter (UIFC-225)
+
 ## [2.0.0](https://github.com/folio-org/ui-finc-select/tree/v2.0.0) (2020-10-15)
 * Increment `@folio/stripes` to `v5.0` and `react-router` to `v5.2` (and, bugfix, move it to peer)
 * Upgrade to interface `finc-select/metadata-sources` to `3.0`
