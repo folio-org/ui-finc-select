@@ -16,6 +16,7 @@ const filterConfig = [
   {
     name: 'selected',
     cql: 'selected',
+    operator: '=',
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.all" />, cql: 'all' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.some" />, cql: 'some' },
