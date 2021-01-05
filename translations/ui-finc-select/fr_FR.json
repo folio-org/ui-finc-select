@@ -67,7 +67,7 @@
     "renderList.isEmpty": "Aucun élément à afficher",
     "noSourceYet": "Pas encore de source",
     "button.ok": "OK",
-    "form.delete.confirm.message": "Do you really want to delete {name}?",
+    "form.delete.confirm.message": "Voulez-vous vraiment supprimer {name} ?",
     "form.validate.required": "Obligatoire",
     "plugin.notFound": "Plugin introuvable",
     "plugin.buttonLabel.collection.add": "Add metadata collections",
