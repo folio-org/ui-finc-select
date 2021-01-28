@@ -94,7 +94,7 @@
     "dataOption.some": "Some",
     "dataOption.none": "None",
     "dataOption.yes": "Yes",
-    "dataOption.no": "No",
+    "dataOption.no": "いいえ",
     "dataOption.undetermined": "Undetermined",
     "dataOption.Whitelist": "Whitelist",
     "dataOption.Blacklist": "Blacklist",
