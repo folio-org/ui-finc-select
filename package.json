@@ -127,38 +127,11 @@
         "visible": true
       },
       {
-        "permissionName": "finc-select.all",
-        "displayName": "Finc select: All permissions",
-        "description": "All permissions for finc select",
-        "subPermissions": [
-          "finc-select.metadata-collections.collection.get",
-          "finc-select.metadata-collections.item.get",
-          "finc-select.metadata-collections.item.select",
-          "finc-select.metadata-collections.item.filters",
-          "finc-select.metadata-sources.collection.get",
-          "finc-select.metadata-sources.item.get",
-          "finc-select.metadata-sources.item.select-all",
-          "finc-select.filters.collection.get",
-          "finc-select.filters.item.get",
-          "finc-select.filters.item.put",
-          "finc-select.filters.item.delete",
-          "finc-select.filters.item.post",
-          "finc-select.filter-files.collection.get",
-          "finc-select.filter-files.item.get",
-          "finc-select.filter-files.item.delete",
-          "finc-select.filter-files.item.post",
-          "finc-select.files.item.get",
-          "finc-select.files.item.delete",
-          "finc-select.files.item.post",
-          "finc-select.settings.enabled"
-        ],
-        "visible": false
-      },
-      {
         "permissionName": "ui-finc-select.all",
         "displayName": "Finc select: All permissions",
         "description": "All permissions for finc select",
         "subPermissions": [
+          "finc-select.settings.enabled",
           "finc-select.all"
         ],
         "visible": true
