@@ -1,5 +1,8 @@
 # Change history for ui-finc-select
 
+## [3.0.0](https://github.com/folio-org/ui-finc-select/tree/v3.0.0) (2021-03-19)
+* Increment `@folio/stripes` to `v6.0` (UIFC-233)
+
 ## [2.0.1](https://github.com/folio-org/ui-finc-select/tree/v2.0.1) (2020-11-20)
 * Bugifx: Metadata sources 'Selected' filter (UIFC-224)
 * Bugfix: Metadata collections 'Usage permitted' & 'selected' filter (UIFC-225)
