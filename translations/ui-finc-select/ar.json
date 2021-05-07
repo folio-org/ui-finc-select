@@ -24,7 +24,7 @@
     "source.button.showselectedCollections": "عرض المجموعات المحددة",
     "source.button.selectAllCollections": "تحديد كل المجموعات",
     "source.button.showAllCollections": "عرض كل المجموعات",
-    "source.modal.selectAllCollections.success": "لقد بدأت العملية. قد يستغرق الأمر بعض الوقت، حتى تتم إضافة جميع ISILs إلى حقل SelectedBy.",
+    "source.modal.selectAllCollections.success": "لقد بدأت العملية. قد يستغرق الأمر بعض الوقت، حتى تتم إضافة جميع ISILs إلى حقل محدد بواسطة.",
     "source.modal.selectAllCollections.error": "تعذر بدء العملية.",
     "filter.label": "الاسم",
     "filter.type": "النوع",
