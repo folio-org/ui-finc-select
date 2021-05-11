@@ -42,8 +42,6 @@ class CollectionViewRoute extends React.Component {
         technicalAccordion: false
       },
     };
-
-    this.connectedViewMetaData = this.props.stripes.connect(ViewMetaData);
   }
 
   handleExpandAll = (obj) => {
@@ -98,9 +96,9 @@ class CollectionViewRoute extends React.Component {
           paneTitle={<span data-test-collection-header-title>{label}</span>}
         >
           <AccordionSet>
-            <this.connectedViewMetaData
+            <ViewMetaData
               metadata={_.get(record, 'metadata', {})}
-              stripes={this.props.stripes}
+              stripes={stripes}
             />
             <CollectionInfoView
               id="collectionInfo"
@@ -125,7 +123,7 @@ class CollectionViewRoute extends React.Component {
               <CollectionContentView
                 id="collectionContent"
                 metadataCollection={record}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
             <Accordion
@@ -137,7 +135,7 @@ class CollectionViewRoute extends React.Component {
               <CollectionTechnicalView
                 id="collectionTechnical"
                 metadataCollection={record}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
           </AccordionSet>
