@@ -88,12 +88,4 @@ describe('Sources SASQ View', () => {
       expect(document.querySelector('#sourceSearchField')).toBeInTheDocument();
     });
   });
-
-  // TODO: list of results will not rendered yet
-  it('should have proper list results size', () => {
-    // pane is rendered:
-    expect(document.querySelector('#pane-sourceresults')).toBeInTheDocument();
-    // MultiColumnList is NOT rendered:
-    // expect(document.querySelector('#list-sources')).toBeInTheDocument();
-  });
 });
