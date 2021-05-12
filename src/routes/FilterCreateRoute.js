@@ -32,6 +32,7 @@ class FilterCreateRoute extends React.Component {
     }).isRequired,
     mutator: PropTypes.shape({
       filters: PropTypes.shape({
+        POST: PropTypes.func.isRequired,
       }).isRequired,
       collectionsIds: PropTypes.shape({
       }).isRequired,

@@ -22,6 +22,7 @@ class FilterFileView extends React.Component {
       okapi: PropTypes.shape({
         tenant: PropTypes.string.isRequired,
         token: PropTypes.string.isRequired,
+        url: PropTypes.string,
       }),
     }),
   };
