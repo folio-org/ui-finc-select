@@ -9,7 +9,7 @@ import filters from '../../../test/fixtures/metadatacollections';
 import Filters from './Filters';
 import stripes from '../../../test/jest/__mock__/stripesCore.mock';
 
-const renderMetadataCollections = () => (
+const renderFilters = () => (
   renderWithIntl(
     <Router>
       <StripesContext.Provider value={stripes}>
@@ -30,7 +30,7 @@ const renderMetadataCollections = () => (
 
 describe('Filters SASQ View', () => {
   beforeEach(() => {
-    renderMetadataCollections();
+    renderFilters();
   });
 
   afterEach(() => {

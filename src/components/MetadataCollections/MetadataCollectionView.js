@@ -20,17 +20,14 @@ import CollectionInfoView from './CollectionInfo/CollectionInfoView';
 import CollectionContentView from './CollectionContent/CollectionContentView';
 import CollectionTechnicalView from './CollectionTechnical/CollectionTechnicalView';
 
-
-class CollectionViewRoute extends React.Component {
+class MetadataCollectionView extends React.Component {
   static propTypes = {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
+    stripes: PropTypes.object,
   };
 
   constructor(props) {
@@ -145,4 +142,4 @@ class CollectionViewRoute extends React.Component {
   }
 }
 
-export default CollectionViewRoute;
+export default MetadataCollectionView;
