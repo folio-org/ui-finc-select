@@ -22,7 +22,7 @@ const testCollection = {
   resources: {
     collections: {},
     mdSources: { tinySources },
-    query: { query: '', filters: 'metadataAvailable.yes,metadataAvailable.no', sort: 'label' },
+    query: { query: '', filters: 'permitted.yes,selected.yes', sort: 'label' },
     resultCount: 30
   }
 };
@@ -40,7 +40,7 @@ const renderMetadataCollections = () => (
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
-          searchString={'metadataAvailable.yes'}
+          searchString={'permitted.yes,selected.yes'}
           selectedRecordId={''}
           onChangeIndex={jest.fn()}
         />
