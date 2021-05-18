@@ -50,10 +50,13 @@ describe('MetadataCollectionView', () => {
   it('should display name', () => {
     expect(screen.getByLabelText('21st Century Political Science Association')).toBeInTheDocument();
   });
+  it('should display metadata source', () => {
+    expect(screen.getByText('Early Music Online')).toBeInTheDocument();
+  });
   it('should display description', () => {
     expect(screen.getByText('This is a test metadata collection 2')).toBeInTheDocument();
   });
-  it('should display metadata source', () => {
-    expect(screen.getByText('Early Music Online')).toBeInTheDocument();
+  it('should display ID', () => {
+    expect(screen.getByText('psa-459')).toBeInTheDocument();
   });
 });

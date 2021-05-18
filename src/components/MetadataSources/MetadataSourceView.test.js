@@ -57,6 +57,15 @@ describe('MetadataSourceView', () => {
   it('should display status', () => {
     expect(screen.getByText('Implementation')).toBeInTheDocument();
   });
+  it('should display organization', () => {
+    expect(screen.getByText('Test organization')).toBeInTheDocument();
+  });
+  it('should display indexing level', () => {
+    expect(screen.getByText('bibliographic')).toBeInTheDocument();
+  });
+  it('should display general notes', () => {
+    expect(screen.getByText('Test licensing note')).toBeInTheDocument();
+  });
   test('should display buttons', async () => {
     expect(screen.getByText('Show selected collections')).toBeInTheDocument();
     expect(screen.getByText('Select all collections')).toBeInTheDocument();

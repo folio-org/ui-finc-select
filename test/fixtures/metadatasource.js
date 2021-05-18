@@ -28,6 +28,12 @@ const metadatasource = {
       'role': 'vendor'
     }
   ],
+  'indexingLevel' : 'bibliographic',
+  'generalNotes' : 'Test licensing note',
+  'organization' : {
+    'id' : 'uuid-1234',
+    'name' : 'Test organization'
+  },
 };
 
 export default metadatasource;
