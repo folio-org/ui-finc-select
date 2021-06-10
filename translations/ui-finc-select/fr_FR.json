@@ -81,7 +81,7 @@
     "source.search.description": "Description",
     "source.search.sourceId": "ID",
     "filter.file.name": "Nom",
-    "filter.file.connected": "Le fichier de filtrage {nom du fichier} est connecté.",
+    "filter.file.connected": "Le fichier de filtrage {filename} est connecté.",
     "navigation.sources": "Sources",
     "navigation.collections": "Collections",
     "navigation.filters": "Filtres",
