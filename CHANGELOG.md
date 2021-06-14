@@ -1,8 +1,5 @@
 # Change history for ui-finc-select
 
-## [3.0.1](https://github.com/folio-org/ui-finc-select/tree/v3.0.1) (2021-06-14)
-* Translation ast (UIFC-213)
-
 ## [3.0.0](https://github.com/folio-org/ui-finc-select/tree/v3.0.0) (2021-03-19)
 * Increment `@folio/stripes` to `v6.0` (UIFC-233)
 

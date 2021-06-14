@@ -1,6 +1,6 @@
 {
   "name": "@folio/finc-select",
-  "version": "3.0.1",
+  "version": "3.0.0",
   "description": "description for finc-select-app",
   "main": "src/index.js",
   "repository": "folio-org/ui-finc-select",
