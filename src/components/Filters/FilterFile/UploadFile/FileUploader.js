@@ -81,6 +81,7 @@ export default class FileUploader extends React.Component {
           buttonStyle="primary"
           data-test-filter-file-upload-button
           hidden={isDropZoneActive}
+          id="filter-file-upload-button"
         >
           {uploadButtonText}
         </Button>
