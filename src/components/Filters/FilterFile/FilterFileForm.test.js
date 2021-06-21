@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
@@ -19,7 +19,7 @@ const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
 // const filterId = '0ba00047-b6cb-417a-a735-e2c1e45e30f1';
-// const file = new File(['foo'], 'file.json', { type: 'text/plain' });
+const file = new File(['foo'], 'file.json', { type: 'text/plain' });
 
 const renderFilterFileForm = (initialValues = FILTER) => {
   return renderWithIntl(
@@ -79,8 +79,20 @@ describe('FilterFileForm', () => {
       });
 
       test('should render filter file upload button', async () => {
-        expect(document.querySelector('#filter-file-label-0')).toBeInTheDocument();
+        expect(document.querySelector('#filter-file-label-1')).toBeInTheDocument();
         expect(document.querySelector('#filter-file-upload-button')).toBeInTheDocument();
+      });
+
+      test('should render filter file upload button', async () => {
+        const filenameInput = document.querySelector('#filter-file-label-1');
+        const uploadFileButton = document.querySelector('#filter-file-upload-button');
+        const saveButton = screen.getByRole('button', {
+          name: 'Save & close',
+        });
+
+        userEvent.type(filenameInput, 'my filename');
+        await act(async () => fireEvent.change(uploadFileButton, { target: { files: [file] } }));
+        await waitFor(() => expect(saveButton).not.toHaveAttribute('disabled'));
       });
     });
   });
