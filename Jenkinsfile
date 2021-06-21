@@ -8,3 +8,7 @@ buildNPM {
   runTest = true
   runTestOptions = ''
 }
+  runScripts = [
+    ['formatjs-compile': ''],
+  ]
+}
