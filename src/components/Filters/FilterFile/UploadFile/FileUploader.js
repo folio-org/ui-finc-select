@@ -138,7 +138,7 @@ export default class FileUploader extends React.Component {
             data-test-filter-file-drop-zone
             {...getRootProps()}
           >
-            <input {...getInputProps()} />
+            <input id="filter-file-input" {...getInputProps()} />
             {this.renderErrorMessage()}
             {this.renderUploadFields()}
             {this.renderFooter()}

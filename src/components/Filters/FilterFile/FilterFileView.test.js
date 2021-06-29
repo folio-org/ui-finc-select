@@ -1,13 +1,56 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes-core/src/StripesContext';
+import { Button } from '@folio/stripes-components';
 
 import '../../../../test/jest/__mock__';
 import translationsProperties from '../../../../test/jest/helpers/translationsProperties';
 import renderWithIntl from '../../../../test/jest/helpers';
 import FilterFileView from './FilterFileView';
-import stripes from '../../../../test/jest/__mock__/stripesCore.mock';
+import { server, rest } from '../../../../test/jest/testServer';
+// import stripes from '../../../../test/jest/__mock__/stripesCore.mock';
+
+const STRIPES = {
+  actionNames: [],
+  clone: () => ({ ...STRIPES }),
+  connect: (Component) => Component,
+  config: {},
+  currency: 'USD',
+  hasInterface: () => true,
+  hasPerm: jest.fn().mockReturnValue(true),
+  locale: 'en-US',
+  logger: {
+    log: () => { },
+  },
+  okapi: {
+    tenant: 'diku',
+    url: 'https://folio-testing-okapi.dev.folio.org',
+  },
+  plugins: {},
+  setBindings: () => { },
+  setCurrency: () => { },
+  setLocale: () => { },
+  setSinglePlugin: () => { },
+  setTimezone: () => { },
+  setToken: () => { },
+  store: {
+    getState: () => { },
+    dispatch: () => { },
+    subscribe: () => { },
+    replaceReducer: () => { },
+  },
+  timezone: 'UTC',
+  user: {
+    perms: {},
+    user: {
+      id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
+      username: 'diku_admin',
+    },
+  },
+  withOkapi: true,
+};
 
 const withoutFilterFile = {
   'filterFiles' : [],
@@ -22,14 +65,19 @@ const withFilterFile = {
   ]
 };
 
-const renderFilterFileView = (fakeStripes = StripesContext, filter) => (
+const handleDownloadFile = jest.fn();
+
+const renderFilterFileView = (fakeStripes = STRIPES, filter) => (
   renderWithIntl(
     <MemoryRouter>
       <StripesContext.Provider value={fakeStripes}>
         <FilterFileView
           filter={filter}
-          stripes={fakeStripes}
-        />
+          stripes={STRIPES}
+          handleDownloadFile={handleDownloadFile}
+        >
+          <Button onClick={handleDownloadFile()}>Download</Button>
+        </FilterFileView>
       </StripesContext.Provider>
     </MemoryRouter>,
     translationsProperties
@@ -38,7 +86,7 @@ const renderFilterFileView = (fakeStripes = StripesContext, filter) => (
 
 describe('FilterFileView with no file', () => {
   beforeEach(() => {
-    renderFilterFileView(stripes, withoutFilterFile);
+    renderFilterFileView(STRIPES, withoutFilterFile);
   });
 
   it('Text should be rendered', () => {
@@ -51,7 +99,7 @@ describe('FilterFileView with no file', () => {
 
 describe('FilterFileView with file', () => {
   beforeEach(() => {
-    renderFilterFileView(stripes, withFilterFile);
+    renderFilterFileView(STRIPES, withFilterFile);
   });
 
   it('Download button should be rendered', () => {
@@ -59,5 +107,19 @@ describe('FilterFileView with file', () => {
       name: 'Download',
     });
     expect(downloadButton).toBeInTheDocument();
+  });
+
+  it('click download button', () => {
+    server.use(
+      rest.get(
+        'https://folio-testing-okapi.dev.folio.org/finc-select/files/0ba00047-b6cb-417a-a735-e2c1e45e30f1',
+        (req, res, ctx) => {
+          return res(ctx.status(404));
+        }
+      )
+    );
+    const downloadButton = screen.getByRole('button', { name: 'Download' });
+    userEvent.click(downloadButton);
+    expect(handleDownloadFile).toHaveBeenCalled();
   });
 });
