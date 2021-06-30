@@ -67,14 +67,13 @@ const withFilterFile = {
 
 const handleDownloadFile = jest.fn();
 
-const renderFilterFileView = (fakeStripes = STRIPES, filter) => (
+const renderFilterFileView = (filter) => (
   renderWithIntl(
     <MemoryRouter>
-      <StripesContext.Provider value={fakeStripes}>
+      <StripesContext.Provider value={STRIPES}>
         <FilterFileView
           filter={filter}
           stripes={STRIPES}
-          handleDownloadFile={handleDownloadFile}
         >
           <Button onClick={handleDownloadFile()}>Download</Button>
         </FilterFileView>
@@ -86,7 +85,7 @@ const renderFilterFileView = (fakeStripes = STRIPES, filter) => (
 
 describe('FilterFileView with no file', () => {
   beforeEach(() => {
-    renderFilterFileView(STRIPES, withoutFilterFile);
+    renderFilterFileView(withoutFilterFile);
   });
 
   it('Text should be rendered', () => {
@@ -99,7 +98,7 @@ describe('FilterFileView with no file', () => {
 
 describe('FilterFileView with file', () => {
   beforeEach(() => {
-    renderFilterFileView(STRIPES, withFilterFile);
+    renderFilterFileView(withFilterFile);
   });
 
   it('Download button should be rendered', () => {
@@ -114,7 +113,7 @@ describe('FilterFileView with file', () => {
       rest.get(
         'https://folio-testing-okapi.dev.folio.org/finc-select/files/0ba00047-b6cb-417a-a735-e2c1e45e30f1',
         (req, res, ctx) => {
-          return res(ctx.status(404));
+          return res(ctx.status(200));
         }
       )
     );

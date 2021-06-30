@@ -18,7 +18,7 @@ const handlers = [
   rest.post(
     'https://folio-testing-okapi.dev.folio.org/finc-select/files/',
     (req, res, ctx) => {
-      return res(ctx.text('success'));
+      return res(ctx.status(200));
     }
   ),
 ];
