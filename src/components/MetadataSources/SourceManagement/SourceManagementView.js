@@ -38,12 +38,6 @@ class SourceManagementView extends React.Component {
     stripes: PropTypes.object,
   };
 
-  // constructor(props) {
-  //   super(props);
-
-  //   this.connectedSelectAllCollections = this.props.stripes.connect(SelectAllCollections);
-  // }
-
   render() {
     const { metadataSource, stripes } = this.props;
     const sourceId = _.get(metadataSource, 'id', '-');
@@ -81,7 +75,6 @@ class SourceManagementView extends React.Component {
         </Row>
         <Row>
           <Col xs={6}>
-            {/* this.connected */}
             <SelectAllCollections
               sourceId={sourceId}
               stripes={stripes}

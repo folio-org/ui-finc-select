@@ -48,8 +48,6 @@ class FilterView extends React.Component {
     };
 
     this.editButton = React.createRef();
-
-    // this.connectedViewMetaData = this.props.stripes.connect(ViewMetaData);
   }
 
   handleExpandAll = (obj) => {

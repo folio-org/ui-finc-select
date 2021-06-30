@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-// import { stripesConnect } from '@folio/stripes/core';
 import {
   KeyValue,
   NoValue,
@@ -19,13 +18,6 @@ class CollectionInfoView extends React.Component {
     metadataCollection: PropTypes.object,
     stripes: PropTypes.object,
   };
-
-  // constructor(props) {
-  //   super(props);
-
-  //   this.connectedSelectUnselect = stripesConnect(SelectUnselect);
-  //   this.connectedSelectUnselect = this.props.stripes.connect(SelectUnselect);
-  // }
 
   getDataLable(field) {
     const fieldValue = _.get(this.props.metadataCollection, field, '');
@@ -75,7 +67,6 @@ class CollectionInfoView extends React.Component {
           />
         </Row>
         <Row>
-          {/* <this.connectedSelectUnselect */}
           <SelectUnselect
             collectionId={collectionId}
             permitted={permittedLabel}
