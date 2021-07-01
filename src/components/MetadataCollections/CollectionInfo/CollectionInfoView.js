@@ -16,16 +16,8 @@ import urls from '../../DisplayUtils/urls';
 class CollectionInfoView extends React.Component {
   static propTypes = {
     metadataCollection: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }),
+    stripes: PropTypes.object,
   };
-
-  constructor(props) {
-    super(props);
-
-    this.connectedSelectUnselect = this.props.stripes.connect(SelectUnselect);
-  }
 
   getDataLable(field) {
     const fieldValue = _.get(this.props.metadataCollection, field, '');
@@ -75,7 +67,7 @@ class CollectionInfoView extends React.Component {
           />
         </Row>
         <Row>
-          <this.connectedSelectUnselect
+          <SelectUnselect
             collectionId={collectionId}
             permitted={permittedLabel}
             selectedInitial={selectedInitial}

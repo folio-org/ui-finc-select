@@ -6,6 +6,7 @@ buildNPM {
   runLint = true
   runSonarqube = false
   runScripts = [
-    ['formatjs-compile': ''],
+   ['formatjs-compile': ''],
+   ['test': ''],
   ]
 }

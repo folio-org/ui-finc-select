@@ -249,7 +249,7 @@ class Filters extends React.Component {
     const sortOrder = query.sort || '';
 
     return (
-      <div data-test-filters>
+      <div data-test-filters data-testid="filters">
         <SearchAndSortQuery
           initialFilterState={this.state.storedFilter.state}
           initialSearchState={this.state.storedSearchString}

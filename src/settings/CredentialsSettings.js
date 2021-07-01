@@ -10,6 +10,7 @@ class CredentialsSettings extends React.Component {
     mutator: PropTypes.shape({
       ezbCredentials: PropTypes.shape({
         POST: PropTypes.func.isRequired,
+        PUT: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
   };

@@ -281,7 +281,7 @@ class MetadataCollections extends React.Component {
     }
 
     return (
-      <div data-test-collections>
+      <div data-test-collections data-testid="collections">
         <SearchAndSortQuery
           initialFilterState={this.state.storedFilter.state}
           initialSearchState={this.getCombinedSearch()}

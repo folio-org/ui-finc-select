@@ -42,6 +42,8 @@ class FilterEditRoute extends React.Component {
     }).isRequired,
     mutator: PropTypes.shape({
       filters: PropTypes.shape({
+        PUT: PropTypes.func.isRequired,
+        DELETE: PropTypes.func.isRequired,
       }).isRequired,
       collectionsIds: PropTypes.shape({
       }).isRequired,

@@ -20,17 +20,14 @@ import CollectionInfoView from './CollectionInfo/CollectionInfoView';
 import CollectionContentView from './CollectionContent/CollectionContentView';
 import CollectionTechnicalView from './CollectionTechnical/CollectionTechnicalView';
 
-
-class CollectionViewRoute extends React.Component {
+class MetadataCollectionView extends React.Component {
   static propTypes = {
     handlers: PropTypes.shape({
       onClose: PropTypes.func.isRequired
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
+    stripes: PropTypes.object,
   };
 
   constructor(props) {
@@ -42,8 +39,6 @@ class CollectionViewRoute extends React.Component {
         technicalAccordion: false
       },
     };
-
-    this.connectedViewMetaData = this.props.stripes.connect(ViewMetaData);
   }
 
   handleExpandAll = (obj) => {
@@ -98,9 +93,9 @@ class CollectionViewRoute extends React.Component {
           paneTitle={<span data-test-collection-header-title>{label}</span>}
         >
           <AccordionSet>
-            <this.connectedViewMetaData
+            <ViewMetaData
               metadata={_.get(record, 'metadata', {})}
-              stripes={this.props.stripes}
+              stripes={stripes}
             />
             <CollectionInfoView
               id="collectionInfo"
@@ -125,7 +120,7 @@ class CollectionViewRoute extends React.Component {
               <CollectionContentView
                 id="collectionContent"
                 metadataCollection={record}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
             <Accordion
@@ -137,7 +132,7 @@ class CollectionViewRoute extends React.Component {
               <CollectionTechnicalView
                 id="collectionTechnical"
                 metadataCollection={record}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
           </AccordionSet>
@@ -147,4 +142,4 @@ class CollectionViewRoute extends React.Component {
   }
 }
 
-export default CollectionViewRoute;
+export default MetadataCollectionView;

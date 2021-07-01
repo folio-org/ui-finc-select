@@ -81,7 +81,7 @@ class FilterForm extends React.Component {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-finc-select.form.close">
-          { ariaLabel => (
+          { ([ariaLabel]) => (
             <IconButton
               ariaLabel={ariaLabel}
               icon="times"

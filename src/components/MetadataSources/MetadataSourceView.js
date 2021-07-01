@@ -27,9 +27,7 @@ class MetadataSourceView extends React.Component {
     }).isRequired,
     isLoading: PropTypes.bool,
     record: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func.isRequired,
-    }).isRequired,
+    stripes: PropTypes.object,
   };
 
   constructor(props) {
@@ -41,8 +39,6 @@ class MetadataSourceView extends React.Component {
         technicalAccordion: false
       },
     };
-
-    this.connectedViewMetaData = this.props.stripes.connect(ViewMetaData);
   }
 
   handleExpandAll = (obj) => {
@@ -81,7 +77,7 @@ class MetadataSourceView extends React.Component {
   }
 
   render() {
-    const { record, isLoading } = this.props;
+    const { record, isLoading, stripes } = this.props;
     const label = _.get(record, 'label', <NoValue />);
     const organizationId = _.get(record, 'organization.id', '');
 
@@ -98,14 +94,14 @@ class MetadataSourceView extends React.Component {
           paneTitle={<span data-test-source-header-title>{label}</span>}
         >
           <AccordionSet>
-            <this.connectedViewMetaData
+            <ViewMetaData
               metadata={_.get(record, 'metadata', {})}
-              stripes={this.props.stripes}
+              stripes={stripes}
             />
             <SourceInfoView
               id="sourceInfo"
               metadataSource={record}
-              stripes={this.props.stripes}
+              stripes={stripes}
             />
             <Row end="xs">
               <Col xs>
@@ -126,7 +122,7 @@ class MetadataSourceView extends React.Component {
                 id="sourceManagement"
                 metadataSource={record}
                 organizationId={organizationId}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
             <Accordion
@@ -138,7 +134,7 @@ class MetadataSourceView extends React.Component {
               <SourceTechnicalView
                 id="sourceTechnical"
                 metadataSource={record}
-                stripes={this.props.stripes}
+                stripes={stripes}
               />
             </Accordion>
           </AccordionSet>
