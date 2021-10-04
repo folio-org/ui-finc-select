@@ -1,5 +1,9 @@
 # Change history for ui-finc-select
 
+## [4.0.0](https://github.com/folio-org/ui-finc-select/tree/v4.0.0) (2021-10-04)
+* Increment stripes to v7 (UIFC-255)
+* Replace BigTest tests by RTL/Jest (UIFC-230)
+
 ## [3.0.1](https://github.com/folio-org/ui-finc-select/tree/v3.0.1) (2021-06-14)
 * Translation ast (UIFC-213)
 
