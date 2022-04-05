@@ -83,7 +83,7 @@
     "filter.file.name": "名称",
     "filter.file.connected": "The filter file {filename} is connected.",
     "navigation.sources": "Sources",
-    "navigation.collections": "Collections",
+    "navigation.collections": "コレクション",
     "navigation.filters": "Filters",
     "dataOption.active": "有効",
     "dataOption.request": "Request",
