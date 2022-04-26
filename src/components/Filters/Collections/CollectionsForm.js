@@ -12,7 +12,7 @@ class CollectionsForm extends React.Component {
   static propTypes = {
     collectionIds: PropTypes.arrayOf(PropTypes.object),
     filterData: PropTypes.shape({
-      mdSources: PropTypes.array,
+      mdSources: PropTypes.arrayOf(PropTypes.object),
     }),
     filterId: PropTypes.string,
     form: PropTypes.shape({

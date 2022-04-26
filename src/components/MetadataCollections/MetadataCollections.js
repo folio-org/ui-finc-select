@@ -50,7 +50,7 @@ class MetadataCollections extends React.Component {
     collection: PropTypes.object,
     contentData: PropTypes.arrayOf(PropTypes.object),
     filterData: PropTypes.shape({
-      mdSources: PropTypes.array,
+      mdSources: PropTypes.arrayOf(PropTypes.object),
     }),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,

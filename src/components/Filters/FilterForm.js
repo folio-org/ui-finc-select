@@ -30,7 +30,7 @@ class FilterForm extends React.Component {
   static propTypes = {
     collectionIds: PropTypes.arrayOf(PropTypes.object),
     filterData: PropTypes.shape({
-      mdSources: PropTypes.array,
+      mdSources: PropTypes.arrayOf(PropTypes.object),
     }),
     handlers: PropTypes.PropTypes.shape({
       onClose: PropTypes.func.isRequired,
