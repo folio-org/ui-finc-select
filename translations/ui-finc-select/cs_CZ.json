@@ -64,7 +64,7 @@
     "permission.all": "Vybrat Finance: Všechna oprávnění",
     "permission.view": "Vybrat Finance: Může zobrazit zdroje metadat, kolekce metadat a filtry",
     "noPermission": "No permission",
-    "renderList.isEmpty": "No items to show",
+    "renderList.isEmpty": "Žádné jednotky k zobrazení",
     "noSourceYet": "No source yet",
     "button.ok": "OK",
     "form.delete.confirm.message": "Do you really want to delete {name}?",
