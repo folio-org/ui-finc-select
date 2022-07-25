@@ -83,6 +83,10 @@ const renderFilterFileView = (filter) => (
   )
 );
 
+jest.mock('file-saver', () => ({
+  saveAs: jest.fn(),
+}));
+
 describe('FilterFileView with no file', () => {
   beforeEach(() => {
     renderFilterFileView(withoutFilterFile);
@@ -117,8 +121,10 @@ describe('FilterFileView with file', () => {
         }
       )
     );
+
     const downloadButton = screen.getByRole('button', { name: 'Download' });
     userEvent.click(downloadButton);
+
     expect(handleDownloadFile).toHaveBeenCalled();
   });
 });

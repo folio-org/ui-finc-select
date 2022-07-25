@@ -20,7 +20,6 @@ export default class FileUploaderFieldView extends React.Component {
     fileLabel: PropTypes.string,
     isDropZoneActive: PropTypes.bool,
     onDelete: PropTypes.func.isRequired,
-    onDownloadFile: PropTypes.func.isRequired,
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
     onDrop: PropTypes.func.isRequired,

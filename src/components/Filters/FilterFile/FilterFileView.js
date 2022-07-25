@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { saveAs } from 'file-saver';
 
 import {
   MultiColumnList,
@@ -37,13 +38,10 @@ class FilterFileView extends React.Component {
       },
     }).then(response => response.blob())
       .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = file.label;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        saveAs(blob, file.label);
+      })
+      .catch((err) => {
+        throw new Error('Error while downloading file. ' + err.message);
       });
   }
 
