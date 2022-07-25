@@ -33,7 +33,6 @@ class DocumentsFieldArray extends React.Component {
     name: PropTypes.string.isRequired,
     onAddField: PropTypes.func.isRequired,
     onDeleteField: PropTypes.func.isRequired,
-    onDownloadFile: PropTypes.func,
     onUploadFile: PropTypes.func,
   }
 
@@ -42,7 +41,7 @@ class DocumentsFieldArray extends React.Component {
     isEmptyMessage: <FormattedMessage id="ui-finc-select.filter.file.empty" />,
   }
 
-  renderFileUpload = (doc, onUploadFile, onDownloadFile, name, i) => {
+  renderFileUpload = (doc, onUploadFile, name, i) => {
     if (_.isEmpty(doc.fileId)) {
       return (
         <React.Fragment>
@@ -56,7 +55,6 @@ class DocumentsFieldArray extends React.Component {
                     fileLabel={doc.label}
                     id={`filter-file-card-fileId-${i}`}
                     name={`${name}[${i}].fileId`}
-                    onDownloadFile={onDownloadFile}
                     onUploadFile={onUploadFile}
                     required
                     validate={Required}
@@ -80,7 +78,6 @@ class DocumentsFieldArray extends React.Component {
 
   renderDocs = () => {
     const {
-      onDownloadFile,
       onUploadFile,
       intl,
       items,
@@ -129,7 +126,7 @@ class DocumentsFieldArray extends React.Component {
               </Col>
             </Row>
           </Col>
-          {this.renderFileUpload(doc, onUploadFile, onDownloadFile, name, i)}
+          {this.renderFileUpload(doc, onUploadFile, name, i)}
         </Row>
       </EditCard>
     ));

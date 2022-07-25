@@ -33,27 +33,6 @@ class FilterFileForm extends React.Component {
     });
   }
 
-  handleDownloadFile = (file) => {
-    const { stripes: { okapi } } = this.props;
-
-    return fetch(`${okapi.url}/finc-select/files/${file.id}`, {
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-      },
-    }).then(response => response.blob())
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-
-        a.href = url;
-        a.download = file.name;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      });
-  }
-
   render() {
     const { expanded, onToggle, accordionId } = this.props;
 
@@ -68,7 +47,6 @@ class FilterFileForm extends React.Component {
           addDocBtnLabel={<FormattedMessage id="ui-finc-select.filter.file.addFile" />}
           component={DocumentsFieldArray}
           name="filterFiles"
-          onDownloadFile={this.handleDownloadFile}
           onUploadFile={this.handleUploadFile}
         />
       </Accordion>
