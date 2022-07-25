@@ -16,7 +16,6 @@ class FileUploaderField extends React.Component {
       value: PropTypes.string,
     }).isRequired,
     meta: PropTypes.object,
-    onDownloadFile: PropTypes.func.isRequired,
     onUploadFile: PropTypes.func.isRequired,
   };
 
@@ -108,7 +107,6 @@ class FileUploaderField extends React.Component {
             fileLabel={fileLabel}
             isDropZoneActive={this.state.isDropZoneActive}
             onDelete={this.handleDelete}
-            onDownloadFile={this.props.onDownloadFile}
             onDragEnter={() => this.setState({ isDropZoneActive: true })}
             onDragLeave={() => this.setState({ isDropZoneActive: false })}
             onDrop={(file) => this.handleDrop(file, intl)}
