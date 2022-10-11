@@ -78,7 +78,7 @@
     "collection.search.collectionId": "ID",
     "source.search.all": "All",
     "source.search.label": "Name",
-    "source.search.description": "Description",
+    "source.search.description": "Descrizione",
     "source.search.sourceId": "ID",
     "filter.file.name": "Name",
     "filter.file.connected": "The filter file {filename} is connected.",
