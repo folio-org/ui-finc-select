@@ -1,5 +1,9 @@
 # Change history for ui-finc-select
 
+## [4.1.0](https://github.com/folio-org/ui-finc-select/tree/v4.1.0) (2022-10-26)
+* Fix yarn test download (UIFC-277)
+* Replace babel-eslint with @babel/eslint-parser (UIFC-273)
+
 ## [4.0.0](https://github.com/folio-org/ui-finc-select/tree/v4.0.0) (2021-10-04)
 * Increment stripes to v7 (UIFC-255)
 * Replace BigTest tests by RTL/Jest (UIFC-230)
