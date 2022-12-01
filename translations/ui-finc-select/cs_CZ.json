@@ -32,7 +32,7 @@
     "filter.file.criteria": "Kritéria",
     "filter.file.download": "Stáhnout",
     "filter.file.dragDrop": "Nahrajte přetažením",
-    "filter.file.choose": "nebo vyberte soubor",
+    "filter.file.choose": "nebo vybrat soubor",
     "filter.file.upload": "nahrávání",
     "filter.file.addFile": "Přidat soubor do filtru",
     "filter.generalAccordion": "Obecné",
@@ -68,7 +68,7 @@
     "noSourceYet": "Zatím žádný zdroj",
     "button.ok": "OK",
     "form.delete.confirm.message": "Opravdu chcete smazat {name}?",
-    "form.validate.required": "Požadované!",
+    "form.validate.required": "Povinné!",
     "plugin.notFound": "Plugin nebyl nalezen",
     "plugin.buttonLabel.collection.add": "Přidání kolekcí metadat",
     "plugin.buttonLabel.collection.view": "Zobrazení kolekcí metadat",
@@ -103,5 +103,5 @@
     "collection.modal.selectCollection.label": "Vybrat/zrušit výběr kolekce",
     "collection.modal.selectCollection.error.400": "Chyba 4xx: Výběr této kolekce metadat není povolen.",
     "collection.modal.selectCollection.error.300": "Chyba 3xx: Výběr této kolekce metadat není možný.",
-    "filter.file.placeholder.name": "Zadejte název pro identifikaci připojeného souboru"
+    "filter.file.placeholder.name": "Zadat název pro identifikaci připojeného souboru"
 }
