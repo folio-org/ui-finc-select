@@ -29,7 +29,7 @@
     "filter.label": "Name",
     "filter.type": "種類",
     "filter.file.label": "File",
-    "filter.file.criteria": "Criteria",
+    "filter.file.criteria": "条件",
     "filter.file.download": "Download",
     "filter.file.dragDrop": "ドラッグ&ドロップでアップロード",
     "filter.file.choose": "またはファイルを選択",
