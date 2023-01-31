@@ -26,6 +26,7 @@ const STRIPES = {
   },
   okapi: {
     tenant: 'diku',
+    token: 'someToken',
     url: 'https://folio-testing-okapi.dev.folio.org',
   },
   plugins: {},
