@@ -98,7 +98,7 @@
     ],
     "displayName": "ui-finc-select.meta.title",
     "route": "/finc-select",
-    "home": "/finc-select/metadata-sources",
+    "home": "/finc-select/metadata-sources?filters=status.active,status.implementation",
     "queryResource": "query",
     "okapiInterfaces": {
       "finc-select/metadata-sources": "3.0",

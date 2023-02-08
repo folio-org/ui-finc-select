@@ -40,7 +40,13 @@ class SourcesRoute extends React.Component {
         staticFallback: { params: {} },
       },
     },
-    query: { initialValue: {} },
+    query: {
+      initialValue: {
+        query: '',
+        filters: 'status.active,status.implementation',
+        sort: 'label'
+      }
+    },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
   });
 
