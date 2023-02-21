@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   injectIntl,
-  FormattedMessage
+  FormattedMessage,
 } from 'react-intl';
 import { Field } from 'react-final-form';
 
@@ -14,34 +14,20 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import {
-  EditCard,
-  withKiwtFieldArray,
-} from '@folio/stripes-erm-components';
+import { EditCard } from '@folio/stripes-erm-components';
+import { useKiwtFieldArray } from '@k-int/stripes-kint-components';
 
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 
-class DocumentsFieldArray extends React.Component {
-  static propTypes = {
-    addDocBtnLabel: PropTypes.node,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }),
-    isEmptyMessage: PropTypes.node,
-    items: PropTypes.arrayOf(PropTypes.object),
-    name: PropTypes.string.isRequired,
-    onAddField: PropTypes.func.isRequired,
-    onDeleteField: PropTypes.func.isRequired,
-    onUploadFile: PropTypes.func,
-  }
+const DocumentsFieldArray = ({
+  intl,
+  fields: { name },
+  onUploadFile,
+}) => {
+  const { items, onAddField, onDeleteField } = useKiwtFieldArray(name);
 
-  static defaultProps = {
-    addDocBtnLabel: <FormattedMessage id="ui-finc-select.filter.file.addFile" />,
-    isEmptyMessage: <FormattedMessage id="ui-finc-select.filter.file.empty" />,
-  }
-
-  renderFileUpload = (doc, onUploadFile, name, i) => {
+  const renderFileUpload = (doc, i) => {
     if (_.isEmpty(doc.fileId)) {
       return (
         <React.Fragment>
@@ -74,17 +60,9 @@ class DocumentsFieldArray extends React.Component {
         </React.Fragment>
       );
     }
-  }
+  };
 
-  renderDocs = () => {
-    const {
-      onUploadFile,
-      intl,
-      items,
-      name,
-      onDeleteField
-    } = this.props;
-
+  const renderDocs = () => {
     return items.map((doc, i) => (
       <EditCard
         data-test-filter-file
@@ -126,39 +104,46 @@ class DocumentsFieldArray extends React.Component {
               </Col>
             </Row>
           </Col>
-          {this.renderFileUpload(doc, onUploadFile, name, i)}
+          {renderFileUpload(doc, i)}
         </Row>
       </EditCard>
     ));
-  }
+  };
 
-  renderEmpty = () => (
+  const renderEmpty = () => (
     <Layout
       data-test-filter-file-card-empty-message
       className="padding-bottom-gutter"
     >
-      { this.props.isEmptyMessage }
+      <FormattedMessage id="ui-finc-select.filter.file.empty" />
     </Layout>
-  )
+  );
 
-  render() {
-    const { items, onAddField } = this.props;
-
-    return (
-      <div data-test-filter-file-card>
-        <div>
-          { items.length ? this.renderDocs() : this.renderEmpty() }
-        </div>
-        <Button
-          data-test-filter-file-card-add-button
-          id="add-filter-file-btn"
-          onClick={() => onAddField()}
-        >
-          { this.props.addDocBtnLabel }
-        </Button>
+  return (
+    <div data-test-filter-file-card>
+      <div>
+        { items.length ? renderDocs() : renderEmpty() }
       </div>
-    );
-  }
-}
+      <Button
+        data-test-filter-file-card-add-button
+        id="add-filter-file-btn"
+        onClick={() => onAddField()}
+      >
+        <FormattedMessage id="ui-finc-select.filter.file.addFile" />
+      </Button>
+    </div>
+  );
+};
 
-export default withKiwtFieldArray(injectIntl(DocumentsFieldArray));
+DocumentsFieldArray.propTypes = {
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }),
+  name: PropTypes.string,
+  fields: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  onUploadFile: PropTypes.func,
+};
+
+export default injectIntl(DocumentsFieldArray);
