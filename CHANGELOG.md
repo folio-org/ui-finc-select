@@ -1,5 +1,12 @@
 # Change history for ui-finc-select
 
+## [5.1.0] (IN PROGRESS)
+
+## [5.0.0](https://github.com/folio-org/ui-finc-select/tree/v5.0.0) (2023-02-23)
+* Bump Stripes to v8, drop `react-redux`, `redux`, bump `plugin-find-finc-metadata-source` ([UIFC-291](https://issues.folio.org/browse/UIFC-291))
+* No results shown on first open ([UIFC-300](https://issues.folio.org/browse/UIFC-300))
+* Upgrade stripes-erm-components to v8 ([UIFC-299](https://issues.folio.org/browse/UIFC-299))
+
 ## [4.1.0](https://github.com/folio-org/ui-finc-select/tree/v4.1.0) (2022-10-26)
 * Fix yarn test download (UIFC-277)
 * Replace babel-eslint with @babel/eslint-parser (UIFC-273)
