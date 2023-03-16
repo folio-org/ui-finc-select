@@ -1,6 +1,9 @@
 # Change history for ui-finc-select
 
-## [5.1.0] (IN PROGRESS)
+## [5.2.0] (IN PROGRESS)
+
+## [5.1.0](https://github.com/folio-org/ui-finc-select/tree/v5.1.0) (2023-03-16)
+* Translations update
 
 ## [5.0.0](https://github.com/folio-org/ui-finc-select/tree/v5.0.0) (2023-02-23)
 * Bump Stripes to v8, drop `react-redux`, `redux`, bump `plugin-find-finc-metadata-source` ([UIFC-291](https://issues.folio.org/browse/UIFC-291))
