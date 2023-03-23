@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
+import { StripesContext } from '@folio/stripes/core';
 
 // import { server, rest } from '../../../../test/jest/testServer';
 import renderWithIntl from '../../../../test/jest/helpers';
