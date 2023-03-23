@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { StripesContext } from '@folio/stripes-core/src/StripesContext';
+import { StripesContext } from '@folio/stripes/core';
 
 import '../../../test/jest/__mock__';
 import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
