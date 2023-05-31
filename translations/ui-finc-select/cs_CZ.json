@@ -22,7 +22,7 @@
     "source.accordion.management": "Správa",
     "source.accordion.technical": "Technické",
     "source.button.showselectedCollections": "Zobrazit vybrané kolekce",
-    "source.button.selectAllCollections": "Vyberte všechny kolekce",
+    "source.button.selectAllCollections": "Vybrat všechny kolekce",
     "source.button.showAllCollections": "Zobrazit všechny kolekce",
     "source.modal.selectAllCollections.success": "Proces byl zahájen. Může chvíli trvat, než budou všechny ISIL přidány do vybraného pole.",
     "source.modal.selectAllCollections.error": "Proces nelze spustit.",
