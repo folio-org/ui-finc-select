@@ -1,22 +1,21 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StripesContext } from '@folio/stripes/core';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
+import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import FilterForm from './FilterForm';
 import FILTER from '../../../test/fixtures/filter';
-import stripes from '../../../test/jest/__mock__/stripesCore.mock';
 
 const onDelete = jest.fn();
 const onClose = jest.fn();
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
-const renderEmptyFilterForm = (initialValues = {}) => {
-  return renderWithIntl(
+const renderEmptyFilterForm = (stripes, initialValues = {}) => {
+  return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -32,11 +31,11 @@ const renderEmptyFilterForm = (initialValues = {}) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  );
+  ));
 };
 
-const renderFilterForm = (initialValues = FILTER) => {
-  return renderWithIntl(
+const renderFilterForm = (stripes, initialValues = FILTER) => {
+  return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -53,14 +52,23 @@ const renderFilterForm = (initialValues = FILTER) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  );
+  ));
 };
 
+jest.unmock('react-intl');
+
 describe('FilterForm', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = useStripes();
+  });
+
   describe('CREATE: empty form', () => {
     beforeEach(() => {
-      renderEmptyFilterForm();
+      renderEmptyFilterForm(stripes);
     });
+
     test('should display accordions', () => {
       expect(document.querySelector('#editFilterInfo')).toBeInTheDocument();
       expect(document.querySelector('#editFilterFile')).toBeInTheDocument();
@@ -78,6 +86,7 @@ describe('FilterForm', () => {
           screen.getByLabelText('Type', { exact: false }), ['Blacklist']
         );
       });
+
       test('test required fields', async () => {
         userEvent.click(screen.getByText('Save & close'));
         expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
@@ -88,8 +97,9 @@ describe('FilterForm', () => {
 
   describe('EDIT: form with initial values', () => {
     beforeEach(() => {
-      renderFilterForm();
+      renderFilterForm(stripes);
     });
+
     test('description should have value of fixture filter', () => {
       expect(screen.getByDisplayValue('Holdings 1')).toBeInTheDocument();
       expect(screen.getByDisplayValue('Whitelist')).toBeInTheDocument();
@@ -98,7 +108,7 @@ describe('FilterForm', () => {
 
   describe('delete filter', () => {
     beforeEach(() => {
-      renderFilterForm();
+      renderFilterForm(stripes);
     });
 
     test('delete modal is present', () => {
