@@ -29,7 +29,7 @@ class FilterInfoView extends React.Component {
 
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.filter.label" />}
@@ -42,7 +42,7 @@ class FilterInfoView extends React.Component {
             value={typeLabel}
           />
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

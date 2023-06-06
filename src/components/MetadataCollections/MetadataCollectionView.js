@@ -83,7 +83,7 @@ class MetadataCollectionView extends React.Component {
     if (isLoading) return this.renderLoadingPane();
 
     return (
-      <React.Fragment>
+      <>
         <Pane
           data-test-collection-pane-details
           defaultWidth="40%"
@@ -137,7 +137,7 @@ class MetadataCollectionView extends React.Component {
             </Accordion>
           </AccordionSet>
         </Pane>
-      </React.Fragment>
+      </>
     );
   }
 }

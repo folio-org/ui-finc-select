@@ -64,7 +64,7 @@ export default class FileUploader extends React.Component {
     } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <span
           className={`${css.uploadTitle} ${isDropZoneActive ? css.activeUploadTitle : ''}`}
           data-test-filter-file-upload-title
@@ -85,7 +85,7 @@ export default class FileUploader extends React.Component {
         >
           {uploadButtonText}
         </Button>
-      </React.Fragment>
+      </>
     );
   }
 

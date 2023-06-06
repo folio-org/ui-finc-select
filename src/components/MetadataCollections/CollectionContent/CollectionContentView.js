@@ -28,7 +28,7 @@ class CollectionContentView extends React.Component {
     const freeContentLabel = this.getDataLable('freeContent');
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.description" />}
@@ -41,7 +41,7 @@ class CollectionContentView extends React.Component {
             value={freeContentLabel}
           />
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

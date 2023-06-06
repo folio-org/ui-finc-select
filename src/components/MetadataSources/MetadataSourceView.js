@@ -84,7 +84,7 @@ class MetadataSourceView extends React.Component {
     if (isLoading) return this.renderLoadingPane();
 
     return (
-      <React.Fragment>
+      <>
         <Pane
           data-test-source-pane-details
           defaultWidth="40%"
@@ -139,7 +139,7 @@ class MetadataSourceView extends React.Component {
             </Accordion>
           </AccordionSet>
         </Pane>
-      </React.Fragment>
+      </>
     );
   }
 }

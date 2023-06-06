@@ -16,8 +16,8 @@ const renderFilters = (stripes) => (
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
-          searchString={'type.Whitelist,type.Blacklist'}
-          selectedRecordId={''}
+          searchString="type.Whitelist,type.Blacklist"
+          selectedRecordId=""
           onChangeIndex={jest.fn()}
         />
       </StripesContext.Provider>

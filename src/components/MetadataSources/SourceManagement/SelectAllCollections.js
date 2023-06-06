@@ -30,11 +30,11 @@ class SelectAllCollections extends React.Component {
     super(props);
 
     this.okapiUrl = props.stripes.okapi.url;
-    this.httpHeaders = Object.assign({}, {
+    this.httpHeaders = {
       'X-Okapi-Tenant': props.stripes.okapi.tenant,
       'X-Okapi-Token': props.stripes.store.getState().okapi.token,
       'Content-Type': 'application/json'
-    });
+    };
 
     this.state = {
       showInfoModal: false,

@@ -38,8 +38,8 @@ const renderMetadataCollections = (stripes) => (
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
-          searchString={'permitted.yes,selected.yes'}
-          selectedRecordId={''}
+          searchString="permitted.yes,selected.yes"
+          selectedRecordId=""
           onChangeIndex={jest.fn()}
         />
       </StripesContext.Provider>

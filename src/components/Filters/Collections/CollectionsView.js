@@ -14,7 +14,7 @@ class CollectionsView extends React.Component {
     const filterId = _.get(this.props.filter, 'id', '-');
 
     return (
-      <React.Fragment>
+      <>
         <div>
           <ViewCollections
             collectionIds={this.props.collectionIds}
@@ -24,7 +24,7 @@ class CollectionsView extends React.Component {
             {...this.props}
           />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
