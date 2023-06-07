@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -81,14 +81,16 @@ describe('FilterForm', () => {
     });
 
     describe('select type', () => {
-      beforeEach(() => {
-        userEvent.selectOptions(
-          screen.getByLabelText('Type', { exact: false }), ['Blacklist']
-        );
+      beforeEach(async () => {
+        await waitFor(() => {
+          userEvent.selectOptions(
+            screen.getByLabelText('Type', { exact: false }), ['Blacklist']
+          );
+        });
       });
 
       test('test required fields', async () => {
-        userEvent.click(screen.getByText('Save & close'));
+        await waitFor(() => { userEvent.click(screen.getByText('Save & close')); });
         expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
         expect(onSubmit).not.toHaveBeenCalled();
       });
@@ -111,14 +113,16 @@ describe('FilterForm', () => {
       renderFilterForm(stripes);
     });
 
-    test('delete modal is present', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('delete modal is present', async () => {
+      // userEvent.click(screen.getByText('Delete'));
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       expect(document.getElementById('delete-filter-confirmation')).toBeInTheDocument();
       expect(screen.getByText('Do you really want to delete Holdings 1?')).toBeInTheDocument();
     });
 
-    test('click cancel', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('click cancel', async () => {
+      // userEvent.click(screen.getByText('Delete'));
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       const cancel = screen.getByRole('button', {
         name: 'Cancel',
         id: 'clickable-delete-filter-confirmation-cancel',
@@ -127,8 +131,8 @@ describe('FilterForm', () => {
       expect(onDelete).not.toHaveBeenCalled();
     });
 
-    test('click submit', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('click submit', async () => {
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       const submit = screen.getByRole('button', {
         name: 'Submit',
         id: 'clickable-delete-filter-confirmation-confirm',
