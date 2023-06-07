@@ -113,7 +113,7 @@ class FilterView extends React.Component {
     const docs = _.get(record, 'filterFiles', []);
 
     return (
-      <React.Fragment>
+      <>
         <Pane
           data-test-filter-pane-details
           defaultWidth="40%"
@@ -170,7 +170,7 @@ class FilterView extends React.Component {
             </Accordion>
           </AccordionSet>
         </Pane>
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -1,56 +1,21 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 import { Button } from '@folio/stripes-components';
 
-import '../../../../test/jest/__mock__';
-import translationsProperties from '../../../../test/jest/helpers/translationsProperties';
-import renderWithIntl from '../../../../test/jest/helpers';
+import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterFileView from './FilterFileView';
 import { server, rest } from '../../../../test/jest/testServer';
-// import stripes from '../../../../test/jest/__mock__/stripesCore.mock';
 
-const STRIPES = {
-  actionNames: [],
-  clone: () => ({ ...STRIPES }),
-  connect: (Component) => Component,
-  config: {},
-  currency: 'USD',
-  hasInterface: () => true,
-  hasPerm: jest.fn().mockReturnValue(true),
-  locale: 'en-US',
-  logger: {
-    log: () => { },
-  },
+const stripes = {
+  // we need to set okapi token here
   okapi: {
     tenant: 'diku',
     token: 'someToken',
     url: 'https://folio-testing-okapi.dev.folio.org',
   },
-  plugins: {},
-  setBindings: () => { },
-  setCurrency: () => { },
-  setLocale: () => { },
-  setSinglePlugin: () => { },
-  setTimezone: () => { },
-  setToken: () => { },
-  store: {
-    getState: () => { },
-    dispatch: () => { },
-    subscribe: () => { },
-    replaceReducer: () => { },
-  },
-  timezone: 'UTC',
-  user: {
-    perms: {},
-    user: {
-      id: 'b1add99d-530b-5912-94f3-4091b4d87e2c',
-      username: 'diku_admin',
-    },
-  },
-  withOkapi: true,
 };
 
 const withoutFilterFile = {
@@ -69,20 +34,21 @@ const withFilterFile = {
 const handleDownloadFile = jest.fn();
 
 const renderFilterFileView = (filter) => (
-  renderWithIntl(
+  render(withIntlConfiguration(
     <MemoryRouter>
-      <StripesContext.Provider value={STRIPES}>
+      <StripesContext.Provider value={stripes}>
         <FilterFileView
           filter={filter}
-          stripes={STRIPES}
+          stripes={stripes}
         >
           <Button onClick={handleDownloadFile()}>Download</Button>
         </FilterFileView>
       </StripesContext.Provider>
-    </MemoryRouter>,
-    translationsProperties
-  )
+    </MemoryRouter>
+  ))
 );
+
+jest.unmock('react-intl');
 
 jest.mock('file-saver', () => ({
   saveAs: jest.fn(),

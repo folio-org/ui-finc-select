@@ -1,49 +1,58 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import '../../../test/jest/__mock__';
-import translationsProperties from '../../../test/jest/helpers/translationsProperties';
-import renderWithIntl from '../../../test/jest/helpers';
+import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import FILTER from '../../../test/fixtures/filter';
 import FilterView from './FilterView';
-import stripes from '../../../test/jest/__mock__/stripesCore.mock';
 
 const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn,
 };
 
-const renderFilterView = (fakeStripes = stripes, record = FILTER) => (
-  renderWithIntl(
+const stripes = {
+  // we need to set okapi token here
+  okapi: {
+    tenant: 'diku',
+    token: 'someToken',
+    url: 'https://folio-testing-okapi.dev.folio.org',
+  },
+};
+
+const renderFilterView = (record = FILTER) => (
+  render(withIntlConfiguration(
     <MemoryRouter>
-      <StripesContext.Provider value={fakeStripes}>
+      <StripesContext.Provider value={stripes}>
         <FilterView
           canEdit
           handlers={handlers}
           isLoading={false}
           record={record}
-          stripes={fakeStripes}
+          stripes={stripes}
         />
       </StripesContext.Provider>
-    </MemoryRouter>,
-    translationsProperties
-  )
+    </MemoryRouter>
+  ))
 );
+
+jest.unmock('react-intl');
 
 describe('FilterView', () => {
   beforeEach(() => {
-    renderFilterView(stripes, FILTER);
+    renderFilterView(FILTER);
   });
 
   it('accordions should be present', () => {
     expect(document.querySelector('#fileAccordion')).toBeInTheDocument();
     expect(document.querySelector('#collectionAccordion')).toBeInTheDocument();
   });
+
   it('should display name', () => {
     expect(screen.getByLabelText('Holdings 1')).toBeInTheDocument();
   });
+
   it('should display type', () => {
     expect(screen.getByText('Whitelist')).toBeInTheDocument();
   });

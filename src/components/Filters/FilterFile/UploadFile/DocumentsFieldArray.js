@@ -30,7 +30,7 @@ const DocumentsFieldArray = ({
   const renderFileUpload = (doc, i) => {
     if (_.isEmpty(doc.fileId)) {
       return (
-        <React.Fragment>
+        <>
           {onUploadFile &&
             <Col xs={12} md={6}>
               <Row>
@@ -49,15 +49,15 @@ const DocumentsFieldArray = ({
               </Row>
             </Col>
           }
-        </React.Fragment>
+        </>
       );
     } else {
       const filename = doc.label;
       const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
       return (
-        <React.Fragment>
+        <>
           {fileConnectedText}
-        </React.Fragment>
+        </>
       );
     }
   };

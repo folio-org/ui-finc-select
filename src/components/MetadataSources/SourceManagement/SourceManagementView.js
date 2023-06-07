@@ -52,16 +52,16 @@ class SourceManagementView extends React.Component {
       }
     } else {
       orgValue = (
-        <React.Fragment>
+        <>
           <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
             {organization.name}
           </Link>
-        </React.Fragment>
+        </>
       );
     }
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <Col xs={6}>
             <Button
@@ -108,7 +108,7 @@ class SourceManagementView extends React.Component {
             value={_.get(metadataSource, 'generalNotes', <NoValue />)}
           />
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

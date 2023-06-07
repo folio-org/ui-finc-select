@@ -1,11 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import '../../../test/jest/__mock__';
-import translationsProperties from '../../../test/jest/helpers/translationsProperties';
-import renderWithIntl from '../../../test/jest/helpers';
+import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import COLLECTION from '../../../test/fixtures/metadatacollection';
 import MetadataCollectionView from './MetadataCollectionView';
 
@@ -17,45 +15,56 @@ const handlers = {
 const okapiState = { okapi: { token: {} } };
 
 const stripes = {
-  okapi: { url: '' },
+  // we need to set okapi token here
+  okapi: {
+    tenant: 'diku',
+    token: 'someToken',
+    url: 'https://folio-testing-okapi.dev.folio.org',
+  },
+  // we need to set store here
   store: { getState: () => { return okapiState; } },
 };
 
-const renderMetadateCollectionView = (fakeStripes = stripes, record = COLLECTION) => (
-  renderWithIntl(
+const renderMetadateCollectionView = (record = COLLECTION) => (
+  render(withIntlConfiguration(
     <MemoryRouter>
-      <StripesContext.Provider value={fakeStripes}>
+      <StripesContext.Provider value={stripes}>
         <MetadataCollectionView
           canEdit
           handlers={handlers}
           isLoading={false}
           record={record}
-          stripes={fakeStripes}
+          stripes={stripes}
         />
       </StripesContext.Provider>
-    </MemoryRouter>,
-    translationsProperties
-  )
+    </MemoryRouter>
+  ))
 );
+
+jest.unmock('react-intl');
 
 describe('MetadataCollectionView', () => {
   beforeEach(() => {
-    renderMetadateCollectionView(stripes, COLLECTION);
+    renderMetadateCollectionView(COLLECTION);
   });
 
   test('accordions should be present', async () => {
     expect(document.querySelector('#contentAccordion')).toBeInTheDocument();
     expect(document.querySelector('#technicalAccordion')).toBeInTheDocument();
   });
+
   it('should display name', () => {
     expect(screen.getByLabelText('21st Century Political Science Association')).toBeInTheDocument();
   });
+
   it('should display metadata source', () => {
     expect(screen.getByText('Early Music Online')).toBeInTheDocument();
   });
+
   it('should display description', () => {
     expect(screen.getByText('This is a test metadata collection 2')).toBeInTheDocument();
   });
+
   it('should display ID', () => {
     expect(screen.getByText('psa-459')).toBeInTheDocument();
   });

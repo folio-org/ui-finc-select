@@ -1,22 +1,21 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
-import { screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StripesContext } from '@folio/stripes/core';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
+import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import FilterForm from './FilterForm';
 import FILTER from '../../../test/fixtures/filter';
-import stripes from '../../../test/jest/__mock__/stripesCore.mock';
 
 const onDelete = jest.fn();
 const onClose = jest.fn();
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
-const renderEmptyFilterForm = (initialValues = {}) => {
-  return renderWithIntl(
+const renderEmptyFilterForm = (stripes, initialValues = {}) => {
+  return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -32,11 +31,11 @@ const renderEmptyFilterForm = (initialValues = {}) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  );
+  ));
 };
 
-const renderFilterForm = (initialValues = FILTER) => {
-  return renderWithIntl(
+const renderFilterForm = (stripes, initialValues = FILTER) => {
+  return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -53,14 +52,23 @@ const renderFilterForm = (initialValues = FILTER) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  );
+  ));
 };
 
+jest.unmock('react-intl');
+
 describe('FilterForm', () => {
+  let stripes;
+
+  beforeEach(() => {
+    stripes = useStripes();
+  });
+
   describe('CREATE: empty form', () => {
     beforeEach(() => {
-      renderEmptyFilterForm();
+      renderEmptyFilterForm(stripes);
     });
+
     test('should display accordions', () => {
       expect(document.querySelector('#editFilterInfo')).toBeInTheDocument();
       expect(document.querySelector('#editFilterFile')).toBeInTheDocument();
@@ -73,13 +81,16 @@ describe('FilterForm', () => {
     });
 
     describe('select type', () => {
-      beforeEach(() => {
-        userEvent.selectOptions(
-          screen.getByLabelText('Type', { exact: false }), ['Blacklist']
-        );
+      beforeEach(async () => {
+        await waitFor(() => {
+          userEvent.selectOptions(
+            screen.getByLabelText('Type', { exact: false }), ['Blacklist']
+          );
+        });
       });
+
       test('test required fields', async () => {
-        userEvent.click(screen.getByText('Save & close'));
+        await waitFor(() => { userEvent.click(screen.getByText('Save & close')); });
         expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
         expect(onSubmit).not.toHaveBeenCalled();
       });
@@ -88,8 +99,9 @@ describe('FilterForm', () => {
 
   describe('EDIT: form with initial values', () => {
     beforeEach(() => {
-      renderFilterForm();
+      renderFilterForm(stripes);
     });
+
     test('description should have value of fixture filter', () => {
       expect(screen.getByDisplayValue('Holdings 1')).toBeInTheDocument();
       expect(screen.getByDisplayValue('Whitelist')).toBeInTheDocument();
@@ -98,17 +110,19 @@ describe('FilterForm', () => {
 
   describe('delete filter', () => {
     beforeEach(() => {
-      renderFilterForm();
+      renderFilterForm(stripes);
     });
 
-    test('delete modal is present', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('delete modal is present', async () => {
+      // userEvent.click(screen.getByText('Delete'));
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       expect(document.getElementById('delete-filter-confirmation')).toBeInTheDocument();
       expect(screen.getByText('Do you really want to delete Holdings 1?')).toBeInTheDocument();
     });
 
-    test('click cancel', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('click cancel', async () => {
+      // userEvent.click(screen.getByText('Delete'));
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       const cancel = screen.getByRole('button', {
         name: 'Cancel',
         id: 'clickable-delete-filter-confirmation-cancel',
@@ -117,8 +131,8 @@ describe('FilterForm', () => {
       expect(onDelete).not.toHaveBeenCalled();
     });
 
-    test('click submit', () => {
-      userEvent.click(screen.getByText('Delete'));
+    test('click submit', async () => {
+      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
       const submit = screen.getByRole('button', {
         name: 'Submit',
         id: 'clickable-delete-filter-confirmation-confirm',

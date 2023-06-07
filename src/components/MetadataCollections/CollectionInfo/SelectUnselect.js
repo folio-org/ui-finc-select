@@ -22,11 +22,11 @@ class SelectUnselect extends React.Component {
     super(props);
 
     this.okapiUrl = props.stripes.okapi.url;
-    this.httpHeaders = Object.assign({}, {
+    this.httpHeaders = {
       'X-Okapi-Tenant': props.stripes.okapi.tenant,
       'X-Okapi-Token': props.stripes.store.getState().okapi.token,
       'Content-Type': 'application/json'
-    });
+    };
 
     this.state = {
       showInfoModal: false,
@@ -158,7 +158,7 @@ class SelectUnselect extends React.Component {
     const selectedLabel = this.getSelectedDataLable();
 
     return (
-      <React.Fragment>
+      <>
         <Col xs={3}>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.selected" />}
@@ -186,7 +186,7 @@ class SelectUnselect extends React.Component {
             <FormattedMessage id="ui-finc-select.button.ok" />
           </Button>
         </Modal>
-      </React.Fragment>
+      </>
     );
   }
 }

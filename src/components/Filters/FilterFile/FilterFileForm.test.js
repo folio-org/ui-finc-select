@@ -1,17 +1,16 @@
 import React from 'react';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { StripesContext } from '@folio/stripes/core';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 
 // import { server, rest } from '../../../../test/jest/testServer';
-import renderWithIntl from '../../../../test/jest/helpers';
+import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterForm from '../FilterForm';
 import FilterFileForm from './FilterFileForm';
 import FILTER from '../../../../test/fixtures/filter';
-import stripes from '../../../../test/jest/__mock__/stripesCore.mock';
 
 const onToggle = jest.fn();
 const onDelete = jest.fn();
@@ -24,8 +23,8 @@ const onDownloadFile = jest.fn();
 // const filterId = '0ba00047-b6cb-417a-a735-e2c1e45e30f1';
 const file = new File(['foo'], 'file.json', { type: 'text/plain' });
 
-const renderFilterFileForm = (initialValues = FILTER) => {
-  return renderWithIntl(
+const renderFilterFileForm = (stripes, initialValues = FILTER) => {
+  return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -56,13 +55,18 @@ const renderFilterFileForm = (initialValues = FILTER) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  );
+  ));
 };
 
+jest.unmock('react-intl');
+
 describe('FilterFileForm', () => {
+  let stripes;
+
   describe('render FilterFileForm', () => {
     beforeEach(() => {
-      renderFilterFileForm();
+      stripes = useStripes();
+      renderFilterFileForm(stripes);
     });
 
     test('Add file button is rendered', async () => {
@@ -73,16 +77,18 @@ describe('FilterFileForm', () => {
     });
 
     describe('Click add file button', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         const selectFile = screen.getByRole('button', {
           name: 'Add file to filter',
         });
-        userEvent.click(selectFile);
+        await waitFor(() => { userEvent.click(selectFile); });
       });
 
       test('should render filter file upload button', async () => {
-        expect(document.querySelector('#filter-file-label-1')).toBeInTheDocument();
-        expect(document.querySelector('#filter-file-upload-button')).toBeInTheDocument();
+        await waitFor(() => {
+          expect(document.querySelector('#filter-file-label-1')).toBeInTheDocument();
+          expect(document.querySelector('#filter-file-upload-button')).toBeInTheDocument();
+        });
       });
 
       test('should render filter file upload button', async () => {
@@ -90,9 +96,12 @@ describe('FilterFileForm', () => {
         const uploadFileInput = document.querySelector('#filter-file-input');
         const saveButton = screen.getByRole('button', { name: 'Save & close' });
 
-        userEvent.type(filenameInput, 'my filename');
-        await act(async () => fireEvent.change(uploadFileInput, { target: { filterFiles: [file] } }));
-        await waitFor(() => expect(saveButton).not.toHaveAttribute('disabled'));
+        await waitFor(() => {
+          userEvent.type(filenameInput, 'my filename');
+          fireEvent.change(uploadFileInput, { target: { filterFiles: [file] } });
+
+          expect(saveButton).not.toHaveAttribute('disabled');
+        });
         // expect(screen.getByText('The filter file my filename is connected.')).toBeVisible();
       });
 

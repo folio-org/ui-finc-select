@@ -1,16 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { StripesContext } from '@folio/stripes/core';
+import { StripesContext, useStripes } from '@folio/stripes/core';
+import { render } from '@testing-library/react';
 
-import '../../../test/jest/__mock__';
-import renderWithIntl from '../../../test/jest/helpers/renderWithIntl';
-import translationsProperties from '../../../test/jest/helpers/translationsProperties';
+import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import filters from '../../../test/fixtures/metadatacollections';
 import Filters from './Filters';
-import stripes from '../../../test/jest/__mock__/stripesCore.mock';
 
-const renderFilters = () => (
-  renderWithIntl(
+const renderFilters = (stripes) => (
+  render(withIntlConfiguration(
     <Router>
       <StripesContext.Provider value={stripes}>
         <Filters
@@ -18,19 +16,23 @@ const renderFilters = () => (
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
-          searchString={'type.Whitelist,type.Blacklist'}
-          selectedRecordId={''}
+          searchString="type.Whitelist,type.Blacklist"
+          selectedRecordId=""
           onChangeIndex={jest.fn()}
         />
       </StripesContext.Provider>
-    </Router>,
-    translationsProperties
-  )
+    </Router>
+  ))
 );
 
+jest.unmock('react-intl');
+
 describe('Filters SASQ View', () => {
+  let stripes;
+
   beforeEach(() => {
-    renderFilters();
+    stripes = useStripes();
+    renderFilters(stripes);
   });
 
   afterEach(() => {

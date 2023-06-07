@@ -1,6 +1,7 @@
 # Change history for ui-finc-select
 
 ## [5.2.0] (IN PROGRESS)
+* Replace BigTest tests ([UIFC-289](https://issues.folio.org/browse/UIFC-289))
 
 ## [5.1.0](https://github.com/folio-org/ui-finc-select/tree/v5.1.0) (2023-03-16)
 * Translations update

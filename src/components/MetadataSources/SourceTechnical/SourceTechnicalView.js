@@ -42,7 +42,7 @@ class SourceTechnicalView extends React.Component {
     const { metadataSource } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
@@ -67,7 +67,7 @@ class SourceTechnicalView extends React.Component {
             value={_.get(metadataSource, 'sourceId', <NoValue />)}
           />
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

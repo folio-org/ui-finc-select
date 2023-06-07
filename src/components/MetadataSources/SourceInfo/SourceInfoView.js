@@ -28,7 +28,7 @@ class SourceInfoView extends React.Component {
     const implementationStatusLabel = this.getDataLable('status');
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.source.label" />}
@@ -47,7 +47,7 @@ class SourceInfoView extends React.Component {
             value={implementationStatusLabel}
           />
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

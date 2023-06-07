@@ -58,13 +58,13 @@ class ViewCollections extends React.Component {
       </Pluggable>;
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <Col xs={6}>
             { pluggable }
           </Col>
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -42,7 +42,7 @@ class CollectionTechnicalView extends React.Component {
     const { metadataCollection } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <Row>
           <KeyValue
             label={<FormattedMessage id="ui-finc-select.collection.id" />}
@@ -66,7 +66,7 @@ class CollectionTechnicalView extends React.Component {
         <Row>
           { this.renderUrlList('tickets') }
         </Row>
-      </React.Fragment>
+      </>
     );
   }
 }
