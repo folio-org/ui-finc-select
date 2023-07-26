@@ -9,6 +9,8 @@ import {
   Button,
 } from '@folio/stripes/components';
 
+import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+
 class FilterFileView extends React.Component {
   static propTypes = {
     filter: PropTypes.shape({
@@ -31,12 +33,8 @@ class FilterFileView extends React.Component {
   handleDownloadFile = (file) => {
     const { stripes: { okapi } } = this.props;
 
-    return fetch(`${okapi.url}/finc-select/files/${file.fileId}`, {
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-      },
-    }).then(response => response.blob())
+    return fetchWithDefaultOptions(okapi, `/finc-select/files/${file.fileId}`)
+      .then(response => response.blob())
       .then(blob => {
         saveAs(blob, file.label);
       })
