@@ -9,6 +9,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+
 class SelectAllCollections extends React.Component {
   static manifest = Object.freeze({
     selectAll: {
@@ -29,13 +31,6 @@ class SelectAllCollections extends React.Component {
   constructor(props) {
     super(props);
 
-    this.okapiUrl = props.stripes.okapi.url;
-    this.httpHeaders = {
-      'X-Okapi-Tenant': props.stripes.okapi.tenant,
-      'X-Okapi-Token': props.stripes.store.getState().okapi.token,
-      'Content-Type': 'application/json'
-    };
-
     this.state = {
       showInfoModal: false,
       modalText: ''
@@ -46,10 +41,10 @@ class SelectAllCollections extends React.Component {
     const selectTrue = { select: true };
     const selectJson = JSON.stringify(selectTrue);
 
-    fetch(`${this.okapiUrl}/finc-select/metadata-sources/${sourceId}/collections/select-all`,
+    fetchWithDefaultOptions(this.props.stripes.okapi, `/finc-select/metadata-sources/${sourceId}/collections/select-all`,
       {
-        headers: this.httpHeaders,
         method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: selectJson
       })
       .then((response) => {

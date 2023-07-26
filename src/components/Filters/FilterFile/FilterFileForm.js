@@ -6,6 +6,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Accordion } from '@folio/stripes/components';
 
 import DocumentsFieldArray from './UploadFile/DocumentsFieldArray';
+import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
 
 class FilterFileForm extends React.Component {
   static propTypes = {
@@ -22,13 +23,9 @@ class FilterFileForm extends React.Component {
   handleUploadFile = (file) => {
     const { stripes: { okapi } } = this.props;
 
-    return fetch(`${okapi.url}/finc-select/files`, {
+    return fetchWithDefaultOptions(okapi, '/finc-select/files', {
       method: 'POST',
-      headers: {
-        'X-Okapi-Tenant': okapi.tenant,
-        'X-Okapi-Token': okapi.token,
-        'Content-Type': 'application/octet-stream'
-      },
+      headers: { 'Content-Type': 'application/octet-stream' },
       body: file,
     });
   }

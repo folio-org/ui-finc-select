@@ -10,6 +10,8 @@ import {
   Modal,
 } from '@folio/stripes/components';
 
+import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+
 class SelectUnselect extends React.Component {
   static propTypes = {
     collectionId: PropTypes.string,
@@ -20,13 +22,6 @@ class SelectUnselect extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.okapiUrl = props.stripes.okapi.url;
-    this.httpHeaders = {
-      'X-Okapi-Tenant': props.stripes.okapi.tenant,
-      'X-Okapi-Token': props.stripes.store.getState().okapi.token,
-      'Content-Type': 'application/json'
-    };
 
     this.state = {
       showInfoModal: false,
@@ -102,11 +97,11 @@ class SelectUnselect extends React.Component {
     if (selected === 'no') { inverseSelected = 'yes'; } else { inverseSelected = 'no'; }
     const invertSelectedButtonLable = this.getSelectedButtonLable(inverseSelected);
 
-    fetch(`${this.okapiUrl}/finc-select/metadata-collections/${collectionId}/select`,
+    fetchWithDefaultOptions(this.props.stripes.okapi, `/finc-select/metadata-collections/${collectionId}/select`,
       {
-        headers: this.httpHeaders,
         method: 'PUT',
-        body: selectedJson
+        headers: { 'Content-Type': 'application/json' },
+        body: selectedJson,
       })
       .then((response) => {
         if (response.status >= 400) {
