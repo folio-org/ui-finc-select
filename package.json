@@ -96,14 +96,6 @@
         "visible": false
       },
       {
-        "permissionName": "ui-finc-select.module.enabled",
-        "displayName": "Finc select: module is enabled",
-        "subPermissions": [
-          "module.finc-select.enabled"
-        ],
-        "visible": true
-      },
-      {
         "permissionName": "settings.finc-select.enabled",
         "displayName": "Settings (finc-select): display list of settings pages",
         "subPermissions": [
@@ -115,14 +107,10 @@
         "permissionName": "ui-finc-select.settings.manage",
         "displayName": "Settings (Finc select): Can view and edit settings",
         "subPermissions": [
-          "finc-select.module.enabled",
-          "settings.enabled",
-          "finc-config.ezb-credentials.collection.get",
+          "settings.finc-select.enabled",
           "finc-select.ezb-credentials.item.get",
-          "finc-config.ezb-credentials.item.post",
           "finc-select.ezb-credentials.item.put",
-          "finc-select.ezb-credentials.item.delete",
-          "settings.finc-select.enabled"
+          "finc-select.ezb-credentials.item.delete"
         ],
         "visible": true
       },
@@ -131,8 +119,18 @@
         "displayName": "Finc select: All permissions",
         "description": "All permissions for finc select",
         "subPermissions": [
-          "finc-select.settings.enabled",
-          "finc-select.all"
+          "ui-finc-select.settings.manage",
+          "ui-finc-select.view",
+          "finc-select.metadata-collections.item.select",
+          "finc-select.metadata-collections.item.filters",
+          "finc-select.metadata-sources.item.select-all",
+          "finc-select.filters.item.put",
+          "finc-select.filters.item.delete",
+          "finc-select.filters.item.post",
+          "finc-select.files.item.delete",
+          "finc-select.files.item.post",
+          "finc-select.ezb-credentials.item.put",
+          "finc-select.ezb-credentials.item.delete"
         ],
         "visible": true
       },
@@ -141,7 +139,7 @@
         "displayName": "Finc select: Can view metadatasources, metadatacollections and filters",
         "description": "Can view metadatasources, metadatacollections and filters",
         "subPermissions": [
-          "finc-select.module.enabled",
+          "module.finc-select.enabled",
           "finc-select.metadata-collections.collection.get",
           "finc-select.metadata-collections.item.get",
           "finc-select.metadata-sources.collection.get",
@@ -149,6 +147,7 @@
           "finc-select.filters.collection.get",
           "finc-select.filters.item.get",
           "finc-select.files.item.get",
+          "finc-config.metadata-sources.collection.get",
           "organizations-storage.organizations.collection.get",
           "organizations-storage.organizations.item.get"
         ],
