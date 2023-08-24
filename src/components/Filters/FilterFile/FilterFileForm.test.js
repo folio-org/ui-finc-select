@@ -6,7 +6,6 @@ import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
-// import { server, rest } from '../../../../test/jest/testServer';
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterForm from '../FilterForm';
 import FilterFileForm from './FilterFileForm';
@@ -20,42 +19,43 @@ const onSubmit = jest.fn();
 const onUploadFile = jest.fn();
 const onDownloadFile = jest.fn();
 
-// const filterId = '0ba00047-b6cb-417a-a735-e2c1e45e30f1';
 const file = new File(['foo'], 'file.json', { type: 'text/plain' });
 
 const renderFilterFileForm = (stripes, initialValues = FILTER) => {
-  return render(withIntlConfiguration(
-    <StripesContext.Provider value={stripes}>
-      <MemoryRouter>
-        <Form
-          onSubmit={onSubmit}
-          render={() => (
-            <FilterForm
-              initialValues={initialValues}
-              handlers={{ onClose, onDelete }}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              onDelete={onDelete}
-            >
-              <FilterFileForm
-                accordionId="accordionId"
-                expanded
-                onToggle={onToggle}
-                stripes={stripes}
+  return render(
+    withIntlConfiguration(
+      <StripesContext.Provider value={stripes}>
+        <MemoryRouter>
+          <Form
+            onSubmit={onSubmit}
+            render={() => (
+              <FilterForm
+                initialValues={initialValues}
+                handlers={{ onClose, onDelete }}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                onDelete={onDelete}
               >
-                <FieldArray
-                  addDocBtnLabel="Add file to filter"
-                  name="filterFiles"
-                  onDownloadFile={onDownloadFile}
-                  onUploadFile={onUploadFile}
-                />
-              </FilterFileForm>
-            </FilterForm>
-          )}
-        />
-      </MemoryRouter>
-    </StripesContext.Provider>
-  ));
+                <FilterFileForm
+                  accordionId="accordionId"
+                  expanded
+                  onToggle={onToggle}
+                  stripes={stripes}
+                >
+                  <FieldArray
+                    addDocBtnLabel="Add file to filter"
+                    name="filterFiles"
+                    onDownloadFile={onDownloadFile}
+                    onUploadFile={onUploadFile}
+                  />
+                </FilterFileForm>
+              </FilterForm>
+            )}
+          />
+        </MemoryRouter>
+      </StripesContext.Provider>
+    )
+  );
 };
 
 jest.unmock('react-intl');
@@ -69,7 +69,7 @@ describe('FilterFileForm', () => {
       renderFilterFileForm(stripes);
     });
 
-    test('Add file button is rendered', async () => {
+    test('Add file button is rendered', () => {
       const selectFile = screen.getByRole('button', {
         name: 'Add file to filter',
       });
@@ -81,14 +81,12 @@ describe('FilterFileForm', () => {
         const selectFile = screen.getByRole('button', {
           name: 'Add file to filter',
         });
-        await waitFor(() => { userEvent.click(selectFile); });
+        await userEvent.click(selectFile);
       });
 
-      test('should render filter file upload button', async () => {
-        await waitFor(() => {
-          expect(document.querySelector('#filter-file-label-1')).toBeInTheDocument();
-          expect(document.querySelector('#filter-file-upload-button')).toBeInTheDocument();
-        });
+      test('should render filter file upload button', () => {
+        expect(document.querySelector('#filter-file-label-1')).toBeInTheDocument();
+        expect(document.querySelector('#filter-file-upload-button')).toBeInTheDocument();
       });
 
       test('should render filter file upload button', async () => {
@@ -96,33 +94,12 @@ describe('FilterFileForm', () => {
         const uploadFileInput = document.querySelector('#filter-file-input');
         const saveButton = screen.getByRole('button', { name: 'Save & close' });
 
+        await userEvent.type(filenameInput, 'my filename');
+        fireEvent.change(uploadFileInput, { target: { filterFiles: [file] } });
         await waitFor(() => {
-          userEvent.type(filenameInput, 'my filename');
-          fireEvent.change(uploadFileInput, { target: { filterFiles: [file] } });
-
-          expect(saveButton).not.toHaveAttribute('disabled');
+          expect(saveButton).toBeEnabled();
         });
-        // expect(screen.getByText('The filter file my filename is connected.')).toBeVisible();
       });
-
-      // test('upload filter file', async () => {
-      //   server.use(
-      //     rest.post(
-      //       'https://folio-testing-okapi.dev.folio.org/finc-select/files/',
-      //       (req, res, ctx) => {
-      //         return res(ctx.status(200));
-      //       }
-      //     )
-      //   );
-
-      //   const filenameInput = document.querySelector('#filter-file-label-1');
-      //   userEvent.type(filenameInput, 'my filename');
-
-      //   const saveButton = screen.getByRole('button', { name: 'Save & close' });
-      //   await act(async () => userEvent.click(saveButton));
-
-      //   await waitFor(() => expect(onUploadFile).toBeCalled());
-      // });
     });
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -15,44 +15,48 @@ const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
 const renderEmptyFilterForm = (stripes, initialValues = {}) => {
-  return render(withIntlConfiguration(
-    <StripesContext.Provider value={stripes}>
-      <MemoryRouter>
-        <Form
-          onSubmit={jest.fn}
-          render={() => (
-            <FilterForm
-              initialValues={initialValues}
-              handlers={{ onClose, onDelete }}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-            />
-          )}
-        />
-      </MemoryRouter>
-    </StripesContext.Provider>
-  ));
+  return render(
+    withIntlConfiguration(
+      <StripesContext.Provider value={stripes}>
+        <MemoryRouter>
+          <Form
+            onSubmit={jest.fn}
+            render={() => (
+              <FilterForm
+                initialValues={initialValues}
+                handlers={{ onClose, onDelete }}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+              />
+            )}
+          />
+        </MemoryRouter>
+      </StripesContext.Provider>
+    )
+  );
 };
 
 const renderFilterForm = (stripes, initialValues = FILTER) => {
-  return render(withIntlConfiguration(
-    <StripesContext.Provider value={stripes}>
-      <MemoryRouter>
-        <Form
-          onSubmit={jest.fn}
-          render={() => (
-            <FilterForm
-              initialValues={initialValues}
-              handlers={{ onClose, onDelete }}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              onDelete={onDelete}
-            />
-          )}
-        />
-      </MemoryRouter>
-    </StripesContext.Provider>
-  ));
+  return render(
+    withIntlConfiguration(
+      <StripesContext.Provider value={stripes}>
+        <MemoryRouter>
+          <Form
+            onSubmit={jest.fn}
+            render={() => (
+              <FilterForm
+                initialValues={initialValues}
+                handlers={{ onClose, onDelete }}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                onDelete={onDelete}
+              />
+            )}
+          />
+        </MemoryRouter>
+      </StripesContext.Provider>
+    )
+  );
 };
 
 jest.unmock('react-intl');
@@ -82,15 +86,13 @@ describe('FilterForm', () => {
 
     describe('select type', () => {
       beforeEach(async () => {
-        await waitFor(() => {
-          userEvent.selectOptions(
-            screen.getByLabelText('Type', { exact: false }), ['Blacklist']
-          );
-        });
+        await userEvent.selectOptions(screen.getByLabelText('Type', { exact: false }), [
+          'Blacklist',
+        ]);
       });
 
       test('test required fields', async () => {
-        await waitFor(() => { userEvent.click(screen.getByText('Save & close')); });
+        await userEvent.click(screen.getByText('Save & close'));
         expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
         expect(onSubmit).not.toHaveBeenCalled();
       });
@@ -114,30 +116,29 @@ describe('FilterForm', () => {
     });
 
     test('delete modal is present', async () => {
-      // userEvent.click(screen.getByText('Delete'));
-      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
+      await userEvent.click(screen.getByText('Delete'));
+
       expect(document.getElementById('delete-filter-confirmation')).toBeInTheDocument();
       expect(screen.getByText('Do you really want to delete Holdings 1?')).toBeInTheDocument();
     });
 
     test('click cancel', async () => {
-      // userEvent.click(screen.getByText('Delete'));
-      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
+      await userEvent.click(screen.getByText('Delete'));
       const cancel = screen.getByRole('button', {
         name: 'Cancel',
         id: 'clickable-delete-filter-confirmation-cancel',
       });
-      userEvent.click(cancel);
+      await userEvent.click(cancel);
       expect(onDelete).not.toHaveBeenCalled();
     });
 
     test('click submit', async () => {
-      await waitFor(() => { userEvent.click(screen.getByText('Delete')); });
+      await userEvent.click(screen.getByText('Delete'));
       const submit = screen.getByRole('button', {
         name: 'Submit',
         id: 'clickable-delete-filter-confirmation-confirm',
       });
-      userEvent.click(submit);
+      await userEvent.click(submit);
       expect(onDelete).toHaveBeenCalled();
     });
   });
