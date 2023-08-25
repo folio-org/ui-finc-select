@@ -1,10 +1,8 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
-import { Button } from '@folio/stripes-components';
-
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterFileView from './FilterFileView';
 
@@ -30,16 +28,12 @@ const withFilterFile = {
   ],
 };
 
-const handleDownloadFile = jest.fn();
-
 const renderFilterFileView = (filter) =>
   render(
     withIntlConfiguration(
       <MemoryRouter>
         <StripesContext.Provider value={stripes}>
-          <FilterFileView filter={filter} stripes={stripes}>
-            <Button onClick={handleDownloadFile()}>Download</Button>
-          </FilterFileView>
+          <FilterFileView filter={filter} stripes={stripes} />
         </StripesContext.Provider>
       </MemoryRouter>
     )
@@ -73,9 +67,13 @@ describe('FilterFileView with file', () => {
   });
 
   it('click download button', async () => {
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue({ blob: () => Promise.resolve(new Blob(['content'])) });
+
     const downloadButton = screen.getByRole('button', { name: 'Download' });
     await userEvent.click(downloadButton);
 
-    expect(handleDownloadFile).toHaveBeenCalled();
+    expect(global.fetch).toHaveBeenCalled();
   });
 });
