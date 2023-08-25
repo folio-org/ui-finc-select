@@ -1,13 +1,10 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
-import { Button } from '@folio/stripes-components';
-
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterFileView from './FilterFileView';
-import { server, rest } from '../../../../test/jest/testServer';
 
 const stripes = {
   // we need to set okapi token here
@@ -19,34 +16,28 @@ const stripes = {
 };
 
 const withoutFilterFile = {
-  'filterFiles' : [],
+  filterFiles: [],
 };
 
 const withFilterFile = {
   filterFiles: [
     {
-      'label' : 'filter file label',
-      'fileId' : 'a34dc305-892a-4a7f-9d4a-64c165cb49a0',
+      label: 'filter file label',
+      fileId: 'a34dc305-892a-4a7f-9d4a-64c165cb49a0',
     },
-  ]
+  ],
 };
 
-const handleDownloadFile = jest.fn();
-
-const renderFilterFileView = (filter) => (
-  render(withIntlConfiguration(
-    <MemoryRouter>
-      <StripesContext.Provider value={stripes}>
-        <FilterFileView
-          filter={filter}
-          stripes={stripes}
-        >
-          <Button onClick={handleDownloadFile()}>Download</Button>
-        </FilterFileView>
-      </StripesContext.Provider>
-    </MemoryRouter>
-  ))
-);
+const renderFilterFileView = (filter) =>
+  render(
+    withIntlConfiguration(
+      <MemoryRouter>
+        <StripesContext.Provider value={stripes}>
+          <FilterFileView filter={filter} stripes={stripes} />
+        </StripesContext.Provider>
+      </MemoryRouter>
+    )
+  );
 
 jest.unmock('react-intl');
 
@@ -60,9 +51,7 @@ describe('FilterFileView with no file', () => {
   });
 
   it('Text should be rendered', () => {
-    const downloadButton = screen.getByText('Filter has no file', {
-      exact: false,
-    });
+    const downloadButton = screen.getByText('Filter has no file', { exact: false });
     expect(downloadButton).toBeInTheDocument();
   });
 });
@@ -73,25 +62,18 @@ describe('FilterFileView with file', () => {
   });
 
   it('Download button should be rendered', () => {
-    const downloadButton = screen.getByRole('button', {
-      name: 'Download',
-    });
+    const downloadButton = screen.getByRole('button', { name: 'Download' });
     expect(downloadButton).toBeInTheDocument();
   });
 
-  it('click download button', () => {
-    server.use(
-      rest.get(
-        'https://folio-testing-okapi.dev.folio.org/finc-select/files/0ba00047-b6cb-417a-a735-e2c1e45e30f1',
-        (req, res, ctx) => {
-          return res(ctx.status(200));
-        }
-      )
-    );
+  it('click download button', async () => {
+    global.fetch = jest
+      .fn()
+      .mockResolvedValue({ blob: () => Promise.resolve(new Blob(['content'])) });
 
     const downloadButton = screen.getByRole('button', { name: 'Download' });
-    userEvent.click(downloadButton);
+    await userEvent.click(downloadButton);
 
-    expect(handleDownloadFile).toHaveBeenCalled();
+    expect(global.fetch).toHaveBeenCalled();
   });
 });

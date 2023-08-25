@@ -1,7 +1,7 @@
 import { noop } from 'lodash';
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { createMemoryHistory } from 'history';
 
 import withIntlConfiguration from '../test/jest/helpers/withIntlConfiguration';
@@ -124,26 +124,23 @@ jest.mock('./index', () => {
 });
 
 it('should render CollectionsRoute', () => {
-  const renderComponent = renderWithRouter(<CollectionsRoute {...routeProps} />);
+  renderWithRouter(<CollectionsRoute {...routeProps} />);
 
-  const { getByTestId } = renderComponent;
-  expect(getByTestId('collections')).toBeInTheDocument();
+  expect(screen.getByTestId('collections')).toBeInTheDocument();
   expect(screen.getByText('Metadata collections')).toBeInTheDocument();
 });
 
 it('should render SourcesRoute', () => {
-  const renderComponent = renderWithRouter(<SourcesRoute {...routeProps} />);
+  renderWithRouter(<SourcesRoute {...routeProps} />);
 
-  const { getByTestId } = renderComponent;
-  expect(getByTestId('sources')).toBeInTheDocument();
+  expect(screen.getByTestId('sources')).toBeInTheDocument();
   expect(screen.getByText('Metadata sources')).toBeInTheDocument();
 });
 
 it('should render FiltersRoute', () => {
-  const renderComponent = renderWithRouter(<FiltersRoute {...routeProps} />);
+  renderWithRouter(<FiltersRoute {...routeProps} />);
 
-  const { getByTestId } = renderComponent;
-  expect(getByTestId('filters')).toBeInTheDocument();
+  expect(screen.getByTestId('filters')).toBeInTheDocument();
 });
 
 it('should render FilterCreateRoute', () => {
@@ -179,10 +176,10 @@ it('should render FilterViewRoute', () => {
 
 describe('Application root', () => {
   it('should render without crashing', () => {
-    const { getByText } = renderWithRouter(<FincSelect match={match} />);
+    renderWithRouter(<FincSelect match={match} />);
     const div = document.createElement('div');
     div.id = 'root';
     document.body.appendChild(div);
-    expect(getByText('FincSelect')).toBeDefined();
+    expect(screen.getByText('FincSelect')).toBeInTheDocument();
   });
 });
