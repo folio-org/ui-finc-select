@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StripesContext, useStripes } from '@folio/stripes/core';
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import filters from '../../../test/fixtures/metadatacollections';

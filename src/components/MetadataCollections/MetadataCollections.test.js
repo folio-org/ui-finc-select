@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { noop } from 'lodash';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 import { StripesConnectedSource } from '@folio/stripes/smart-components';
-import { render } from '@testing-library/react';
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import metadatacollections from '../../../test/fixtures/metadatacollections';
