@@ -1,8 +1,11 @@
 # Change history for ui-finc-select
 
-## [5.2.0] (IN PROGRESS)
+## 6.0.0 (IN PROGRESS)
+* Upgrade React to v18 ([UIFC-318](https://issues.folio.org/browse/UIFC-318))
+* Fix permission issues ([UIFC-321](https://issues.folio.org/browse/UIFC-321))
 * Replace BigTest tests ([UIFC-289](https://issues.folio.org/browse/UIFC-289))
 * Leverage cookie-based authentication in all API requests ([UIFC-316](https://issues.folio.org/browse/UIFC-316))
+* Avoid private paths in stripes-core imports ([UIFC-311](https://issues.folio.org/browse/UIFC-311))
 
 ## [5.1.0](https://github.com/folio-org/ui-finc-select/tree/v5.1.0) (2023-03-16)
 * Translations update
