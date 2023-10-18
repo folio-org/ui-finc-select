@@ -1,6 +1,8 @@
 # Change history for ui-finc-select
 
-## 6.0.0 (IN PROGRESS)
+## 6.1.0 (IN PROGRESS)
+
+## [6.0.0](https://github.com/folio-org/ui-finc-select/tree/v6.0.0) (2023-10-18)
 * Upgrade `react-dropzone` to v10 ([UIFC-329](https://issues.folio.org/browse/UIFC-329))
 * Migrate to react-intl v6 ([UIFC-325](https://issues.folio.org/browse/UIFC-325))
 * Upgrade React to v18 ([UIFC-318](https://issues.folio.org/browse/UIFC-318))
