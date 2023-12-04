@@ -22,6 +22,7 @@ import {
   MultiColumnList,
   NoValue,
   Pane,
+  PaneHeader,
   PaneMenu,
   Paneset,
   SearchField,
@@ -261,6 +262,32 @@ class MetadataSources extends React.Component {
     }
   }
 
+  renderFilterPaneHeader = () => {
+    return (
+      <PaneHeader
+        lastMenu={
+          <PaneMenu>
+            <CollapseFilterPaneButton
+              onClick={this.toggleFilterPane}
+            />
+          </PaneMenu>
+        }
+        paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+      />
+    );
+  };
+
+  renderResultsPaneHeader = (activeFilters, source) => {
+    return (
+      <PaneHeader
+        appIcon={<AppIcon app="finc-select" />}
+        firstMenu={this.renderResultsFirstMenu(activeFilters)}
+        paneSub={this.renderResultsPaneSubtitle(source)}
+        paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
+      />
+    );
+  };
+
   render() {
     const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
     const count = source ? source.totalCount() : 0;
@@ -306,14 +333,7 @@ class MetadataSources extends React.Component {
                     <Pane
                       defaultWidth="18%"
                       id="pane-sourcefilter"
-                      lastMenu={
-                        <PaneMenu>
-                          <CollapseFilterPaneButton
-                            onClick={this.toggleFilterPane}
-                          />
-                        </PaneMenu>
-                      }
-                      paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+                      renderHeader={this.renderFilterPaneHeader}
                     >
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('source')}
@@ -366,14 +386,11 @@ class MetadataSources extends React.Component {
                     </Pane>
                   }
                   <Pane
-                    appIcon={<AppIcon app="finc-select" />}
                     data-test-source-pane-results
                     defaultWidth="fill"
-                    firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-sourceresults"
                     padContent={false}
-                    paneSub={this.renderResultsPaneSubtitle(source)}
-                    paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
+                    renderHeader={() => this.renderResultsPaneHeader(activeFilters, source)}
                   >
                     <MultiColumnList
                       autosize

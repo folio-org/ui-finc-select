@@ -1,6 +1,7 @@
 # Change history for ui-finc-select
 
 ## 6.1.0 (IN PROGRESS)
+* Remove deprecated pane properties ([UIFC-339](https://issues.folio.org/browse/UIFC-339))
 
 ## [6.0.0](https://github.com/folio-org/ui-finc-select/tree/v6.0.0) (2023-10-18)
 * Upgrade `react-dropzone` to v10 ([UIFC-329](https://issues.folio.org/browse/UIFC-329))

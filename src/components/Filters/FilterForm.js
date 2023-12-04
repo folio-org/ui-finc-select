@@ -13,6 +13,7 @@ import {
   IconButton,
   Pane,
   PaneFooter,
+  PaneHeader,
   PaneMenu,
   Paneset,
   Row,
@@ -83,7 +84,7 @@ class FilterForm extends React.Component {
         <FormattedMessage id="ui-finc-select.form.close">
           { ([ariaLabel]) => (
             <IconButton
-              ariaLabel={ariaLabel}
+              aria-label={ariaLabel}
               icon="times"
               id="clickable-closefilterdialog"
               onClick={this.props.handlers.onClose}
@@ -176,13 +177,24 @@ class FilterForm extends React.Component {
     this.props.onDelete();
   }
 
+  renderPaneHeader = () => {
+    const { initialValues } = this.props;
+
+    const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.form.create" />;
+
+    return (
+      <PaneHeader
+        firstMenu={this.getFirstMenu()}
+        lastMenu={this.getLastMenu()}
+        paneTitle={paneTitle}
+      />
+    );
+  };
+
   render() {
     const { initialValues, isLoading } = this.props;
     const { confirmDelete, sections } = this.state;
-    const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.form.create" />;
 
-    const firstMenu = this.getFirstMenu();
-    const lastMenu = this.getLastMenu();
     const footer = this.getPaneFooter();
     const name = initialValues.label;
 
@@ -197,10 +209,8 @@ class FilterForm extends React.Component {
         <Paneset isRoot>
           <Pane
             defaultWidth="100%"
-            firstMenu={firstMenu}
             footer={footer}
-            lastMenu={lastMenu}
-            paneTitle={paneTitle}
+            renderHeader={this.renderPaneHeader}
           >
             <div className={BasicStyle.styleForFormContent}>
               <AccordionSet>
