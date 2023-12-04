@@ -12,6 +12,7 @@ import {
   Layout,
   NoValue,
   Pane,
+  PaneHeader,
   Row,
 } from '@folio/stripes/components';
 import { ViewMetaData } from '@folio/stripes/smart-components';
@@ -60,14 +61,34 @@ class MetadataSourceView extends React.Component {
     });
   }
 
+  renderLoadingPaneHeader = () => {
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span data-test-source-header-title>loading</span>}
+      />
+    );
+  };
+
+  renderDetailsPaneHeader = () => {
+    const label = _.get(this.props.record, 'label', <NoValue />);
+
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span data-test-source-header-title>{label}</span>}
+      />
+    );
+  };
+
   renderLoadingPane = () => {
     return (
       <Pane
         defaultWidth="40%"
-        dismissible
         id="pane-sourcedetails"
-        onClose={this.props.handlers.onClose}
-        paneTitle={<span data-test-source-header-title>loading</span>}
+        renderHeader={this.renderLoadingPaneHeader}
       >
         <Layout className="marginTop1">
           <Icon icon="spinner-ellipsis" width="10px" />
@@ -78,7 +99,6 @@ class MetadataSourceView extends React.Component {
 
   render() {
     const { record, isLoading, stripes } = this.props;
-    const label = _.get(record, 'label', <NoValue />);
     const organizationId = _.get(record, 'organization.id', '');
 
     if (isLoading) return this.renderLoadingPane();
@@ -88,10 +108,8 @@ class MetadataSourceView extends React.Component {
         <Pane
           data-test-source-pane-details
           defaultWidth="40%"
-          dismissible
           id="pane-sourcedetails"
-          onClose={this.props.handlers.onClose}
-          paneTitle={<span data-test-source-header-title>{label}</span>}
+          renderHeader={this.renderDetailsPaneHeader}
         >
           <AccordionSet>
             <ViewMetaData

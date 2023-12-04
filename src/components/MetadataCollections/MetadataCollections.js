@@ -22,6 +22,7 @@ import {
   MultiColumnList,
   NoValue,
   Pane,
+  PaneHeader,
   PaneMenu,
   Paneset,
   SearchField,
@@ -77,8 +78,8 @@ class MetadataCollections extends React.Component {
     searchString: '',
   }
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       filterPaneIsVisible: true,
@@ -268,6 +269,32 @@ class MetadataCollections extends React.Component {
     }
   }
 
+  renderFilterPaneHeader = () => {
+    return (
+      <PaneHeader
+        lastMenu={
+          <PaneMenu>
+            <CollapseFilterPaneButton
+              onClick={this.toggleFilterPane}
+            />
+          </PaneMenu>
+        }
+        paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+      />
+    );
+  };
+
+  renderResultsPaneHeader = (activeFilters, collection) => {
+    return (
+      <PaneHeader
+        appIcon={<AppIcon app="finc-select" />}
+        firstMenu={this.renderResultsFirstMenu(activeFilters)}
+        paneTitle={<FormattedMessage id="ui-finc-select.collections.title" />}
+        paneSub={this.renderResultsPaneSubtitle(collection)}
+      />
+    );
+  };
+
   render() {
     const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, collection, filterData } = this.props;
     const count = collection ? collection.totalCount() : 0;
@@ -313,14 +340,7 @@ class MetadataCollections extends React.Component {
                       data-test-collection-pane-filter
                       defaultWidth="18%"
                       id="pane-collectionfilter"
-                      lastMenu={
-                        <PaneMenu>
-                          <CollapseFilterPaneButton
-                            onClick={this.toggleFilterPane}
-                          />
-                        </PaneMenu>
-                      }
-                      paneTitle={<FormattedMessage id="stripes-smart-components.searchAndFilter" />}
+                      renderHeader={this.renderFilterPaneHeader}
                     >
                       <form onSubmit={onSubmitSearch}>
                         {this.renderNavigation('collection')}
@@ -374,14 +394,11 @@ class MetadataCollections extends React.Component {
                     </Pane>
                   }
                   <Pane
-                    appIcon={<AppIcon app="finc-select" />}
                     data-test-collection-pane-results
                     defaultWidth="fill"
-                    firstMenu={this.renderResultsFirstMenu(activeFilters)}
                     id="pane-collectionresults"
                     padContent={false}
-                    paneTitle={<FormattedMessage id="ui-finc-select.collections.title" />}
-                    paneSub={this.renderResultsPaneSubtitle(collection)}
+                    renderHeader={() => this.renderResultsPaneHeader(activeFilters, collection)}
                   >
                     <MultiColumnList
                       autosize

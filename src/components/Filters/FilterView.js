@@ -13,6 +13,7 @@ import {
   Layout,
   NoValue,
   Pane,
+  PaneHeader,
   PaneMenu,
   Row,
 } from '@folio/stripes/components';
@@ -88,14 +89,35 @@ class FilterView extends React.Component {
     );
   }
 
+  renderLoadingPaneHeader = () => {
+    return (
+      <PaneHeader
+        dismissible
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span data-test-filter-header-title>loading</span>}
+      />
+    );
+  };
+
+  renderDetailsPaneHeader = () => {
+    const label = _.get(this.props.record, 'label', <NoValue />);
+
+    return (
+      <PaneHeader
+        dismissible
+        lastMenu={this.renderEditPaneMenu()}
+        onClose={this.props.handlers.onClose}
+        paneTitle={<span data-test-filter-header-title>{label}</span>}
+      />
+    );
+  };
+
   renderLoadingPane = () => {
     return (
       <Pane
         defaultWidth="40%"
-        dismissible
         id="pane-filterdetails"
-        onClose={this.props.handlers.onClose}
-        paneTitle={<span data-test-filter-header-title>loading</span>}
+        renderHeader={this.renderLoadingPaneHeader}
       >
         <Layout className="marginTop1">
           <Icon icon="spinner-ellipsis" width="10px" />
@@ -109,7 +131,6 @@ class FilterView extends React.Component {
 
     if (isLoading) return this.renderLoadingPane();
 
-    const label = _.get(record, 'label', <NoValue />);
     const docs = _.get(record, 'filterFiles', []);
 
     return (
@@ -117,11 +138,8 @@ class FilterView extends React.Component {
         <Pane
           data-test-filter-pane-details
           defaultWidth="40%"
-          dismissible
           id="pane-filterdetails"
-          lastMenu={this.renderEditPaneMenu()}
-          onClose={this.props.handlers.onClose}
-          paneTitle={<span data-test-filter-header-title>{label}</span>}
+          renderHeader={this.renderDetailsPaneHeader}
         >
           <AccordionSet>
             <ViewMetaData

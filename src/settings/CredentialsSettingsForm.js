@@ -11,6 +11,7 @@ import {
   NoValue,
   Pane,
   PaneFooter,
+  PaneHeader,
   Paneset,
   Row,
   TextField,
@@ -77,6 +78,14 @@ class CredentialsSettingsForm extends React.Component {
     }));
   };
 
+  renderPaneHeader = () => {
+    return (
+      <PaneHeader
+        paneTitle={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.label" />}
+      />
+    );
+  };
+
   render() {
     const { passwordMasked } = this.state;
     const passwordType = passwordMasked ? 'password' : 'text';
@@ -94,7 +103,7 @@ class CredentialsSettingsForm extends React.Component {
           <Pane
             defaultWidth="100%"
             footer={footer}
-            paneTitle="EZB credentials"
+            renderHeader={this.renderPaneHeader}
           >
             <Row>
               <Col xs={6}>
