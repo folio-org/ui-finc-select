@@ -47,7 +47,7 @@ jest.unmock('react-intl');
 describe('MetadataCollectionView', () => {
   beforeEach(() => {
     stripes.hasPerm = () => true;
-    renderMetadateCollectionView(COLLECTION, stripes);
+    renderMetadateCollectionView(COLLECTION);
   });
 
   test('accordions should be present', async () => {
@@ -80,7 +80,7 @@ describe('MetadataCollectionView', () => {
 describe('rendering MetadataCollectionView without select/unselect permission', () => {
   beforeEach(() => {
     stripes.hasPerm = () => false;
-    renderMetadateCollectionView(COLLECTION, stripes);
+    renderMetadateCollectionView(COLLECTION);
   });
 
   it('should disable button', () => {

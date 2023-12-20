@@ -47,7 +47,7 @@ jest.unmock('react-intl');
 describe('MetadataSourceView', () => {
   beforeEach(() => {
     stripes.hasPerm = () => true;
-    renderMetadataSourceView(SOURCE, stripes);
+    renderMetadataSourceView(SOURCE);
   });
 
   it('accordions should be present', () => {
@@ -94,7 +94,7 @@ describe('MetadataSourceView', () => {
 describe('rendering MetadataSourceView without selectAll permission', () => {
   beforeEach(() => {
     stripes.hasPerm = () => false;
-    renderMetadataSourceView(SOURCE, stripes);
+    renderMetadataSourceView(SOURCE);
   });
 
   it('should disable button', () => {
