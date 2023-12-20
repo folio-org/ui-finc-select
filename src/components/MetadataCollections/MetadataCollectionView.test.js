@@ -23,6 +23,7 @@ const stripes = {
   },
   // we need to set store here
   store: { getState: () => { return okapiState; } },
+  hasPerm: () => jest.fn(),
 };
 
 const renderMetadateCollectionView = (record = COLLECTION) => (
@@ -45,7 +46,8 @@ jest.unmock('react-intl');
 
 describe('MetadataCollectionView', () => {
   beforeEach(() => {
-    renderMetadateCollectionView(COLLECTION);
+    stripes.hasPerm = () => true;
+    renderMetadateCollectionView(COLLECTION, stripes);
   });
 
   test('accordions should be present', async () => {
@@ -67,5 +69,22 @@ describe('MetadataCollectionView', () => {
 
   it('should display ID', () => {
     expect(screen.getByText('psa-459')).toBeInTheDocument();
+  });
+
+  it('should not disable button', () => {
+    const sourcesButton = screen.getByRole('button', { name: 'Unselect' });
+    expect(sourcesButton).not.toBeDisabled();
+  });
+});
+
+describe('rendering MetadataCollectionView without select/unselect permission', () => {
+  beforeEach(() => {
+    stripes.hasPerm = () => false;
+    renderMetadateCollectionView(COLLECTION, stripes);
+  });
+
+  it('should disable button', () => {
+    const sourcesButton = screen.getByRole('button', { name: 'Unselect' });
+    expect(sourcesButton).toBeDisabled();
   });
 });
