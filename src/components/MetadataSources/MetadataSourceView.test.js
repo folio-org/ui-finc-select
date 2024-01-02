@@ -23,6 +23,7 @@ const stripes = {
   },
   // we need to set store here
   store: { getState: () => { return okapiState; } },
+  hasPerm: () => jest.fn(),
 };
 
 const renderMetadataSourceView = (record = SOURCE) => (
@@ -45,6 +46,7 @@ jest.unmock('react-intl');
 
 describe('MetadataSourceView', () => {
   beforeEach(() => {
+    stripes.hasPerm = () => true;
     renderMetadataSourceView(SOURCE);
   });
 
@@ -81,5 +83,22 @@ describe('MetadataSourceView', () => {
     expect(screen.getByText('Show selected collections')).toBeInTheDocument();
     expect(screen.getByText('Select all collections')).toBeInTheDocument();
     expect(screen.getByText('Show all collections')).toBeInTheDocument();
+  });
+
+  it('should not disable button', () => {
+    const sourcesButton = screen.getByRole('button', { name: 'Select all collections' });
+    expect(sourcesButton).not.toBeDisabled();
+  });
+});
+
+describe('rendering MetadataSourceView without selectAll permission', () => {
+  beforeEach(() => {
+    stripes.hasPerm = () => false;
+    renderMetadataSourceView(SOURCE);
+  });
+
+  it('should disable button', () => {
+    const sourcesButton = screen.getByRole('button', { name: 'Select all collections' });
+    expect(sourcesButton).toBeDisabled();
   });
 });

@@ -149,8 +149,9 @@ class SelectUnselect extends React.Component {
   }
 
   render() {
-    const { collectionId, permitted } = this.props;
+    const { collectionId, permitted, stripes } = this.props;
     const selectedLabel = this.getSelectedDataLable();
+    const hasSelectCollectionPerms = stripes.hasPerm('finc-select.metadata-collections.item.select');
 
     return (
       <>
@@ -163,7 +164,7 @@ class SelectUnselect extends React.Component {
         <Col xs={3}>
           <Button
             buttonStyle="primary"
-            disabled={this.isUsagePermitted(permitted)}
+            disabled={!hasSelectCollectionPerms || this.isUsagePermitted(permitted)}
             id="unselect"
             onClick={() => this.selectUnselect(collectionId, this.state.selected)}
           >

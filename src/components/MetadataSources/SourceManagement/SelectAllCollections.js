@@ -73,7 +73,8 @@ class SelectAllCollections extends React.Component {
   }
 
   render() {
-    const { sourceId } = this.props;
+    const { sourceId, stripes } = this.props;
+    const hasSelectAllCollectionsPerms = stripes.hasPerm('finc-select.metadata-sources.item.select-all');
 
     return (
       <div>
@@ -81,6 +82,7 @@ class SelectAllCollections extends React.Component {
           <Col xs={6}>
             <Button
               buttonStyle="primary"
+              disabled={!hasSelectAllCollectionsPerms}
               id="selectAllCollections"
               onClick={() => this.selectAllCollections(sourceId)}
             >
