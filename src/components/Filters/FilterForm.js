@@ -153,7 +153,7 @@ class FilterForm extends React.Component {
         onClick={handleSubmit}
         type="submit"
       >
-        <FormattedMessage id="ui-finc-select.form.saveAndClose" />
+        <FormattedMessage id="stripes-components.saveAndClose" />
       </Button>
     );
 
