@@ -1,6 +1,8 @@
 # Change history for ui-finc-select
 
-## 6.1.0 (IN PROGRESS)
+## 6.2.0 (IN PROGRESS)
+
+## 6.1.0(https://github.com/folio-org/ui-finc-select/tree/v6.1.0) (2024-03-20)
 * Remove deprecated pane properties ([UIFC-339](https://issues.folio.org/browse/UIFC-339))
 * Buttons should be disabled if lacking required permissions ([UIFC-322](https://issues.folio.org/browse/UIFC-322))
 * Use translation keys of stripes-components ([UIFC-348](https://folio-org.atlassian.net/browse/UIFC-348))
