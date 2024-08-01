@@ -1,73 +1,70 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useState } from 'react';
 
-import {
-  Col,
-  Row,
-} from '@folio/stripes/components';
+import { Col, Row } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
-class ViewCollections extends React.Component {
-  constructor(props) {
-    super(props);
+const ViewCollections = ({
+  initCollectionIds,
+  filterId,
+  form,
+  intialCollection,
+  isEditable,
+  ...props
+}) => {
+  const [collectionIds, setCollectionIds] = useState(() => { // eslint-disable-line no-unused-vars
+    const c = intialCollection || {};
+    return { c };
+  });
 
-    const c = props.intialCollection || {};
+  const selectCollection = (c) => {
+    form.mutators.setCollection([c]);
 
-    this.inputCollections = c;
-  }
+    setCollectionIds({ c });
+  };
 
-  selectCollection = (c) => {
-    this.props.form.mutators.setCollection([c]);
+  const disableRecordCreation = true;
+  const buttonProps = { 'marginBottom0': true };
+  const pluggable =
+    <Pluggable
+      aria-haspopup="true"
+      buttonProps={buttonProps}
+      collectionIds={initCollectionIds}
+      // columnMapping={columnMapping}
+      dataKey="collection"
+      disableRecordCreation={disableRecordCreation}
+      filterId={filterId}
+      id="clickable-find-collection"
+      isEditable={isEditable}
+      marginTop0
+      onCloseModal={(modalProps) => {
+        modalProps.parentMutator.query.update({
+          query: '',
+          filters: '',
+          sort: 'name',
+        });
+      }}
+      searchButtonStyle="default"
+      searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />}
+      selectCollection={selectCollection}
+      type="find-finc-metadata-collection"
+      visibleColumns={['label']}
+      {...props}
+    >
+      <div style={{ background: 'red' }}><FormattedMessage id="ui-finc-select.plugin.notFound" /></div>
+    </Pluggable>;
 
-    this.setState(() => {
-      return { collectionIds: { c } };
-    });
-  }
-
-  render() {
-    const disableRecordCreation = true;
-    const buttonProps = { 'marginBottom0': true };
-    const pluggable =
-      <Pluggable
-        aria-haspopup="true"
-        buttonProps={buttonProps}
-        collectionIds={this.props.collectionIds}
-        columnMapping={this.columnMapping}
-        dataKey="collection"
-        disableRecordCreation={disableRecordCreation}
-        filterId={this.props.filterId}
-        id="clickable-find-collection"
-        isEditable={this.props.isEditable}
-        marginTop0
-        onCloseModal={(modalProps) => {
-          modalProps.parentMutator.query.update({
-            query: '',
-            filters: '',
-            sort: 'name',
-          });
-        }}
-        searchButtonStyle="default"
-        searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />}
-        selectCollection={this.selectCollection}
-        type="find-finc-metadata-collection"
-        visibleColumns={['label']}
-        {...this.props}
-      >
-        <div style={{ background: 'red' }}><FormattedMessage id="ui-finc-select.plugin.notFound" /></div>
-      </Pluggable>;
-
-    return (
-      <>
-        <Row>
-          <Col xs={6}>
-            { pluggable }
-          </Col>
-        </Row>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Row>
+        <Col xs={6}>
+          { pluggable }
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 ViewCollections.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.object),
@@ -78,6 +75,7 @@ ViewCollections.propTypes = {
     }),
   }),
   intialCollection: PropTypes.object,
+  initCollectionIds: PropTypes.arrayOf(PropTypes.object),
   isEditable: PropTypes.bool,
 };
 
