@@ -1,32 +1,33 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import ViewCollections from './FindCollections/ViewCollections';
 
-class CollectionsView extends React.Component {
-  static propTypes = {
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
-    filter: PropTypes.object,
-  };
+const CollectionsView = ({
+  collectionIds,
+  filter,
+  ...props
+}) => {
+  const filterId = get(filter, 'id', '-');
 
-  render() {
-    const filterId = _.get(this.props.filter, 'id', '-');
+  return (
+    <>
+      <div>
+        <ViewCollections
+          collectionIds={collectionIds}
+          filterId={filterId}
+          isEditable={false}
+          name="collectionIds"
+          {...props}
+        />
+      </div>
+    </>
+  );
+};
 
-    return (
-      <>
-        <div>
-          <ViewCollections
-            collectionIds={this.props.collectionIds}
-            filterId={filterId}
-            isEditable={false}
-            name="collectionIds"
-            {...this.props}
-          />
-        </div>
-      </>
-    );
-  }
-}
+CollectionsView.propTypes = {
+  collectionIds: PropTypes.arrayOf(PropTypes.object),
+  filter: PropTypes.object,
+};
 
 export default CollectionsView;

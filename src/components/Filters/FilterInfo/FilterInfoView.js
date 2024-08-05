@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,41 +8,40 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class FilterInfoView extends React.Component {
-  static propTypes = {
-    filter: PropTypes.object,
-  };
-
-  getDataLable(field) {
-    const fieldValue = _.get(this.props.filter, field, '');
+const FilterInfoView = ({
+  filter
+}) => {
+  const getDataLable = (field) => {
+    const fieldValue = get(filter, field, '');
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
       return <NoValue />;
     }
-  }
+  };
 
-  render() {
-    const { filter } = this.props;
-    const typeLabel = this.getDataLable('type');
+  const typeLabel = getDataLable('type');
 
+  return (
+    <>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.filter.label" />}
+          value={get(filter, 'label', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.filter.type" />}
+          value={typeLabel}
+        />
+      </Row>
+    </>
+  );
+};
 
-    return (
-      <>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.filter.label" />}
-            value={_.get(filter, 'label', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.filter.type" />}
-            value={typeLabel}
-          />
-        </Row>
-      </>
-    );
-  }
-}
+FilterInfoView.propTypes = {
+  filter: PropTypes.object,
+};
+
 export default FilterInfoView;
