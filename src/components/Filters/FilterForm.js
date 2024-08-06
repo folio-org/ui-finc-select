@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -27,58 +26,49 @@ import FilterFileForm from './FilterFile/FilterFileForm';
 import CollectionsForm from './Collections/CollectionsForm';
 import BasicStyle from '../BasicStyle.css';
 
-class FilterForm extends React.Component {
-  static propTypes = {
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
-    filterData: PropTypes.shape({
-      mdSources: PropTypes.arrayOf(PropTypes.object),
-    }),
-    handlers: PropTypes.PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-    }),
-    handleSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.object,
-    invalid: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    onDelete: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
+const FilterForm = ({
+  collectionIds,
+  filterData,
+  handlers,
+  handleSubmit,
+  initialValues = {},
+  invalid,
+  isLoading,
+  onDelete,
+  pristine,
+  submitting,
+  ...props
+}) => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [sections, setSections] = useState(
+    {
+      editFilterInfo: true,
+      editFilterFile: true,
+      editCollections: true
+    }
+  );
+
+  const handleExpandAll = (s) => {
+    setSections(s);
   };
 
-  static defaultProps = {
-    initialValues: {},
-  }
+  const handleSectionToggle = ({ id }) => {
+    setSections((prevSections) => ({ ...prevSections, [id]: !prevSections[id] }));
+  };
 
-  constructor(props) {
-    super(props);
+  const beginDelete = () => {
+    setConfirmDelete(true);
+  };
 
-    this.state = {
-      confirmDelete: false,
-      sections: {
-        editFilterInfo: true,
-        editFilterFile: true,
-        editCollections: true
-      },
-    };
-
-    this.handleExpandAll = this.handleExpandAll.bind(this);
-  }
-
-  beginDelete = () => {
-    this.setState({
-      confirmDelete: true,
-    });
-  }
-
-  confirmDelete = (confirmation) => {
+  const doConfirmDelete = (confirmation) => {
     if (confirmation) {
-      this.deleteFilter();
+      onDelete();
     } else {
-      this.setState({ confirmDelete: false });
+      setConfirmDelete(false);
     }
-  }
+  };
 
-  getFirstMenu() {
+  const getFirstMenu = () => {
     return (
       <PaneMenu>
         <FormattedMessage id="ui-finc-select.form.close">
@@ -87,17 +77,15 @@ class FilterForm extends React.Component {
               aria-label={ariaLabel}
               icon="times"
               id="clickable-closefilterdialog"
-              onClick={this.props.handlers.onClose}
+              onClick={handlers.onClose}
             />
           )}
         </FormattedMessage>
       </PaneMenu>
     );
-  }
+  };
 
-  getLastMenu() {
-    const { initialValues } = this.props;
-    const { confirmDelete } = this.state;
+  const getLastMenu = () => {
     const isEditing = initialValues && initialValues.id;
 
     return (
@@ -109,7 +97,7 @@ class FilterForm extends React.Component {
             disabled={confirmDelete}
             id="clickable-delete-filter"
             marginBottom0
-            onClick={this.beginDelete}
+            onClick={beginDelete}
             title="delete"
           >
             <FormattedMessage id="ui-finc-select.form.delete" />
@@ -118,17 +106,9 @@ class FilterForm extends React.Component {
         )}
       </PaneMenu>
     );
-  }
+  };
 
-  getPaneFooter() {
-    const {
-      handlers: { onClose },
-      handleSubmit,
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
-
+  const getPaneFooter = () => {
     const disabled = pristine || submitting || invalid;
 
     const startButton = (
@@ -137,7 +117,7 @@ class FilterForm extends React.Component {
         data-test-filter-form-cancel-button
         id="clickable-close-filter-form"
         marginBottom0
-        onClick={onClose}
+        onClick={handlers.onClose}
       >
         <FormattedMessage id="ui-finc-select.form.cancel" />
       </Button>
@@ -158,116 +138,109 @@ class FilterForm extends React.Component {
     );
 
     return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
-  }
+  };
 
-  handleExpandAll(sections) {
-    this.setState({ sections });
-  }
-
-  handleSectionToggle = ({ id }) => {
-    this.setState((state) => {
-      const newState = _.cloneDeep(state);
-
-      newState.sections[id] = !newState.sections[id];
-      return newState;
-    });
-  }
-
-  handleDelete = () => {
-    this.props.onDelete();
-  }
-
-  renderPaneHeader = () => {
-    const { initialValues } = this.props;
-
+  const renderPaneHeader = () => {
     const paneTitle = initialValues.id ? initialValues.label : <FormattedMessage id="ui-finc-select.form.create" />;
 
     return (
       <PaneHeader
-        firstMenu={this.getFirstMenu()}
-        lastMenu={this.getLastMenu()}
+        firstMenu={getFirstMenu()}
+        lastMenu={getLastMenu()}
         paneTitle={paneTitle}
       />
     );
   };
 
-  render() {
-    const { initialValues, isLoading } = this.props;
-    const { confirmDelete, sections } = this.state;
+  const footer = getPaneFooter();
+  const name = initialValues.label;
 
-    const footer = this.getPaneFooter();
-    const name = initialValues.label;
+  if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
 
-    if (isLoading) return <Icon icon="spinner-ellipsis" width="10px" />;
-
-    return (
-      <form
-        className={BasicStyle.styleForFormRoot}
-        data-test-filter-form-page
-        id="form-filter"
-      >
-        <Paneset isRoot>
-          <Pane
-            defaultWidth="100%"
-            footer={footer}
-            renderHeader={this.renderPaneHeader}
-          >
-            <div className={BasicStyle.styleForFormContent}>
-              <AccordionSet>
-                <Row end="xs">
-                  <Col xs>
-                    <ExpandAllButton
-                      accordionStatus={sections}
-                      id="clickable-expand-all"
-                      onToggle={this.handleExpandAll}
-                      setStatus={null}
-                    />
-                  </Col>
-                </Row>
-                {initialValues.metadata &&
-                  initialValues.metadata.createdDate && (
-                    <ViewMetaData metadata={initialValues.metadata} />
-                )}
-                <FilterInfoForm
-                  accordionId="editFilterInfo"
-                  expanded={sections.editFilterInfo}
-                  onToggle={this.handleSectionToggle}
-                  {...this.props}
-                />
-                <FilterFileForm
-                  accordionId="editFilterFile"
-                  expanded={sections.editFilterFile}
-                  onToggle={this.handleSectionToggle}
-                  {...this.props}
-                />
-                <CollectionsForm
-                  accordionId="editCollections"
-                  collectionIds={this.props.collectionIds}
-                  expanded={sections.editCollections}
-                  filterData={this.props.filterData}
-                  filterId={initialValues.id}
-                  onToggle={this.handleSectionToggle}
-                  {...this.props}
-                />
-              </AccordionSet>
-              <ConfirmationModal
-                heading={<FormattedMessage id="ui-finc-select.form.delete" />}
-                id="delete-filter-confirmation"
-                message={<FormattedMessage
-                  id="ui-finc-select.form.delete.confirm.message"
-                  values={{ name }}
-                />}
-                onCancel={() => { this.confirmDelete(false); }}
-                onConfirm={() => this.props.onDelete()}
-                open={confirmDelete}
+  return (
+    <form
+      className={BasicStyle.styleForFormRoot}
+      data-test-filter-form-page
+      id="form-filter"
+    >
+      <Paneset isRoot>
+        <Pane
+          defaultWidth="100%"
+          footer={footer}
+          renderHeader={renderPaneHeader}
+        >
+          <div className={BasicStyle.styleForFormContent}>
+            <AccordionSet>
+              <Row end="xs">
+                <Col xs>
+                  <ExpandAllButton
+                    accordionStatus={sections}
+                    id="clickable-expand-all"
+                    onToggle={handleExpandAll}
+                    setStatus={null}
+                  />
+                </Col>
+              </Row>
+              {initialValues.metadata &&
+                initialValues.metadata.createdDate && (
+                  <ViewMetaData metadata={initialValues.metadata} />
+              )}
+              <FilterInfoForm
+                accordionId="editFilterInfo"
+                expanded={sections.editFilterInfo}
+                onToggle={handleSectionToggle}
+                {...props}
               />
-            </div>
-          </Pane>
-        </Paneset>
-      </form>
-    );
-  }
-}
+              <FilterFileForm
+                accordionId="editFilterFile"
+                expanded={sections.editFilterFile}
+                onToggle={handleSectionToggle}
+                {...props}
+              />
+              <CollectionsForm
+                accordionId="editCollections"
+                collectionIds={collectionIds}
+                expanded={sections.editCollections}
+                filterData={filterData}
+                filterId={initialValues.id}
+                onToggle={handleSectionToggle}
+                {...props}
+              />
+            </AccordionSet>
+            <ConfirmationModal
+              heading={<FormattedMessage id="ui-finc-select.form.delete" />}
+              id="delete-filter-confirmation"
+              message={<FormattedMessage
+                id="ui-finc-select.form.delete.confirm.message"
+                values={{ name }}
+              />}
+              onCancel={() => { doConfirmDelete(false); }}
+              onConfirm={() => onDelete()}
+              open={confirmDelete}
+            />
+          </div>
+        </Pane>
+      </Paneset>
+    </form>
+  );
+};
+
+FilterForm.propTypes = {
+  collectionIds: PropTypes.arrayOf(PropTypes.object),
+  filterData: PropTypes.shape({
+    mdSources: PropTypes.arrayOf(PropTypes.object),
+  }),
+  handlers: PropTypes.PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+  }),
+  handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  invalid: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  onDelete: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+};
 
 export default stripesFinalForm({
   // set navigationCheck true for confirming changes
