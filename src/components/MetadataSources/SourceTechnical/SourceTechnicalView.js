@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -13,13 +12,8 @@ import {
 
 import BasicCss from '../../BasicStyle.css';
 
-class SourceTechnicalView extends React.Component {
-  static propTypes = {
-    metadataSource: PropTypes.object,
-  };
-
-  renderUrlList = (values) => {
-    const { metadataSource } = this.props;
+const SourceTechnicalView = ({ metadataSource }) => {
+  const renderUrlList = (values) => {
     const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
 
     if (!metadataSource) {
@@ -36,40 +30,40 @@ class SourceTechnicalView extends React.Component {
         />
       );
     }
-  }
+  };
 
-  render() {
-    const { metadataSource } = this.props;
+  return (
+    <>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
+          value={get(metadataSource, 'lastProcessed', <NoValue />)}
+        />
+      </Row>
+      {/* TICKET is repeatable */}
+      <Row>
+        <Headline
+          className={BasicCss.styleForHeadline}
+          size="medium"
+        >
+          <FormattedMessage id="ui-finc-select.source.tickets" />
+        </Headline>
+      </Row>
+      <Row>
+        { renderUrlList('tickets') }
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.source.id" />}
+          value={get(metadataSource, 'sourceId', <NoValue />)}
+        />
+      </Row>
+    </>
+  );
+};
 
-    return (
-      <>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.source.lastProcessed" />}
-            value={_.get(metadataSource, 'lastProcessed', <NoValue />)}
-          />
-        </Row>
-        {/* TICKET is repeatable */}
-        <Row>
-          <Headline
-            className={BasicCss.styleForHeadline}
-            size="medium"
-          >
-            <FormattedMessage id="ui-finc-select.source.tickets" />
-          </Headline>
-        </Row>
-        <Row>
-          { this.renderUrlList('tickets') }
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.source.id" />}
-            value={_.get(metadataSource, 'sourceId', <NoValue />)}
-          />
-        </Row>
-      </>
-    );
-  }
-}
+SourceTechnicalView.propTypes = {
+  metadataSource: PropTypes.object,
+};
 
 export default SourceTechnicalView;

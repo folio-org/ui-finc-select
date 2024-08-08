@@ -1,6 +1,6 @@
-import React from 'react';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -21,143 +21,127 @@ import CollectionInfoView from './CollectionInfo/CollectionInfoView';
 import CollectionContentView from './CollectionContent/CollectionContentView';
 import CollectionTechnicalView from './CollectionTechnical/CollectionTechnicalView';
 
-class MetadataCollectionView extends React.Component {
-  static propTypes = {
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired
-    }).isRequired,
-    isLoading: PropTypes.bool,
-    record: PropTypes.object,
-    stripes: PropTypes.object,
+const MetadataCollectionView = ({
+  handlers,
+  isLoading,
+  record,
+  stripes,
+}) => {
+  const [accordionsState, setAccordionsState] = useState({
+    contentAccordion: false,
+    technicalAccordion: false
+  });
+
+  const handleExpandAll = (obj) => {
+    setAccordionsState(obj);
   };
 
-  constructor(props) {
-    super(props);
+  const handleAccordionToggle = ({ id }) => {
+    setAccordionsState({ ...accordionsState, [id]: !accordionsState[id] });
+  };
 
-    this.state = {
-      accordions: {
-        contentAccordion: false,
-        technicalAccordion: false
-      },
-    };
-  }
-
-  handleExpandAll = (obj) => {
-    this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
-
-      newState.accordions = obj;
-      return newState;
-    });
-  }
-
-  handleAccordionToggle = ({ id }) => {
-    this.setState((state) => {
-      const newState = _.cloneDeep(state);
-
-      if (!_.has(newState.accordions, id)) newState.accordions[id] = true;
-      newState.accordions[id] = !newState.accordions[id];
-      return newState;
-    });
-  }
-
-  renderLoadingPaneHeader = () => {
+  const renderLoadingPaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={handlers.onClose}
         paneTitle={<span data-test-collection-header-title>loading</span>}
       />
     );
   };
 
-  renderDetailsPaneHeader = () => {
-    const label = _.get(this.props.record, 'label', <NoValue />);
+  const renderDetailsPaneHeader = () => {
+    const label = get(record, 'label', <NoValue />);
 
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={handlers.onClose}
         paneTitle={<span data-test-collection-header-title>{label}</span>}
       />
     );
   };
 
-  renderLoadingPane = () => {
+  const renderLoadingPane = () => {
     return (
       <Pane
         defaultWidth="40%"
         id="pane-collectiondetails"
-        renderHeader={this.renderLoadingPaneHeader}
+        renderHeader={renderLoadingPaneHeader}
       >
         <Layout className="marginTop1">
           <Icon icon="spinner-ellipsis" width="10px" />
         </Layout>
       </Pane>
     );
-  }
+  };
 
-  render() {
-    const { record, isLoading, stripes } = this.props;
+  if (isLoading) return renderLoadingPane();
 
-    if (isLoading) return this.renderLoadingPane();
-
-    return (
-      <>
-        <Pane
-          data-test-collection-pane-details
-          defaultWidth="40%"
-          id="pane-collectiondetails"
-          renderHeader={this.renderDetailsPaneHeader}
-        >
-          <AccordionSet>
-            <ViewMetaData
-              metadata={_.get(record, 'metadata', {})}
-              stripes={stripes}
-            />
-            <CollectionInfoView
-              id="collectionInfo"
+  return (
+    <>
+      <Pane
+        data-test-collection-pane-details
+        defaultWidth="40%"
+        id="pane-collectiondetails"
+        renderHeader={renderDetailsPaneHeader}
+      >
+        <AccordionSet>
+          <ViewMetaData
+            metadata={get(record, 'metadata', {})}
+            stripes={stripes}
+          />
+          <CollectionInfoView
+            id="collectionInfo"
+            metadataCollection={record}
+            stripes={stripes}
+          />
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={accordionsState}
+                onToggle={handleExpandAll}
+                setStatus={null}
+              />
+            </Col>
+          </Row>
+          <Accordion
+            id="contentAccordion"
+            label={<FormattedMessage id="ui-finc-select.collection.accordion.content" />}
+            onToggle={handleAccordionToggle}
+            open={accordionsState.contentAccordion}
+          >
+            <CollectionContentView
+              id="collectionContent"
               metadataCollection={record}
               stripes={stripes}
             />
-            <Row end="xs">
-              <Col xs>
-                <ExpandAllButton
-                  accordionStatus={this.state.accordions}
-                  onToggle={this.handleExpandAll}
-                  setStatus={null}
-                />
-              </Col>
-            </Row>
-            <Accordion
-              id="contentAccordion"
-              label={<FormattedMessage id="ui-finc-select.collection.accordion.content" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.contentAccordion}
-            >
-              <CollectionContentView
-                id="collectionContent"
-                metadataCollection={record}
-                stripes={stripes}
-              />
-            </Accordion>
-            <Accordion
-              id="technicalAccordion"
-              label={<FormattedMessage id="ui-finc-select.collection.accordion.technical" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.technicalAccordion}
-            >
-              <CollectionTechnicalView
-                id="collectionTechnical"
-                metadataCollection={record}
-                stripes={stripes}
-              />
-            </Accordion>
-          </AccordionSet>
-        </Pane>
-      </>
-    );
-  }
-}
+          </Accordion>
+          <Accordion
+            id="technicalAccordion"
+            label={<FormattedMessage id="ui-finc-select.collection.accordion.technical" />}
+            onToggle={handleAccordionToggle}
+            open={accordionsState.technicalAccordion}
+          >
+            <CollectionTechnicalView
+              id="collectionTechnical"
+              metadataCollection={record}
+              stripes={stripes}
+            />
+          </Accordion>
+        </AccordionSet>
+      </Pane>
+    </>
+  );
+};
+
+MetadataCollectionView.propTypes = {
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired
+  }).isRequired,
+  isLoading: PropTypes.bool,
+  record: PropTypes.object,
+  stripes: PropTypes.object,
+};
 
 export default MetadataCollectionView;
