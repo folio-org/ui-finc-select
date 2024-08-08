@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,41 +8,38 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class CollectionContentView extends React.Component {
-  static propTypes = {
-    metadataCollection: PropTypes.object,
-  };
-
-  getDataLable(field) {
-    const fieldValue = _.get(this.props.metadataCollection, field, '');
+const CollectionContentView = ({ metadataCollection }) => {
+  const getDataLable = (field) => {
+    const fieldValue = get(metadataCollection, field, '');
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
       return <NoValue />;
     }
-  }
+  };
 
-  render() {
-    const { metadataCollection } = this.props;
-    const freeContentLabel = this.getDataLable('freeContent');
+  const freeContentLabel = getDataLable('freeContent');
 
-    return (
-      <>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.collection.description" />}
-            value={_.get(metadataCollection, 'description', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
-            value={freeContentLabel}
-          />
-        </Row>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.collection.description" />}
+          value={get(metadataCollection, 'description', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.collection.freeContent" />}
+          value={freeContentLabel}
+        />
+      </Row>
+    </>
+  );
+};
+
+CollectionContentView.propTypes = {
+  metadataCollection: PropTypes.object,
+};
 
 export default CollectionContentView;

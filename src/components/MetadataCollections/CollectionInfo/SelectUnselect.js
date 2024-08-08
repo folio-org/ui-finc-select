@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,92 +12,74 @@ import {
 
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
 
-class SelectUnselect extends React.Component {
-  static propTypes = {
-    collectionId: PropTypes.string,
-    permitted: PropTypes.object,
-    selectedInitial: PropTypes.string,
-    stripes: PropTypes.object,
+const SelectUnselect = ({
+  collectionId,
+  permitted,
+  selectedInitial,
+  stripes,
+}) => {
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [modalText, setModalText] = useState('');
+  const [selected, setSelected] = useState(selectedInitial);
+
+  // get button label from the saved yes or no value
+  const getSelectedButtonLable = (sel) => {
+    if (sel === 'no') {
+      return <FormattedMessage id="ui-finc-select.collection.button.select" />;
+    } else {
+      return <FormattedMessage id="ui-finc-select.collection.button.unselect" />;
+    }
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showInfoModal: false,
-      modalText: '',
-      selected: props.selectedInitial,
-      selectedLabel: this.getSelectedButtonLable(props.selectedInitial)
-    };
-  }
+  const [selectedLabel, setSelectedLabel] = useState(getSelectedButtonLable(selectedInitial));
 
   // get initial-selected-value as a property
   // but need the selected-value also as a state for futher working and changing its value
-  componentDidMount() {
-    const { selectedInitial } = this.props;
+  useEffect(() => {
+    setSelected(selectedInitial);
+  }, [selectedInitial]);
 
-    this.setState(
-      {
-        selected: selectedInitial
-      }
-    );
-  }
-
-  // if clicking on another collection, check, if selectedInitial will be up to date
-  componentDidUpdate(prevProps) {
-    if (this.props.collectionId !== prevProps.collectionId) {
-      this.fetchSelected(this.props.selectedInitial);
-      this.isUsagePermitted(this.props.permitted);
-    }
-  }
-
-  fetchSelected = (selected) => {
-    const selectedButtonLable = this.getSelectedButtonLable(selected);
+  const fetchSelected = () => {
+    const selectedButtonLable = getSelectedButtonLable(selectedInitial);
 
     // change state for selected-values, if neccessary
-    this.setState(
-      {
-        selected,
-        selectedLabel: selectedButtonLable
-      }
-    );
-  }
+    setSelected(selectedInitial);
+    setSelectedLabel(selectedButtonLable);
+  };
 
-  isUsagePermitted(permitted) {
+  const isUsagePermitted = () => {
     if (permitted === 'no') {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
-  // get button label from the saved yes or no value
-  getSelectedButtonLable(selected) {
-    if (selected === 'no') {
-      return <FormattedMessage id="ui-finc-select.collection.button.select" />;
-    } else {
-      return <FormattedMessage id="ui-finc-select.collection.button.unselect" />;
-    }
-  }
+  // if clicking on another collection, check, if selectedInitial will be up to date
+  useEffect(() => {
+    fetchSelected();
+    isUsagePermitted();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collectionId]);
 
   // translate yes or no value into inverse boolean for json
-  inversJsonBoolean(selected) {
+  const inversJsonBoolean = () => {
     if (selected === 'no') {
       return { select: true };
     } else {
       return { select: false };
     }
-  }
+  };
 
-  selectUnselect = (collectionId, selected) => {
-    const selectedJson = JSON.stringify(this.inversJsonBoolean(selected));
+  const selectUnselect = () => {
+    const selectedJson = JSON.stringify(inversJsonBoolean());
 
     let inverseSelected = '';
 
     if (selected === 'no') { inverseSelected = 'yes'; } else { inverseSelected = 'no'; }
-    const invertSelectedButtonLable = this.getSelectedButtonLable(inverseSelected);
+    const invertSelectedButtonLable = getSelectedButtonLable(inverseSelected);
 
-    fetchWithDefaultOptions(this.props.stripes.okapi, `/finc-select/metadata-collections/${collectionId}/select`,
+    fetchWithDefaultOptions(stripes.okapi, `/finc-select/metadata-collections/${collectionId}/select`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -106,39 +88,27 @@ class SelectUnselect extends React.Component {
       .then((response) => {
         if (response.status >= 400) {
           // show 400 error
-          this.setState(
-            {
-              showInfoModal: true,
-              modalText: <FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.400" />
-            }
-          );
+          setShowInfoModal(true);
+          setModalText(<FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.400" />);
         } else if (response.status < 400 && response.status >= 300) {
           // show 300 error
-          this.setState(
-            {
-              showInfoModal: true,
-              modalText: <FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.300" />
-            }
-          );
+          setShowInfoModal(true);
+          setModalText(<FormattedMessage id="ui-finc-select.collection.modal.selectCollection.error.300" />);
         } else if (response.status < 300 && response.status >= 200) {
           // show success
-          this.setState(
-            {
-              selected: inverseSelected,
-              selectedLabel: invertSelectedButtonLable
-            }
-          );
+          setSelected(inverseSelected);
+          setSelectedLabel(invertSelectedButtonLable);
         }
       });
-  }
+  };
 
-  handleClose = () => {
-    this.setState({ showInfoModal: false });
-  }
+  const handleClose = () => {
+    setShowInfoModal(false);
+  };
 
-  getSelectedDataLable() {
-    if (this.state.selected !== undefined) {
-      const fieldValue = this.state.selected;
+  const getSelectedDataLable = () => {
+    if (selected !== undefined) {
+      const fieldValue = selected;
       if (fieldValue !== '') {
         return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
       } else {
@@ -146,44 +116,49 @@ class SelectUnselect extends React.Component {
       }
     }
     return null;
-  }
+  };
 
-  render() {
-    const { collectionId, permitted, stripes } = this.props;
-    const selectedLabel = this.getSelectedDataLable();
-    const hasSelectCollectionPerms = stripes.hasPerm('finc-select.metadata-collections.item.select');
+  const selectedLabelValue = getSelectedDataLable();
+  const hasSelectCollectionPerms = stripes.hasPerm('finc-select.metadata-collections.item.select');
 
-    return (
-      <>
-        <Col xs={3}>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.collection.selected" />}
-            value={selectedLabel}
-          />
-        </Col>
-        <Col xs={3}>
-          <Button
-            buttonStyle="primary"
-            disabled={!hasSelectCollectionPerms || this.isUsagePermitted(permitted)}
-            id="unselect"
-            onClick={() => this.selectUnselect(collectionId, this.state.selected)}
-          >
-            {this.state.selectedLabel}
-          </Button>
-        </Col>
-        <Modal
-          label={<FormattedMessage id="ui-finc-select.collection.modal.selectCollection.label" />}
-          open={this.state.showInfoModal}
+  return (
+    <>
+      <Col xs={3}>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.collection.selected" />}
+          value={selectedLabelValue}
+        />
+      </Col>
+      <Col xs={3}>
+        <Button
+          buttonStyle="primary"
+          disabled={!hasSelectCollectionPerms || isUsagePermitted()}
+          id="unselect"
+          onClick={() => selectUnselect()}
         >
-          <div>
-            { this.state.modalText }
-          </div>
-          <Button onClick={this.handleClose}>
-            <FormattedMessage id="ui-finc-select.button.ok" />
-          </Button>
-        </Modal>
-      </>
-    );
-  }
-}
+          {selectedLabel}
+        </Button>
+      </Col>
+      <Modal
+        label={<FormattedMessage id="ui-finc-select.collection.modal.selectCollection.label" />}
+        open={showInfoModal}
+      >
+        <div>
+          { modalText }
+        </div>
+        <Button onClick={handleClose}>
+          <FormattedMessage id="ui-finc-select.button.ok" />
+        </Button>
+      </Modal>
+    </>
+  );
+};
+
+SelectUnselect.propTypes = {
+  collectionId: PropTypes.string,
+  permitted: PropTypes.object,
+  selectedInitial: PropTypes.string,
+  stripes: PropTypes.object,
+};
+
 export default SelectUnselect;

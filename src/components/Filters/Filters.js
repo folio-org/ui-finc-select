@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import { get, noop, isEqual } from 'lodash';
 import { useState } from 'react';
-import {
-  Link,
-  withRouter,
-} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import {

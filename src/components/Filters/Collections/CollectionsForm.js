@@ -11,12 +11,9 @@ const CollectionsForm = ({
   accordionId,
   collectionIds,
   expanded,
-  // filterData,
   filterId,
   form,
-  // setCollection,
   onToggle,
-  // stripes,
   ...props
 }) => {
   return (

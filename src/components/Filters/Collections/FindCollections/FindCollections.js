@@ -15,10 +15,6 @@ const FindCollections = ({
     form.mutators.setCollection({}, records);
   };
 
-  // const setCollection = records => {
-  //   form.mutators.setCollection({}, records);
-  // };
-
   const disableRecordCreation = true;
   const buttonProps = { 'marginBottom0': true };
 
@@ -27,7 +23,6 @@ const FindCollections = ({
       aria-haspopup="true"
       buttonProps={buttonProps}
       collectionIds={collectionIds}
-      // columnMapping={columnMapping}
       dataKey="collection"
       disableRecordCreation={disableRecordCreation}
       filterId={filterId}
@@ -43,7 +38,6 @@ const FindCollections = ({
       }}
       searchButtonStyle="default"
       searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" />}
-      // selectCollection={selectCollection}
       selectRecordsModal={getSelectedCollections}
       type="find-finc-metadata-collection"
       visibleColumns={['label']}

@@ -31,7 +31,6 @@ const ViewCollections = ({
       aria-haspopup="true"
       buttonProps={buttonProps}
       collectionIds={initCollectionIds}
-      // columnMapping={columnMapping}
       dataKey="collection"
       disableRecordCreation={disableRecordCreation}
       filterId={filterId}

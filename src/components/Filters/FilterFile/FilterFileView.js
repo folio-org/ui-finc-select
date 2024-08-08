@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import { saveAs } from 'file-saver';
 
@@ -56,7 +55,7 @@ const FilterFileView = ({
         criteria: <FormattedMessage id="ui-finc-select.filter.file.criteria" />,
         fileId: ''
       }}
-      contentData={_.get(filter, 'filterFiles', [])}
+      contentData={get(filter, 'filterFiles', [])}
       formatter={formatter}
       interactive={false}
       isEmptyMessage={<FormattedMessage id="ui-finc-select.filter.file.empty" />}

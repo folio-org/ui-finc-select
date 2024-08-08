@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -13,13 +12,8 @@ import {
 
 import BasicCss from '../../BasicStyle.css';
 
-class CollectionTechnicalView extends React.Component {
-  static propTypes = {
-    metadataCollection: PropTypes.object,
-  };
-
-  renderUrlList = (values) => {
-    const { metadataCollection } = this.props;
+const CollectionTechnicalView = ({ metadataCollection }) => {
+  const renderUrlList = (values) => {
     const isEmptyMessage = <FormattedMessage id="ui-finc-select.renderList.isEmpty" />;
 
     if (!metadataCollection) {
@@ -36,39 +30,40 @@ class CollectionTechnicalView extends React.Component {
         />
       );
     }
-  }
+  };
 
-  render() {
-    const { metadataCollection } = this.props;
+  return (
+    <>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.collection.id" />}
+          value={get(metadataCollection, 'collectionId', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.collection.generalNotes" />}
+          value={get(metadataCollection, 'generalNotes', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <Headline
+          className={BasicCss.styleForHeadline}
+          size="medium"
+        >
+          <FormattedMessage id="ui-finc-select.collection.tickets" />
+        </Headline>
+      </Row>
+      <Row>
+        { renderUrlList('tickets') }
+      </Row>
+    </>
+  );
+};
 
-    return (
-      <>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.collection.id" />}
-            value={_.get(metadataCollection, 'collectionId', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.collection.generalNotes" />}
-            value={_.get(metadataCollection, 'generalNotes', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <Headline
-            className={BasicCss.styleForHeadline}
-            size="medium"
-          >
-            <FormattedMessage id="ui-finc-select.collection.tickets" />
-          </Headline>
-        </Row>
-        <Row>
-          { this.renderUrlList('tickets') }
-        </Row>
-      </>
-    );
-  }
-}
+CollectionTechnicalView.propTypes = {
+  metadataCollection: PropTypes.object,
+};
+
 
 export default CollectionTechnicalView;
