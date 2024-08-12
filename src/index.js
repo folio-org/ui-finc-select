@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import { Switch } from 'react-router-dom';
@@ -16,38 +15,40 @@ import FilterCreateRoute from './routes/FilterCreateRoute';
 
 import Settings from './settings';
 
-class FincSelect extends React.Component {
-  static propTypes = {
-    actAs: PropTypes.string.isRequired,
-    match: ReactRouterPropTypes.match.isRequired,
-    stripes: PropTypes.object.isRequired,
-  }
-
-  render() {
-    const { actAs, match: { path } } = this.props;
-
-    if (actAs === 'settings') {
-      return (
-        <Settings {...this.props} />
-      );
-    }
-
+const FincSelect = ({
+  actAs,
+  match,
+  ...props
+}) => {
+  if (actAs === 'settings') {
     return (
-      <Switch>
-        <Route path={`${path}/metadata-sources/:id?`} component={SourcesRoute}>
-          <Route path={`${path}/metadata-sources/:id`} component={SourceViewRoute} />
-        </Route>
-        <Route path={`${path}/metadata-collections/:id?`} component={CollectionsRoute}>
-          <Route path={`${path}/metadata-collections/:id`} component={CollectionViewRoute} />
-        </Route>
-        <Route path={`${path}/filters/create`} component={FilterCreateRoute} />
-        <Route path={`${path}/filters/:id/edit`} component={FilterEditRoute} />
-        <Route path={`${path}/filters/:id?`} component={FiltersRoute}>
-          <Route path={`${path}/filters/:id`} component={FilterViewRoute} />
-        </Route>
-      </Switch>
+      <Settings
+        match={match}
+        {...props}
+      />
     );
   }
-}
+
+  return (
+    <Switch>
+      <Route path={`${match.path}/metadata-sources/:id?`} component={SourcesRoute}>
+        <Route path={`${match.path}/metadata-sources/:id`} component={SourceViewRoute} />
+      </Route>
+      <Route path={`${match.path}/metadata-collections/:id?`} component={CollectionsRoute}>
+        <Route path={`${match.path}/metadata-collections/:id`} component={CollectionViewRoute} />
+      </Route>
+      <Route path={`${match.path}/filters/create`} component={FilterCreateRoute} />
+      <Route path={`${match.path}/filters/:id/edit`} component={FilterEditRoute} />
+      <Route path={`${match.path}/filters/:id?`} component={FiltersRoute}>
+        <Route path={`${match.path}/filters/:id`} component={FilterViewRoute} />
+      </Route>
+    </Switch>
+  );
+};
+
+FincSelect.propTypes = {
+  actAs: PropTypes.string.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+};
 
 export default FincSelect;
