@@ -1,8 +1,9 @@
+import { MemoryRouter } from 'react-router-dom';
+
 import { StripesContext } from '@folio/stripes/core';
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import FilterFileView from './FilterFileView';
 

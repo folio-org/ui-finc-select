@@ -1,6 +1,6 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { noop } from 'lodash';
+
 import { StripesContext, useStripes } from '@folio/stripes/core';
 import { StripesConnectedSource } from '@folio/stripes/smart-components';
 import { render } from '@folio/jest-config-stripes/testing-library/react';
