@@ -227,11 +227,7 @@ const MetadataSources = ({
   };
 
   const getDisableReset = (activeFilters, searchValue) => {
-    if (_.isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query) {
-      return true;
-    } else {
-      return false;
-    }
+    return isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query;
   };
 
   const renderFilterPaneHeader = () => {
