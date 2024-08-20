@@ -1,46 +1,32 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDropzone from 'react-dropzone';
 
-import {
-  Button,
-  Icon,
-} from '@folio/stripes/components';
+import { Button, Icon } from '@folio/stripes/components';
 
 import css from './FileUploader.css';
 
-export default class FileUploader extends React.Component {
-  static propTypes = {
-    accept: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-    acceptClassName: PropTypes.string,
-    activeClassName: PropTypes.string,
-    className: PropTypes.string,
-    disabledClassName: PropTypes.string,
-    errorMessage: PropTypes.node,
-    footer: PropTypes.node,
-    isDropZoneActive: PropTypes.bool.isRequired,
-    maxSize: PropTypes.number,
-    onDragEnter: PropTypes.func,
-    onDragLeave: PropTypes.func,
-    onDrop: PropTypes.func.isRequired,
-    rejectClassName: PropTypes.string,
-    style: PropTypes.object,
-    title: PropTypes.node.isRequired,
-    uploadButtonAriaLabel: PropTypes.string,
-    uploadButtonText: PropTypes.node.isRequired,
-    uploadInProgress: PropTypes.bool,
-    uploadInProgressText: PropTypes.node,
-  };
-
-  static defaultProps = {
-    className: '',
-  };
-
-  renderErrorMessage = () => {
-    const { errorMessage, isDropZoneActive } = this.props;
+const FileUploader = ({
+  accept,
+  acceptClassName,
+  activeClassName,
+  className = '',
+  disabledClassName,
+  errorMessage,
+  footer,
+  isDropZoneActive,
+  maxSize,
+  onDragEnter,
+  onDragLeave,
+  onDrop,
+  rejectClassName,
+  style,
+  title,
+  uploadButtonAriaLabel,
+  uploadButtonText,
+  uploadInProgress,
+  uploadInProgressText,
+}) => {
+  const renderErrorMessage = () => {
     return errorMessage &&
     (
       <span
@@ -54,15 +40,7 @@ export default class FileUploader extends React.Component {
     );
   };
 
-  renderUploadFields = () => {
-    const {
-      isDropZoneActive,
-      uploadButtonAriaLabel,
-      uploadButtonText,
-      uploadInProgress,
-      uploadInProgressText
-    } = this.props;
-
+  const renderUploadFields = () => {
     return (
       <>
         <span
@@ -74,7 +52,7 @@ export default class FileUploader extends React.Component {
               {uploadInProgressText}
               <Icon icon="spinner-ellipsis" width="10px" />
             </div>
-          ) : this.props.title}
+          ) : title}
         </span>
         <Button
           aria-label={uploadButtonAriaLabel}
@@ -87,10 +65,9 @@ export default class FileUploader extends React.Component {
         </Button>
       </>
     );
-  }
+  };
 
-  renderFooter = () => {
-    const { footer, isDropZoneActive } = this.props;
+  const renderFooter = () => {
     return footer &&
     (
       <div
@@ -101,50 +78,61 @@ export default class FileUploader extends React.Component {
         {footer}
       </div>
     );
-  }
+  };
 
-  render() {
-    const {
-      accept,
-      acceptClassName,
-      activeClassName,
-      className,
-      disabledClassName,
-      maxSize,
-      onDragEnter,
-      onDragLeave,
-      onDrop,
-      rejectClassName,
-      style,
-    } = this.props;
+  return (
+    <ReactDropzone
+      accept={accept}
+      acceptClassName={acceptClassName}
+      activeClassName={activeClassName}
+      disabledClassName={disabledClassName}
+      disableClick
+      maxSize={maxSize}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+      rejectClassName={rejectClassName}
+      style={style}
+    >
+      {({ getInputProps, getRootProps }) => (
+        <div
+          className={`${css.upload} ${className}`}
+          data-test-filter-file-drop-zone
+          {...getRootProps()}
+        >
+          <input id="filter-file-input" {...getInputProps()} />
+          {renderErrorMessage()}
+          {renderUploadFields()}
+          {renderFooter()}
+        </div>
+      )}
+    </ReactDropzone>
+  );
+};
 
-    return (
-      <ReactDropzone
-        accept={accept}
-        acceptClassName={acceptClassName}
-        activeClassName={activeClassName}
-        disabledClassName={disabledClassName}
-        disableClick
-        maxSize={maxSize}
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-        rejectClassName={rejectClassName}
-        style={style}
-      >
-        {({ getInputProps, getRootProps }) => (
-          <div
-            className={`${css.upload} ${className}`}
-            data-test-filter-file-drop-zone
-            {...getRootProps()}
-          >
-            <input id="filter-file-input" {...getInputProps()} />
-            {this.renderErrorMessage()}
-            {this.renderUploadFields()}
-            {this.renderFooter()}
-          </div>
-        )}
-      </ReactDropzone>
-    );
-  }
-}
+FileUploader.propTypes = {
+  accept: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
+  acceptClassName: PropTypes.string,
+  activeClassName: PropTypes.string,
+  className: PropTypes.string,
+  disabledClassName: PropTypes.string,
+  errorMessage: PropTypes.node,
+  footer: PropTypes.node,
+  isDropZoneActive: PropTypes.bool.isRequired,
+  maxSize: PropTypes.number,
+  onDragEnter: PropTypes.func,
+  onDragLeave: PropTypes.func,
+  onDrop: PropTypes.func.isRequired,
+  rejectClassName: PropTypes.string,
+  style: PropTypes.object,
+  title: PropTypes.node.isRequired,
+  uploadButtonAriaLabel: PropTypes.string,
+  uploadButtonText: PropTypes.node.isRequired,
+  uploadInProgress: PropTypes.bool,
+  uploadInProgressText: PropTypes.node,
+};
+
+export default FileUploader;

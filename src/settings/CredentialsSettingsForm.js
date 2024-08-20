@@ -1,6 +1,6 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { get } from 'lodash';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
 
@@ -21,38 +21,23 @@ import stripesForm from '@folio/stripes/form';
 import Required from '../components/DisplayUtils/Validate';
 import BasicStyle from '../components/BasicStyle.css';
 
-class CredentialsSettingsForm extends React.Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.object,
-    invalid: PropTypes.bool,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
+const CredentialsSettingsForm = ({
+  handleSubmit,
+  initialValues,
+  invalid,
+  pristine,
+  submitting,
+}) => {
+  const [passwordMasked, setPasswordMasked] = useState(true);
+
+  const styles = {
+    toggleMaskButtonWrapper: {
+      marginTop: '20px',
+      marginLeft: '1rem',
+    },
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      passwordMasked: true,
-    };
-
-    this.styles = {
-      toggleMaskButtonWrapper: {
-        marginTop: '20px',
-        marginLeft: '1rem',
-      },
-    };
-  }
-
-  getPaneFooter() {
-    const {
-      handleSubmit,
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
-
+  const getPaneFooter = () => {
     const disabled = pristine || submitting || invalid;
 
     const endButton = (
@@ -70,15 +55,13 @@ class CredentialsSettingsForm extends React.Component {
     );
 
     return <PaneFooter renderEnd={endButton} />;
-  }
-
-  togglePasswordMask = () => {
-    this.setState(({ passwordMasked }) => ({
-      passwordMasked: !passwordMasked,
-    }));
   };
 
-  renderPaneHeader = () => {
+  const togglePasswordMask = () => {
+    setPasswordMasked(currState => !currState);
+  };
+
+  const renderPaneHeader = () => {
     return (
       <PaneHeader
         paneTitle={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.label" />}
@@ -86,88 +69,92 @@ class CredentialsSettingsForm extends React.Component {
     );
   };
 
-  render() {
-    const { passwordMasked } = this.state;
-    const passwordType = passwordMasked ? 'password' : 'text';
-    const { initialValues } = this.props;
-    const footer = this.getPaneFooter();
-    const passwordToggleLabelId = `ui-finc-select.settings.changePassword.${passwordMasked ? 'show' : 'hide'}Password`;
+  const passwordType = passwordMasked ? 'password' : 'text';
+  const footer = getPaneFooter();
+  const passwordToggleLabelId = `ui-finc-select.settings.changePassword.${passwordMasked ? 'show' : 'hide'}Password`;
 
-    return (
-      <form
-        className={BasicStyle.styleForFormRoot}
-        data-test-ezb-credentials-form-page
-        id="ezb-credentials"
-      >
-        <Paneset isRoot>
-          <Pane
-            defaultWidth="100%"
-            footer={footer}
-            renderHeader={this.renderPaneHeader}
-          >
-            <Row>
-              <Col xs={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  id="add_ezbcredentials_user"
-                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.user" />}
-                  name="user"
-                  required
-                  validate={Required}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  id="add_ezbcredentials_password"
-                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.password" />}
-                  name="password"
-                  required
-                  type={passwordType}
-                  validate={Required}
-                />
-              </Col>
-              <Col>
-                <div style={this.styles.toggleMaskButtonWrapper}>
-                  <Button
-                    buttonStyle="link"
-                    onClick={this.togglePasswordMask}
-                    type="button"
-                  >
-                    <FormattedMessage id={passwordToggleLabelId} />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={6}>
-                <Field
-                  component={TextField}
-                  fullWidth
-                  id="add_ezbcredentials_libId"
-                  label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.libId" />}
-                  name="libId"
-                  required
-                  validate={Required}
-                />
-              </Col>
-            </Row>
-            <Row style={{ marginLeft: '0.1em' }}>
-              <KeyValue
-                label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.isil" />}
-                value={_.get(initialValues, 'isil', <NoValue />)}
+  return (
+    <form
+      className={BasicStyle.styleForFormRoot}
+      data-test-ezb-credentials-form-page
+      id="ezb-credentials"
+    >
+      <Paneset isRoot>
+        <Pane
+          defaultWidth="100%"
+          footer={footer}
+          renderHeader={renderPaneHeader}
+        >
+          <Row>
+            <Col xs={6}>
+              <Field
+                component={TextField}
+                fullWidth
+                id="add_ezbcredentials_user"
+                label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.user" />}
+                name="user"
+                required
+                validate={Required}
               />
-            </Row>
-          </Pane>
-        </Paneset>
-      </form>
-    );
-  }
-}
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={6}>
+              <Field
+                component={TextField}
+                fullWidth
+                id="add_ezbcredentials_password"
+                label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.password" />}
+                name="password"
+                required
+                type={passwordType}
+                validate={Required}
+              />
+            </Col>
+            <Col>
+              <div style={styles.toggleMaskButtonWrapper}>
+                <Button
+                  buttonStyle="link"
+                  onClick={togglePasswordMask}
+                  type="button"
+                >
+                  <FormattedMessage id={passwordToggleLabelId} />
+                </Button>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={6}>
+              <Field
+                component={TextField}
+                fullWidth
+                id="add_ezbcredentials_libId"
+                label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.libId" />}
+                name="libId"
+                required
+                validate={Required}
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginLeft: '0.1em' }}>
+            <KeyValue
+              label={<FormattedMessage id="ui-finc-select.settings.ezbCredentials.isil" />}
+              value={get(initialValues, 'isil', <NoValue />)}
+            />
+          </Row>
+        </Pane>
+      </Paneset>
+    </form>
+  );
+};
+
+CredentialsSettingsForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.object,
+  invalid: PropTypes.bool,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+};
 
 export default stripesForm({
   form: 'ezbCredentialsForm',

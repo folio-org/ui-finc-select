@@ -1,5 +1,5 @@
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import { StripesContext, useStripes } from '@folio/stripes/core';
 import { render } from '@folio/jest-config-stripes/testing-library/react';
 

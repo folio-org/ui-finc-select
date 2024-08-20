@@ -1,14 +1,8 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-  Link,
-} from 'react-router-dom';
-import {
-  injectIntl,
-  FormattedMessage,
-} from 'react-intl';
+import _ from 'lodash';
+import { useState } from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import {
   CollapseFilterPaneButton,
@@ -45,68 +39,56 @@ const defaultFilter = { state: { status: ['active', 'implementation'] }, string:
 const defaultSearchString = { query: '' };
 const defaultSearchIndex = '';
 
-class MetadataSources extends React.Component {
-  static propTypes = {
-    children: PropTypes.object,
-    contentData: PropTypes.arrayOf(PropTypes.object),
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func.isRequired,
-    }),
-    onNeedMoreData: PropTypes.func,
-    onSelectRow: PropTypes.func,
-    queryGetter: PropTypes.func,
-    querySetter: PropTypes.func,
-    searchString: PropTypes.string,
-    source: PropTypes.object,
-    // add values for search-selectbox
-    onChangeIndex: PropTypes.func,
-    selectedIndex: PropTypes.object,
-    selectedRecordId: PropTypes.string,
-  };
+const MetadataSources = ({
+  children,
+  contentData = {},
+  history,
+  intl,
+  onNeedMoreData,
+  onSelectRow,
+  queryGetter,
+  querySetter,
+  searchField,
+  searchString = '',
+  source,
+  // add values for search-selectbox
+  onChangeIndex,
+  selectedRecordId,
+}) => {
+  const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
+  const [storedFilter, setStoredFilter] = useState(localStorage.getItem('fincSelectSourceFilters') ? JSON.parse(localStorage.getItem('fincSelectSourceFilters')) : defaultFilter);
+  const [storedSearchString, setStoredSearchString] = useState(localStorage.getItem('fincSelectSourceSearchString') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchString')) : defaultSearchString);
+  const [storedSearchIndex, setStoredSearchIndex] = useState(localStorage.getItem('fincSelectSourceSearchIndex') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchIndex')) : defaultSearchIndex);
 
-  static defaultProps = {
-    contentData: {},
-    searchString: '',
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      filterPaneIsVisible: true,
-      storedFilter: localStorage.getItem('fincSelectSourceFilters') ? JSON.parse(localStorage.getItem('fincSelectSourceFilters')) : defaultFilter,
-      storedSearchString: localStorage.getItem('fincSelectSourceSearchString') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchString')) : defaultSearchString,
-      storedSearchIndex: localStorage.getItem('fincSelectSourceSearchIndex') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchIndex')) : defaultSearchIndex,
-    };
-  }
-
-  resultsFormatter = {
-    label: source => source.label,
-    sourceId: source => source.sourceId,
-    status: source => this.getDataLable(_.get(source, 'status', '')),
-    lastProcessed: source => source.lastProcessed,
-  };
-
-  getDataLable(fieldValue) {
+  const getDataLable = (fieldValue) => {
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
       return <NoValue />;
     }
-  }
+  };
 
-  rowFormatter = (row) => {
+  const resultsFormatter = {
+    label: result => result.label,
+    sourceId: result => result.sourceId,
+    status: result => getDataLable(_.get(result, 'status', '')),
+    lastProcessed: result => result.lastProcessed,
+  };
+
+  // generate url for record-details
+  const rowURL = (id) => {
+    return `${urls.sourceView(id)}${searchString}`;
+  };
+
+  const rowFormatter = (row) => {
     const { rowClass, rowData, rowIndex, rowProps = {}, cells } = row;
     let RowComponent;
 
-    if (this.props.onSelectRow) {
+    if (onSelectRow) {
       RowComponent = 'div';
     } else {
       RowComponent = Link;
-      rowProps.to = this.rowURL(rowData.id);
+      rowProps.to = rowURL(rowData.id);
     }
 
     return (
@@ -121,23 +103,15 @@ class MetadataSources extends React.Component {
         {cells}
       </RowComponent>
     );
-  }
-
-  // generate url for record-details
-  rowURL = (id) => {
-    return `${urls.sourceView(id)}${this.props.searchString}`;
-  }
+  };
 
   // fade in/out of filter-pane
-  toggleFilterPane = () => {
-    this.setState(curState => ({
-      filterPaneIsVisible: !curState.filterPaneIsVisible,
-    }));
-  }
+  const toggleFilterPane = () => {
+    setFilterPaneIsVisible(curState => !curState);
+  };
 
   // fade in / out the filter menu
-  renderResultsFirstMenu = (filters) => {
-    const { filterPaneIsVisible } = this.state;
+  const renderResultsFirstMenu = (filters) => {
     const filterCount = filters.string !== '' ? filters.string.split(',').length : 0;
     if (filterPaneIsVisible) {
       return null;
@@ -147,35 +121,35 @@ class MetadataSources extends React.Component {
       <PaneMenu>
         <ExpandFilterPaneButton
           filterCount={filterCount}
-          onClick={this.toggleFilterPane}
+          onClick={toggleFilterPane}
         />
       </PaneMenu>
     );
-  }
+  };
 
   // counting records of result list
-  renderResultsPaneSubtitle = (source) => {
-    if (source) {
-      const count = source ? source.totalCount() : 0;
+  const renderResultsPaneSubtitle = (result) => {
+    if (result) {
+      const count = result ? result.totalCount() : 0;
       return <FormattedMessage id="stripes-smart-components.searchResultsCountHeader" values={{ count }} />;
     }
 
     return <FormattedMessage id="stripes-smart-components.searchCriteria" />;
-  }
+  };
 
-  renderNavigation = (id) => (
+  const renderNavigation = (id) => (
     <Navigation id={id} />
   );
 
-  renderIsEmptyMessage = (query, source) => {
-    if (!source) {
+  const renderIsEmptyMessage = (query, result) => {
+    if (!result) {
       return <FormattedMessage id="ui-finc-select.noSourceYet" />;
     }
 
     return (
       <div data-test-sources-no-results-message>
         <NoResultsMessage
-          source={source}
+          source={result}
           searchTerm={query.query || ''}
           filterPaneIsVisible
           toggleFilterPane={_.noop}
@@ -184,12 +158,12 @@ class MetadataSources extends React.Component {
     );
   };
 
-  cacheFilter(activeFilters, searchValue) {
+  const cacheFilter = (activeFilters, searchValue) => {
     localStorage.setItem('fincSelectSourceFilters', JSON.stringify(activeFilters));
     localStorage.setItem('fincSelectSourceSearchString', JSON.stringify(searchValue));
-  }
+  };
 
-  resetAll(getFilterHandlers, getSearchHandlers) {
+  const resetAll = (getFilterHandlers, getSearchHandlers) => {
     localStorage.removeItem('fincSelectSourceFilters');
     localStorage.removeItem('fincSelectSourceSearchString');
     localStorage.removeItem('fincSelectSourceSearchIndex');
@@ -200,20 +174,18 @@ class MetadataSources extends React.Component {
     // reset the search query
     getSearchHandlers.state(defaultSearchString);
 
-    this.setState({
-      storedFilter: defaultFilter,
-      storedSearchString: defaultSearchString,
-      storedSearchIndex: defaultSearchIndex,
-    });
+    setStoredFilter(defaultFilter);
+    setStoredSearchString(defaultSearchString);
+    setStoredSearchIndex(defaultSearchIndex);
 
-    return (this.props.history.push(`${urls.sources()}?filters=${defaultFilter.string}`));
-  }
+    return (history.push(`${urls.sources()}?filters=${defaultFilter.string}`));
+  };
 
-  handleClearSearch(getSearchHandlers, onSubmitSearch, searchValue) {
+  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
     localStorage.removeItem('fincSelectSourceSearchString');
     localStorage.removeItem('fincSelectSourceSearchIndex');
 
-    this.setState({ storedSearchIndex: defaultSearchIndex });
+    setStoredSearchIndex(defaultSearchIndex);
 
     searchValue.query = '';
 
@@ -223,52 +195,48 @@ class MetadataSources extends React.Component {
     });
 
     return onSubmitSearch;
-  }
+  };
 
-  handleChangeSearch(e, getSearchHandlers) {
+  const handleChangeSearch = (e, getSearchHandlers) => {
     getSearchHandlers.state({
       query: e,
     });
-  }
+  };
 
-  onChangeIndex(index, getSearchHandlers, searchValue) {
+  const doChangeIndex = (index, getSearchHandlers, searchValue) => {
     localStorage.setItem('fincSelectSourceSearchIndex', JSON.stringify(index));
-    this.setState({ storedSearchIndex: index });
+    setStoredSearchIndex(index);
     // call function in SourcesRoute.js:
-    this.props.onChangeIndex(index);
+    onChangeIndex(index);
     getSearchHandlers.state({
       query: searchValue.query,
       qindex: index,
     });
-  }
+  };
 
-  getCombinedSearch = () => {
-    if (this.state.storedSearchIndex.qindex !== '') {
+  const getCombinedSearch = () => {
+    if (storedSearchIndex.qindex !== '') {
       const combined = {
-        query: this.state.storedSearchString.query,
-        qindex: this.state.storedSearchIndex,
+        query: storedSearchString.query,
+        qindex: storedSearchIndex,
       };
       return combined;
     } else {
-      return this.state.storedSearchString;
+      return storedSearchString;
     }
-  }
+  };
 
-  getDisableReset(activeFilters, searchValue) {
-    if (_.isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const getDisableReset = (activeFilters, searchValue) => {
+    return _.isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query;
+  };
 
-  renderFilterPaneHeader = () => {
+  const renderFilterPaneHeader = () => {
     return (
       <PaneHeader
         lastMenu={
           <PaneMenu>
             <CollapseFilterPaneButton
-              onClick={this.toggleFilterPane}
+              onClick={toggleFilterPane}
             />
           </PaneMenu>
         }
@@ -277,154 +245,172 @@ class MetadataSources extends React.Component {
     );
   };
 
-  renderResultsPaneHeader = (activeFilters, source) => {
+  const renderResultsPaneHeader = (activeFilters, result) => {
     return (
       <PaneHeader
         appIcon={<AppIcon app="finc-select" />}
-        firstMenu={this.renderResultsFirstMenu(activeFilters)}
-        paneSub={this.renderResultsPaneSubtitle(source)}
+        firstMenu={renderResultsFirstMenu(activeFilters)}
+        paneSub={renderResultsPaneSubtitle(result)}
         paneTitle={<FormattedMessage id="ui-finc-select.sources.title" />}
       />
     );
   };
 
-  render() {
-    const { intl, queryGetter, querySetter, onNeedMoreData, onSelectRow, selectedRecordId, source } = this.props;
-    const count = source ? source.totalCount() : 0;
-    const query = queryGetter() || {};
-    const sortOrder = query.sort || '';
+  const count = source ? source.totalCount() : 0;
+  const query = queryGetter() || {};
+  const sortOrder = query.sort || '';
 
-    if (!searchableIndexes) {
-      searchableIndexes = rawSearchableIndexes.map(index => (
-        { value: index.value, label: intl.formatMessage({ id: `ui-finc-select.source.search.${index.label}` }) }
-      ));
-    }
-
-    return (
-      <div data-test-sources data-testid="sources">
-        <SearchAndSortQuery
-          // NEED FILTER: {"status":["active","implementation","request"]}
-          initialFilterState={this.state.storedFilter.state}
-          initialSearchState={this.getCombinedSearch()}
-          initialSortState={{ sort: 'label' }}
-          queryGetter={queryGetter}
-          querySetter={querySetter}
-        >
-          {
-            ({
-              activeFilters,
-              filterChanged,
-              getFilterHandlers,
-              getSearchHandlers,
-              onSort,
-              onSubmitSearch,
-              searchChanged,
-              searchValue,
-            }) => {
-              const disableReset = this.getDisableReset(activeFilters, searchValue);
-              const disableSearch = () => (searchValue.query === defaultSearchString.query);
-              if (filterChanged || searchChanged) {
-                this.cacheFilter(activeFilters, searchValue);
-              }
-
-              return (
-                <Paneset>
-                  {this.state.filterPaneIsVisible &&
-                    <Pane
-                      defaultWidth="18%"
-                      id="pane-sourcefilter"
-                      renderHeader={this.renderFilterPaneHeader}
-                    >
-                      <form onSubmit={onSubmitSearch}>
-                        {this.renderNavigation('source')}
-                        <div>
-                          <SearchField
-                            ariaLabel="search"
-                            autoFocus
-                            id="sourceSearchField"
-                            inputRef={this.searchField}
-                            name="query"
-                            onChange={(e) => {
-                              if (e.target.value) {
-                                this.handleChangeSearch(e.target.value, getSearchHandlers());
-                              } else {
-                                this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
-                              }
-                            }}
-                            onClear={() => this.handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
-                            value={searchValue.query}
-                            // add values for search-selectbox
-                            onChangeIndex={(e) => { this.onChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
-                            searchableIndexes={searchableIndexes}
-                            selectedIndex={this.state.storedSearchIndex}
-                          />
-                          <Button
-                            buttonStyle="primary"
-                            disabled={disableSearch()}
-                            fullWidth
-                            id="sourceSubmitSearch"
-                            type="submit"
-                          >
-                            <FormattedMessage id="stripes-smart-components.search" />
-                          </Button>
-                        </div>
-                        <Button
-                          buttonStyle="none"
-                          disabled={disableReset}
-                          id="clickable-reset-all"
-                          onClick={() => this.resetAll(getFilterHandlers(), getSearchHandlers())}
-                        >
-                          <Icon icon="times-circle-solid">
-                            <FormattedMessage id="stripes-smart-components.resetAll" />
-                          </Icon>
-                        </Button>
-                        <SourceFilters
-                          activeFilters={activeFilters.state}
-                          filterHandlers={getFilterHandlers()}
-                        />
-                      </form>
-                    </Pane>
-                  }
-                  <Pane
-                    data-test-source-pane-results
-                    defaultWidth="fill"
-                    id="pane-sourceresults"
-                    padContent={false}
-                    renderHeader={() => this.renderResultsPaneHeader(activeFilters, source)}
-                  >
-                    <MultiColumnList
-                      autosize
-                      columnMapping={{
-                        label: <FormattedMessage id="ui-finc-select.source.label" />,
-                        sourceId: <FormattedMessage id="ui-finc-select.source.id" />,
-                        status: <FormattedMessage id="ui-finc-select.source.status" />,
-                        lastProcessed: <FormattedMessage id="ui-finc-select.source.lastProcessed" />,
-                      }}
-                      contentData={this.props.contentData}
-                      formatter={this.resultsFormatter}
-                      id="list-sources"
-                      isEmptyMessage={this.renderIsEmptyMessage(query, source)}
-                      isSelected={({ item }) => item.id === selectedRecordId}
-                      onHeaderClick={onSort}
-                      onNeedMoreData={onNeedMoreData}
-                      onRowClick={onSelectRow}
-                      rowFormatter={this.rowFormatter}
-                      sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
-                      sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
-                      totalCount={count}
-                      virtualize
-                      visibleColumns={['label', 'sourceId', 'status', 'lastProcessed']}
-                    />
-                  </Pane>
-                  {this.props.children}
-                </Paneset>
-              );
-            }
-          }
-        </SearchAndSortQuery>
-      </div>
-    );
+  if (!searchableIndexes) {
+    searchableIndexes = rawSearchableIndexes.map(index => (
+      { value: index.value, label: intl.formatMessage({ id: `ui-finc-select.source.search.${index.label}` }) }
+    ));
   }
-}
+
+  return (
+    <div data-test-sources data-testid="sources">
+      <SearchAndSortQuery
+        // NEED FILTER: {"status":["active","implementation","request"]}
+        initialFilterState={storedFilter.state}
+        initialSearchState={getCombinedSearch()}
+        initialSortState={{ sort: 'label' }}
+        queryGetter={queryGetter}
+        querySetter={querySetter}
+      >
+        {
+          ({
+            activeFilters,
+            filterChanged,
+            getFilterHandlers,
+            getSearchHandlers,
+            onSort,
+            onSubmitSearch,
+            searchChanged,
+            searchValue,
+          }) => {
+            const disableReset = getDisableReset(activeFilters, searchValue);
+            const disableSearch = () => (searchValue.query === defaultSearchString.query);
+            if (filterChanged || searchChanged) {
+              cacheFilter(activeFilters, searchValue);
+            }
+
+            return (
+              <Paneset>
+                {filterPaneIsVisible &&
+                  <Pane
+                    defaultWidth="18%"
+                    id="pane-sourcefilter"
+                    renderHeader={renderFilterPaneHeader}
+                  >
+                    <form onSubmit={onSubmitSearch}>
+                      {renderNavigation('source')}
+                      <div>
+                        <SearchField
+                          ariaLabel="search"
+                          autoFocus
+                          id="sourceSearchField"
+                          inputRef={searchField}
+                          name="query"
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              handleChangeSearch(e.target.value, getSearchHandlers());
+                            } else {
+                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                            }
+                          }}
+                          onClear={() => handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                          value={searchValue.query}
+                          // add values for search-selectbox
+                          onChangeIndex={(e) => { doChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                          searchableIndexes={searchableIndexes}
+                          selectedIndex={storedSearchIndex}
+                        />
+                        <Button
+                          buttonStyle="primary"
+                          disabled={disableSearch()}
+                          fullWidth
+                          id="sourceSubmitSearch"
+                          type="submit"
+                        >
+                          <FormattedMessage id="stripes-smart-components.search" />
+                        </Button>
+                      </div>
+                      <Button
+                        buttonStyle="none"
+                        disabled={disableReset}
+                        id="clickable-reset-all"
+                        onClick={() => resetAll(getFilterHandlers(), getSearchHandlers())}
+                      >
+                        <Icon icon="times-circle-solid">
+                          <FormattedMessage id="stripes-smart-components.resetAll" />
+                        </Icon>
+                      </Button>
+                      <SourceFilters
+                        activeFilters={activeFilters.state}
+                        filterHandlers={getFilterHandlers()}
+                      />
+                    </form>
+                  </Pane>
+                }
+                <Pane
+                  data-test-source-pane-results
+                  defaultWidth="fill"
+                  id="pane-sourceresults"
+                  padContent={false}
+                  renderHeader={() => renderResultsPaneHeader(activeFilters, source)}
+                >
+                  <MultiColumnList
+                    autosize
+                    columnMapping={{
+                      label: <FormattedMessage id="ui-finc-select.source.label" />,
+                      sourceId: <FormattedMessage id="ui-finc-select.source.id" />,
+                      status: <FormattedMessage id="ui-finc-select.source.status" />,
+                      lastProcessed: <FormattedMessage id="ui-finc-select.source.lastProcessed" />,
+                    }}
+                    contentData={contentData}
+                    formatter={resultsFormatter}
+                    id="list-sources"
+                    isEmptyMessage={renderIsEmptyMessage(query, source)}
+                    isSelected={({ item }) => item.id === selectedRecordId}
+                    onHeaderClick={onSort}
+                    onNeedMoreData={onNeedMoreData}
+                    onRowClick={onSelectRow}
+                    rowFormatter={rowFormatter}
+                    sortDirection={sortOrder.startsWith('-') ? 'descending' : 'ascending'}
+                    sortOrder={sortOrder.replace(/^-/, '').replace(/,.*/, '')}
+                    totalCount={count}
+                    virtualize
+                    visibleColumns={['label', 'sourceId', 'status', 'lastProcessed']}
+                  />
+                </Pane>
+                {children}
+              </Paneset>
+            );
+          }
+        }
+      </SearchAndSortQuery>
+    </div>
+  );
+};
+
+MetadataSources.propTypes = {
+  children: PropTypes.object,
+  contentData: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }),
+  onNeedMoreData: PropTypes.func,
+  onSelectRow: PropTypes.func,
+  queryGetter: PropTypes.func,
+  querySetter: PropTypes.func,
+  searchField: PropTypes.object,
+  searchString: PropTypes.string,
+  source: PropTypes.object,
+  // add values for search-selectbox
+  onChangeIndex: PropTypes.func,
+  selectedRecordId: PropTypes.string,
+};
 
 export default injectIntl(withRouter(MetadataSources));

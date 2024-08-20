@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,47 +8,44 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-class SourceInfoView extends React.Component {
-  static propTypes = {
-    metadataSource: PropTypes.object,
-  };
-
-  getDataLable(field) {
-    const fieldValue = _.get(this.props.metadataSource, field, '');
+const SourceInfoView = ({ metadataSource }) => {
+  const getDataLable = (field) => {
+    const fieldValue = get(metadataSource, field, '');
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
       return <NoValue />;
     }
-  }
+  };
 
-  render() {
-    const { metadataSource } = this.props;
-    const implementationStatusLabel = this.getDataLable('status');
+  const implementationStatusLabel = getDataLable('status');
 
-    return (
-      <>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.source.label" />}
-            value={_.get(metadataSource, 'label', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.source.description" />}
-            value={_.get(metadataSource, 'description', <NoValue />)}
-          />
-        </Row>
-        <Row>
-          <KeyValue
-            label={<FormattedMessage id="ui-finc-select.source.status" />}
-            value={implementationStatusLabel}
-          />
-        </Row>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.source.label" />}
+          value={get(metadataSource, 'label', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.source.description" />}
+          value={get(metadataSource, 'description', <NoValue />)}
+        />
+      </Row>
+      <Row>
+        <KeyValue
+          label={<FormattedMessage id="ui-finc-select.source.status" />}
+          value={implementationStatusLabel}
+        />
+      </Row>
+    </>
+  );
+};
+
+SourceInfoView.propTypes = {
+  metadataSource: PropTypes.object,
+};
 
 export default SourceInfoView;

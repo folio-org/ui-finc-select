@@ -1,6 +1,7 @@
-import _ from 'lodash';
-import React from 'react';
+
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
+import { useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -23,60 +24,38 @@ import FilterInfoView from './FilterInfo/FilterInfoView';
 import FilterFileView from './FilterFile/FilterFileView';
 import CollectionsView from './Collections/CollectionsView';
 
-class FilterView extends React.Component {
-  static propTypes = {
-    canEdit: PropTypes.bool,
-    collectionIds: PropTypes.arrayOf(PropTypes.object),
-    handlers: PropTypes.shape({
-      onClose: PropTypes.func.isRequired,
-      onEdit: PropTypes.func,
-    }).isRequired,
-    isLoading: PropTypes.bool,
-    record: PropTypes.object,
-    stripes: PropTypes.shape({
-      connect: PropTypes.func,
-    }),
+const FilterView = ({
+  canEdit,
+  collectionIds,
+  handlers,
+  isLoading,
+  record,
+  stripes,
+}) => {
+  const [accordions, setAccordions] = useState(
+    {
+      fileAccordion: false,
+      collectionAccordion: false
+    }
+  );
+
+  const editButton = useRef(null);
+
+  const handleExpandAll = (obj) => {
+    setAccordions(obj);
   };
 
-  constructor(props) {
-    super(props);
+  const handleAccordionToggle = ({ id }) => {
+    setAccordions({ ...accordions, [id]: !accordions[id] });
+  };
 
-    this.state = {
-      accordions: {
-        fileAccordion: false,
-        collectionAccordion: false
-      },
-    };
-
-    this.editButton = React.createRef();
-  }
-
-  handleExpandAll = (obj) => {
-    this.setState((curState) => {
-      const newState = _.cloneDeep(curState);
-      newState.accordions = obj;
-      return newState;
-    });
-  }
-
-  handleAccordionToggle = ({ id }) => {
-    this.setState((state) => {
-      const newState = _.cloneDeep(state);
-      if (!_.has(newState.accordions, id)) newState.accordions[id] = true;
-      newState.accordions[id] = !newState.accordions[id];
-      return newState;
-    });
-  }
-
-  renderEditPaneMenu = () => {
-    const { canEdit, handlers } = this.props;
-
+  const renderEditPaneMenu = () => {
     return (
       <PaneMenu>
         {canEdit && (
           <Button
             aria-label={<FormattedMessage id="ui-finc-select.edit" />}
-            buttonRef={this.editButton}
+            buttonRef={editButton}
             buttonStyle="primary"
             id="clickable-edit-filter"
             marginBottom0
@@ -87,110 +66,120 @@ class FilterView extends React.Component {
         )}
       </PaneMenu>
     );
-  }
+  };
 
-  renderLoadingPaneHeader = () => {
+  const renderLoadingPaneHeader = () => {
     return (
       <PaneHeader
         dismissible
-        onClose={this.props.handlers.onClose}
+        onClose={handlers.onClose}
         paneTitle={<span data-test-filter-header-title>loading</span>}
       />
     );
   };
 
-  renderDetailsPaneHeader = () => {
-    const label = _.get(this.props.record, 'label', <NoValue />);
+  const renderDetailsPaneHeader = () => {
+    const label = get(record, 'label', <NoValue />);
 
     return (
       <PaneHeader
         dismissible
-        lastMenu={this.renderEditPaneMenu()}
-        onClose={this.props.handlers.onClose}
+        lastMenu={renderEditPaneMenu()}
+        onClose={handlers.onClose}
         paneTitle={<span data-test-filter-header-title>{label}</span>}
       />
     );
   };
 
-  renderLoadingPane = () => {
+  const renderLoadingPane = () => {
     return (
       <Pane
         defaultWidth="40%"
         id="pane-filterdetails"
-        renderHeader={this.renderLoadingPaneHeader}
+        renderHeader={renderLoadingPaneHeader}
       >
         <Layout className="marginTop1">
           <Icon icon="spinner-ellipsis" width="10px" />
         </Layout>
       </Pane>
     );
-  }
+  };
 
-  render() {
-    const { record, isLoading, stripes } = this.props;
+  if (isLoading) return renderLoadingPane();
 
-    if (isLoading) return this.renderLoadingPane();
+  const docs = get(record, 'filterFiles', []);
 
-    const docs = _.get(record, 'filterFiles', []);
-
-    return (
-      <>
-        <Pane
-          data-test-filter-pane-details
-          defaultWidth="40%"
-          id="pane-filterdetails"
-          renderHeader={this.renderDetailsPaneHeader}
-        >
-          <AccordionSet>
-            <ViewMetaData
-              metadata={_.get(record, 'metadata', {})}
-              stripes={this.props.stripes}
-            />
-            <FilterInfoView
+  return (
+    <>
+      <Pane
+        data-test-filter-pane-details
+        defaultWidth="40%"
+        id="pane-filterdetails"
+        renderHeader={renderDetailsPaneHeader}
+      >
+        <AccordionSet>
+          <ViewMetaData
+            metadata={get(record, 'metadata', {})}
+            stripes={stripes}
+          />
+          <FilterInfoView
+            filter={record}
+            id="filterInfo"
+            stripes={stripes}
+          />
+          <Row end="xs">
+            <Col xs>
+              <ExpandAllButton
+                accordionStatus={accordions}
+                onToggle={handleExpandAll}
+                setStatus={null}
+              />
+            </Col>
+          </Row>
+          <Accordion
+            id="fileAccordion"
+            label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.fileAccordion}
+          >
+            <FilterFileView
+              docs={docs}
               filter={record}
               id="filterInfo"
               stripes={stripes}
             />
-            <Row end="xs">
-              <Col xs>
-                <ExpandAllButton
-                  accordionStatus={this.state.accordions}
-                  onToggle={this.handleExpandAll}
-                  setStatus={null}
-                />
-              </Col>
-            </Row>
-            <Accordion
-              id="fileAccordion"
-              label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.fileAccordion}
-            >
-              <FilterFileView
-                docs={docs}
-                filter={record}
-                id="filterInfo"
-                stripes={stripes}
-              />
-            </Accordion>
-            <Accordion
-              id="collectionAccordion"
-              label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
-              onToggle={this.handleAccordionToggle}
-              open={this.state.accordions.collectionAccordion}
-            >
-              <CollectionsView
-                collectionIds={this.props.collectionIds}
-                filter={record}
-                id="collections"
-                stripes={stripes}
-              />
-            </Accordion>
-          </AccordionSet>
-        </Pane>
-      </>
-    );
-  }
-}
+          </Accordion>
+          <Accordion
+            id="collectionAccordion"
+            label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
+            onToggle={handleAccordionToggle}
+            open={accordions.collectionAccordion}
+          >
+            <CollectionsView
+              collectionIds={collectionIds}
+              filter={record}
+              id="collections"
+              stripes={stripes}
+            />
+          </Accordion>
+        </AccordionSet>
+      </Pane>
+    </>
+  );
+};
+
+FilterView.propTypes = {
+  canEdit: PropTypes.bool,
+  collectionIds: PropTypes.arrayOf(PropTypes.object),
+  handlers: PropTypes.shape({
+    onClose: PropTypes.func.isRequired,
+    onEdit: PropTypes.func,
+  }).isRequired,
+  isLoading: PropTypes.bool,
+  record: PropTypes.object,
+  stripes: PropTypes.shape({
+    connect: PropTypes.func,
+  }),
+};
 
 export default FilterView;

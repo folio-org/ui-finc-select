@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -11,25 +11,20 @@ import { CheckboxFilter } from '@folio/stripes/smart-components';
 
 import filterConfig from './filterConfigData';
 
-class SourceFilters extends React.Component {
-  static propTypes = {
-    activeFilters: PropTypes.object,
-    filterHandlers: PropTypes.object,
-  };
-
-  static defaultProps = {
-    activeFilters: {
-      status: [],
-      selected: [],
-    }
-  };
-
-  state = {
+const SourceFilters = ({
+  activeFilters = {
     status: [],
     selected: [],
-  }
+  },
+  filterHandlers,
+  ...props
+}) => {
+  const [filterState, setFilterState] = useState({
+    status: [],
+    selected: [],
+  });
 
-  static getDerivedStateFromProps(props, state) {
+  useEffect(() => {
     const newState = {};
     const arr = [];
 
@@ -49,18 +44,17 @@ class SourceFilters extends React.Component {
 
       arr[filter.name] = newValues;
 
-      if (state[filter.name] && arr[filter.name].length !== state[filter.name].length) {
+      if (filterState[filter.name] && arr[filter.name].length !== filterState[filter.name].length) {
         newState[filter.name] = arr[filter.name];
       }
     });
 
-    if (Object.keys(newState).length) return newState;
+    if (Object.keys(newState).length) {
+      setFilterState((prevState) => ({ ...prevState, ...newState }));
+    }
+  }, [filterState]);
 
-    return null;
-  }
-
-  renderCheckboxFilter = (key) => {
-    const { activeFilters } = this.props;
+  const renderCheckboxFilter = (key) => {
     const groupFilters = activeFilters[key] || [];
 
     return (
@@ -69,28 +63,31 @@ class SourceFilters extends React.Component {
         header={FilterAccordionHeader}
         id={`filter-accordion-${key}`}
         label={<FormattedMessage id={`ui-finc-select.source.${key}`} />}
-        onClearFilter={() => { this.props.filterHandlers.clearGroup(key); }}
+        onClearFilter={() => { filterHandlers.clearGroup(key); }}
         separator={false}
-        {...this.props}
+        {...props}
       >
         <CheckboxFilter
-          dataOptions={this.state[key]}
+          dataOptions={filterState[key]}
           name={key}
-          onChange={(group) => { this.props.filterHandlers.state({ ...activeFilters, [group.name]: group.values }); }}
+          onChange={(group) => { filterHandlers.state({ ...activeFilters, [group.name]: group.values }); }}
           selectedValues={groupFilters}
         />
       </Accordion>
     );
-  }
+  };
 
-  render() {
-    return (
-      <AccordionSet>
-        {this.renderCheckboxFilter('status')}
-        {this.renderCheckboxFilter('selected')}
-      </AccordionSet>
-    );
-  }
-}
+  return (
+    <AccordionSet>
+      {renderCheckboxFilter('status')}
+      {renderCheckboxFilter('selected')}
+    </AccordionSet>
+  );
+};
+
+SourceFilters.propTypes = {
+  activeFilters: PropTypes.object,
+  filterHandlers: PropTypes.object,
+};
 
 export default SourceFilters;

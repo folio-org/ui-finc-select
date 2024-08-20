@@ -1,77 +1,72 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { get } from 'lodash';
 
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import FilterView from '../components/Filters/FilterView';
 
-class FilterViewRoute extends React.Component {
-  static manifest = Object.freeze({
-    filter: {
-      type: 'okapi',
-      path: 'finc-select/filters/:{id}',
-    },
-    collectionsIds: {
-      type: 'okapi',
-      path: 'finc-select/filters/:{id}/collections',
-    },
-    query: {},
-  });
+const FilterViewRoute = ({
+  history,
+  location,
+  match,
+  resources,
+  stripes,
+}) => {
+  const collectionIds = get(resources, 'collectionsIds.records', []);
 
-  static propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
-    location: ReactRouterPropTypes.location.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    resources: PropTypes.shape({
-      filter: PropTypes.object,
-      collectionsIds: PropTypes.object,
-    }).isRequired,
-    stripes: PropTypes.shape({
-      hasPerm: PropTypes.func.isRequired,
-      okapi: PropTypes.object.isRequired,
-    }).isRequired,
+  const handleClose = () => {
+    history.push(`${urls.filters()}${location.search}`);
   };
 
-  handleClose = () => {
-    const { location } = this.props;
-    this.props.history.push(`${urls.filters()}${location.search}`);
-  }
+  const handleEdit = () => {
+    history.push(`${urls.filterEdit(match.params.id)}${location.search}`);
+  };
 
-  handleEdit = () => {
-    const { location, match } = this.props;
-    this.props.history.push(`${urls.filterEdit(match.params.id)}${location.search}`);
-  }
+  return (
+    <FilterView
+      canEdit={stripes.hasPerm('finc-select.filters.item.put')}
+      collectionIds={collectionIds}
+      handlers={{
+        onClose: handleClose,
+        onEdit: handleEdit,
+      }}
+      isLoading={get(resources, 'filter.isPending', true)}
+      record={get(resources, 'filter.records', []).find(i => i.id === match.params.id)}
+      stripes={stripes}
+    />
+  );
+};
 
-  getRecord = (id) => {
-    return _.get(this.props.resources, 'filters.records', [])
-      .find(i => i.id === id);
-  }
+FilterViewRoute.manifest = Object.freeze({
+  filter: {
+    type: 'okapi',
+    path: 'finc-select/filters/:{id}',
+  },
+  collectionsIds: {
+    type: 'okapi',
+    path: 'finc-select/filters/:{id}/collections',
+  },
+  query: {},
+});
 
-  render() {
-    const { stripes } = this.props;
-    const collectionIds = _.get(this.props.resources, 'collectionsIds.records', []);
-
-    return (
-      <FilterView
-        canEdit={stripes.hasPerm('finc-select.filters.item.put')}
-        collectionIds={collectionIds}
-        handlers={{
-          onClose: this.handleClose,
-          onEdit: this.handleEdit,
-        }}
-        isLoading={_.get(this.props.resources, 'filter.isPending', true)}
-        record={_.get(this.props.resources, 'filter.records', []).find(i => i.id === this.props.match.params.id)}
-        stripes={stripes}
-      />
-    );
-  }
-}
+FilterViewRoute.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  resources: PropTypes.shape({
+    filter: PropTypes.object,
+    collectionsIds: PropTypes.object,
+  }).isRequired,
+  stripes: PropTypes.shape({
+    hasPerm: PropTypes.func.isRequired,
+    okapi: PropTypes.object.isRequired,
+  }).isRequired,
+};
 
 export default stripesConnect(FilterViewRoute);

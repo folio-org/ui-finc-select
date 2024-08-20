@@ -1,10 +1,6 @@
-import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  injectIntl,
-  FormattedMessage,
-} from 'react-intl';
+import { isEmpty } from 'lodash';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 
 import {
@@ -28,7 +24,7 @@ const DocumentsFieldArray = ({
   const { items, onAddField, onDeleteField } = useKiwtFieldArray(name);
 
   const renderFileUpload = (doc, i) => {
-    if (_.isEmpty(doc.fileId)) {
+    if (isEmpty(doc.fileId)) {
       return (
         <>
           {onUploadFile &&

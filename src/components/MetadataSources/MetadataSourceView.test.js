@@ -1,5 +1,5 @@
-import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 

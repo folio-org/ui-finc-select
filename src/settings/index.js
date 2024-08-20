@@ -1,12 +1,12 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import { Settings } from '@folio/stripes/smart-components';
 
 import CredentialsSettings from './CredentialsSettings';
 
-class FincConfigSettings extends React.Component {
-  pages = [
+const FincConfigSettings = ({ match, ...props }) => {
+  const pages = [
     {
       component: CredentialsSettings,
       label: <FormattedMessage id="ui-finc-select.settings.ezbCredentials.label" />,
@@ -14,16 +14,19 @@ class FincConfigSettings extends React.Component {
     }
   ];
 
-  render() {
-    return (
-      <Settings
-        data-test-settings-finc-select
-        pages={this.pages}
-        paneTitle={<FormattedMessage id="ui-finc-select.meta.title" />}
-        {...this.props}
-      />
-    );
-  }
-}
+  return (
+    <Settings
+      data-test-settings-finc-select
+      pages={pages}
+      paneTitle={<FormattedMessage id="ui-finc-select.meta.title" />}
+      match={match}
+      {...props}
+    />
+  );
+};
+
+FincConfigSettings.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default FincConfigSettings;

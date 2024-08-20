@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 
 import {
   withStripes,
@@ -8,41 +8,30 @@ import {
 
 import FileUploaderFieldView from './FileUploaderFieldView';
 
-class FileUploaderField extends React.Component {
-  static propTypes = {
-    fileLabel: PropTypes.string,
-    input: PropTypes.shape({
-      onChange: PropTypes.func.isRequired,
-      value: PropTypes.string,
-    }).isRequired,
-    meta: PropTypes.object,
-    onUploadFile: PropTypes.func.isRequired,
-  };
+const FileUploaderField = ({
+  fileLabel,
+  input: { onChange, value },
+  meta,
+  onUploadFile,
+}) => {
+  const [error, setError] = useState(null);
+  const [file, setFile] = useState({});
+  const [isDropZoneActive, setIsDropZoneActive] = useState(false);
+  const [uploadInProgress, setUploadInProgress] = useState(false);
 
-  state = {
-    error: null,
-    file: {},
-    isDropZoneActive: false,
-    uploadInProgress: false,
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { input: { value } } = props;
-
+  useEffect(() => {
     if (value && value.fileId) {
       // We've been passed an initial value for the field that is an object
       // with an ID. This means we're currently showing a previously-saved file.
       // So if this is different from the file we've saved to our internal state,
       // save it off so we can properly render the metadata.
-      if (state.file && (state.file.fileId !== value.fileId)) {
-        return { file: value };
+      if (file && (file.fileId !== value.fileId)) {
+        setFile(value);
       }
     }
+  }, [value, file]);
 
-    return null;
-  }
-
-  processError(resp, intl) {
+  const processError = (resp, intl) => {
     const contentType = resp.headers ? resp.headers.get('Content-Type') : '';
 
     if (contentType.startsWith('application/json')) {
@@ -50,72 +39,74 @@ class FileUploaderField extends React.Component {
     } else {
       throw new Error(intl.formatMessage({ id: 'errors.uploadError' }));
     }
-  }
+  };
 
-  handleDrop = (acceptedFiles, intl) => {
+  const handleDrop = (acceptedFiles, intl) => {
     if (acceptedFiles.length !== 1) return;
 
     let mounted = true;
 
-    this.setState({
-      error: undefined,
-      isDropZoneActive: false,
-      uploadInProgress: true,
-    });
+    setError(undefined);
+    setIsDropZoneActive(false);
+    setUploadInProgress(true);
 
-    this.props.onUploadFile(acceptedFiles[0])
+    onUploadFile(acceptedFiles[0])
       .then(response => {
         if (response.ok) {
           // example: file = "34bdd9da-b765-448a-8519-11d460a4df5d"
           response.text().then(fileId => {
             // the value of the fieldId will connected with the Field in DocuemtsFieldArray with onChange(file);
-            this.props.input.onChange(fileId);
+            onChange(fileId);
             if (mounted) {
-              this.setState({ file: { fileId } });
+              setFile({ fileId });
             }
           });
         } else {
-          this.processError(response, intl);
+          processError(response, intl);
         }
       })
-      .catch(error => {
-        console.error(error); // eslint-disable-line no-console
-        this.setState({
-          error: error.message,
-          file: {},
-        });
+      .catch(err => {
+        console.error(err); // eslint-disable-line no-console
+        setError(err.message);
+        setFile({});
       })
-      .finally(() => this.setState({ uploadInProgress: false }));
+      .finally(() => setUploadInProgress(false));
     mounted = false;
-  }
+  };
 
-  handleDelete = () => {
-    this.props.input.onChange(null);
-    this.setState({ file: {} });
-  }
+  const handleDelete = () => {
+    onChange(null);
+    setFile({});
+  };
 
-  render() {
-    const { fileLabel } = this.props;
+  return (
+    /* TODO: Refactor this component to use `injectIntl` when Folio starts using react-intl 3.0 */
+    <IntlConsumer>
+      {intl => (
+        <FileUploaderFieldView
+          error={meta.error || error}
+          file={value ? file : {}}
+          fileLabel={fileLabel}
+          isDropZoneActive={isDropZoneActive}
+          onDelete={handleDelete}
+          onDragEnter={() => setIsDropZoneActive(true)}
+          onDragLeave={() => setIsDropZoneActive(false)}
+          onDrop={(data) => handleDrop(data, intl)}
+          uploadInProgress={uploadInProgress}
+        />
+      )}
+    </IntlConsumer>
+  );
+};
 
-    return (
-      /* TODO: Refactor this component to use `injectIntl` when Folio starts using react-intl 3.0 */
-      <IntlConsumer>
-        {intl => (
-          <FileUploaderFieldView
-            error={this.props.meta.error || this.state.error}
-            file={this.props.input.value ? this.state.file : {}}
-            fileLabel={fileLabel}
-            isDropZoneActive={this.state.isDropZoneActive}
-            onDelete={this.handleDelete}
-            onDragEnter={() => this.setState({ isDropZoneActive: true })}
-            onDragLeave={() => this.setState({ isDropZoneActive: false })}
-            onDrop={(file) => this.handleDrop(file, intl)}
-            uploadInProgress={this.state.uploadInProgress}
-          />
-        )}
-      </IntlConsumer>
-    );
-  }
-}
+FileUploaderField.propTypes = {
+  fileLabel: PropTypes.string,
+  input: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string,
+  }).isRequired,
+  meta: PropTypes.object,
+  onUploadFile: PropTypes.func.isRequired,
+};
 
 export default withStripes(FileUploaderField);
