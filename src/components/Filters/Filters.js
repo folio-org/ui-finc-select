@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { get, noop, isEqual } from 'lodash';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -48,12 +48,13 @@ const Filters = ({
   selectedRecordId,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
-  const [storedFilter, setStoredFilter] = useState(
-    localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter
-  );
-  const [storedSearchString, setStoredSearchString] = useState(
-    localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString
-  );
+  const [storedFilter, setStoredFilter] = useState(localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter);
+  const [storedSearchString, setStoredSearchString] = useState(localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString);
+
+  useEffect(() => {
+    return (history.push(`${urls.filters()}?filters=${storedFilter.string}`));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storedFilter]);
 
   const getDataLable = (fieldValue) => {
     if (fieldValue !== '') {
