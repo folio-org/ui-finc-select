@@ -256,7 +256,7 @@ const Filters = ({
     <div data-test-filters data-testid="filters">
       <SearchAndSortQuery
         initialFilterState={storedFilter.state}
-        initialSearchState={storedSearchString}
+        initialSearchState={{ query: storedSearchString.query }}
         initialSortState={{ sort: 'label' }}
         queryGetter={queryGetter}
         querySetter={querySetter}
