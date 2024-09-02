@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { get, noop, isEqual } from 'lodash';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -50,11 +50,6 @@ const Filters = ({
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
   const [storedFilter, setStoredFilter] = useState(localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter);
   const [storedSearchString, setStoredSearchString] = useState(localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString);
-
-  useEffect(() => {
-    return (history.push(`${urls.filters()}?filters=${storedFilter.string}`));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storedFilter]);
 
   const getDataLable = (fieldValue) => {
     if (fieldValue !== '') {
@@ -257,7 +252,7 @@ const Filters = ({
     <div data-test-filters data-testid="filters">
       <SearchAndSortQuery
         initialFilterState={storedFilter.state}
-        initialSearchState={storedSearchString}
+        initialSearchState={{ query: storedSearchString.query }}
         initialSortState={{ sort: 'label' }}
         queryGetter={queryGetter}
         querySetter={querySetter}
