@@ -48,8 +48,12 @@ const Filters = ({
   selectedRecordId,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
-  const [storedFilter, setStoredFilter] = useState(localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter);
-  const [storedSearchString, setStoredSearchString] = useState(localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString);
+  const [storedFilter, setStoredFilter] = useState(
+    localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter
+  );
+  const [storedSearchString, setStoredSearchString] = useState(
+    localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString
+  );
 
   const getDataLable = (fieldValue) => {
     if (fieldValue !== '') {
