@@ -108,8 +108,8 @@ class FiltersRoute extends React.Component {
   }
 
   handleNeedMoreData = () => {
-    if (this.source) {
-      this.source.fetchMore(RESULT_COUNT_INCREMENT);
+    if (this.filter) {
+      this.filter.fetchMore(RESULT_COUNT_INCREMENT);
     }
   };
 
