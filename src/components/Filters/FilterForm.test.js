@@ -1,7 +1,7 @@
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { render, screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -74,71 +74,53 @@ describe('FilterForm', () => {
     });
 
     test('should display accordions', () => {
-      expect(document.querySelector('#editFilterInfo')).toBeInTheDocument();
-      expect(document.querySelector('#editFilterFile')).toBeInTheDocument();
-      expect(document.querySelector('#editCollections')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Icon General' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Icon File' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Icon Metadata collections' })).toBeInTheDocument();
     });
 
     test('should display all fields', () => {
-      expect(document.querySelector('#addfilter_label')).toBeInTheDocument();
-      expect(document.querySelector('#addfilter_type')).toBeInTheDocument();
+      expect(screen.getByRole('textbox', { name: 'Name' })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: 'Type' })).toBeInTheDocument();
     });
 
-    describe('select type', () => {
-      beforeEach(async () => {
-        await userEvent.selectOptions(screen.getByLabelText('Type', { exact: false }), [
-          'Blacklist',
-        ]);
-      });
-
-      test('test required fields', async () => {
-        await userEvent.click(screen.getByText('Save & close'));
-        expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
-        expect(onSubmit).not.toHaveBeenCalled();
-      });
+    test('if select type and click save is showing required fields', async () => {
+      await userEvent.selectOptions(screen.getByRole('combobox', { name: /Type/ }), 'Blacklist');
+      await userEvent.click(screen.getByRole('button', { name: 'Save & close' }));
+      expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
+      expect(onSubmit).not.toHaveBeenCalled();
     });
   });
 
-  describe('EDIT: form with initial values', () => {
+  describe('EDIT filter', () => {
     beforeEach(() => {
       renderFilterForm(stripes);
     });
 
-    test('description should have value of fixture filter', () => {
+    test('test if value of fixture filter are shown', () => {
       expect(screen.getByDisplayValue('Holdings 1')).toBeInTheDocument();
       expect(screen.getByDisplayValue('Whitelist')).toBeInTheDocument();
     });
-  });
 
-  describe('delete filter', () => {
-    beforeEach(() => {
-      renderFilterForm(stripes);
-    });
-
-    test('delete modal is present', async () => {
-      await userEvent.click(screen.getByText('Delete'));
-
-      expect(document.getElementById('delete-filter-confirmation')).toBeInTheDocument();
-      expect(screen.getByText('Do you really want to delete Holdings 1?')).toBeInTheDocument();
+    test('if delete modal is opening', async () => {
+      await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
+      const confirmationModal = screen.getByRole('dialog', { name: /Do you really want to delete Holdings 1?/ });
+      expect(confirmationModal).toBeInTheDocument();
     });
 
     test('click cancel', async () => {
-      await userEvent.click(screen.getByText('Delete'));
-      const cancel = screen.getByRole('button', {
-        name: 'Cancel',
-        id: 'clickable-delete-filter-confirmation-cancel',
-      });
-      await userEvent.click(cancel);
+      await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
+      const confirmationModal = screen.getByRole('dialog', { name: /Do you really want to delete Holdings 1?/ });
+      const cancelButton = within(confirmationModal).getByRole('button', { name: 'Cancel' });
+      await userEvent.click(cancelButton);
       expect(onDelete).not.toHaveBeenCalled();
     });
 
     test('click submit', async () => {
-      await userEvent.click(screen.getByText('Delete'));
-      const submit = screen.getByRole('button', {
-        name: 'Submit',
-        id: 'clickable-delete-filter-confirmation-confirm',
-      });
-      await userEvent.click(submit);
+      await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
+      const confirmationModal = screen.getByRole('dialog', { name: /Do you really want to delete Holdings 1?/ });
+      const submitButton = within(confirmationModal).getByRole('button', { name: 'Submit' });
+      await userEvent.click(submitButton);
       expect(onDelete).toHaveBeenCalled();
     });
   });
