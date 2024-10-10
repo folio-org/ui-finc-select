@@ -5,6 +5,7 @@
 * Filters SASQ does not remember the search query ([UIFC-373](https://folio-org.atlassian.net/browse/UIFC-373))
 * Fix handleNeedMoreData in FiltersRoute ([UIFC-377](https://folio-org.atlassian.net/browse/UIFC-377))
 * Fix tests and add mocks local ([UIFC-379](https://folio-org.atlassian.net/browse/UIFC-379))
+* Fix GitHub Actions workflow not running for tags ([FOLIO-4086](https://folio-org.atlassian.net/browse/FOLIO-4086))
 
 ## [6.1.0](https://github.com/folio-org/ui-finc-select/tree/v6.1.0) (2024-03-20)
 * Remove deprecated pane properties ([UIFC-339](https://issues.folio.org/browse/UIFC-339))
