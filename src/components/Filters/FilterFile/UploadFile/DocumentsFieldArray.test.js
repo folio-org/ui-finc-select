@@ -1,11 +1,10 @@
 import { MemoryRouter } from 'react-router-dom';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
-import { TextField } from '@folio/stripes/components';
 
 import DocumentsFieldArray from './DocumentsFieldArray';
 import withIntlConfiguration from '../../../../../test/jest/helpers/withIntlConfiguration';
@@ -23,10 +22,7 @@ const renderDocumentsFieldArray = (stripes) => {
             ...arrayMutators,
           }}
           render={() => withIntlConfiguration(
-            <DocumentsFieldArray fields={{ name: 'filterFiles' }}>
-              <Field component={TextField} />
-              <Field component={TextField} />
-            </DocumentsFieldArray>
+            <DocumentsFieldArray fields={{ name: 'filterFiles' }} />
           )}
         />
       </MemoryRouter>

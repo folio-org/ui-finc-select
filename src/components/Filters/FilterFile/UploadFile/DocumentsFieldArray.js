@@ -72,7 +72,7 @@ const DocumentsFieldArray = ({
           'data-test-delete-filter-file-button': true
         }}
         header={<FormattedMessage id="ui-finc-select.filter.file.label" values={{ number: i + 1 }} />}
-        key={`${name}[${i}]`}
+        key={fields.value[i].fileId}
         onDelete={() => onDeleteField(fields, i, doc)}
       >
         <Row>
