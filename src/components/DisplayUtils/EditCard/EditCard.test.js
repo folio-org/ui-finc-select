@@ -1,26 +1,25 @@
 import { StaticRouter } from 'react-router-dom';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import EditCard from './EditCard';
 
 const onDelete = jest.fn();
-
-const props = {
-  children: 'children',
-  deleteButtonTooltipText: 'Remove card',
-  header: 'Card #1',
-  onDelete
-};
+const children = 'children';
 
 describe('EditCard', () => {
   beforeEach(() => {
     render(withIntlConfiguration(
       <StaticRouter>
         <EditCard
-          {...props}
-        />
+          deleteButtonTooltipText="Remove card"
+          header="Card #1"
+          onDelete={onDelete}
+        >
+          {children}
+        </EditCard>
       </StaticRouter>
     ));
   });
@@ -32,5 +31,12 @@ describe('EditCard', () => {
 
   test('renders the child component', () => {
     expect(screen.getByText('children')).toBeInTheDocument();
+  });
+
+  test('if onDelete function will be called', async () => {
+    const deleteButton = screen.getByLabelText('delete-document');
+    expect(deleteButton).toBeInTheDocument();
+    await userEvent.click(deleteButton);
+    await expect(onDelete).toHaveBeenCalled();
   });
 });

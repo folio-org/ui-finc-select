@@ -13,10 +13,6 @@ import {
 } from '@folio/stripes/components';
 
 import EditCard from '../../../DisplayUtils/EditCard/EditCard';
-import {
-  onAddField,
-  onDeleteField,
-} from '../../../DisplayUtils/EditCard/fieldArray-util';
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 
@@ -73,7 +69,7 @@ const DocumentsFieldArray = ({
         }}
         header={<FormattedMessage id="ui-finc-select.filter.file.label" values={{ number: i + 1 }} />}
         key={fields.value[i].fileId}
-        onDelete={() => onDeleteField(fields, i, doc)}
+        onDelete={() => fields.remove(i)}
       >
         <Row>
           <Col xs={12} md={onUploadFile ? 6 : 12}>
@@ -127,7 +123,7 @@ const DocumentsFieldArray = ({
       <Button
         data-test-filter-file-card-add-button
         id="add-filter-file-btn"
-        onClick={() => onAddField(fields)}
+        onClick={() => fields.push({})}
       >
         <FormattedMessage id="ui-finc-select.filter.file.addFile" />
       </Button>
