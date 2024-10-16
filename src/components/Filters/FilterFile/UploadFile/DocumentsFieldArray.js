@@ -12,11 +12,11 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import EditCard from './EditCard/EditCard';
+import EditCard from '../../../DisplayUtils/EditCard/EditCard';
 import {
   onAddField,
   onDeleteField,
-} from './EditCard/editcard-util';
+} from '../../../DisplayUtils/EditCard/fieldArray-util';
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 

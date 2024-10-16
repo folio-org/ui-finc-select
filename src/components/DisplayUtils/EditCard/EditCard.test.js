@@ -2,7 +2,7 @@ import { StaticRouter } from 'react-router-dom';
 
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import withIntlConfiguration from '../../../../../../test/jest/helpers/withIntlConfiguration';
+import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
 import EditCard from './EditCard';
 
 const onDelete = jest.fn();
