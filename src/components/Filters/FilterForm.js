@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { isEqual } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -86,7 +87,7 @@ const FilterForm = ({
   };
 
   const getLastMenu = () => {
-    const isEditing = initialValues && initialValues.id;
+    const isEditing = initialValues?.id;
 
     return (
       <PaneMenu>
@@ -181,9 +182,8 @@ const FilterForm = ({
                   />
                 </Col>
               </Row>
-              {initialValues.metadata &&
-                initialValues.metadata.createdDate && (
-                  <ViewMetaData metadata={initialValues.metadata} />
+              {initialValues.metadata?.createdDate && (
+                <ViewMetaData metadata={initialValues.metadata} />
               )}
               <FilterInfoForm
                 accordionId="editFilterInfo"
@@ -243,6 +243,7 @@ FilterForm.propTypes = {
 };
 
 export default stripesFinalForm({
+  initialValuesEqual: (a, b) => isEqual(a, b),
   // set navigationCheck true for confirming changes
   navigationCheck: true,
   // the form will reinitialize every time the initialValues prop changes
