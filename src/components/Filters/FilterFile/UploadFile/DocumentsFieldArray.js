@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
+import { useFieldArray } from 'react-final-form-arrays';
 
 import {
   Button,
@@ -10,9 +11,8 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { EditCard } from '@folio/stripes-erm-components';
-import { useKiwtFieldArray } from '@k-int/stripes-kint-components';
 
+import EditCard from '../../../DisplayUtils/EditCard/EditCard';
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 
@@ -21,7 +21,7 @@ const DocumentsFieldArray = ({
   fields: { name },
   onUploadFile,
 }) => {
-  const { items, onAddField, onDeleteField } = useKiwtFieldArray(name);
+  const { fields } = useFieldArray(name);
 
   const renderFileUpload = (doc, i) => {
     if (isEmpty(doc.fileId)) {
@@ -59,7 +59,7 @@ const DocumentsFieldArray = ({
   };
 
   const renderDocs = () => {
-    return items.map((doc, i) => (
+    return fields.map((doc, i) => (
       <EditCard
         data-test-filter-file
         deletebuttonarialabel={`delete filter file ${name}`}
@@ -69,7 +69,7 @@ const DocumentsFieldArray = ({
         }}
         header={<FormattedMessage id="ui-finc-select.filter.file.label" values={{ number: i + 1 }} />}
         key={i}
-        onDelete={() => onDeleteField(i, doc)}
+        onDelete={() => fields.remove(i)}
       >
         <Row>
           <Col xs={12} md={onUploadFile ? 6 : 12}>
@@ -118,12 +118,12 @@ const DocumentsFieldArray = ({
   return (
     <div data-test-filter-file-card>
       <div>
-        { items.length ? renderDocs() : renderEmpty() }
+        { fields.length ? renderDocs() : renderEmpty() }
       </div>
       <Button
         data-test-filter-file-card-add-button
         id="add-filter-file-btn"
-        onClick={() => onAddField()}
+        onClick={() => fields.push({})}
       >
         <FormattedMessage id="ui-finc-select.filter.file.addFile" />
       </Button>
