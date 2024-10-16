@@ -1,9 +1,9 @@
 import { MemoryRouter } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+
 import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-
 import { StripesContext, useStripes } from '@folio/stripes/core';
 import { TextField } from '@folio/stripes/components';
 
@@ -52,11 +52,8 @@ describe('DocumentsFieldArray', () => {
     expect(addFileToFilterButton).toBeInTheDocument();
     await userEvent.click(addFileToFilterButton);
 
-    const filenameTextbox = screen.getByRole('textbox', { name: 'File' });
-    const criteriaTextbox = screen.getByRole('textbox', { name: 'Criteria' });
-
-    expect(filenameTextbox).toBeInTheDocument();
-    expect(criteriaTextbox).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'File' })).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Criteria' })).toBeInTheDocument();
 
     const deleteButton = screen.getByLabelText('delete-document');
     expect(deleteButton).toBeInTheDocument();
