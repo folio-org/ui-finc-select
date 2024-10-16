@@ -25,8 +25,12 @@ describe('EditCard', () => {
     ));
   });
 
-  test('renders the EditCard component', async () => {
+  test('renders the EditCard component', () => {
     expect(screen.getByRole('button', { name: 'Remove card' })).toBeInTheDocument();
     expect(screen.getByText('Card #1')).toBeInTheDocument();
+  });
+
+  test('renders the child component', () => {
+    expect(screen.getByText('children')).toBeInTheDocument();
   });
 });
