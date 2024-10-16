@@ -9,19 +9,16 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 import DocumentsFieldArray from './DocumentsFieldArray';
 import withIntlConfiguration from '../../../../../test/jest/helpers/withIntlConfiguration';
 
-const selectedContact = jest.fn();
-
 const renderDocumentsFieldArray = (stripes) => {
   return render(withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
-          onSubmit={jest.fn}
+          onSubmit={jest.fn()}
           mutators={{
-            selectedContact,
             ...arrayMutators,
           }}
-          render={() => withIntlConfiguration(
+          render={() => (
             <DocumentsFieldArray fields={{ name: 'filterFiles' }} />
           )}
         />
