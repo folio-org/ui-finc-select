@@ -6,22 +6,16 @@ import ViewCollections from './FindCollections/ViewCollections';
 const CollectionsView = ({
   collectionIds,
   filter,
-  ...props
 }) => {
   const filterId = get(filter, 'id', '-');
 
   return (
-    <>
-      <div>
-        <ViewCollections
-          collectionIds={collectionIds}
-          filterId={filterId}
-          isEditable={false}
-          name="collectionIds"
-          {...props}
-        />
-      </div>
-    </>
+    <ViewCollections
+      collectionIds={collectionIds}
+      filterId={filterId}
+      isEditable={false}
+      name="collectionIds"
+    />
   );
 };
 
