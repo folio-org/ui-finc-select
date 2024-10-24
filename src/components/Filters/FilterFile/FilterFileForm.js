@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
 
 import { Accordion } from '@folio/stripes/components';
+import { useStripes } from '@folio/stripes/core';
 
 import DocumentsFieldArray from './UploadFile/DocumentsFieldArray';
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
@@ -11,10 +12,11 @@ const FilterFileForm = ({
   accordionId,
   expanded,
   onToggle,
-  stripes,
 }) => {
+  const { okapi } = useStripes();
+
   const handleUploadFile = (file) => {
-    return fetchWithDefaultOptions(stripes.okapi, '/finc-select/files', {
+    return fetchWithDefaultOptions(okapi, '/finc-select/files', {
       method: 'POST',
       headers: { 'Content-Type': 'application/octet-stream' },
       body: file,
@@ -42,13 +44,6 @@ FilterFileForm.propTypes = {
   accordionId: PropTypes.string.isRequired,
   expanded: PropTypes.bool,
   onToggle: PropTypes.func,
-  stripes: PropTypes.shape({
-    okapi: PropTypes.shape({
-      tenant: PropTypes.string.isRequired,
-      token: PropTypes.string.isRequired,
-      url: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
 };
 
 export default FilterFileForm;

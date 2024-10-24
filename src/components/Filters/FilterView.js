@@ -110,61 +110,59 @@ const FilterView = ({
   const docs = get(record, 'filterFiles', []);
 
   return (
-    <>
-      <Pane
-        data-test-filter-pane-details
-        defaultWidth="40%"
-        id="pane-filterdetails"
-        renderHeader={renderDetailsPaneHeader}
-      >
-        <AccordionSet>
-          <ViewMetaData
-            metadata={get(record, 'metadata', {})}
-            stripes={stripes}
-          />
-          <FilterInfoView
+    <Pane
+      data-test-filter-pane-details
+      defaultWidth="40%"
+      id="pane-filterdetails"
+      renderHeader={renderDetailsPaneHeader}
+    >
+      <AccordionSet>
+        <ViewMetaData
+          metadata={get(record, 'metadata', {})}
+          stripes={stripes}
+        />
+        <FilterInfoView
+          filter={record}
+          id="filterInfo"
+          stripes={stripes}
+        />
+        <Row end="xs">
+          <Col xs>
+            <ExpandAllButton
+              accordionStatus={accordions}
+              onToggle={handleExpandAll}
+              setStatus={null}
+            />
+          </Col>
+        </Row>
+        <Accordion
+          id="fileAccordion"
+          label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
+          onToggle={handleAccordionToggle}
+          open={accordions.fileAccordion}
+        >
+          <FilterFileView
+            docs={docs}
             filter={record}
             id="filterInfo"
             stripes={stripes}
           />
-          <Row end="xs">
-            <Col xs>
-              <ExpandAllButton
-                accordionStatus={accordions}
-                onToggle={handleExpandAll}
-                setStatus={null}
-              />
-            </Col>
-          </Row>
-          <Accordion
-            id="fileAccordion"
-            label={<FormattedMessage id="ui-finc-select.filter.fileAccordion" />}
-            onToggle={handleAccordionToggle}
-            open={accordions.fileAccordion}
-          >
-            <FilterFileView
-              docs={docs}
-              filter={record}
-              id="filterInfo"
-              stripes={stripes}
-            />
-          </Accordion>
-          <Accordion
-            id="collectionAccordion"
-            label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
-            onToggle={handleAccordionToggle}
-            open={accordions.collectionAccordion}
-          >
-            <CollectionsView
-              collectionIds={collectionIds}
-              filter={record}
-              id="collections"
-              stripes={stripes}
-            />
-          </Accordion>
-        </AccordionSet>
-      </Pane>
-    </>
+        </Accordion>
+        <Accordion
+          id="collectionAccordion"
+          label={<FormattedMessage id="ui-finc-select.filter.collectionAccordion" />}
+          onToggle={handleAccordionToggle}
+          open={accordions.collectionAccordion}
+        >
+          <CollectionsView
+            collectionIds={collectionIds}
+            filter={record}
+            id="collections"
+            stripes={stripes}
+          />
+        </Accordion>
+      </AccordionSet>
+    </Pane>
   );
 };
 
