@@ -119,7 +119,7 @@ const SelectUnselect = ({
   };
 
   const selectedLabelValue = getSelectedDataLable();
-  const hasSelectCollectionPerms = stripes.hasPerm('finc-select.metadata-collections.item.select');
+  const hasSelectCollectionPerms = stripes.hasPerm('finc-select.metadata-collections.item.select.item.put');
 
   return (
     <>
