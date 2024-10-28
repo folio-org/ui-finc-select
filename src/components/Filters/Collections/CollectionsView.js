@@ -1,27 +1,20 @@
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import ViewCollections from './FindCollections/ViewCollections';
+import FindCollections from './FindCollections/FindCollections';
 
 const CollectionsView = ({
   collectionIds,
   filter,
-  ...props
 }) => {
   const filterId = get(filter, 'id', '-');
 
   return (
-    <>
-      <div>
-        <ViewCollections
-          collectionIds={collectionIds}
-          filterId={filterId}
-          isEditable={false}
-          name="collectionIds"
-          {...props}
-        />
-      </div>
-    </>
+    <FindCollections
+      collectionIds={collectionIds}
+      filterId={filterId}
+      isEditable={false}
+    />
   );
 };
 

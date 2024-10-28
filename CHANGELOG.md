@@ -14,6 +14,7 @@
 * Remove deprecated pane properties ([UIFC-339](https://issues.folio.org/browse/UIFC-339))
 * Buttons should be disabled if lacking required permissions ([UIFC-322](https://issues.folio.org/browse/UIFC-322))
 * Use translation keys of stripes-components ([UIFC-348](https://folio-org.atlassian.net/browse/UIFC-348))
+* Check selectCollection function, clean ViewCollections and FindCollections ([UIFC-371](https://folio-org.atlassian.net/browse/UIFC-371))
 
 ## [6.0.0](https://github.com/folio-org/ui-finc-select/tree/v6.0.0) (2023-10-18)
 * Upgrade `react-dropzone` to v10 ([UIFC-329](https://issues.folio.org/browse/UIFC-329))

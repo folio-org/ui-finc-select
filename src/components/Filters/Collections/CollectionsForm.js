@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
 
 import { Accordion } from '@folio/stripes/components';
-import { stripesShape } from '@folio/stripes-core';
 
 import FindCollections from './FindCollections/FindCollections';
 
@@ -14,8 +13,11 @@ const CollectionsForm = ({
   filterId,
   form,
   onToggle,
-  ...props
 }) => {
+  const getSelectedCollections = (records) => {
+    form?.mutators?.setCollection({}, records);
+  };
+
   return (
     <Accordion
       id={accordionId}
@@ -31,8 +33,7 @@ const CollectionsForm = ({
           filterId={filterId}
           isEditable
           name="collectionIds"
-          form={form}
-          {...props}
+          selectRecords={getSelectedCollections}
         />
       </div>
     </Accordion>
@@ -53,7 +54,6 @@ CollectionsForm.propTypes = {
     })
   }),
   onToggle: PropTypes.func,
-  stripes: stripesShape.isRequired,
 };
 
 export default CollectionsForm;

@@ -1,71 +1,40 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { Col, Row } from '@folio/stripes/components';
 import { Pluggable } from '@folio/stripes/core';
 
 const FindCollections = ({
   collectionIds,
   filterId,
-  form,
   isEditable,
-  ...props
+  selectRecords,
 }) => {
-  const getSelectedCollections = (records) => {
-    form.mutators.setCollection({}, records);
-  };
+  const searchLabel = isEditable ? <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" /> : <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />;
 
-  const disableRecordCreation = true;
-  const buttonProps = { 'marginBottom0': true };
-
-  const pluggable =
+  return (
     <Pluggable
       aria-haspopup="true"
-      buttonProps={buttonProps}
       collectionIds={collectionIds}
       dataKey="collection"
-      disableRecordCreation={disableRecordCreation}
+      // plugin needs filterId for assigned filter
       filterId={filterId}
       id="clickable-find-collection"
       isEditable={isEditable}
-      marginTop0
-      onCloseModal={(modalProps) => {
-        modalProps.parentMutator.query.update({
-          query: '',
-          filters: '',
-          sort: 'name',
-        });
-      }}
       searchButtonStyle="default"
-      searchLabel={<FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" />}
-      selectRecordsModal={getSelectedCollections}
+      searchLabel={searchLabel}
+      selectRecords={selectRecords}
       type="find-finc-metadata-collection"
-      visibleColumns={['label']}
-      {...props}
     >
       <div style={{ background: 'red' }}><FormattedMessage id="ui-finc-select.plugin.notFound" /></div>
-    </Pluggable>;
-
-  return (
-    <>
-      <Row>
-        <Col xs={6}>
-          { pluggable }
-        </Col>
-      </Row>
-    </>
+    </Pluggable>
   );
 };
 
 FindCollections.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.object),
   filterId: PropTypes.string,
-  form: PropTypes.shape({
-    mutators: PropTypes.shape({
-      setCollection: PropTypes.func,
-    }).isRequired,
-  }),
   isEditable: PropTypes.bool,
+  selectRecords: PropTypes.func,
 };
 
 export default FindCollections;
