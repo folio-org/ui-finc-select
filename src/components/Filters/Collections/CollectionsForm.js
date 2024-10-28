@@ -4,7 +4,7 @@ import { FieldArray } from 'react-final-form-arrays';
 
 import { Accordion } from '@folio/stripes/components';
 
-import FindCollections from './FindCollections/FindCollections';
+import Collections from './FindCollections/Collections';
 
 const CollectionsForm = ({
   accordionId,
@@ -25,7 +25,7 @@ const CollectionsForm = ({
         {/* Plugin has to be inside of Field, otherwise pristine is not working */}
         <FieldArray
           collectionIds={collectionIds}
-          component={FindCollections}
+          component={Collections}
           filterId={filterId}
           isEditable
           name="collectionIds"
