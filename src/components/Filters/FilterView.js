@@ -157,8 +157,6 @@ const FilterView = ({
           <CollectionsView
             collectionIds={collectionIds}
             filter={record}
-            id="collections"
-            stripes={stripes}
           />
         </Accordion>
       </AccordionSet>

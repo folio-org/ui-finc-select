@@ -14,7 +14,6 @@ const CollectionsView = ({
       collectionIds={collectionIds}
       filterId={filterId}
       isEditable={false}
-      name="collectionIds"
     />
   );
 };
