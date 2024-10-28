@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { Pluggable } from '@folio/stripes/core';
 
-const Collections = ({
+const FindCollections = ({
   collectionIds,
   filterId,
   isEditable,
@@ -30,11 +30,11 @@ const Collections = ({
   );
 };
 
-Collections.propTypes = {
+FindCollections.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.object),
   filterId: PropTypes.string,
   isEditable: PropTypes.bool,
   selectRecords: PropTypes.func,
 };
 
-export default Collections;
+export default FindCollections;

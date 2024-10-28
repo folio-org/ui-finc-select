@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
-import Collections from './FindCollections/Collections';
+import FindCollections from './FindCollections/FindCollections';
 
 const CollectionsView = ({
   collectionIds,
@@ -10,7 +10,7 @@ const CollectionsView = ({
   const filterId = get(filter, 'id', '-');
 
   return (
-    <Collections
+    <FindCollections
       collectionIds={collectionIds}
       filterId={filterId}
       isEditable={false}
