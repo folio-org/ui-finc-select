@@ -14,6 +14,10 @@ const CollectionsForm = ({
   form,
   onToggle,
 }) => {
+  const getSelectedCollections = (records) => {
+    form?.mutators?.setCollection({}, records);
+  };
+
   return (
     <Accordion
       id={accordionId}
@@ -29,7 +33,7 @@ const CollectionsForm = ({
           filterId={filterId}
           isEditable
           name="collectionIds"
-          form={form}
+          selectRecords={getSelectedCollections}
         />
       </div>
     </Accordion>

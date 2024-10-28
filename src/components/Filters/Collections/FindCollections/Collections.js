@@ -6,13 +6,9 @@ import { Pluggable } from '@folio/stripes/core';
 const Collections = ({
   collectionIds,
   filterId,
-  form,
   isEditable,
+  selectRecords,
 }) => {
-  const getSelectedCollections = (records) => {
-    form?.mutators?.setCollection({}, records);
-  };
-
   const searchLabel = isEditable ? <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" /> : <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />;
 
   return (
@@ -26,7 +22,7 @@ const Collections = ({
       isEditable={isEditable}
       searchButtonStyle="default"
       searchLabel={searchLabel}
-      selectRecordsModal={isEditable ? getSelectedCollections : undefined}
+      selectRecords={selectRecords}
       type="find-finc-metadata-collection"
     >
       <div style={{ background: 'red' }}><FormattedMessage id="ui-finc-select.plugin.notFound" /></div>
@@ -37,12 +33,8 @@ const Collections = ({
 Collections.propTypes = {
   collectionIds: PropTypes.arrayOf(PropTypes.object),
   filterId: PropTypes.string,
-  form: PropTypes.shape({
-    mutators: PropTypes.shape({
-      setCollection: PropTypes.func,
-    }),
-  }),
   isEditable: PropTypes.bool,
+  selectRecords: PropTypes.func,
 };
 
 export default Collections;
