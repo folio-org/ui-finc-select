@@ -2,7 +2,7 @@ import doShowCollections from './showCollections';
 import urls from './urls';
 
 describe('doShowCollections', () => {
-  const sourceId = 'testSource';
+  const sourceId = '9a2427cd-4110-4bd9-b6f9-e3475631bbac';
   const mockHistory = { push: jest.fn() };
 
   beforeEach(() => {
