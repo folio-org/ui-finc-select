@@ -21,6 +21,7 @@ const SourceViewRoute = ({
   return (
     <MetadataSourceView
       handlers={{ onClose: handleClose }}
+      history={history}
       isLoading={get(resources, 'source.isPending', true)}
       record={get(resources, 'source.records', []).find(i => i.id === match.params.id)}
       stripes={stripes}

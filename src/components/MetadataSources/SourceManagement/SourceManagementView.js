@@ -16,6 +16,7 @@ import urls from '../../DisplayUtils/urls';
 import SelectAllCollections from './SelectAllCollections';
 
 const SourceManagementView = ({
+  history,
   metadataSource,
   resources,
   stripes,
@@ -24,7 +25,7 @@ const SourceManagementView = ({
   const organization = get(metadataSource, 'organization', <NoValue />);
 
   let orgValue;
-  if (resources.org && resources.org.failed) {
+  if (resources.org?.failed) {
     if (organization.name) {
       orgValue = organization.name;
     } else {
@@ -32,13 +33,30 @@ const SourceManagementView = ({
     }
   } else {
     orgValue = (
-      <>
-        <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
-          {organization.name}
-        </Link>
-      </>
+      <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
+        {organization.name}
+      </Link>
     );
   }
+
+  const doShowCollections = (showSelected = false) => {
+    const filters = {
+      state: {
+        mdSource: [sourceId],
+        ...(showSelected && { selected: ['yes'] })
+      },
+      string: showSelected ? `mdSource.${sourceId},selected.yes` : `mdSource.${sourceId}`
+    };
+
+    localStorage.removeItem('fincSelectCollectionFilters');
+    localStorage.removeItem('fincSelectCollectionSearchString');
+    localStorage.removeItem('fincSelectCollectionSearchIndex');
+
+    localStorage.setItem('fincSelectCollectionFilters', JSON.stringify(filters));
+    localStorage.setItem('fincSelectCollectionSearchString', JSON.stringify({}));
+
+    return showSelected ? history.push(urls.showSelectedCollections(sourceId)) : history.push(urls.showAllCollections(sourceId));
+  };
 
   return (
     <>
@@ -47,7 +65,7 @@ const SourceManagementView = ({
           <Button
             buttonStyle="primary"
             id="showSelectedCollections"
-            to={urls.showSelectedCollections(sourceId)}
+            onClick={() => doShowCollections(true)}
           >
             <FormattedMessage id="ui-finc-select.source.button.showselectedCollections" />
           </Button>
@@ -64,7 +82,7 @@ const SourceManagementView = ({
           <Button
             buttonStyle="primary"
             id="showAllCollections"
-            to={urls.showAllCollections(sourceId)}
+            onClick={() => doShowCollections()}
           >
             <FormattedMessage id="ui-finc-select.source.button.showAllCollections" />
           </Button>
@@ -102,6 +120,9 @@ SourceManagementView.manifest = Object.freeze({
 });
 
 SourceManagementView.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   metadataSource: PropTypes.object,
   resources: PropTypes.shape({
     org: PropTypes.object,
