@@ -13,6 +13,7 @@ import {
 import { stripesConnect } from '@folio/stripes/core';
 
 import urls from '../../DisplayUtils/urls';
+import doShowCollections from '../../DisplayUtils/showCollections';
 import SelectAllCollections from './SelectAllCollections';
 
 const SourceManagementView = ({
@@ -39,25 +40,6 @@ const SourceManagementView = ({
     );
   }
 
-  const doShowCollections = (showSelected = false) => {
-    const filters = {
-      state: {
-        mdSource: [sourceId],
-        ...(showSelected && { selected: ['yes'] })
-      },
-      string: showSelected ? `mdSource.${sourceId},selected.yes` : `mdSource.${sourceId}`
-    };
-
-    localStorage.removeItem('fincSelectCollectionFilters');
-    localStorage.removeItem('fincSelectCollectionSearchString');
-    localStorage.removeItem('fincSelectCollectionSearchIndex');
-
-    localStorage.setItem('fincSelectCollectionFilters', JSON.stringify(filters));
-    localStorage.setItem('fincSelectCollectionSearchString', JSON.stringify({}));
-
-    return showSelected ? history.push(urls.showSelectedCollections(sourceId)) : history.push(urls.showAllCollections(sourceId));
-  };
-
   return (
     <>
       <Row>
@@ -65,7 +47,7 @@ const SourceManagementView = ({
           <Button
             buttonStyle="primary"
             id="showSelectedCollections"
-            onClick={() => doShowCollections(true)}
+            onClick={() => doShowCollections(history, sourceId, true)}
           >
             <FormattedMessage id="ui-finc-select.source.button.showselectedCollections" />
           </Button>
@@ -82,7 +64,7 @@ const SourceManagementView = ({
           <Button
             buttonStyle="primary"
             id="showAllCollections"
-            onClick={() => doShowCollections()}
+            onClick={() => doShowCollections(history, sourceId)}
           >
             <FormattedMessage id="ui-finc-select.source.button.showAllCollections" />
           </Button>
@@ -122,7 +104,7 @@ SourceManagementView.manifest = Object.freeze({
 SourceManagementView.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
   metadataSource: PropTypes.object,
   resources: PropTypes.shape({
     org: PropTypes.object,
