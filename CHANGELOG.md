@@ -1,6 +1,7 @@
 # Change history for ui-finc-select
 
 ## 7.1.0 (IN PROGRESS)
+* check and improve the url of showAllCollections and showSelectedCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
 
 ## [7.0.0](https://github.com/folio-org/ui-finc-select/tree/v7.0.0) (2024-11-04)
 * Use functional components instead of class components ([UIFC-360](https://folio-org.atlassian.net/browse/UIFC-360))
