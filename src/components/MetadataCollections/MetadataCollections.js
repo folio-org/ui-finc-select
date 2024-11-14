@@ -35,8 +35,9 @@ const rawSearchableIndexes = [
 ];
 let searchableIndexes;
 
-const defaultFilter = { state: { permitted: ['yes'], selected: ['yes'] }, string: 'permitted.yes,selected.yes' };
-const defaultSearchString = { query: '' };
+const defaultFilter = { permitted: ['yes'], selected: ['yes'] };
+const defaultSearch = { query: '', qindex: '' };
+const defaultSort = { sort: 'label' };
 
 const MetadataCollections = ({
   children,
@@ -51,12 +52,10 @@ const MetadataCollections = ({
   searchField,
   searchString = '',
   selectedRecordId,
-  // add values for search-selectbox
-  onChangeIndex,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
 
-  const getDataLable = (fieldValue) => {
+  const getDataLabel = (fieldValue) => {
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
@@ -67,9 +66,9 @@ const MetadataCollections = ({
   const resultsFormatter = {
     label: result => result.label,
     mdSource: result => get(result, 'mdSource.name', <NoValue />),
-    permitted: result => getDataLable(get(result, 'permitted', '')),
-    selected: result => getDataLable(get(result, 'selected', '')),
-    freeContent: result => getDataLable(get(result, 'freeContent', '')),
+    permitted: result => getDataLabel(get(result, 'permitted', '')),
+    selected: result => getDataLabel(get(result, 'selected', '')),
+    freeContent: result => getDataLabel(get(result, 'freeContent', '')),
   };
 
   // generate url for record-details
@@ -159,44 +158,6 @@ const MetadataCollections = ({
     localStorage.setItem('finc-select-collections-search-string', searchString);
   };
 
-  const resetAll = (getFilterHandlers, getSearchHandlers) => {
-    // reset the filter state to default filters
-    getFilterHandlers.state(defaultFilter.state);
-
-    // reset the search query
-    getSearchHandlers.state(defaultSearchString);
-  };
-
-  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
-    searchValue.query = '';
-
-    getSearchHandlers.state({
-      query: '',
-      qindex: '',
-    });
-
-    return onSubmitSearch;
-  };
-
-  const handleChangeSearch = (e, getSearchHandlers) => {
-    getSearchHandlers.state({
-      query: e,
-    });
-  };
-
-  const doChangeIndex = (index, getSearchHandlers, searchValue) => {
-    // call function in CollectionsRoute.js:
-    onChangeIndex(index);
-    getSearchHandlers.state({
-      query: searchValue.query,
-      qindex: index,
-    });
-  };
-
-  const getDisableReset = (activeFilters, searchValue) => {
-    return isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query;
-  };
-
   const renderFilterPaneHeader = () => {
     return (
       <PaneHeader
@@ -236,8 +197,8 @@ const MetadataCollections = ({
   return (
     <div data-test-collections data-testid="collections">
       <SearchAndSortQuery
-        initialFilterState={searchString === '' ? defaultFilter.state : {}}
-        initialSortState={{ sort: 'label' }}
+        initialFilterState={!searchString ? defaultFilter : {}}
+        initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
         setQueryOnMount
@@ -249,19 +210,22 @@ const MetadataCollections = ({
         {
           ({
             activeFilters,
-            filterChanged,
             getFilterHandlers,
             getSearchHandlers,
             onSort,
             onSubmitSearch,
-            searchChanged,
             searchValue,
           }) => {
-            const disableReset = getDisableReset(activeFilters, searchValue);
-            const disableSearch = () => (searchValue.query === defaultSearchString.query);
-            if (filterChanged || searchChanged) {
-              storeSearchString();
-            }
+            const resetAll = () => {
+              getFilterHandlers().state(defaultFilter);
+              getSearchHandlers().state(defaultSearch);
+            };
+
+            const filterChanged = !isEqual(activeFilters.state, defaultFilter);
+            const searchChanged =
+              searchValue.query && !isEqual(searchValue, defaultSearch);
+
+            storeSearchString();
 
             return (
               <Paneset>
@@ -284,21 +248,20 @@ const MetadataCollections = ({
                           indexName="qindex"
                           onChange={(e) => {
                             if (e.target.value) {
-                              handleChangeSearch(e.target.value, getSearchHandlers());
+                              getSearchHandlers().query(e);
                             } else {
-                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              getSearchHandlers().reset();
                             }
                           }}
-                          onClear={() => handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                          onClear={getSearchHandlers().reset}
                           value={searchValue.query}
-                          // add values for search-selectbox
-                          onChangeIndex={(e) => { doChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                          onChangeIndex={getSearchHandlers().query}
                           searchableIndexes={searchableIndexes}
                           selectedIndex={searchValue.qindex}
                         />
                         <Button
                           buttonStyle="primary"
-                          disabled={disableSearch()}
+                          disabled={!searchChanged}
                           fullWidth
                           id="collectionSubmitSearch"
                           type="submit"
@@ -308,9 +271,9 @@ const MetadataCollections = ({
                       </div>
                       <Button
                         buttonStyle="none"
-                        disabled={disableReset}
+                        disabled={!(filterChanged || searchChanged)}
                         id="clickable-reset-all"
-                        onClick={() => resetAll(getFilterHandlers(), getSearchHandlers())}
+                        onClick={resetAll}
                       >
                         <Icon icon="times-circle-solid">
                           <FormattedMessage id="stripes-smart-components.resetAll" />
@@ -383,8 +346,6 @@ MetadataCollections.propTypes = {
   searchString: PropTypes.string,
   selectedRecordId: PropTypes.string,
   searchField: PropTypes.object,
-  // add values for search-selectbox
-  onChangeIndex: PropTypes.func,
 };
 
 export default injectIntl(withRouter(MetadataCollections));

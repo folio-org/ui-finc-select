@@ -128,11 +128,6 @@ class CollectionsRoute extends React.Component {
     }
   };
 
-  // add update if search-selectbox is changing
-  onChangeIndex = (qindex) => {
-    this.props.mutator.query.update({ qindex });
-  }
-
   render() {
     const { location, match, children } = this.props;
 
@@ -152,8 +147,6 @@ class CollectionsRoute extends React.Component {
         searchString={location.search}
         selectedRecordId={match.params.id}
         collection={this.collection}
-        // add values for search-selectbox
-        onChangeIndex={this.onChangeIndex}
       >
         {children}
       </MetadataCollections>
