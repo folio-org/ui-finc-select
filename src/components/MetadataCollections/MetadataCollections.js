@@ -52,6 +52,8 @@ const MetadataCollections = ({
   searchField,
   searchString = '',
   selectedRecordId,
+  // add values for search-selectbox
+  onChangeIndex,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
 
@@ -184,6 +186,26 @@ const MetadataCollections = ({
     );
   };
 
+  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
+    searchValue.query = '';
+
+    getSearchHandlers.state({
+      query: '',
+      qindex: '',
+    });
+
+    return onSubmitSearch;
+  };
+
+  const doChangeIndex = (index, getSearchHandlers, searchValue) => {
+    onChangeIndex(index);
+
+    getSearchHandlers.state({
+      query: searchValue.query,
+      qindex: index,
+    });
+  };
+
   const count = collection ? collection.totalCount() : 0;
   const query = queryGetter() || {};
   const sortOrder = query.sort || '';
@@ -250,12 +272,12 @@ const MetadataCollections = ({
                             if (e.target.value) {
                               getSearchHandlers().query(e);
                             } else {
-                              getSearchHandlers().reset();
+                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
                             }
                           }}
                           onClear={getSearchHandlers().reset}
                           value={searchValue.query}
-                          onChangeIndex={getSearchHandlers().query}
+                          onChangeIndex={(e) => { doChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
                           searchableIndexes={searchableIndexes}
                           selectedIndex={searchValue.qindex}
                         />
@@ -346,6 +368,8 @@ MetadataCollections.propTypes = {
   searchString: PropTypes.string,
   selectedRecordId: PropTypes.string,
   searchField: PropTypes.object,
+  // add values for search-selectbox
+  onChangeIndex: PropTypes.func,
 };
 
 export default injectIntl(withRouter(MetadataCollections));
