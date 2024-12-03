@@ -186,15 +186,6 @@ const MetadataCollections = ({
     );
   };
 
-  const doChangeIndex = (index, getSearchHandlers, searchValue) => {
-    onChangeIndex(index);
-
-    getSearchHandlers.state({
-      query: searchValue.query,
-      qindex: index,
-    });
-  };
-
   const count = collection ? collection.totalCount() : 0;
   const query = queryGetter() || {};
   const sortOrder = query.sort || '';
@@ -227,6 +218,11 @@ const MetadataCollections = ({
             const resetAll = () => {
               getFilterHandlers().state(defaultFilter);
               getSearchHandlers().state(defaultSearch);
+            };
+
+            const doChangeIndex = (e) => {
+              onChangeIndex(e.target.value);
+              getSearchHandlers().query(e);
             };
 
             const filterChanged = !isEqual(activeFilters.state, defaultFilter);
@@ -263,7 +259,7 @@ const MetadataCollections = ({
                           }}
                           onClear={getSearchHandlers().reset}
                           value={searchValue.query}
-                          onChangeIndex={(e) => { doChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                          onChangeIndex={(e) => { doChangeIndex(e); }}
                           searchableIndexes={searchableIndexes}
                           selectedIndex={searchValue.qindex}
                         />
