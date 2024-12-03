@@ -30,15 +30,15 @@ import urls from '../DisplayUtils/urls';
 import FilterFilters from './FilterFilters';
 import Navigation from '../Navigation/Navigation';
 
-const defaultFilter = { state: { type: ['Whitelist', 'Blacklist'] }, string: 'type.Whitelist,type.Blacklist' };
-const defaultSearchString = { query: '' };
+const defaultFilter = { type: ['Whitelist', 'Blacklist'] };
+const defaultSearch = { query: '', qindex: '' };
+const defaultSort = { sort: 'label' };
 
 const Filters = ({
   children,
   contentData = {},
   disableRecordCreation,
   filter,
-  history,
   onNeedMoreData,
   onSelectRow,
   queryGetter,
@@ -48,14 +48,8 @@ const Filters = ({
   selectedRecordId,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
-  const [storedFilter, setStoredFilter] = useState(
-    localStorage.getItem('fincSelectFilterFilters') ? JSON.parse(localStorage.getItem('fincSelectFilterFilters')) : defaultFilter
-  );
-  const [storedSearchString, setStoredSearchString] = useState(
-    localStorage.getItem('fincSelectFilterSearchString') ? JSON.parse(localStorage.getItem('fincSelectFilterSearchString')) : defaultSearchString
-  );
 
-  const getDataLable = (fieldValue) => {
+  const getDataLabel = (fieldValue) => {
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
@@ -65,7 +59,7 @@ const Filters = ({
 
   const resultsFormatter = {
     label: result => result.label,
-    type: result => getDataLable(get(result, 'type', '')),
+    type: result => getDataLabel(get(result, 'type', '')),
   };
 
   // generate url for record-details
@@ -178,47 +172,8 @@ const Filters = ({
     );
   };
 
-  const cacheFilter = (activeFilters, searchValue) => {
-    localStorage.setItem('fincSelectFilterFilters', JSON.stringify(activeFilters));
-    localStorage.setItem('fincSelectFilterSearchString', JSON.stringify(searchValue));
-  };
-
-  const resetAll = (getFilterHandlers, getSearchHandlers) => {
-    localStorage.removeItem('fincSelectFilterFilters');
-    localStorage.removeItem('fincSelectFilterSearchString');
-
-    // reset the filter state to default filters
-    getFilterHandlers.state(defaultFilter.state);
-
-    // reset the search query
-    getSearchHandlers.state(defaultSearchString);
-
-    setStoredFilter(defaultFilter);
-    setStoredSearchString(defaultSearchString);
-
-    return (history.push(`${urls.filters()}?filters=${defaultFilter.string}`));
-  };
-
-  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
-    localStorage.removeItem('fincSelectFilterSearchString');
-
-    searchValue.query = '';
-
-    getSearchHandlers.state({
-      query: '',
-    });
-
-    return onSubmitSearch;
-  };
-
-  const handleChangeSearch = (e, getSearchHandlers) => {
-    getSearchHandlers.state({
-      query: e,
-    });
-  };
-
-  const getDisableReset = (activeFilters, searchValue) => {
-    return isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query;
+  const storeSearchString = () => {
+    localStorage.setItem('finc-select-filters-search-string', searchString);
   };
 
   const renderFilterPaneHeader = () => {
@@ -255,28 +210,31 @@ const Filters = ({
   return (
     <div data-test-filters data-testid="filters">
       <SearchAndSortQuery
-        initialFilterState={storedFilter.state}
-        initialSearchState={{ query: storedSearchString.query }}
-        initialSortState={{ sort: 'label' }}
+        initialFilterState={!searchString ? defaultFilter : {}}
+        initialSearchState={defaultSearch}
+        initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
+        setQueryOnMount
       >
         {
           ({
             activeFilters,
-            filterChanged,
             getFilterHandlers,
             getSearchHandlers,
             onSort,
             onSubmitSearch,
-            searchChanged,
             searchValue,
           }) => {
-            const disableReset = getDisableReset(activeFilters, searchValue);
-            const disableSearch = () => (searchValue.query === defaultSearchString.query);
-            if (filterChanged || searchChanged) {
-              cacheFilter(activeFilters, searchValue);
-            }
+            const resetAll = () => {
+              getFilterHandlers().state(defaultFilter);
+              getSearchHandlers().state(defaultSearch);
+            };
+
+            const filterChanged = !isEqual(activeFilters.state, defaultFilter);
+            const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
+
+            storeSearchString();
 
             return (
               <Paneset>
@@ -294,21 +252,22 @@ const Filters = ({
                           ariaLabel="search"
                           autoFocus
                           id="filterSearchField"
+                          indexName="qindex"
                           inputRef={searchField}
                           name="query"
                           onChange={(e) => {
                             if (e.target.value) {
-                              handleChangeSearch(e.target.value, getSearchHandlers());
+                              getSearchHandlers().query(e);
                             } else {
-                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              getSearchHandlers().reset();
                             }
                           }}
-                          onClear={() => handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                          onClear={getSearchHandlers().reset}
                           value={searchValue.query}
                         />
                         <Button
                           buttonStyle="primary"
-                          disabled={disableSearch()}
+                          disabled={!searchChanged}
                           fullWidth
                           id="filterSubmitSearch"
                           type="submit"
@@ -318,9 +277,9 @@ const Filters = ({
                       </div>
                       <Button
                         buttonStyle="none"
-                        disabled={disableReset}
+                        disabled={!(filterChanged || searchChanged)}
                         id="clickable-reset-all"
-                        onClick={() => resetAll(getFilterHandlers(), getSearchHandlers())}
+                        onClick={resetAll}
                       >
                         <Icon icon="times-circle-solid">
                           <FormattedMessage id="stripes-smart-components.resetAll" />
@@ -378,9 +337,6 @@ Filters.propTypes = {
   contentData: PropTypes.arrayOf(PropTypes.object),
   disableRecordCreation: PropTypes.bool,
   filter: PropTypes.object,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   onNeedMoreData: PropTypes.func,
   onSelectRow: PropTypes.func,
   queryGetter: PropTypes.func,

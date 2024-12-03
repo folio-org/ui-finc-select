@@ -200,7 +200,7 @@ const MetadataCollections = ({
     <div data-test-collections data-testid="collections">
       <SearchAndSortQuery
         initialFilterState={!searchString ? defaultFilter : {}}
-        initialSearchState={{ query: '', qindex: '' }}
+        initialSearchState={defaultSearch}
         initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
@@ -226,8 +226,7 @@ const MetadataCollections = ({
             };
 
             const filterChanged = !isEqual(activeFilters.state, defaultFilter);
-            const searchChanged =
-              searchValue.query && !isEqual(searchValue, defaultSearch);
+            const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
 
             storeSearchString();
 
@@ -247,9 +246,9 @@ const MetadataCollections = ({
                           ariaLabel="search"
                           autoFocus
                           id="collectionSearchField"
+                          indexName="qindex"
                           inputRef={searchField}
                           name="query"
-                          indexName="qindex"
                           onChange={(e) => {
                             if (e.target.value) {
                               getSearchHandlers().query(e);
