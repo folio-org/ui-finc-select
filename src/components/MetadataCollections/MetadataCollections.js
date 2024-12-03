@@ -186,17 +186,6 @@ const MetadataCollections = ({
     );
   };
 
-  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
-    searchValue.query = '';
-
-    getSearchHandlers.state({
-      query: '',
-      qindex: '',
-    });
-
-    return onSubmitSearch;
-  };
-
   const doChangeIndex = (index, getSearchHandlers, searchValue) => {
     onChangeIndex(index);
 
@@ -220,14 +209,11 @@ const MetadataCollections = ({
     <div data-test-collections data-testid="collections">
       <SearchAndSortQuery
         initialFilterState={!searchString ? defaultFilter : {}}
+        initialSearchState={{ query: '', qindex: '' }}
         initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
         setQueryOnMount
-        searchParamsMapping={{
-          query: (q) => ({ query: q }),
-          qindex: (q) => ({ qindex: q }),
-        }}
       >
         {
           ({
@@ -272,7 +258,7 @@ const MetadataCollections = ({
                             if (e.target.value) {
                               getSearchHandlers().query(e);
                             } else {
-                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              getSearchHandlers().reset();
                             }
                           }}
                           onClear={getSearchHandlers().reset}
