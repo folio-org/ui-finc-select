@@ -205,6 +205,10 @@ const MetadataCollections = ({
         queryGetter={queryGetter}
         querySetter={querySetter}
         setQueryOnMount
+        searchParamsMapping={{
+          query: (q) => ({ query: q }),
+          qindex: (q) => ({ qindex: q }),
+        }}
       >
         {
           ({
