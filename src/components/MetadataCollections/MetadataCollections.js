@@ -199,7 +199,7 @@ const MetadataCollections = ({
   return (
     <div data-test-collections data-testid="collections">
       <SearchAndSortQuery
-        initialFilterState={!searchString ? defaultFilter : {}}
+        initialFilterState={defaultFilter}
         initialSearchState={defaultSearch}
         initialSortState={defaultSort}
         queryGetter={queryGetter}
@@ -217,13 +217,9 @@ const MetadataCollections = ({
             getSearchHandlers,
             onSort,
             onSubmitSearch,
+            resetAll,
             searchValue,
           }) => {
-            const resetAll = () => {
-              getFilterHandlers().state(defaultFilter);
-              getSearchHandlers().state(defaultSearch);
-            };
-
             const doChangeIndex = (e) => {
               onChangeIndex(e.target.value);
               getSearchHandlers().query(e);

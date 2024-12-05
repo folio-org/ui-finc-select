@@ -197,7 +197,7 @@ const MetadataSources = ({
   return (
     <div data-test-sources data-testid="sources">
       <SearchAndSortQuery
-        initialFilterState={!searchString ? defaultFilter : {}}
+        initialFilterState={defaultFilter}
         initialSearchState={defaultSearch}
         initialSortState={defaultSort}
         queryGetter={queryGetter}
@@ -215,13 +215,9 @@ const MetadataSources = ({
             getSearchHandlers,
             onSort,
             onSubmitSearch,
+            resetAll,
             searchValue,
           }) => {
-            const resetAll = () => {
-              getFilterHandlers().state(defaultFilter);
-              getSearchHandlers().state(defaultSearch);
-            };
-
             const doChangeIndex = (e) => {
               onChangeIndex(e.target.value);
               getSearchHandlers().query(e);

@@ -210,7 +210,7 @@ const Filters = ({
   return (
     <div data-test-filters data-testid="filters">
       <SearchAndSortQuery
-        initialFilterState={!searchString ? defaultFilter : {}}
+        initialFilterState={defaultFilter}
         initialSearchState={defaultSearch}
         initialSortState={defaultSort}
         queryGetter={queryGetter}
@@ -224,13 +224,9 @@ const Filters = ({
             getSearchHandlers,
             onSort,
             onSubmitSearch,
+            resetAll,
             searchValue,
           }) => {
-            const resetAll = () => {
-              getFilterHandlers().state(defaultFilter);
-              getSearchHandlers().state(defaultSearch);
-            };
-
             const filterChanged = !isEqual(activeFilters.state, defaultFilter);
             const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
 
