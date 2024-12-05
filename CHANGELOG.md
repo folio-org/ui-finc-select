@@ -11,6 +11,7 @@
 * Remove dependencies of k-int and stripes-erm-components ([UIFC-366](https://folio-org.atlassian.net/browse/UIFC-366))
 * Update required interfaces ([UIFC-387](https://folio-org.atlassian.net/browse/UIFC-387))
 * Update permissions ([UIFC-395](https://folio-org.atlassian.net/browse/UIFC-395))
+* Restructure localStorage, simplify urls for ShowCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
 
 ## [6.1.0](https://github.com/folio-org/ui-finc-select/tree/v6.1.0) (2024-03-20)
 * Remove deprecated pane properties ([UIFC-339](https://issues.folio.org/browse/UIFC-339))

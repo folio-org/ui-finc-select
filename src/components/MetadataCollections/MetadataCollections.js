@@ -258,7 +258,7 @@ const MetadataCollections = ({
                           }}
                           onClear={getSearchHandlers().reset}
                           value={searchValue.query}
-                          onChangeIndex={(e) => { doChangeIndex(e); }}
+                          onChangeIndex={doChangeIndex}
                           searchableIndexes={searchableIndexes}
                           selectedIndex={searchValue.qindex}
                         />

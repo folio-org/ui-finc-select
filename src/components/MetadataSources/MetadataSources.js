@@ -256,7 +256,7 @@ const MetadataSources = ({
                           onClear={getSearchHandlers().reset}
                           value={searchValue.query}
                           // add values for search-selectbox
-                          onChangeIndex={(e) => { doChangeIndex(e); }}
+                          onChangeIndex={doChangeIndex}
                           searchableIndexes={searchableIndexes}
                           selectedIndex={searchValue.qindex}
                         />
