@@ -31,7 +31,7 @@ import FilterFilters from './FilterFilters';
 import Navigation from '../Navigation/Navigation';
 
 const defaultFilter = { type: ['Whitelist', 'Blacklist'] };
-const defaultSearch = { query: '', qindex: '' };
+const defaultSearch = { query: '' };
 const defaultSort = { sort: 'label' };
 
 const Filters = ({
@@ -248,7 +248,6 @@ const Filters = ({
                           ariaLabel="search"
                           autoFocus
                           id="filterSearchField"
-                          indexName="qindex"
                           inputRef={searchField}
                           name="query"
                           onChange={(e) => {
