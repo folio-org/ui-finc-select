@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -10,7 +10,7 @@ import DocumentsFieldArray from './DocumentsFieldArray';
 import withIntlConfiguration from '../../../../../test/jest/helpers/withIntlConfiguration';
 
 const renderDocumentsFieldArray = (stripes) => {
-  return render(withIntlConfiguration(
+  return withIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -24,7 +24,7 @@ const renderDocumentsFieldArray = (stripes) => {
         />
       </MemoryRouter>
     </StripesContext.Provider>
-  ));
+  );
 };
 
 jest.unmock('react-intl');

@@ -1,7 +1,7 @@
 import { MemoryRouter } from 'react-router-dom';
 
 import { StripesContext } from '@folio/stripes/core';
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
@@ -30,14 +30,12 @@ const withFilterFile = {
 };
 
 const renderFilterFileView = (filter) =>
-  render(
-    withIntlConfiguration(
-      <MemoryRouter>
-        <StripesContext.Provider value={stripes}>
-          <FilterFileView filter={filter} stripes={stripes} />
-        </StripesContext.Provider>
-      </MemoryRouter>
-    )
+  withIntlConfiguration(
+    <MemoryRouter>
+      <StripesContext.Provider value={stripes}>
+        <FilterFileView filter={filter} stripes={stripes} />
+      </StripesContext.Provider>
+    </MemoryRouter>
   );
 
 jest.unmock('react-intl');

@@ -1,14 +1,13 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { StripesContext, useStripes } from '@folio/stripes/core';
-import { render } from '@folio/jest-config-stripes/testing-library/react';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import filters from '../../../test/fixtures/metadatacollections';
 import Filters from './Filters';
 
 const renderFilters = (stripes) => (
-  render(withIntlConfiguration(
+  withIntlConfiguration(
     <Router>
       <StripesContext.Provider value={stripes}>
         <Filters
@@ -22,7 +21,7 @@ const renderFilters = (stripes) => (
         />
       </StripesContext.Provider>
     </Router>
-  ))
+  )
 );
 
 jest.unmock('react-intl');

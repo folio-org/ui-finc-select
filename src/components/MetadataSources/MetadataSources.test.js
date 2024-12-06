@@ -1,7 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { noop } from 'lodash';
 
-import { render } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 import { StripesConnectedSource } from '@folio/stripes/smart-components';
 
@@ -35,7 +34,7 @@ const testSource = {
 const connectedTestSource = new StripesConnectedSource(testSource.props, testSource.logger, 'sources');
 
 const renderMetadataSources = (stripes) => (
-  render(withIntlConfiguration(
+  withIntlConfiguration(
     <Router>
       <StripesContext.Provider value={stripes}>
         <MetadataSources
@@ -51,7 +50,7 @@ const renderMetadataSources = (stripes) => (
         />
       </StripesContext.Provider>
     </Router>
-  ))
+  )
 );
 
 jest.unmock('react-intl');
