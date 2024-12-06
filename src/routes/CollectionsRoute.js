@@ -128,7 +128,6 @@ class CollectionsRoute extends React.Component {
     }
   };
 
-  // add update if search-selectbox is changing
   onChangeIndex = (qindex) => {
     this.props.mutator.query.update({ qindex });
   }

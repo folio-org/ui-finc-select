@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { noop, get, isEqual } from 'lodash';
 import { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { injectIntl, FormattedMessage } from 'react-intl';
@@ -35,14 +35,13 @@ const rawSearchableIndexes = [
 ];
 let searchableIndexes;
 
-const defaultFilter = { state: { status: ['active', 'implementation'] }, string: 'status.active,status.implementation' };
-const defaultSearchString = { query: '' };
-const defaultSearchIndex = '';
+const defaultFilter = { status: ['active', 'implementation'] };
+const defaultSearch = { query: '', qindex: '' };
+const defaultSort = { sort: 'label' };
 
 const MetadataSources = ({
   children,
   contentData = {},
-  history,
   intl,
   onNeedMoreData,
   onSelectRow,
@@ -56,11 +55,8 @@ const MetadataSources = ({
   selectedRecordId,
 }) => {
   const [filterPaneIsVisible, setFilterPaneIsVisible] = useState(true);
-  const [storedFilter, setStoredFilter] = useState(localStorage.getItem('fincSelectSourceFilters') ? JSON.parse(localStorage.getItem('fincSelectSourceFilters')) : defaultFilter);
-  const [storedSearchString, setStoredSearchString] = useState(localStorage.getItem('fincSelectSourceSearchString') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchString')) : defaultSearchString);
-  const [storedSearchIndex, setStoredSearchIndex] = useState(localStorage.getItem('fincSelectSourceSearchIndex') ? JSON.parse(localStorage.getItem('fincSelectSourceSearchIndex')) : defaultSearchIndex);
 
-  const getDataLable = (fieldValue) => {
+  const getDataLabel = (fieldValue) => {
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {
@@ -71,7 +67,7 @@ const MetadataSources = ({
   const resultsFormatter = {
     label: result => result.label,
     sourceId: result => result.sourceId,
-    status: result => getDataLable(_.get(result, 'status', '')),
+    status: result => getDataLabel(get(result, 'status', '')),
     lastProcessed: result => result.lastProcessed,
   };
 
@@ -152,82 +148,14 @@ const MetadataSources = ({
           source={result}
           searchTerm={query.query || ''}
           filterPaneIsVisible
-          toggleFilterPane={_.noop}
+          toggleFilterPane={noop}
         />
       </div>
     );
   };
 
-  const cacheFilter = (activeFilters, searchValue) => {
-    localStorage.setItem('fincSelectSourceFilters', JSON.stringify(activeFilters));
-    localStorage.setItem('fincSelectSourceSearchString', JSON.stringify(searchValue));
-  };
-
-  const resetAll = (getFilterHandlers, getSearchHandlers) => {
-    localStorage.removeItem('fincSelectSourceFilters');
-    localStorage.removeItem('fincSelectSourceSearchString');
-    localStorage.removeItem('fincSelectSourceSearchIndex');
-
-    // reset the filter state to default filters
-    getFilterHandlers.state(defaultFilter.state);
-
-    // reset the search query
-    getSearchHandlers.state(defaultSearchString);
-
-    setStoredFilter(defaultFilter);
-    setStoredSearchString(defaultSearchString);
-    setStoredSearchIndex(defaultSearchIndex);
-
-    return (history.push(`${urls.sources()}?filters=${defaultFilter.string}`));
-  };
-
-  const handleClearSearch = (getSearchHandlers, onSubmitSearch, searchValue) => {
-    localStorage.removeItem('fincSelectSourceSearchString');
-    localStorage.removeItem('fincSelectSourceSearchIndex');
-
-    setStoredSearchIndex(defaultSearchIndex);
-
-    searchValue.query = '';
-
-    getSearchHandlers.state({
-      query: '',
-      qindex: '',
-    });
-
-    return onSubmitSearch;
-  };
-
-  const handleChangeSearch = (e, getSearchHandlers) => {
-    getSearchHandlers.state({
-      query: e,
-    });
-  };
-
-  const doChangeIndex = (index, getSearchHandlers, searchValue) => {
-    localStorage.setItem('fincSelectSourceSearchIndex', JSON.stringify(index));
-    setStoredSearchIndex(index);
-    // call function in SourcesRoute.js:
-    onChangeIndex(index);
-    getSearchHandlers.state({
-      query: searchValue.query,
-      qindex: index,
-    });
-  };
-
-  const getCombinedSearch = () => {
-    if (storedSearchIndex.qindex !== '') {
-      const combined = {
-        query: storedSearchString.query,
-        qindex: storedSearchIndex,
-      };
-      return combined;
-    } else {
-      return storedSearchString;
-    }
-  };
-
-  const getDisableReset = (activeFilters, searchValue) => {
-    return _.isEqual(activeFilters.state, defaultFilter.state) && searchValue.query === defaultSearchString.query;
+  const storeSearchString = () => {
+    localStorage.setItem('finc-select-sources-search-string', searchString);
   };
 
   const renderFilterPaneHeader = () => {
@@ -269,29 +197,36 @@ const MetadataSources = ({
   return (
     <div data-test-sources data-testid="sources">
       <SearchAndSortQuery
-        // NEED FILTER: {"status":["active","implementation","request"]}
-        initialFilterState={storedFilter.state}
-        initialSearchState={getCombinedSearch()}
-        initialSortState={{ sort: 'label' }}
+        initialFilterState={defaultFilter}
+        initialSearchState={defaultSearch}
+        initialSortState={defaultSort}
         queryGetter={queryGetter}
         querySetter={querySetter}
+        setQueryOnMount
+        searchParamsMapping={{
+          query: (q) => ({ query: q }),
+          qindex: (q) => ({ qindex: q }),
+        }}
       >
         {
           ({
             activeFilters,
-            filterChanged,
             getFilterHandlers,
             getSearchHandlers,
             onSort,
             onSubmitSearch,
-            searchChanged,
+            resetAll,
             searchValue,
           }) => {
-            const disableReset = getDisableReset(activeFilters, searchValue);
-            const disableSearch = () => (searchValue.query === defaultSearchString.query);
-            if (filterChanged || searchChanged) {
-              cacheFilter(activeFilters, searchValue);
-            }
+            const doChangeIndex = (e) => {
+              onChangeIndex(e.target.value);
+              getSearchHandlers().query(e);
+            };
+
+            const filterChanged = !isEqual(activeFilters.state, defaultFilter);
+            const searchChanged = searchValue.query && !isEqual(searchValue, defaultSearch);
+
+            storeSearchString();
 
             return (
               <Paneset>
@@ -308,25 +243,26 @@ const MetadataSources = ({
                           ariaLabel="search"
                           autoFocus
                           id="sourceSearchField"
+                          indexName="qindex"
                           inputRef={searchField}
                           name="query"
                           onChange={(e) => {
                             if (e.target.value) {
-                              handleChangeSearch(e.target.value, getSearchHandlers());
+                              getSearchHandlers().query(e);
                             } else {
-                              handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue);
+                              getSearchHandlers().reset();
                             }
                           }}
-                          onClear={() => handleClearSearch(getSearchHandlers(), onSubmitSearch(), searchValue)}
+                          onClear={getSearchHandlers().reset}
                           value={searchValue.query}
                           // add values for search-selectbox
-                          onChangeIndex={(e) => { doChangeIndex(e.target.value, getSearchHandlers(), searchValue); }}
+                          onChangeIndex={doChangeIndex}
                           searchableIndexes={searchableIndexes}
-                          selectedIndex={storedSearchIndex}
+                          selectedIndex={searchValue.qindex}
                         />
                         <Button
                           buttonStyle="primary"
-                          disabled={disableSearch()}
+                          disabled={!searchChanged}
                           fullWidth
                           id="sourceSubmitSearch"
                           type="submit"
@@ -336,9 +272,9 @@ const MetadataSources = ({
                       </div>
                       <Button
                         buttonStyle="none"
-                        disabled={disableReset}
+                        disabled={!(filterChanged || searchChanged)}
                         id="clickable-reset-all"
-                        onClick={() => resetAll(getFilterHandlers(), getSearchHandlers())}
+                        onClick={resetAll}
                       >
                         <Icon icon="times-circle-solid">
                           <FormattedMessage id="stripes-smart-components.resetAll" />
@@ -395,9 +331,6 @@ const MetadataSources = ({
 MetadataSources.propTypes = {
   children: PropTypes.object,
   contentData: PropTypes.arrayOf(PropTypes.object),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }),
