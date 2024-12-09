@@ -6,7 +6,6 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import metadatacollections from '../../../test/fixtures/metadatacollections';
-import metadatacollection from '../../../test/fixtures/metadatacollection';
 import mdSources from '../../../test/fixtures/tinyMetadataSources';
 import MetadataCollections from './MetadataCollections';
 
@@ -15,8 +14,8 @@ jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ wid
 const tinySources = { mdSources };
 
 let renderWithIntlResult = {};
-const sourcePending = { source: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
+const sourcePending = { collection: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
+const sourceLoaded = { collection: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
 
 const renderMetadataCollections = (stripes, props, data, rerender) => withIntlConfiguration(
   <MemoryRouter>
@@ -53,7 +52,7 @@ describe('Collections SASQ', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderMetadataCollections(stripes);
+      renderMetadataCollections(stripes, sourcePending, metadatacollections);
     });
 
     it('should be visible all search and filter elements', async () => {
@@ -105,7 +104,7 @@ describe('Collections SASQ', () => {
       renderMetadataCollections(
         stripes,
         sourceLoaded,
-        [metadatacollection],
+        metadatacollections,
         renderWithIntlResult.rerender
       );
 
@@ -133,11 +132,21 @@ describe('Collections SASQ', () => {
       renderMetadataCollections(
         stripes,
         sourceLoaded,
-        [metadatacollection],
+        metadatacollections,
         renderWithIntlResult.rerender
       );
 
       expect(document.querySelectorAll('#list-collections .mclRowContainer > [role=row]').length).toEqual(1);
+    });
+  });
+
+  describe('render SASQ without results', () => {
+    it('should be visible no results text', () => {
+      renderMetadataCollections(stripes, {}, []);
+
+      const resultPane = document.querySelector('#pane-collection-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByText('No source yet')).toBeInTheDocument();
     });
   });
 });

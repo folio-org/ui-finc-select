@@ -6,14 +6,13 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import filters from '../../../test/fixtures/filters';
-import filter from '../../../test/fixtures/filter';
 import Filters from './Filters';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
 let renderWithIntlResult = {};
-const sourcePending = { source: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
+const sourcePending = { filter: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
+const sourceLoaded = { filter: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
 
 const renderFilters = (stripes, props, data, rerender) => (
   withIntlConfiguration(
@@ -51,7 +50,7 @@ describe('Filters SASQ View', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderFilters(stripes);
+      renderFilters(stripes, sourcePending, filters);
     });
 
     it('should be visible all search and filter elements', () => {
@@ -94,7 +93,7 @@ describe('Filters SASQ View', () => {
       renderFilters(
         stripes,
         sourceLoaded,
-        [filter],
+        filters,
         renderWithIntlResult.rerender
       );
 
@@ -122,11 +121,21 @@ describe('Filters SASQ View', () => {
       renderFilters(
         stripes,
         sourceLoaded,
-        [filter],
+        filters,
         renderWithIntlResult.rerender
       );
 
       expect(document.querySelectorAll('#list-filters .mclRowContainer > [role=row]').length).toEqual(1);
+    });
+  });
+
+  describe('render SASQ without results', () => {
+    it('should be visible no results text', () => {
+      renderFilters(stripes, {}, []);
+
+      const resultPane = document.querySelector('#pane-filter-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByText('No source yet')).toBeInTheDocument();
     });
   });
 });

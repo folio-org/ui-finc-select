@@ -6,7 +6,6 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
 import metadatasources from '../../../test/fixtures/metadatasources';
-import metadatasource from '../../../test/fixtures/metadatasource';
 import MetadataSources from './MetadataSources';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
@@ -61,7 +60,7 @@ describe('Sources SASQ View', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderMetadataSources(stripes);
+      renderMetadataSources(stripes, sourcePending, metadatasources);
     });
 
     it('should be visible all search and filter elements', () => {
@@ -113,7 +112,7 @@ describe('Sources SASQ View', () => {
       renderMetadataSources(
         stripes,
         sourceLoaded,
-        [metadatasource],
+        metadatasources,
         renderWithIntlResult.rerender
       );
 
@@ -141,11 +140,21 @@ describe('Sources SASQ View', () => {
       renderMetadataSources(
         stripes,
         sourceLoaded,
-        [metadatasource],
+        metadatasources,
         renderWithIntlResult.rerender
       );
 
       expect(document.querySelectorAll('#list-sources .mclRowContainer > [role=row]').length).toEqual(1);
+    });
+  });
+
+  describe('render SASQ without results', () => {
+    it('should be visible no results text', () => {
+      renderMetadataSources(stripes, {}, []);
+
+      const resultPane = document.querySelector('#pane-source-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByText('No source yet')).toBeInTheDocument();
     });
   });
 });
