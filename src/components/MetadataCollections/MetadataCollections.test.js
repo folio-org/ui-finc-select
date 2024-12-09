@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import { ModuleHierarchyProvider, StripesContext, useStripes } from '@folio/stripes/core';
+import { StripesContext, useStripes } from '@folio/stripes/core';
 import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
@@ -12,8 +12,6 @@ import MetadataCollections from './MetadataCollections';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
-const isEmptyMessage = jest.fn();
-const onSearchComplete = jest.fn();
 const tinySources = { mdSources };
 
 let renderWithIntlResult = {};
@@ -23,22 +21,17 @@ const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest
 const renderMetadataCollections = (stripes, props, data, rerender) => withIntlConfiguration(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
-      <ModuleHierarchyProvider module="@folio/finc-select">
-        <MetadataCollections
-          contentData={data}
-          filterData={tinySources}
-          isEmptyMessage={isEmptyMessage}
-          location={{ pathname: '', search: '' }}
-          onNeedMoreData={jest.fn()}
-          onSearchComplete={onSearchComplete}
-          queryGetter={jest.fn()}
-          querySetter={jest.fn()}
-          searchString="permitted.yes,selected.yes"
-          selectedRecordId=""
-          visibleColumns={['label', 'mdSource', 'permitted', 'freeContent']}
-          {...props}
-        />
-      </ModuleHierarchyProvider>
+      <MetadataCollections
+        contentData={data}
+        filterData={tinySources}
+        onNeedMoreData={jest.fn()}
+        queryGetter={jest.fn()}
+        querySetter={jest.fn()}
+        searchString="permitted.yes,selected.yes"
+        selectedRecordId=""
+        visibleColumns={['label', 'mdSource', 'permitted', 'freeContent']}
+        {...props}
+      />
     </StripesContext.Provider>
   </MemoryRouter>,
   rerender
@@ -79,9 +72,9 @@ describe('Collections SASQ', () => {
     });
 
     it('should be visible the results with all columns', () => {
-      expect(screen.getByRole('heading', { name: 'Metadata collections' })).toBeInTheDocument();
       const resultPane = document.querySelector('#pane-collection-results');
       expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByRole('heading', { name: 'Metadata collections' })).toBeInTheDocument();
       expect(within(resultPane).getByText('Name')).toBeInTheDocument();
       expect(within(resultPane).getByText('Metadata source')).toBeInTheDocument();
       expect(within(resultPane).getByText('Usage permitted')).toBeInTheDocument();
