@@ -2,7 +2,7 @@ import { noop } from 'lodash';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 
 import withIntlConfiguration from '../test/jest/helpers/withIntlConfiguration';
 import CollectionsRoute from './routes/CollectionsRoute';
@@ -109,11 +109,11 @@ const match = {
 const renderWithRouter = (component) => {
   const history = createMemoryHistory();
   return {
-    ...render(withIntlConfiguration(
+    ...withIntlConfiguration(
       <Router history={history}>
         {component}
       </Router>
-    ))
+    )
   };
 };
 

@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
-import { fireEvent, render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { fireEvent, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -22,39 +22,37 @@ const onDownloadFile = jest.fn();
 const file = new File(['foo'], 'file.json', { type: 'text/plain' });
 
 const renderFilterFileForm = (stripes, initialValues = FILTER) => {
-  return render(
-    withIntlConfiguration(
-      <StripesContext.Provider value={stripes}>
-        <MemoryRouter>
-          <Form
-            onSubmit={onSubmit}
-            render={() => (
-              <FilterForm
-                initialValues={initialValues}
-                handlers={{ onClose, onDelete }}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                onDelete={onDelete}
+  return withIntlConfiguration(
+    <StripesContext.Provider value={stripes}>
+      <MemoryRouter>
+        <Form
+          onSubmit={onSubmit}
+          render={() => (
+            <FilterForm
+              initialValues={initialValues}
+              handlers={{ onClose, onDelete }}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+            >
+              <FilterFileForm
+                accordionId="accordionId"
+                expanded
+                onToggle={onToggle}
+                stripes={stripes}
               >
-                <FilterFileForm
-                  accordionId="accordionId"
-                  expanded
-                  onToggle={onToggle}
-                  stripes={stripes}
-                >
-                  <FieldArray
-                    addDocBtnLabel="Add file to filter"
-                    name="filterFiles"
-                    onDownloadFile={onDownloadFile}
-                    onUploadFile={onUploadFile}
-                  />
-                </FilterFileForm>
-              </FilterForm>
-            )}
-          />
-        </MemoryRouter>
-      </StripesContext.Provider>
-    )
+                <FieldArray
+                  addDocBtnLabel="Add file to filter"
+                  name="filterFiles"
+                  onDownloadFile={onDownloadFile}
+                  onUploadFile={onUploadFile}
+                />
+              </FilterFileForm>
+            </FilterForm>
+          )}
+        />
+      </MemoryRouter>
+    </StripesContext.Provider>
   );
 };
 

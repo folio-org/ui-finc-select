@@ -1,6 +1,6 @@
 import { StaticRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
@@ -11,7 +11,7 @@ const children = 'children';
 
 describe('EditCard', () => {
   beforeEach(() => {
-    render(withIntlConfiguration(
+    withIntlConfiguration(
       <StaticRouter>
         <EditCard
           deleteButtonTooltipText="Remove card"
@@ -21,7 +21,7 @@ describe('EditCard', () => {
           {children}
         </EditCard>
       </StaticRouter>
-    ));
+    );
   });
 
   test('renders the EditCard component', () => {

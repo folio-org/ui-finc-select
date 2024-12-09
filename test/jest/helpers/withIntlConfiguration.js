@@ -1,7 +1,10 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+
+import { render } from '@folio/jest-config-stripes/testing-library/react';
 import stripesComponentsTranslations from '@folio/stripes-components/translations/stripes-components/en';
 import stripesSmartComponentsTranslations from '@folio/stripes-smart-components/translations/stripes-smart-components/en';
+
 import localTranslations from '../../../translations/ui-finc-select/en';
 
 const translationSets = [
@@ -20,7 +23,7 @@ const translationSets = [
 ];
 
 
-function withIntlConfiguration(children) {
+function withIntlConfiguration(children, renderer = render) {
   const allTranslations = {};
 
   translationSets.forEach((set) => {
@@ -30,7 +33,7 @@ function withIntlConfiguration(children) {
     });
   });
 
-  return (
+  return renderer(
     <IntlProvider locale="en-US" messages={allTranslations}>
       {children}
     </IntlProvider>
