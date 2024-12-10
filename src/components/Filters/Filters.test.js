@@ -1,28 +1,30 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import { StripesContext, useStripes } from '@folio/stripes/core';
-import { render } from '@folio/jest-config-stripes/testing-library/react';
+import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
-import filters from '../../../test/fixtures/metadatacollections';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
+import filters from '../../../test/fixtures/filters';
 import Filters from './Filters';
 
-const renderFilters = (stripes) => (
-  render(withIntlConfiguration(
-    <Router>
+jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
+
+const renderFilters = (stripes, data) => (
+  renderWithIntlConfiguration(
+    <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <Filters
-          contentData={filters}
+          contentData={data}
           onNeedMoreData={jest.fn()}
           queryGetter={jest.fn()}
           querySetter={jest.fn()}
           searchString="type.Whitelist,type.Blacklist"
           selectedRecordId=""
-          onChangeIndex={jest.fn()}
         />
       </StripesContext.Provider>
-    </Router>
-  ))
+    </MemoryRouter>
+  )
 );
 
 jest.unmock('react-intl');
@@ -30,34 +32,82 @@ jest.unmock('react-intl');
 describe('Filters SASQ View', () => {
   let stripes;
 
-  beforeEach(() => {
-    stripes = useStripes();
-    renderFilters(stripes);
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('pane filterresults should be visible', () => {
-    expect(document.querySelector('#pane-filterresults-content')).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    stripes = useStripes();
   });
 
-  describe('check the filter elements', () => {
-    it('type filter should be present', () => {
-      expect(document.querySelector('#filter-accordion-type')).toBeInTheDocument();
+  describe('check if elements are available', () => {
+    beforeEach(() => {
+      renderFilters(stripes, filters);
     });
 
-    it('reset all button should be present', () => {
-      expect(document.querySelector('#clickable-reset-all')).toBeInTheDocument();
+    it('should be visible all search and filter elements', () => {
+      expect(screen.getByRole('heading', { name: 'Search & filter' })).toBeInTheDocument();
+      const filterPane = document.querySelector('#pane-filter-filter');
+      expect(filterPane).toBeInTheDocument();
+
+      expect(within(filterPane).getByText('Type')).toBeInTheDocument();
     });
 
-    it('submit button should be present', () => {
-      expect(document.querySelector('#filterSubmitSearch')).toBeInTheDocument();
+    it('should be visible the results with all columns', () => {
+      const resultPane = document.querySelector('#pane-filter-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByRole('heading', { name: 'Filters' })).toBeInTheDocument();
+      expect(within(resultPane).getByText('Name')).toBeInTheDocument();
+      expect(within(resultPane).getByText('Type')).toBeInTheDocument();
     });
+  });
 
-    it('search field should be present', () => {
-      expect(document.querySelector('#filterSearchField')).toBeInTheDocument();
+  describe('enter a search sting', () => {
+    it('should enable reset all and search buttons', async () => {
+      renderFilters(stripes, filters);
+
+      const resetAllButton = document.querySelector('#clickable-reset-all');
+      expect(resetAllButton).toBeInTheDocument();
+      expect(resetAllButton).toBeDisabled();
+
+      const searchButton = screen.getByRole('button', { name: 'Search' });
+      expect(searchButton).toBeInTheDocument();
+      expect(searchButton).toBeDisabled();
+
+      const searchFieldInput = document.querySelector('#filterSearchField');
+      await userEvent.type(searchFieldInput, 'Holdings 1');
+
+      expect(resetAllButton).toBeEnabled();
+      expect(searchButton).toBeEnabled();
+    });
+  });
+
+  describe('change a filter', () => {
+    it('should enable reset all button', async () => {
+      renderFilters(stripes, filters);
+
+      const resetAllButton = document.querySelector('#clickable-reset-all');
+      expect(resetAllButton).toBeInTheDocument();
+      expect(resetAllButton).toBeDisabled();
+
+      const typeFilter = document.querySelector('#filter-accordion-type');
+      expect(typeFilter).toBeInTheDocument();
+      const typeInput = within(typeFilter).getByText('Whitelist');
+      expect(typeInput).toBeInTheDocument();
+      await userEvent.click(typeInput);
+
+      expect(resetAllButton).toBeEnabled();
+    });
+  });
+
+  describe('render SASQ without results', () => {
+    it('should be visible no results text', () => {
+      renderFilters(stripes, []);
+
+      const resultPane = document.querySelector('#pane-filter-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByText('No source yet')).toBeInTheDocument();
     });
   });
 });

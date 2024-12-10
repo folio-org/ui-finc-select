@@ -238,7 +238,7 @@ const Filters = ({
                   <Pane
                     data-test-filter-pane-filter
                     defaultWidth="18%"
-                    id="pane-filterfilter"
+                    id="pane-filter-filter"
                     renderHeader={renderFilterPaneHeader}
                   >
                     <form onSubmit={onSubmitSearch}>
@@ -290,7 +290,7 @@ const Filters = ({
                 <Pane
                   data-test-filter-pane-results
                   defaultWidth="fill"
-                  id="pane-filterresults"
+                  id="pane-filter-results"
                   padContent={false}
                   style={{ minWidth: '42%' }}
                   renderHeader={() => renderResultsPaneHeader(activeFilters, filter)}

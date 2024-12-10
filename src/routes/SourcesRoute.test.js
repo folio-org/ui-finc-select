@@ -1,9 +1,7 @@
 import { noop } from 'lodash';
 import { MemoryRouter } from 'react-router-dom';
 
-import { render } from '@folio/jest-config-stripes/testing-library/react';
-
-import withIntlConfiguration from '../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../test/jest/helpers/renderWithIntlConfiguration';
 import metadatasources from '../../test/fixtures/metadatasources';
 import SourcesRoute from './SourcesRoute';
 
@@ -29,14 +27,14 @@ describe('SourcesRoute', () => {
   describe('rendering the route with permissions', () => {
     let renderComponent;
     beforeEach(() => {
-      renderComponent = render(withIntlConfiguration(
+      renderComponent = renderWithIntlConfiguration(
         <MemoryRouter>
           <SourcesRoute
             {...routeProps}
             stripes={{ hasPerm: () => true, logger: { log: () => jest.fn() } }}
           />
         </MemoryRouter>
-      ));
+      );
     });
 
     test('renders the sources component', () => {
