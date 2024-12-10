@@ -23,7 +23,7 @@ const translationSets = [
 ];
 
 
-function withIntlConfiguration(children, renderer = render) {
+function withIntlConfiguration(children) {
   const allTranslations = {};
 
   translationSets.forEach((set) => {
@@ -33,7 +33,7 @@ function withIntlConfiguration(children, renderer = render) {
     });
   });
 
-  return renderer(
+  return render(
     <IntlProvider locale="en-US" messages={allTranslations}>
       {children}
     </IntlProvider>

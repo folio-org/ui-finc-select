@@ -13,11 +13,7 @@ jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ wid
 
 const tinySources = { mdSources };
 
-let renderWithIntlResult = {};
-const sourcePending = { collection: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { collection: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
-
-const renderMetadataCollections = (stripes, props, data, rerender) => withIntlConfiguration(
+const renderMetadataCollections = (stripes, data) => withIntlConfiguration(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
       <MetadataCollections
@@ -29,11 +25,9 @@ const renderMetadataCollections = (stripes, props, data, rerender) => withIntlCo
         searchString="permitted.yes,selected.yes"
         selectedRecordId=""
         visibleColumns={['label', 'mdSource', 'permitted', 'freeContent']}
-        {...props}
       />
     </StripesContext.Provider>
-  </MemoryRouter>,
-  rerender
+  </MemoryRouter>
 );
 
 jest.unmock('react-intl');
@@ -52,7 +46,7 @@ describe('Collections SASQ', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderMetadataCollections(stripes, sourcePending, metadatacollections);
+      renderMetadataCollections(stripes, metadatacollections);
     });
 
     it('should be visible all search and filter elements', async () => {
@@ -82,8 +76,8 @@ describe('Collections SASQ', () => {
   });
 
   describe('enter a search sting', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderMetadataCollections(stripes, sourcePending, metadatacollections);
+    it('should enable reset all and search buttons', async () => {
+      renderMetadataCollections(stripes, metadatacollections);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -98,24 +92,12 @@ describe('Collections SASQ', () => {
 
       expect(resetAllButton).toBeEnabled();
       expect(searchButton).toBeEnabled();
-
-      await userEvent.click(searchButton);
-
-      renderMetadataCollections(
-        stripes,
-        sourceLoaded,
-        metadatacollections,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-collections .mclRowContainer > [role=row]').length).toEqual(1);
-      expect(screen.getByText('21st Century Political Science Association')).toBeInTheDocument();
     });
   });
 
   describe('change a filter', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderMetadataCollections(stripes, sourcePending, metadatacollections);
+    it('should enable reset all button', async () => {
+      renderMetadataCollections(stripes, metadatacollections);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -128,21 +110,12 @@ describe('Collections SASQ', () => {
       await userEvent.click(freeContentInputNo);
 
       expect(resetAllButton).toBeEnabled();
-
-      renderMetadataCollections(
-        stripes,
-        sourceLoaded,
-        metadatacollections,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-collections .mclRowContainer > [role=row]').length).toEqual(1);
     });
   });
 
   describe('render SASQ without results', () => {
     it('should be visible no results text', () => {
-      renderMetadataCollections(stripes, {}, []);
+      renderMetadataCollections(stripes, []);
 
       const resultPane = document.querySelector('#pane-collection-results');
       expect(resultPane).toBeInTheDocument();

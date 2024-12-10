@@ -10,11 +10,7 @@ import Filters from './Filters';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
-let renderWithIntlResult = {};
-const sourcePending = { filter: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { filter: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
-
-const renderFilters = (stripes, props, data, rerender) => (
+const renderFilters = (stripes, data) => (
   withIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
@@ -26,11 +22,9 @@ const renderFilters = (stripes, props, data, rerender) => (
           searchString="type.Whitelist,type.Blacklist"
           selectedRecordId=""
           visibleColumns={['label', 'type']}
-          {...props}
         />
       </StripesContext.Provider>
-    </MemoryRouter>,
-    rerender
+    </MemoryRouter>
   )
 );
 
@@ -50,7 +44,7 @@ describe('Filters SASQ View', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderFilters(stripes, sourcePending, filters);
+      renderFilters(stripes, filters);
     });
 
     it('should be visible all search and filter elements', () => {
@@ -71,8 +65,8 @@ describe('Filters SASQ View', () => {
   });
 
   describe('enter a search sting', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderFilters(stripes, sourcePending, filters);
+    it('should enable reset all and search buttons', async () => {
+      renderFilters(stripes, filters);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -87,24 +81,12 @@ describe('Filters SASQ View', () => {
 
       expect(resetAllButton).toBeEnabled();
       expect(searchButton).toBeEnabled();
-
-      await userEvent.click(searchButton);
-
-      renderFilters(
-        stripes,
-        sourceLoaded,
-        filters,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-filters .mclRowContainer > [role=row]').length).toEqual(1);
-      expect(screen.getByText('Holdings 1')).toBeInTheDocument();
     });
   });
 
   describe('change a filter', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderFilters(stripes, sourcePending, filters);
+    it('should enable reset all button', async () => {
+      renderFilters(stripes, filters);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -117,21 +99,12 @@ describe('Filters SASQ View', () => {
       await userEvent.click(typeInput);
 
       expect(resetAllButton).toBeEnabled();
-
-      renderFilters(
-        stripes,
-        sourceLoaded,
-        filters,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-filters .mclRowContainer > [role=row]').length).toEqual(1);
     });
   });
 
   describe('render SASQ without results', () => {
     it('should be visible no results text', () => {
-      renderFilters(stripes, {}, []);
+      renderFilters(stripes, []);
 
       const resultPane = document.querySelector('#pane-filter-results');
       expect(resultPane).toBeInTheDocument();

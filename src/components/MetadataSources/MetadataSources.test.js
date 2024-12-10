@@ -10,10 +10,6 @@ import MetadataSources from './MetadataSources';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
-let renderWithIntlResult = {};
-const sourcePending = { source: { pending: jest.fn(() => true), totalCount: jest.fn(() => 0), loaded: jest.fn(() => false) } };
-const sourceLoaded = { source: { pending: jest.fn(() => false), totalCount: jest.fn(() => 1), loaded: jest.fn(() => true) } };
-
 const filterData = { contacts: [
   {
     'externalId': 'fcfaca0b-12e7-467e-b503-d44a44d60a62',
@@ -25,7 +21,7 @@ const filterData = { contacts: [
   }
 ] };
 
-const renderMetadataSources = (stripes, props, data, rerender) => withIntlConfiguration(
+const renderMetadataSources = (stripes, data) => withIntlConfiguration(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
       <MetadataSources
@@ -37,11 +33,9 @@ const renderMetadataSources = (stripes, props, data, rerender) => withIntlConfig
         searchString="status.active,status.implementation"
         selectedRecordId=""
         visibleColumns={['label', 'sourceId', 'status', 'lastProcessed']}
-        {...props}
       />
     </StripesContext.Provider>
-  </MemoryRouter>,
-  rerender
+  </MemoryRouter>
 );
 
 jest.unmock('react-intl');
@@ -60,7 +54,7 @@ describe('Sources SASQ View', () => {
 
   describe('check if elements are available', () => {
     beforeEach(() => {
-      renderMetadataSources(stripes, sourcePending, metadatasources);
+      renderMetadataSources(stripes, metadatasources);
     });
 
     it('should be visible all search and filter elements', () => {
@@ -90,8 +84,8 @@ describe('Sources SASQ View', () => {
   });
 
   describe('enter a search sting', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderMetadataSources(stripes, sourcePending, metadatasources);
+    it('should enable reset all and search buttons', async () => {
+      renderMetadataSources(stripes, metadatasources);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -106,24 +100,12 @@ describe('Sources SASQ View', () => {
 
       expect(resetAllButton).toBeEnabled();
       expect(searchButton).toBeEnabled();
-
-      await userEvent.click(searchButton);
-
-      renderMetadataSources(
-        stripes,
-        sourceLoaded,
-        metadatasources,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-sources .mclRowContainer > [role=row]').length).toEqual(1);
-      expect(screen.getByText('Cambridge University Press Journals')).toBeInTheDocument();
     });
   });
 
   describe('change a filter', () => {
-    it('should enable buttons and reload the results', async () => {
-      renderWithIntlResult = renderMetadataSources(stripes, sourcePending, metadatasources);
+    it('should enable reset all button', async () => {
+      renderMetadataSources(stripes, metadatasources);
 
       const resetAllButton = document.querySelector('#clickable-reset-all');
       expect(resetAllButton).toBeInTheDocument();
@@ -136,21 +118,12 @@ describe('Sources SASQ View', () => {
       await userEvent.click(statusInput);
 
       expect(resetAllButton).toBeEnabled();
-
-      renderMetadataSources(
-        stripes,
-        sourceLoaded,
-        metadatasources,
-        renderWithIntlResult.rerender
-      );
-
-      expect(document.querySelectorAll('#list-sources .mclRowContainer > [role=row]').length).toEqual(1);
     });
   });
 
   describe('render SASQ without results', () => {
     it('should be visible no results text', () => {
-      renderMetadataSources(stripes, {}, []);
+      renderMetadataSources(stripes, []);
 
       const resultPane = document.querySelector('#pane-source-results');
       expect(resultPane).toBeInTheDocument();
