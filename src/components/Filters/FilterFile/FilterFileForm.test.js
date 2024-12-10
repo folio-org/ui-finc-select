@@ -6,7 +6,7 @@ import { fireEvent, screen, waitFor } from '@folio/jest-config-stripes/testing-l
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterForm from '../FilterForm';
 import FilterFileForm from './FilterFileForm';
 import FILTER from '../../../../test/fixtures/filter';
@@ -22,7 +22,7 @@ const onDownloadFile = jest.fn();
 const file = new File(['foo'], 'file.json', { type: 'text/plain' });
 
 const renderFilterFileForm = (stripes, initialValues = FILTER) => {
-  return withIntlConfiguration(
+  return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form

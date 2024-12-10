@@ -4,14 +4,14 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import filters from '../../../test/fixtures/filters';
 import Filters from './Filters';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
 const renderFilters = (stripes, data) => (
-  withIntlConfiguration(
+  renderWithIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <Filters
@@ -21,7 +21,6 @@ const renderFilters = (stripes, data) => (
           querySetter={jest.fn()}
           searchString="type.Whitelist,type.Blacklist"
           selectedRecordId=""
-          visibleColumns={['label', 'type']}
         />
       </StripesContext.Provider>
     </MemoryRouter>

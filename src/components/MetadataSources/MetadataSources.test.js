@@ -4,7 +4,7 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import metadatasources from '../../../test/fixtures/metadatasources';
 import MetadataSources from './MetadataSources';
 
@@ -21,7 +21,7 @@ const filterData = { contacts: [
   }
 ] };
 
-const renderMetadataSources = (stripes, data) => withIntlConfiguration(
+const renderMetadataSources = (stripes, data) => renderWithIntlConfiguration(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
       <MetadataSources
@@ -32,7 +32,6 @@ const renderMetadataSources = (stripes, data) => withIntlConfiguration(
         querySetter={jest.fn()}
         searchString="status.active,status.implementation"
         selectedRecordId=""
-        visibleColumns={['label', 'sourceId', 'status', 'lastProcessed']}
       />
     </StripesContext.Provider>
   </MemoryRouter>

@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FILTER from '../../../test/fixtures/filter';
 import FilterView from './FilterView';
 
@@ -22,7 +22,7 @@ const stripes = {
 };
 
 const renderFilterView = (record = FILTER) => (
-  withIntlConfiguration(
+  renderWithIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <FilterView

@@ -7,10 +7,10 @@ import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
 import DocumentsFieldArray from './DocumentsFieldArray';
-import withIntlConfiguration from '../../../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../../../test/jest/helpers/renderWithIntlConfiguration';
 
 const renderDocumentsFieldArray = (stripes) => {
-  return withIntlConfiguration(
+  return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form

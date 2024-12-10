@@ -1,10 +1,10 @@
 import { noop } from 'lodash';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 
-import withIntlConfiguration from '../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../test/jest/helpers/renderWithIntlConfiguration';
 import CollectionsRoute from './routes/CollectionsRoute';
 import SourcesRoute from './routes/SourcesRoute';
 import CollectionViewRoute from './routes/CollectionViewRoute';
@@ -106,16 +106,15 @@ const match = {
   url: '/finc-select',
 };
 
-const renderWithRouter = (component) => {
-  const history = createMemoryHistory();
-  return {
-    ...withIntlConfiguration(
-      <Router history={history}>
-        {component}
-      </Router>
-    )
-  };
-};
+const history = createMemoryHistory();
+
+const renderWithRouter = (component) => (
+  renderWithIntlConfiguration(
+    <MemoryRouter history={history}>
+      {component}
+    </MemoryRouter>
+  )
+);
 
 jest.unmock('react-intl');
 

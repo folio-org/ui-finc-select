@@ -3,7 +3,7 @@ import { StaticRouter } from 'react-router-dom';
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../../test/jest/helpers/renderWithIntlConfiguration';
 import EditCard from './EditCard';
 
 const onDelete = jest.fn();
@@ -11,7 +11,7 @@ const children = 'children';
 
 describe('EditCard', () => {
   beforeEach(() => {
-    withIntlConfiguration(
+    renderWithIntlConfiguration(
       <StaticRouter>
         <EditCard
           deleteButtonTooltipText="Remove card"

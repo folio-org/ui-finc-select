@@ -4,7 +4,7 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import metadatacollections from '../../../test/fixtures/metadatacollections';
 import mdSources from '../../../test/fixtures/tinyMetadataSources';
 import MetadataCollections from './MetadataCollections';
@@ -13,7 +13,7 @@ jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ wid
 
 const tinySources = { mdSources };
 
-const renderMetadataCollections = (stripes, data) => withIntlConfiguration(
+const renderMetadataCollections = (stripes, data) => renderWithIntlConfiguration(
   <MemoryRouter>
     <StripesContext.Provider value={stripes}>
       <MetadataCollections
@@ -24,7 +24,6 @@ const renderMetadataCollections = (stripes, data) => withIntlConfiguration(
         querySetter={jest.fn()}
         searchString="permitted.yes,selected.yes"
         selectedRecordId=""
-        visibleColumns={['label', 'mdSource', 'permitted', 'freeContent']}
       />
     </StripesContext.Provider>
   </MemoryRouter>

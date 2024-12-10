@@ -23,7 +23,7 @@ const translationSets = [
 ];
 
 
-function withIntlConfiguration(children) {
+function renderWithIntlConfiguration(children) {
   const allTranslations = {};
 
   translationSets.forEach((set) => {
@@ -41,4 +41,4 @@ function withIntlConfiguration(children) {
 }
 
 
-export default withIntlConfiguration;
+export default renderWithIntlConfiguration;

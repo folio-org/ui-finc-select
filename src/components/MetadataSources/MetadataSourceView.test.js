@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import SOURCE from '../../../test/fixtures/metadatasource';
 import MetadataSourceView from './MetadataSourceView';
 
@@ -27,7 +27,7 @@ const stripes = {
 };
 
 const renderMetadataSourceView = (record = SOURCE) => (
-  withIntlConfiguration(
+  renderWithIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <MetadataSourceView

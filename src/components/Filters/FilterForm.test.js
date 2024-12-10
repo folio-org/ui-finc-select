@@ -5,7 +5,7 @@ import { screen, within } from '@folio/jest-config-stripes/testing-library/react
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterForm from './FilterForm';
 import FILTER from '../../../test/fixtures/filter';
 
@@ -15,7 +15,7 @@ const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
 const renderEmptyFilterForm = (stripes, initialValues = {}) => {
-  return withIntlConfiguration(
+  return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
@@ -35,7 +35,7 @@ const renderEmptyFilterForm = (stripes, initialValues = {}) => {
 };
 
 const renderFilterForm = (stripes, initialValues = FILTER) => {
-  return withIntlConfiguration(
+  return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form

@@ -4,7 +4,7 @@ import { StripesContext } from '@folio/stripes/core';
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterFileView from './FilterFileView';
 
 const stripes = {
@@ -30,7 +30,7 @@ const withFilterFile = {
 };
 
 const renderFilterFileView = (filter) =>
-  withIntlConfiguration(
+  renderWithIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <FilterFileView filter={filter} stripes={stripes} />

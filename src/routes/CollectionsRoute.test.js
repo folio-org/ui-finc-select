@@ -1,7 +1,7 @@
 import { noop } from 'lodash';
 import { MemoryRouter } from 'react-router-dom';
 
-import withIntlConfiguration from '../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../test/jest/helpers/renderWithIntlConfiguration';
 import metadatacollections from '../../test/fixtures/metadatacollections';
 import CollectionsRoute from './CollectionsRoute';
 
@@ -27,7 +27,7 @@ describe('CollectionsRoute', () => {
   describe('rendering the route with permissions', () => {
     let renderComponent;
     beforeEach(() => {
-      renderComponent = withIntlConfiguration(
+      renderComponent = renderWithIntlConfiguration(
         <MemoryRouter>
           <CollectionsRoute
             {...routeProps}
