@@ -1,11 +1,11 @@
 import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 
-import { render, screen, within } from '@folio/jest-config-stripes/testing-library/react';
+import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterForm from './FilterForm';
 import FILTER from '../../../test/fixtures/filter';
 
@@ -15,47 +15,43 @@ const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 
 const renderEmptyFilterForm = (stripes, initialValues = {}) => {
-  return render(
-    withIntlConfiguration(
-      <StripesContext.Provider value={stripes}>
-        <MemoryRouter>
-          <Form
-            onSubmit={jest.fn}
-            render={() => (
-              <FilterForm
-                initialValues={initialValues}
-                handlers={{ onClose, onDelete }}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-              />
-            )}
-          />
-        </MemoryRouter>
-      </StripesContext.Provider>
-    )
+  return renderWithIntlConfiguration(
+    <StripesContext.Provider value={stripes}>
+      <MemoryRouter>
+        <Form
+          onSubmit={jest.fn}
+          render={() => (
+            <FilterForm
+              initialValues={initialValues}
+              handlers={{ onClose, onDelete }}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+            />
+          )}
+        />
+      </MemoryRouter>
+    </StripesContext.Provider>
   );
 };
 
 const renderFilterForm = (stripes, initialValues = FILTER) => {
-  return render(
-    withIntlConfiguration(
-      <StripesContext.Provider value={stripes}>
-        <MemoryRouter>
-          <Form
-            onSubmit={jest.fn}
-            render={() => (
-              <FilterForm
-                initialValues={initialValues}
-                handlers={{ onClose, onDelete }}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                onDelete={onDelete}
-              />
-            )}
-          />
-        </MemoryRouter>
-      </StripesContext.Provider>
-    )
+  return renderWithIntlConfiguration(
+    <StripesContext.Provider value={stripes}>
+      <MemoryRouter>
+        <Form
+          onSubmit={jest.fn}
+          render={() => (
+            <FilterForm
+              initialValues={initialValues}
+              handlers={{ onClose, onDelete }}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+            />
+          )}
+        />
+      </MemoryRouter>
+    </StripesContext.Provider>
   );
 };
 

@@ -1,9 +1,9 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import COLLECTION from '../../../test/fixtures/metadatacollection';
 import MetadataCollectionView from './MetadataCollectionView';
 
@@ -27,7 +27,7 @@ const stripes = {
 };
 
 const renderMetadateCollectionView = (record = COLLECTION) => (
-  render(withIntlConfiguration(
+  renderWithIntlConfiguration(
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <MetadataCollectionView
@@ -39,7 +39,7 @@ const renderMetadateCollectionView = (record = COLLECTION) => (
         />
       </StripesContext.Provider>
     </MemoryRouter>
-  ))
+  )
 );
 
 jest.unmock('react-intl');

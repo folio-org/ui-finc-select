@@ -13,7 +13,7 @@ const metadatasources = [
     'deliveryMethods': [],
     'formats': [],
     'inferiorTo': [],
-    'status': 'implementation',
+    'status': 'active',
     'contacts': [
       {
         'type': 'user',

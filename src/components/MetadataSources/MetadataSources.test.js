@@ -1,13 +1,14 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import { noop } from 'lodash';
+import { MemoryRouter } from 'react-router-dom';
 
-import { render } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext, useStripes } from '@folio/stripes/core';
-import { StripesConnectedSource } from '@folio/stripes/smart-components';
+import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
-import withIntlConfiguration from '../../../test/jest/helpers/withIntlConfiguration';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import metadatasources from '../../../test/fixtures/metadatasources';
 import MetadataSources from './MetadataSources';
+
+jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));
 
 const filterData = { contacts: [
   {
@@ -20,38 +21,20 @@ const filterData = { contacts: [
   }
 ] };
 
-const testSource = {
-  logger: { log: noop },
-  mutator: { sources: {}, query: {}, resultCount: {} },
-  props: { history: {}, location: {}, match: {}, staticContext: undefined, children: {} },
-  recordsObj: {},
-  resources: {
-    sources: {},
-    query: { query: '', filters: 'status.active,status.implementation', sort: 'label' },
-    resultCount: 30
-  }
-};
-
-const connectedTestSource = new StripesConnectedSource(testSource.props, testSource.logger, 'sources');
-
-const renderMetadataSources = (stripes) => (
-  render(withIntlConfiguration(
-    <Router>
-      <StripesContext.Provider value={stripes}>
-        <MetadataSources
-          contentData={metadatasources}
-          source={connectedTestSource}
-          filterData={filterData}
-          onNeedMoreData={jest.fn()}
-          queryGetter={jest.fn()}
-          querySetter={jest.fn()}
-          searchString="status.active,status.implementation"
-          selectedRecordId=""
-          onChangeIndex={jest.fn()}
-        />
-      </StripesContext.Provider>
-    </Router>
-  ))
+const renderMetadataSources = (stripes, data) => renderWithIntlConfiguration(
+  <MemoryRouter>
+    <StripesContext.Provider value={stripes}>
+      <MetadataSources
+        contentData={data}
+        filterData={filterData}
+        onNeedMoreData={jest.fn()}
+        queryGetter={jest.fn()}
+        querySetter={jest.fn()}
+        searchString="status.active,status.implementation"
+        selectedRecordId=""
+      />
+    </StripesContext.Provider>
+  </MemoryRouter>
 );
 
 jest.unmock('react-intl');
@@ -59,34 +42,91 @@ jest.unmock('react-intl');
 describe('Sources SASQ View', () => {
   let stripes;
 
-  beforeEach(() => {
-    stripes = useStripes();
-    renderMetadataSources(stripes);
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('pane sourceresults should be visible', () => {
-    expect(document.querySelector('#pane-sourceresults-content')).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    stripes = useStripes();
   });
 
-  describe('check the source filter elements', () => {
-    it('status filter should be present', () => {
-      expect(document.querySelector('#filter-accordion-status')).toBeInTheDocument();
+  describe('check if elements are available', () => {
+    beforeEach(() => {
+      renderMetadataSources(stripes, metadatasources);
     });
 
-    it('reset all button should be present', () => {
-      expect(document.querySelector('#clickable-reset-all')).toBeInTheDocument();
+    it('should be visible all search and filter elements', () => {
+      expect(screen.getByRole('heading', { name: 'Search & filter' })).toBeInTheDocument();
+      const filterPane = document.querySelector('#pane-source-filter');
+      expect(filterPane).toBeInTheDocument();
+
+      const qindex = document.querySelector('#sourceSearchField-qindex');
+      expect(within(qindex).getByText('All')).toBeInTheDocument();
+      expect(within(qindex).getByText('Name')).toBeInTheDocument();
+      expect(within(qindex).getByText('Description')).toBeInTheDocument();
+      expect(within(qindex).getByText('ID')).toBeInTheDocument();
+
+      expect(within(filterPane).getByText('Implementation status')).toBeInTheDocument();
+      expect(within(filterPane).getByText('Selected')).toBeInTheDocument();
     });
 
-    it('submit button should be present', () => {
-      expect(document.querySelector('#sourceSubmitSearch')).toBeInTheDocument();
+    it('should be visible the results with all columns', () => {
+      const resultPane = document.querySelector('#pane-source-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByRole('heading', { name: 'Metadata sources' })).toBeInTheDocument();
+      expect(within(resultPane).getByText('Name')).toBeInTheDocument();
+      expect(within(resultPane).getByText('ID')).toBeInTheDocument();
+      expect(within(resultPane).getByText('Implementation status')).toBeInTheDocument();
+      expect(within(resultPane).getByText('Last processed')).toBeInTheDocument();
     });
+  });
 
-    it('search field should be present', () => {
-      expect(document.querySelector('#sourceSearchField')).toBeInTheDocument();
+  describe('enter a search sting', () => {
+    it('should enable reset all and search buttons', async () => {
+      renderMetadataSources(stripes, metadatasources);
+
+      const resetAllButton = document.querySelector('#clickable-reset-all');
+      expect(resetAllButton).toBeInTheDocument();
+      expect(resetAllButton).toBeDisabled();
+
+      const searchButton = screen.getByRole('button', { name: 'Search' });
+      expect(searchButton).toBeInTheDocument();
+      expect(searchButton).toBeDisabled();
+
+      const searchFieldInput = document.querySelector('#sourceSearchField');
+      await userEvent.type(searchFieldInput, 'Cambridge');
+
+      expect(resetAllButton).toBeEnabled();
+      expect(searchButton).toBeEnabled();
+    });
+  });
+
+  describe('change a filter', () => {
+    it('should enable reset all button', async () => {
+      renderMetadataSources(stripes, metadatasources);
+
+      const resetAllButton = document.querySelector('#clickable-reset-all');
+      expect(resetAllButton).toBeInTheDocument();
+      expect(resetAllButton).toBeDisabled();
+
+      const statusFilter = document.querySelector('#filter-accordion-status');
+      expect(statusFilter).toBeInTheDocument();
+      const statusInput = within(statusFilter).getByText('Implementation');
+      expect(statusInput).toBeInTheDocument();
+      await userEvent.click(statusInput);
+
+      expect(resetAllButton).toBeEnabled();
+    });
+  });
+
+  describe('render SASQ without results', () => {
+    it('should be visible no results text', () => {
+      renderMetadataSources(stripes, []);
+
+      const resultPane = document.querySelector('#pane-source-results');
+      expect(resultPane).toBeInTheDocument();
+      expect(within(resultPane).getByText('No source yet')).toBeInTheDocument();
     });
   });
 });
