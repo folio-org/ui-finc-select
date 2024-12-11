@@ -1,6 +1,5 @@
 import { noop } from 'lodash';
 import { MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 
@@ -106,11 +105,9 @@ const match = {
   url: '/finc-select',
 };
 
-const history = createMemoryHistory();
-
 const renderWithRouter = (component) => (
   renderWithIntlConfiguration(
-    <MemoryRouter history={history}>
+    <MemoryRouter>
       {component}
     </MemoryRouter>
   )
