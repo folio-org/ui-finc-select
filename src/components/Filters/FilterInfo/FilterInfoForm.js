@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Accordion,
@@ -9,7 +9,6 @@ import {
   Select,
   TextField,
 } from '@folio/stripes/components';
-import { IntlConsumer } from '@folio/stripes/core';
 
 import Required from '../../DisplayUtils/Validate';
 import typeOptions from '../../DataOptions/type';
@@ -19,7 +18,9 @@ const FilterInfoForm = ({
   expanded,
   onToggle,
 }) => {
-  const getDataOptions = (intl, field) => {
+  const intl = useIntl();
+
+  const getDataOptions = (field) => {
     return field.map((item) => ({
       label: intl.formatMessage({ id:`ui-finc-select.dataOption.${item.value}` }),
       value: item.value,
@@ -48,21 +49,17 @@ const FilterInfoForm = ({
       </Row>
       <Row>
         <Col xs={8}>
-          <IntlConsumer>
-            {intl => (
-              <Field
-                component={Select}
-                dataOptions={getDataOptions(intl, typeOptions)}
-                fullWidth
-                id="addfilter_type"
-                label={<FormattedMessage id="ui-finc-select.filter.type" />}
-                name="type"
-                placeholder=" "
-                required
-                validate={Required}
-              />
-            )}
-          </IntlConsumer>
+          <Field
+            component={Select}
+            dataOptions={getDataOptions(typeOptions)}
+            fullWidth
+            id="addfilter_type"
+            label={<FormattedMessage id="ui-finc-select.filter.type" />}
+            name="type"
+            placeholder=" "
+            required
+            validate={Required}
+          />
         </Col>
       </Row>
     </Accordion>

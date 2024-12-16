@@ -1,11 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
-import {
-  withStripes,
-  IntlConsumer,
-} from '@folio/stripes/core';
-
 import FileUploaderFieldView from './FileUploaderFieldView';
 
 const FileUploaderField = ({
@@ -20,7 +15,7 @@ const FileUploaderField = ({
   const [uploadInProgress, setUploadInProgress] = useState(false);
 
   useEffect(() => {
-    if (value && value.fileId) {
+    if (value?.fileId) {
       // We've been passed an initial value for the field that is an object
       // with an ID. This means we're currently showing a previously-saved file.
       // So if this is different from the file we've saved to our internal state,
@@ -31,17 +26,17 @@ const FileUploaderField = ({
     }
   }, [value, file]);
 
-  const processError = (resp, intl) => {
+  const processError = (resp) => {
     const contentType = resp.headers ? resp.headers.get('Content-Type') : '';
 
     if (contentType.startsWith('application/json')) {
       throw new Error(`${resp.message} (${resp.error})`);
     } else {
-      throw new Error(intl.formatMessage({ id: 'errors.uploadError' }));
+      throw new Error('uploadError');
     }
   };
 
-  const handleDrop = (acceptedFiles, intl) => {
+  const handleDrop = (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
 
     let mounted = true;
@@ -62,7 +57,7 @@ const FileUploaderField = ({
             }
           });
         } else {
-          processError(response, intl);
+          processError(response);
         }
       })
       .catch(err => {
@@ -80,22 +75,17 @@ const FileUploaderField = ({
   };
 
   return (
-    /* TODO: Refactor this component to use `injectIntl` when Folio starts using react-intl 3.0 */
-    <IntlConsumer>
-      {intl => (
-        <FileUploaderFieldView
-          error={meta.error || error}
-          file={value ? file : {}}
-          fileLabel={fileLabel}
-          isDropZoneActive={isDropZoneActive}
-          onDelete={handleDelete}
-          onDragEnter={() => setIsDropZoneActive(true)}
-          onDragLeave={() => setIsDropZoneActive(false)}
-          onDrop={(data) => handleDrop(data, intl)}
-          uploadInProgress={uploadInProgress}
-        />
-      )}
-    </IntlConsumer>
+    <FileUploaderFieldView
+      error={meta.error || error}
+      file={value ? file : {}}
+      fileLabel={fileLabel}
+      isDropZoneActive={isDropZoneActive}
+      onDelete={handleDelete}
+      onDragEnter={() => setIsDropZoneActive(true)}
+      onDragLeave={() => setIsDropZoneActive(false)}
+      onDrop={(data) => handleDrop(data)}
+      uploadInProgress={uploadInProgress}
+    />
   );
 };
 
@@ -109,4 +99,4 @@ FileUploaderField.propTypes = {
   onUploadFile: PropTypes.func.isRequired,
 };
 
-export default withStripes(FileUploaderField);
+export default FileUploaderField;
