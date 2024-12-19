@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import FileUploaderFieldView from './FileUploaderFieldView';
 
 const FileUploaderField = ({
-  fileLabel,
   input: { onChange, value },
   meta,
   onUploadFile,
@@ -69,18 +68,10 @@ const FileUploaderField = ({
     mounted = false;
   };
 
-  const handleDelete = () => {
-    onChange(null);
-    setFile({});
-  };
-
   return (
     <FileUploaderFieldView
       error={meta.error || error}
-      file={value ? file : {}}
-      fileLabel={fileLabel}
       isDropZoneActive={isDropZoneActive}
-      onDelete={handleDelete}
       onDragEnter={() => setIsDropZoneActive(true)}
       onDragLeave={() => setIsDropZoneActive(false)}
       onDrop={(data) => handleDrop(data)}
@@ -90,7 +81,6 @@ const FileUploaderField = ({
 };
 
 FileUploaderField.propTypes = {
-  fileLabel: PropTypes.string,
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string,
