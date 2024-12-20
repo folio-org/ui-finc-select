@@ -26,13 +26,12 @@ const FilterFileView = ({
   };
 
   const formatter = {
-    label: (item) => <span data-test-doc-label>{item.label}</span>,
-    criteria: (item) => <span data-test-doc-criteria>{item.criteria}</span>,
+    label: (item) => <span>{item.label}</span>,
+    criteria: (item) => <span>{item.criteria}</span>,
     fileId: (item) => (
       <div>
         <Button
           buttonStyle="danger"
-          data-test-filter-button-download-file
           id={`download-file ${item.label}`}
           onClick={(e) => {
             handleDownloadFile(item);
