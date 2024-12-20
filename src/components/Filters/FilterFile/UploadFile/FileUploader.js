@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import ReactDropzone from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 import { Button, Icon } from '@folio/stripes/components';
 
 import css from './FileUploader.css';
 
 const FileUploader = ({
-  className = '',
   errorMessage,
   isDropZoneActive,
   onDragEnter,
@@ -17,17 +16,28 @@ const FileUploader = ({
   uploadInProgress,
   uploadInProgressText,
 }) => {
+  const {
+    getRootProps,
+    getInputProps,
+  } = useDropzone({
+    onDrop,
+    onDragEnter,
+    onDragLeave,
+    maxFiles: 1,
+  });
+
   const renderErrorMessage = () => {
-    return errorMessage &&
-    (
-      <span
-        className={css.errorMessage}
-        hidden={isDropZoneActive}
-      >
-        <Icon icon="exclamation-circle">
-          <span>{errorMessage}</span>
-        </Icon>
-      </span>
+    return (
+      errorMessage && (
+        <span
+          className={css.errorMessage}
+          hidden={isDropZoneActive}
+        >
+          <Icon icon="exclamation-circle">
+            <span>{errorMessage}</span>
+          </Icon>
+        </span>
+      )
     );
   };
 
@@ -35,14 +45,18 @@ const FileUploader = ({
     return (
       <>
         <span
-          className={`${css.uploadTitle} ${isDropZoneActive ? css.activeUploadTitle : ''}`}
+          className={`${css.uploadTitle} ${
+            isDropZoneActive ? css.activeUploadTitle : ''
+          }`}
         >
           {uploadInProgress ? (
             <div>
               {uploadInProgressText}
               <Icon icon="spinner-ellipsis" width="10px" />
             </div>
-          ) : title}
+          ) : (
+            title
+          )}
         </span>
         <Button
           buttonStyle="primary"
@@ -56,28 +70,18 @@ const FileUploader = ({
   };
 
   return (
-    <ReactDropzone
-      disableClick
-      onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
+    <div
+      className={`${css.upload}`}
+      {...getRootProps()}
     >
-      {({ getInputProps, getRootProps }) => (
-        <div
-          className={`${css.upload} ${className}`}
-          {...getRootProps()}
-        >
-          <input id="filter-file-input" {...getInputProps()} />
-          {renderErrorMessage()}
-          {renderUploadFields()}
-        </div>
-      )}
-    </ReactDropzone>
+      <input id="filter-file-input" {...getInputProps()} />
+      {renderErrorMessage()}
+      {renderUploadFields()}
+    </div>
   );
 };
 
 FileUploader.propTypes = {
-  className: PropTypes.string,
   errorMessage: PropTypes.node,
   isDropZoneActive: PropTypes.bool.isRequired,
   onDragEnter: PropTypes.func,
