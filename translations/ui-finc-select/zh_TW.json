@@ -59,7 +59,7 @@
     "form.close": "關閉篩選對話框",
     "collection.id": "ID",
     "permission.module.enabled": "Finc選擇：模組已啟用",
-    "permission.settings.manage": "設定（Finc select）：可以檢視和編輯設定",
+    "permission.settings.manage": "設定 ( Finc select ) : 可以檢視和編輯設定",
     "permission.all": "Finc選擇：所有權限",
     "permission.view": "Finc select：可查看詮釋資料來源、詮釋資料集合和篩選器",
     "noPermission": "沒有權限",
