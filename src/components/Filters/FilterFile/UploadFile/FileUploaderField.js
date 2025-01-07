@@ -27,16 +27,6 @@ const FileUploaderField = ({
     }
   }, [value, file]);
 
-  const processError = (resp) => {
-    const contentType = resp.headers ? resp.headers.get('Content-Type') : '';
-
-    if (contentType.startsWith('application/json')) {
-      throw new Error(`${resp.message} (${resp.error})`);
-    } else {
-      throw new Error(intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' }));
-    }
-  };
-
   const handleDrop = (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
 
@@ -58,7 +48,7 @@ const FileUploaderField = ({
             }
           });
         } else {
-          processError(response);
+          throw new Error(intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' }));
         }
       })
       .catch(err => {
