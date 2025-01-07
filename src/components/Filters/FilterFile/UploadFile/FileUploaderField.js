@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
 
@@ -8,6 +9,7 @@ const FileUploaderField = ({
   meta,
   onUploadFile,
 }) => {
+  const intl = useIntl();
   const [error, setError] = useState(null);
   const [file, setFile] = useState({});
   const [isDropZoneActive, setIsDropZoneActive] = useState(false);
@@ -31,7 +33,7 @@ const FileUploaderField = ({
     if (contentType.startsWith('application/json')) {
       throw new Error(`${resp.message} (${resp.error})`);
     } else {
-      throw new Error('uploadError');
+      throw new Error(intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' }));
     }
   };
 
