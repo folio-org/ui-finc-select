@@ -49,7 +49,7 @@ describe('render FincSelect settings', () => {
     expect(screen.getByText('Settings')).toBeInTheDocument();
   });
 
-  it('should not render <Settings> when showSettings is false', () => {
+  it('should not render <Settings> when actAs is not `settings`', () => {
     renderComponent('', '/finc-select');
     expect(screen.queryByText('Settings')).not.toBeInTheDocument();
   });
