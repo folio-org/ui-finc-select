@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Seleccionar / Deseleccionar colección",
     "collection.modal.selectCollection.error.400": "Error 4xx: No se permite seleccionar esta colección de metadatos.",
     "collection.modal.selectCollection.error.300": "Error 3xx: No es posible seleccionar esta colección de metadatos.",
-    "filter.file.placeholder.name": "Ingrese un nombre para identificar el archivo conectado"
+    "filter.file.placeholder.name": "Ingrese un nombre para identificar el archivo conectado",
+    "filter.file.uploadError": "An error occurred during upload"
 }

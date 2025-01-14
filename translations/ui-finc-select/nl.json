@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Verzameling selecteren/verwijderen",
     "collection.modal.selectCollection.error.400": "Fout 4xx: Het selecteren van deze metadatacollectie is niet toegestaan.",
     "collection.modal.selectCollection.error.300": "Fout 3xx: selecteren van deze metadatacollectie is niet mogelijk.",
-    "filter.file.placeholder.name": "Voer een naam in om het verbonden bestand te identificeren"
+    "filter.file.placeholder.name": "Voer een naam in om het verbonden bestand te identificeren",
+    "filter.file.uploadError": "An error occurred during upload"
 }
