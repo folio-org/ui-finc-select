@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Selecionar/Desmarcar Coleção",
     "collection.modal.selectCollection.error.400": "Erro 4xx: A seleção desta coleção de metadados não é permitida.",
     "collection.modal.selectCollection.error.300": "Erro 3xx: Não é possível selecionar esta coleção de metadados.",
-    "filter.file.placeholder.name": "Insira um nome para identificar o arquivo conectado"
+    "filter.file.placeholder.name": "Insira um nome para identificar o arquivo conectado",
+    "filter.file.uploadError": "Ocorreu um erro ao carregar"
 }

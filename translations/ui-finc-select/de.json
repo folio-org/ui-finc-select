@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Kollektion auswählen/abwählen",
     "collection.modal.selectCollection.error.400": "Fehler 4xx: Die Auswahl dieser Metadatenkollektion ist nicht zulässig.",
     "collection.modal.selectCollection.error.300": "Fehler 3xx: Die Auswahl dieser Metadatenkollektion ist nicht möglich.",
-    "filter.file.placeholder.name": "Bezeichnung für Datei eingeben"
+    "filter.file.placeholder.name": "Bezeichnung für Datei eingeben",
+    "filter.file.uploadError": "An error occurred during upload"
 }
