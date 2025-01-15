@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Sélectionner / désélectionner la collection",
     "collection.modal.selectCollection.error.400": "Erreur 4xx: la sélection de cette collection de métadonnées n'est pas autorisée.",
     "collection.modal.selectCollection.error.300": "Erreur 3xx: la sélection de cette collection de métadonnées n'est pas possible.",
-    "filter.file.placeholder.name": "Entrez un nom pour identifier le fichier connecté"
+    "filter.file.placeholder.name": "Entrez un nom pour identifier le fichier connecté",
+    "filter.file.uploadError": "An error occurred during upload"
 }

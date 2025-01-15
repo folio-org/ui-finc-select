@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "تحديد/إلغاء تحديد مجموعة",
     "collection.modal.selectCollection.error.400": "خطأ 4xx: غير مسموح بتحديد مجموعة الميتاداتا هذه.",
     "collection.modal.selectCollection.error.300": "خطأ 3xx: لا يمكن تحديد مجموعة الميتاداتا هذه.",
-    "filter.file.placeholder.name": "قم بإدخال اسم لتعريف الملف المتصل"
+    "filter.file.placeholder.name": "قم بإدخال اسم لتعريف الملف المتصل",
+    "filter.file.uploadError": "An error occurred during upload"
 }

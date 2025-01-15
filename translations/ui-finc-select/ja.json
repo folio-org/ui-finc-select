@@ -102,5 +102,6 @@
     "collection.modal.selectCollection.label": "Select/Unselect Collection",
     "collection.modal.selectCollection.error.400": "エラー 4xx: このメタデータ・コレクションを選択することは許可されていません。",
     "collection.modal.selectCollection.error.300": "エラー 3xx: このメタデータ・コレクションを選択することはできません。",
-    "filter.file.placeholder.name": "Enter a name to identify the connected file"
+    "filter.file.placeholder.name": "Enter a name to identify the connected file",
+    "filter.file.uploadError": "An error occurred during upload"
 }
