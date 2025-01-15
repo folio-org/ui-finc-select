@@ -30,13 +30,13 @@ const match = {
   url: '/finc-select',
 };
 
-const renderComponent = (settings, testPath) => (
+const renderComponent = (actAs, testPath) => (
   render(
     <MemoryRouter initialEntries={[testPath]}>
       <FincSelect
         location={{}}
         match={match}
-        actAs={settings}
+        actAs={actAs}
         stripes={{}}
       />
     </MemoryRouter>
