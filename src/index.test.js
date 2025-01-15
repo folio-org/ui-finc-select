@@ -1,102 +1,27 @@
-import { noop } from 'lodash';
 import { MemoryRouter } from 'react-router-dom';
 
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  render,
+  screen,
+} from '@folio/jest-config-stripes/testing-library/react';
 
-import renderWithIntlConfiguration from '../test/jest/helpers/renderWithIntlConfiguration';
-import CollectionsRoute from './routes/CollectionsRoute';
-import SourcesRoute from './routes/SourcesRoute';
-import CollectionViewRoute from './routes/CollectionViewRoute';
-import SourceViewRoute from './routes/SourceViewRoute';
-import FiltersRoute from './routes/FiltersRoute';
-import FilterCreateRoute from './routes/FilterCreateRoute';
-import FilterEditRoute from './routes/FilterEditRoute';
-import FilterViewRoute from './routes/FilterViewRoute';
-import collections from '../test/fixtures/metadatacollections';
-import sources from '../test/fixtures/metadatasources';
-import filters from '../test/fixtures/filters';
-import collection from '../test/fixtures/metadatacollection';
-import source from '../test/fixtures/metadatasource';
-import filter from '../test/fixtures/filter';
 import FincSelect from './index';
 
-const routeProps = {
-  history: {
-    push: () => jest.fn()
-  },
-  match: {
-    params: {
-      id: '9a2427cd-4110-4bd9-b6f9-e3475631bbac',
-    },
-  },
-  location: {},
-  mutator: {
-    query: { update: noop },
-  },
-  resources: { collections, sources, filters }
-};
-
-const createRouteProps = {
-  history: {
-    push: () => jest.fn()
-  },
-  location: {
-    search: '',
-  },
-  mutator: {
-    filters: { POST: jest.fn().mockReturnValue(Promise.resolve()) },
-    collectionsIds: { POST: jest.fn().mockReturnValue(Promise.resolve()) },
-  },
-};
-
-const editRouteProps = {
-  history: {
-    push: () => jest.fn()
-  },
-  location: {
-    search: '',
-  },
-  match: {
-    params: {
-      id: '9a2427cd-4110-4bd9-b6f9-e3475631bbac',
-    }
-  },
-  resources: {
-    filter: { filter },
-  },
-};
-
-const viewRouteProps = {
-  history: {
-    action: 'PUSH',
-    block: jest.fn(),
-    createHref: jest.fn(),
-    go: jest.fn(),
-    listen: jest.fn(),
-    location: {
-      hash: '',
-      pathname: '',
-      search: '',
-    },
-    push: () => jest.fn(),
-    replace: () => jest.fn(),
-  },
-  location: {
-    hash: '',
-    pathname: '',
-    search: '',
-  },
-  match: {
-    params: {
-      id: '9a2427cd-4110-4bd9-b6f9-e3475631bbac',
-    }
-  },
-  resources: {
-    collection: { collection },
-    source: { source },
-    filter: { filter },
-  },
-};
+jest.mock('./routes/CollectionsRoute', () => ({ children }) => (
+  <div>CollectionsRoute {children}</div>
+));
+jest.mock('./routes/CollectionViewRoute', () => () => <div>CollectionViewRoute</div>);
+jest.mock('./routes/FilterCreateRoute', () => () => <div>FilterCreateRoute</div>);
+jest.mock('./routes/FilterEditRoute', () => () => <div>FilterEditRoute</div>);
+jest.mock('./routes/FiltersRoute', () => ({ children }) => (
+  <div>FiltersRoute {children}</div>
+));
+jest.mock('./routes/FilterViewRoute', () => () => <div>FilterViewRoute</div>);
+jest.mock('./routes/SourcesRoute', () => ({ children }) => (
+  <div>SourcesRoute {children}</div>
+));
+jest.mock('./routes/SourceViewRoute', () => () => <div>SourceViewRoute</div>);
+jest.mock('./settings', () => () => <div>Settings</div>);
 
 const match = {
   isExact: false,
@@ -105,77 +30,57 @@ const match = {
   url: '/finc-select',
 };
 
-const renderWithRouter = (component) => (
-  renderWithIntlConfiguration(
-    <MemoryRouter>
-      {component}
+const renderComponent = (actAs, testPath) => (
+  render(
+    <MemoryRouter initialEntries={[testPath]}>
+      <FincSelect
+        location={{}}
+        match={match}
+        actAs={actAs}
+        stripes={{}}
+      />
     </MemoryRouter>
   )
 );
 
-jest.unmock('react-intl');
+describe('render FincSelect settings', () => {
+  it('should render <Settings> when actAs is `settings`', () => {
+    renderComponent('settings', '/finc-select');
+    expect(screen.getByText('Settings')).toBeInTheDocument();
+  });
 
-jest.mock('./index', () => {
-  return () => <span>FincSelect</span>;
+  it('should not render <Settings> when actAs is not `settings`', () => {
+    renderComponent('', '/finc-select');
+    expect(screen.queryByText('Settings')).not.toBeInTheDocument();
+  });
 });
 
-it('should render CollectionsRoute', () => {
-  renderWithRouter(<CollectionsRoute {...routeProps} />);
+describe('render FincSelect routes', () => {
+  it('should render <CollectionsRoute> and <CollectionViewRoute>', () => {
+    renderComponent('', '/finc-select/metadata-collections/50304b4b-cca1-49a8-8caa-318f0a07efa4');
+    expect(screen.getByText('CollectionsRoute')).toBeInTheDocument();
+    expect(screen.getByText('CollectionViewRoute')).toBeInTheDocument();
+  });
 
-  expect(screen.getByTestId('collections')).toBeInTheDocument();
-  expect(screen.getByText('Metadata collections')).toBeInTheDocument();
-});
+  it('should render <FilterCreateRoute>', () => {
+    renderComponent('', '/finc-select/filters/create');
+    expect(screen.getByText('FilterCreateRoute')).toBeInTheDocument();
+  });
 
-it('should render SourcesRoute', () => {
-  renderWithRouter(<SourcesRoute {...routeProps} />);
+  it('should render <FilterEditRoute>', () => {
+    renderComponent('', '/finc-select/filters/50304b4b-cca1-49a8-8caa-318f0a07efa4/edit');
+    expect(screen.getByText('FilterEditRoute')).toBeInTheDocument();
+  });
 
-  expect(screen.getByTestId('sources')).toBeInTheDocument();
-  expect(screen.getByText('Metadata sources')).toBeInTheDocument();
-});
+  it('should render <FiltersRoute> and <FilterViewRoute>', () => {
+    renderComponent('', '/finc-select/filters/50304b4b-cca1-49a8-8caa-318f0a07efa4');
+    expect(screen.getByText('FiltersRoute')).toBeInTheDocument();
+    expect(screen.getByText('FilterViewRoute')).toBeInTheDocument();
+  });
 
-it('should render FiltersRoute', () => {
-  renderWithRouter(<FiltersRoute {...routeProps} />);
-
-  expect(screen.getByTestId('filters')).toBeInTheDocument();
-});
-
-it('should render FilterCreateRoute', () => {
-  renderWithRouter(<FilterCreateRoute {...createRouteProps} />);
-
-  expect(document.querySelector('#form-filter')).toBeInTheDocument();
-  expect(screen.getByText('Create')).toBeInTheDocument();
-});
-
-it('should render FilterEditRoute', () => {
-  renderWithRouter(<FilterEditRoute {...editRouteProps} />);
-
-  expect(document.querySelector('#form-filter')).toBeInTheDocument();
-});
-
-it('should render SourceViewRoute', () => {
-  renderWithRouter(<SourceViewRoute {...viewRouteProps} />);
-
-  expect(document.querySelector('#pane-sourcedetails')).toBeInTheDocument();
-});
-
-it('should render CollectionViewRoute', () => {
-  renderWithRouter(<CollectionViewRoute {...viewRouteProps} />);
-
-  expect(document.querySelector('#pane-collectiondetails')).toBeInTheDocument();
-});
-
-it('should render FilterViewRoute', () => {
-  renderWithRouter(<FilterViewRoute {...viewRouteProps} />);
-
-  expect(document.querySelector('#pane-filterdetails')).toBeInTheDocument();
-});
-
-describe('Application root', () => {
-  it('should render without crashing', () => {
-    renderWithRouter(<FincSelect match={match} />);
-    const div = document.createElement('div');
-    div.id = 'root';
-    document.body.appendChild(div);
-    expect(screen.getByText('FincSelect')).toBeInTheDocument();
+  it('should render <SourcesRoute> and <SourceViewRoute>', () => {
+    renderComponent('', '/finc-select/metadata-sources/50304b4b-cca1-49a8-8caa-318f0a07efa4');
+    expect(screen.getByText('SourcesRoute')).toBeInTheDocument();
+    expect(screen.getByText('SourceViewRoute')).toBeInTheDocument();
   });
 });

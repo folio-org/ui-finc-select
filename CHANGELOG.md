@@ -4,6 +4,7 @@
 * Restructure localStorage, simplify urls for ShowCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
 * Restructure tests, add tests for SASQ ([UIFC-399](https://folio-org.atlassian.net/browse/UIFC-399))
 * Refactor FileUploaderField ([UIFC-372](https://folio-org.atlassian.net/browse/UIFC-372))
+* Adapt tests for index.js and add tests for routes ([UIFC-403](https://folio-org.atlassian.net/browse/UIFC-403))
 
 ## [7.0.0](https://github.com/folio-org/ui-finc-select/tree/v7.0.0) (2024-11-04)
 * Use functional components instead of class components ([UIFC-360](https://folio-org.atlassian.net/browse/UIFC-360))
