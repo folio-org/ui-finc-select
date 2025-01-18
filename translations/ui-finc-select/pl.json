@@ -103,5 +103,5 @@
     "collection.modal.selectCollection.error.400": "Błąd 4xx: Wybór tej kolekcji metadanych jest niedozwolony.",
     "collection.modal.selectCollection.error.300": "Błąd 3xx: Wybór tej kolekcji metadanych nie jest możliwy.",
     "filter.file.placeholder.name": "Wprowadź nazwę, aby zidentyfikować podłączony plik",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "Wystąpił błąd podczas przesyłania"
 }
