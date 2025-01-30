@@ -103,5 +103,5 @@
     "collection.modal.selectCollection.error.400": "Chyba 4xx: Výběr této kolekce metadat není povolen.",
     "collection.modal.selectCollection.error.300": "Chyba 3xx: Výběr této kolekce metadat není možný.",
     "filter.file.placeholder.name": "Zadat název pro identifikaci připojeného souboru",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "Při nahrávání došlo k chybě"
 }
