@@ -6,6 +6,7 @@
 * Refactor FileUploaderField ([UIFC-372](https://folio-org.atlassian.net/browse/UIFC-372))
 * Adapt tests for index.js and add tests for routes ([UIFC-403](https://folio-org.atlassian.net/browse/UIFC-403))
 * Migrate react-intl to v7 ([UIFC-413](https://folio-org.atlassian.net/browse/UIFC-413))
+* Migrate stripes dependencies to their Sunflower versions ([UIFC-412](https://folio-org.atlassian.net/browse/UIFC-412))
 
 ## [7.0.0](https://github.com/folio-org/ui-finc-select/tree/v7.0.0) (2024-11-04)
 * Use functional components instead of class components ([UIFC-360](https://folio-org.atlassian.net/browse/UIFC-360))
