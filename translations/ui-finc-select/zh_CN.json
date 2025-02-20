@@ -103,5 +103,5 @@
     "collection.modal.selectCollection.error.400": "4xx错误：不允许选择此元数据集合。",
     "collection.modal.selectCollection.error.300": "3xx错误：无法选择此元数据集合。",
     "filter.file.placeholder.name": "输入名称以标识连接的文件",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "上传过程中发生错误"
 }
