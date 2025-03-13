@@ -1,6 +1,8 @@
 # Change history for ui-finc-select
 
-## 8.0.0 (IN PROGRESS)
+## 8.1.0 (IN PROGRESS)
+
+## [8.0.0](https://github.com/folio-org/ui-finc-select/tree/v8.0.0) (2025-03-13)
 * Restructure localStorage, simplify urls for ShowCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
 * Restructure tests, add tests for SASQ ([UIFC-399](https://folio-org.atlassian.net/browse/UIFC-399))
 * Refactor FileUploaderField ([UIFC-372](https://folio-org.atlassian.net/browse/UIFC-372))
