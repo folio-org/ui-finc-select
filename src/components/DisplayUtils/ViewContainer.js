@@ -75,7 +75,7 @@ const ViewContainer = ({
     <PaneHeader
       dismissible
       onClose={handlers.onClose}
-      paneTitle={<span data-test-collection-header-title>loading</span>}
+      paneTitle={<span>loading</span>}
     />
   );
 
@@ -84,7 +84,7 @@ const ViewContainer = ({
       dismissible
       lastMenu={renderEditPaneMenu()}
       onClose={handlers.onClose}
-      paneTitle={<span data-test-source-header-title>{label}</span>}
+      paneTitle={<span>{label}</span>}
     />
   );
 
@@ -100,13 +100,12 @@ const ViewContainer = ({
     </Pane>
   );
 
-  const label = get(record, 'label', <FormattedMessage id="ui-finc-select.noValue" />);
+  const label = get(record, 'label', '-');
 
   if (isLoading) return renderLoadingPane();
 
   return (
     <Pane
-      data-test-source-pane-details
       defaultWidth="40%"
       id={`pane-${idPrefix}details`}
       renderHeader={() => renderDetailsPaneHeader(label)}
