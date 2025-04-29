@@ -2,6 +2,7 @@
 
 ## 8.1.0 (IN PROGRESS)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
+Add NoPermissionsMessage ([UIFC-434](https://folio-org.atlassian.net/browse/UIFC-434))
 
 ## [8.0.0](https://github.com/folio-org/ui-finc-select/tree/v8.0.0) (2025-03-13)
 * Restructure localStorage, simplify urls for ShowCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
