@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
@@ -10,10 +13,29 @@ import MetadataSourceView from '../components/MetadataSources/MetadataSourceView
 const SourceViewRoute = ({
   history,
   location,
-  match,
-  resources,
-  stripes,
+  match: { params: { id: sourceId } },
 }) => {
+  const stripes = useStripes();
+  const SOURCE_API = 'finc-select/metadata-sources';
+
+  const useSource = () => {
+    const ky = useOkapiKy();
+
+    const { isLoading, data: source = {} } = useQuery(
+      [SOURCE_API, sourceId],
+      () => ky.get(`${SOURCE_API}/${sourceId}`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(sourceId) }
+    );
+
+    return ({
+      isLoading,
+      source,
+    });
+  };
+
+  const { source, isLoading: isSourceLoading } = useSource();
+
   const handleClose = () => {
     history.push(`${urls.sources()}${location.search}`);
   };
@@ -21,20 +43,12 @@ const SourceViewRoute = ({
   return (
     <MetadataSourceView
       handlers={{ onClose: handleClose }}
-      isLoading={get(resources, 'source.isPending', true)}
-      record={get(resources, 'source.records', []).find(i => i.id === match.params.id)}
+      isLoading={isSourceLoading}
+      record={source}
       stripes={stripes}
     />
   );
 };
-
-SourceViewRoute.manifest = Object.freeze({
-  source: {
-    type: 'okapi',
-    path: 'finc-select/metadata-sources/:{id}',
-  },
-  query: {},
-});
 
 SourceViewRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
@@ -44,14 +58,6 @@ SourceViewRoute.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  resources: PropTypes.shape({
-    source: PropTypes.object,
-  }).isRequired,
-  stripes: PropTypes.shape({
-    connect: PropTypes.func.isRequired,
-    hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
-  }).isRequired,
 };
 
-export default stripesConnect(SourceViewRoute);
+export default SourceViewRoute;

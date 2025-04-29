@@ -1,3 +1,7 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import {
@@ -8,14 +12,24 @@ import {
 import routeProps from '../../test/fixtures/routeProps';
 import CollectionViewRoute from './CollectionViewRoute';
 
+const queryClient = new QueryClient();
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn().mockReturnValue({}),
+  useMutation: jest.fn().mockReturnValue({}),
+}));
+
 jest.mock('../components/MetadataCollections/MetadataCollectionView', () => () => <div>MetadataCollectionView</div>);
 
 describe('render CollectionViewRoute', () => {
   it('should render MetadataCollectionView', () => {
     render(
-      <MemoryRouter>
-        <CollectionViewRoute {...routeProps} />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CollectionViewRoute {...routeProps} />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
     expect(screen.getByText('MetadataCollectionView')).toBeInTheDocument();

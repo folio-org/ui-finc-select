@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
 import urls from '../components/DisplayUtils/urls';
 import FilterView from '../components/Filters/FilterView';
@@ -10,46 +13,69 @@ import FilterView from '../components/Filters/FilterView';
 const FilterViewRoute = ({
   history,
   location,
-  match,
-  resources,
-  stripes,
+  match: { params: { id: filterId } },
 }) => {
-  const collectionIds = get(resources, 'collectionsIds.records', []);
+  const stripes = useStripes();
+  const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
+  const FILTER_API = 'finc-select/filters';
+
+  const useFilter = () => {
+    const ky = useOkapiKy();
+
+    const { isLoading, data: filter = {} } = useQuery(
+      [FILTER_API, filterId],
+      () => ky.get(`${FILTER_API}/${filterId}`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(filterId) }
+    );
+
+    return ({
+      isLoading,
+      filter,
+    });
+  };
+
+  const useCollections = () => {
+    const ky = useOkapiKy();
+
+    const { isLoading, data: collectionIds = [] } = useQuery(
+      [filterId],
+      () => ky.get(`finc-select/filters/${filterId}/collections`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(filterId) }
+    );
+
+    return ({
+      isLoading,
+      collectionIds,
+    });
+  };
+
+  const { filter, isLoading: isFilterLoading } = useFilter();
+  const { collectionIds, isLoading: isCollectionIdsLoading } = useCollections();
 
   const handleClose = () => {
     history.push(`${urls.filters()}${location.search}`);
   };
 
   const handleEdit = () => {
-    history.push(`${urls.filterEdit(match.params.id)}${location.search}`);
+    history.push(`${urls.filterEdit(filterId)}${location.search}`);
   };
 
   return (
     <FilterView
-      canEdit={stripes.hasPerm('finc-select.filters.item.put')}
-      collectionIds={collectionIds}
+      canEdit={hasPerms}
+      collectionIds={isCollectionIdsLoading ? [] : collectionIds}
       handlers={{
         onClose: handleClose,
         onEdit: handleEdit,
       }}
-      isLoading={get(resources, 'filter.isPending', true)}
-      record={get(resources, 'filter.records', []).find(i => i.id === match.params.id)}
+      isLoading={isFilterLoading}
+      record={filter}
       stripes={stripes}
     />
   );
 };
-
-FilterViewRoute.manifest = Object.freeze({
-  filter: {
-    type: 'okapi',
-    path: 'finc-select/filters/:{id}',
-  },
-  collectionsIds: {
-    type: 'okapi',
-    path: 'finc-select/filters/:{id}/collections',
-  },
-  query: {},
-});
 
 FilterViewRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
@@ -59,14 +85,6 @@ FilterViewRoute.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  resources: PropTypes.shape({
-    filter: PropTypes.object,
-    collectionsIds: PropTypes.object,
-  }).isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
-  }).isRequired,
 };
 
-export default stripesConnect(FilterViewRoute);
+export default FilterViewRoute;
