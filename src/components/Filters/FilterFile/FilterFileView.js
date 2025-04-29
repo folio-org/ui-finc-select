@@ -74,8 +74,8 @@ FilterFileView.propTypes = {
   }),
   stripes: PropTypes.shape({
     okapi: PropTypes.shape({
-      tenant: PropTypes.string.isRequired,
-      token: PropTypes.string.isRequired,
+      tenant: PropTypes.string,
+      token: PropTypes.string,
       url: PropTypes.string,
     }),
   }),

@@ -41,12 +41,6 @@ class CollectionsRoute extends React.Component {
         staticFallback: { params: {} },
       },
     },
-    source: {
-      type: 'okapi',
-      records: 'fincSelectMetadataSources',
-      path: 'finc-select/metadata-sources',
-      resourceShouldRefresh: true
-    },
     // get for the filter all sources but just the tiny with name and id
     mdSources: {
       type: 'okapi',
