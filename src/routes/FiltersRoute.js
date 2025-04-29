@@ -8,6 +8,7 @@ import {
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
+import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
 import Filters from '../components/Filters/Filters';
 import filterConfig from '../components/Filters/filterConfigData';
@@ -114,7 +115,12 @@ class FiltersRoute extends React.Component {
   };
 
   render() {
-    const { location, match, children } = this.props;
+    const { location, match, children, stripes } = this.props;
+    const hasPerms = stripes.hasPerm('finc-select.filters.collection.get');
+
+    if (!hasPerms) {
+      return <NoPermissionsMessage />;
+    }
 
     if (this.filter) {
       this.filter.update(this.props, 'filters');

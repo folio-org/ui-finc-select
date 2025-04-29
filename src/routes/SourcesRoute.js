@@ -8,6 +8,7 @@ import {
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
+import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
 import MetadataSources from '../components/MetadataSources/MetadataSources';
 import filterConfig from '../components/MetadataSources/filterConfigData';
@@ -126,7 +127,12 @@ class SourcesRoute extends React.Component {
   }
 
   render() {
-    const { location, match, children } = this.props;
+    const { location, match, children, stripes } = this.props;
+    const hasPerms = stripes.hasPerm('finc-select.metadata-sources.collection.get');
+
+    if (!hasPerms) {
+      return <NoPermissionsMessage />;
+    }
 
     if (this.source) {
       this.source.update(this.props, 'sources');
