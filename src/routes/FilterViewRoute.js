@@ -38,16 +38,18 @@ const FilterViewRoute = ({
   const useCollections = () => {
     const ky = useOkapiKy();
 
-    const { isLoading, data: collectionIds = [] } = useQuery(
+    const { isLoading, data = {} } = useQuery(
       [filterId],
       () => ky.get(`finc-select/filters/${filterId}/collections`).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(filterId) }
     );
 
+    const formattedData = data?.collectionIds ? [data] : [];
+
     return ({
       isLoading,
-      collectionIds,
+      collectionIds: formattedData,
     });
   };
 
