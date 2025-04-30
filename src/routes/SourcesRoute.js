@@ -128,7 +128,7 @@ class SourcesRoute extends React.Component {
 
   render() {
     const { location, match, children, stripes } = this.props;
-    const hasPerms = stripes.hasPerm('finc-select.metadata-sources.collection.get');
+    const hasPerms = stripes.hasPerm('ui-finc-select.view');
 
     if (!hasPerms) {
       return <NoPermissionsMessage />;
