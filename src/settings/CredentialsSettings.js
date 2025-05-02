@@ -1,58 +1,37 @@
-import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { useQuery, useMutation } from 'react-query';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import CredentialsSettingsForm from './CredentialsSettingsForm';
 
-const CredentialsSettings = ({
-  resources,
-  mutator,
-}) => {
-  const styles = {
-    credentialsFormWrapper: {
-      width: '100%',
-    },
-  };
+const CredentialsSettings = () => {
+  const ky = useOkapiKy();
 
-  const getInitialValues = () => {
-    const initialValues = get(resources, 'ezbCredentials.records[0]');
+  const { data: credentials } = useQuery({
+    queryKey: ['ezbCredentials'],
+    queryFn: async () => {
+      const res = await ky.get('finc-select/ezb-credentials').json();
+      return res?.[0];
+    }
+  });
 
-    return initialValues;
-  };
+  const { mutate: updateCredentials } = useMutation({
+    mutationFn: async (values) => {
+      return ky.put('finc-select/ezb-credentials', { json: values });
+    }
+  });
 
   const handleSubmit = (values) => {
-    mutator.ezbCredentials
-      .PUT(values);
+    updateCredentials(values);
   };
 
   return (
-    <div
-      data-test-settings-ezb-credentials
-      style={styles.credentialsFormWrapper}
-    >
+    <div style={{ width: '100%' }}>
       <CredentialsSettingsForm
-        initialValues={getInitialValues()}
+        initialValues={credentials}
         onSubmit={handleSubmit}
       />
     </div>
   );
 };
-
-CredentialsSettings.propTypes = {
-  resources: PropTypes.object,
-  mutator: PropTypes.shape({
-    ezbCredentials: PropTypes.shape({
-      POST: PropTypes.func.isRequired,
-      PUT: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
-
-CredentialsSettings.manifest = Object.freeze({
-  ezbCredentials: {
-    type: 'okapi',
-    path: 'finc-select/ezb-credentials',
-    throwErrors: false,
-  },
-});
 
 export default CredentialsSettings;

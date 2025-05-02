@@ -1,3 +1,7 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
@@ -12,6 +16,7 @@ const handlers = {
   onEdit: jest.fn,
 };
 
+const queryClient = new QueryClient();
 const okapiState = { okapi: { token: {} } };
 
 const stripes = {
@@ -28,17 +33,19 @@ const stripes = {
 
 const renderMetadataSourceView = (record = SOURCE) => (
   renderWithIntlConfiguration(
-    <MemoryRouter>
-      <StripesContext.Provider value={stripes}>
-        <MetadataSourceView
-          canEdit
-          handlers={handlers}
-          isLoading={false}
-          record={record}
-          stripes={stripes}
-        />
-      </StripesContext.Provider>
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <StripesContext.Provider value={stripes}>
+          <MetadataSourceView
+            canEdit
+            handlers={handlers}
+            isLoading={false}
+            record={record}
+            stripes={stripes}
+          />
+        </StripesContext.Provider>
+      </MemoryRouter>
+    </QueryClientProvider>
   )
 );
 
