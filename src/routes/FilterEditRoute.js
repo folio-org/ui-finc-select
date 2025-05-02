@@ -1,125 +1,113 @@
+import { omit } from 'lodash';
 import PropTypes from 'prop-types';
-import { get, omit } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { useMutation, useQuery } from 'react-query';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
-import FilterForm from '../components/Filters/FilterForm';
 import urls from '../components/DisplayUtils/urls';
+import FilterForm from '../components/Filters/FilterForm';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
 const FilterEditRoute = ({
   history,
   location,
-  match,
-  mutator,
-  resources,
-  stripes,
+  match: { params: { id: filterId } },
 }) => {
+  const stripes = useStripes();
+  const ky = useOkapiKy();
   const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
-  const collectionIds = get(resources, 'collectionsIds.records', []);
 
-  const getInitialValues = () => {
-    const initialValues = get(resources, 'filters.records', []).find(i => i.id === match.params.id);
+  const FILTER_API = 'finc-select/filters';
+  const COLLECTIONS_API = `finc-select/filters/${filterId}/collections`;
+  const MDSOURCES_API = 'finc-config/tiny-metadata-sources';
 
-    return initialValues;
-  };
+  const { data: filter = {}, isLoading: isFilterLoading } = useQuery(
+    [FILTER_API, filterId],
+    () => ky.get(`${FILTER_API}/${filterId}`).json(),
+    { enabled: Boolean(filterId) }
+  );
+
+  const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
+    ['collections', filterId],
+    () => ky.get(COLLECTIONS_API).json().catch(() => ({ collectionIds: [] })),
+    // The query will not execute until the id exists
+    { enabled: Boolean(filterId) }
+  );
+
+  const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useQuery(
+    ['mdSources'],
+    () => ky.get(MDSOURCES_API).json()
+  );
+
+  const isLoading = isFilterLoading || isCollectionsLoading || isMdSourcesLoading;
+
+  const formattedCollections = collectionsRaw?.collectionIds
+    ? [collectionsRaw]
+    : [];
+
+  const getInitialValues = () => ({
+    ...filter,
+    collectionIds: collectionsRaw?.collectionIds || [],
+  });
 
   const handleClose = () => {
-    history.push(`${urls.filterView(match.params.id)}${location.search}`);
+    history.push(`${urls.filterView(filterId)}${location.search}`);
   };
 
-  const handleSubmit = (filter) => {
-    const collectionIdsForSave = filter.collectionIds;
-    // remove collectionIds for saving filter
-    const filterForSave = omit(filter, ['collectionIds']);
-
-    mutator.filters
-      .PUT(filterForSave)
-      .then(({ id }) => {
-        if (collectionIdsForSave) {
-          saveCollectionIds(id, collectionIdsForSave, stripes.okapi);
-        }
-        history.push(`${urls.filterView(id)}${location.search}`);
-      });
+  const handleDelete = async () => {
+    await ky.delete(`${FILTER_API}/${filterId}`);
+    history.push(`${urls.filters()}${location.search}`);
   };
 
-  const deleteFilter = (filter) => {
-    mutator.filters.DELETE({ filter }).then(() => {
-      history.push(`${urls.filters()}${location.search}`);
-    });
+  const { mutateAsync: updateFilter } = useMutation(
+    ['updateFilter', filterId],
+    (payload) => ky.put(`${FILTER_API}/${filterId}`, { json: payload })
+  );
+
+  const handleSubmit = async (formValues) => {
+    const collectionIdsForSave = formValues.collectionIds;
+    const filterForSave = omit(formValues, ['collectionIds']);
+
+    await updateFilter(filterForSave);
+
+    if (collectionIdsForSave) {
+      await saveCollectionIds(filterId, collectionIdsForSave, stripes.okapi);
+    }
+
+    history.push(`${urls.filterView(filterId)}${location.search}`);
   };
 
-  const fetchIsPending = () => {
-    return Object.values(resources)
-      .filter(resource => resource)
-      .some(resource => resource.isPending);
-  };
-
-  if (!hasPerms) return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
-  if (fetchIsPending()) return 'loading';
+  if (!hasPerms) {
+    return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
+  }
 
   return (
     <FilterForm
-      collectionIds={collectionIds}
-      contentData={resources}
-      filterData={{ mdSources: get(resources, 'mdSources.records', []) }}
-      handlers={{ onClose: handleClose }}
       initialValues={getInitialValues()}
-      isLoading={fetchIsPending()}
-      onDelete={deleteFilter}
+      collectionIds={formattedCollections}
+      filterData={{ mdSources: mdSources.tinyMetadataSources }}
+      handlers={{ onClose: handleClose }}
+      isLoading={isLoading}
+      onDelete={handleDelete}
       onSubmit={handleSubmit}
       stripes={stripes}
     />
   );
 };
 
-FilterEditRoute.manifest = Object.freeze({
-  filters: {
-    type: 'okapi',
-    path: 'finc-select/filters/:{id}',
-    shouldRefresh: () => false,
-  },
-  collectionsIds: {
-    type: 'okapi',
-    path: 'finc-select/filters/:{id}/collections',
-  },
-  mdSources: {
-    type: 'okapi',
-    records: 'tinyMetadataSources',
-    path: 'finc-config/tiny-metadata-sources',
-    resourceShouldRefresh: true
-  },
-});
-
 FilterEditRoute.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string.isRequired,
-  }).isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  mutator: PropTypes.shape({
-    filters: PropTypes.shape({
-      PUT: PropTypes.func.isRequired,
-      DELETE: PropTypes.func.isRequired,
-    }).isRequired,
-    collectionsIds: PropTypes.shape({
-    }).isRequired,
-  }).isRequired,
-  resources: PropTypes.shape({
-    filter: PropTypes.object,
-    collectionsIds: PropTypes.object,
-  }).isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
-  }).isRequired,
 };
 
-export default stripesConnect(FilterEditRoute);
+export default FilterEditRoute;
