@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { withRouter, Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from 'react-query';
 
 import {
   Button,
@@ -10,33 +11,42 @@ import {
   NoValue,
   Row,
 } from '@folio/stripes/components';
-import { stripesConnect } from '@folio/stripes/core';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import urls from '../../DisplayUtils/urls';
 import SelectAllCollections from './SelectAllCollections';
 
 const SourceManagementView = ({
   metadataSource,
-  resources,
   stripes,
 }) => {
   const sourceId = get(metadataSource, 'id', '-');
   const organization = get(metadataSource, 'organization', <NoValue />);
 
+  const useOrganization = () => {
+    const ky = useOkapiKy();
+
+    const { isError } = useQuery(
+      [organization?.id],
+      () => ky.get(`organizations-storage/organizations/${organization?.id}`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(organization?.id) }
+    );
+    return ({ isError });
+  };
+
+  const { isError } = useOrganization();
+
   let orgValue;
-  if (resources.org && resources.org.failed) {
-    if (organization.name) {
-      orgValue = organization.name;
-    } else {
-      orgValue = <NoValue />;
-    }
+  if (!organization?.name) {
+    orgValue = <NoValue />;
+  } else if (isError) {
+    orgValue = organization.name;
   } else {
     orgValue = (
-      <>
-        <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
-          {organization.name}
-        </Link>
-      </>
+      <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
+        {organization.name}
+      </Link>
     );
   }
 
@@ -92,22 +102,9 @@ const SourceManagementView = ({
   );
 };
 
-SourceManagementView.manifest = Object.freeze({
-  org: {
-    type: 'okapi',
-    path: 'organizations-storage/organizations/!{organizationId}',
-    throwErrors: false
-  },
-  query: {},
-});
-
 SourceManagementView.propTypes = {
   metadataSource: PropTypes.object,
-  resources: PropTypes.shape({
-    org: PropTypes.object,
-    failed: PropTypes.object,
-  }).isRequired,
   stripes: PropTypes.object,
 };
 
-export default withRouter(stripesConnect(SourceManagementView));
+export default withRouter(SourceManagementView);
