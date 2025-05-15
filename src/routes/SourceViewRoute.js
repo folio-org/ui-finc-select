@@ -7,6 +7,7 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import { SOURCE_API } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 
@@ -16,7 +17,6 @@ const SourceViewRoute = ({
   match: { params: { id: sourceId } },
 }) => {
   const stripes = useStripes();
-  const SOURCE_API = 'finc-select/metadata-sources';
 
   const useSource = () => {
     const ky = useOkapiKy();

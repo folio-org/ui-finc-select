@@ -9,6 +9,11 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import {
+  COLLECTIONS_API,
+  FILTER_API,
+  MDSOURCES_API,
+} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
 import saveCollectionIds from './utilities/saveCollectionIds';
@@ -22,10 +27,6 @@ const FilterEditRoute = ({
   const ky = useOkapiKy();
   const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
 
-  const FILTER_API = 'finc-select/filters';
-  const COLLECTIONS_API = `finc-select/filters/${filterId}/collections`;
-  const MDSOURCES_API = 'finc-config/tiny-metadata-sources';
-
   const { data: filter = {}, isLoading: isFilterLoading } = useQuery(
     [FILTER_API, filterId],
     () => ky.get(`${FILTER_API}/${filterId}`).json(),
@@ -34,7 +35,7 @@ const FilterEditRoute = ({
 
   const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
     ['collections', filterId],
-    () => ky.get(COLLECTIONS_API).json().catch(() => ({ collectionIds: [] })),
+    () => ky.get(COLLECTIONS_API(filterId)).json().catch(() => ({ collectionIds: [] })),
     // The query will not execute until the id exists
     { enabled: Boolean(filterId) }
   );

@@ -8,6 +8,10 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import {
+  FILTER_API,
+  MDSOURCES_API,
+} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
 import saveCollectionIds from './utilities/saveCollectionIds';
@@ -18,8 +22,6 @@ const FilterCreateRoute = ({ history, location }) => {
 
   const hasPerms = stripes.hasPerm('finc-select.filters.item.post');
 
-  const MDSOURCES_API = 'finc-config/tiny-metadata-sources';
-
   const { data: mdSources = { tinyMetadataSources: [] } } = useQuery(
     ['mdSources'],
     () => ky.get(MDSOURCES_API).json()
@@ -27,7 +29,7 @@ const FilterCreateRoute = ({ history, location }) => {
 
   const { mutateAsync: createFilter } = useMutation(
     ['createFilter'],
-    (payload) => ky.post('finc-select/filters', { json: payload }).json()
+    (payload) => ky.post(FILTER_API, { json: payload }).json()
   );
 
   const handleClose = () => {

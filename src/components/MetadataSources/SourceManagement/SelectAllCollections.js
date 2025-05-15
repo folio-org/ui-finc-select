@@ -11,6 +11,8 @@ import {
   Row,
 } from '@folio/stripes/components';
 
+import { COLLECTIONS_SELECT_ALL_API } from '../../../util/constants';
+
 const SelectAllCollections = ({
   sourceId,
   stripes,
@@ -23,23 +25,14 @@ const SelectAllCollections = ({
 
   const { mutate: selectAllCollections } = useMutation({
     mutationFn: async (id) => {
-      return ky.put(
-        `finc-select/metadata-sources/${id}/collections/select-all`,
-        {
-          json: { select: true }
-        }
-      );
+      return ky.put(COLLECTIONS_SELECT_ALL_API(id), { json: { select: true } });
     },
     onSuccess: () => {
-      setModalText(
-        <FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />
-      );
+      setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />);
       setShowInfoModal(true);
     },
     onError: () => {
-      setModalText(
-        <FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.error" />
-      );
+      setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.error" />);
       setShowInfoModal(true);
     }
   });

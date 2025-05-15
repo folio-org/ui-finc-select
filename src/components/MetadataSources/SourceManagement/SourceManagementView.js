@@ -13,6 +13,7 @@ import {
 } from '@folio/stripes/components';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import { ORGANIZATION_API } from '../../../util/constants';
 import urls from '../../DisplayUtils/urls';
 import SelectAllCollections from './SelectAllCollections';
 
@@ -28,7 +29,7 @@ const SourceManagementView = ({
 
     const { isError } = useQuery(
       [organization?.id],
-      () => ky.get(`organizations-storage/organizations/${organization?.id}`).json(),
+      () => ky.get(ORGANIZATION_API(organization?.id)).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(organization?.id) }
     );

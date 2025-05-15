@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from 'react-query';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import { EZB_CREDENTIALS_API } from '../util/constants';
 import CredentialsSettingsForm from './CredentialsSettingsForm';
 
 const CredentialsSettings = () => {
@@ -9,14 +10,14 @@ const CredentialsSettings = () => {
   const { data: credentials } = useQuery({
     queryKey: ['ezbCredentials'],
     queryFn: async () => {
-      const res = await ky.get('finc-select/ezb-credentials').json();
+      const res = await ky.get(EZB_CREDENTIALS_API).json();
       return res?.[0];
     }
   });
 
   const { mutate: updateCredentials } = useMutation({
     mutationFn: async (values) => {
-      return ky.put('finc-select/ezb-credentials', { json: values });
+      return ky.put(EZB_CREDENTIALS_API, { json: values });
     }
   });
 

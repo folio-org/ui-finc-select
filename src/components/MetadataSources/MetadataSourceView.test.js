@@ -111,9 +111,9 @@ describe('MetadataSourceView', () => {
   });
 
   describe('Select all collections', () => {
-    it('should not disable button', () => {
+    it('should be enabled button', () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
-      expect(selectAllCollectionsButton).not.toBeDisabled();
+      expect(selectAllCollectionsButton).toBeEnabled();
     });
 
     it('should show success modal on failed collection selection', async () => {

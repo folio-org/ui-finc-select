@@ -7,6 +7,7 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import { COLLECTION_API } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataCollectionView from '../components/MetadataCollections/MetadataCollectionView';
 
@@ -16,7 +17,6 @@ const CollectionViewRoute = ({
   match: { params: { id: collectionId } },
 }) => {
   const stripes = useStripes();
-  const COLLECTION_API = 'finc-select/metadata-collections';
 
   const useCollection = () => {
     const ky = useOkapiKy();

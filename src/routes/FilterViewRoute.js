@@ -7,6 +7,10 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import {
+  COLLECTIONS_API,
+  FILTER_API,
+} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterView from '../components/Filters/FilterView';
 
@@ -17,7 +21,6 @@ const FilterViewRoute = ({
 }) => {
   const stripes = useStripes();
   const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
-  const FILTER_API = 'finc-select/filters';
 
   const useFilter = () => {
     const ky = useOkapiKy();
@@ -40,7 +43,7 @@ const FilterViewRoute = ({
 
     const { isLoading, data = {}, error } = useQuery(
       [filterId],
-      () => ky.get(`finc-select/filters/${filterId}/collections`).json(),
+      () => ky.get(COLLECTIONS_API(filterId)).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(filterId) }
     );
