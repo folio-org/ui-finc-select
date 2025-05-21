@@ -7,7 +7,7 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
-import { SOURCE_API } from '../util/constants';
+import { SOURCES_API } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 
@@ -22,8 +22,8 @@ const SourceViewRoute = ({
     const ky = useOkapiKy();
 
     const { isLoading, data: source = {} } = useQuery(
-      [SOURCE_API, sourceId],
-      () => ky.get(`${SOURCE_API}/${sourceId}`).json(),
+      [SOURCES_API, sourceId],
+      () => ky.get(`${SOURCES_API}/${sourceId}`).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(sourceId) }
     );

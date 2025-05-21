@@ -9,8 +9,8 @@ import {
 } from '@folio/stripes/core';
 
 import {
-  FILTER_API,
-  MDSOURCES_API,
+  FILTERS_API,
+  TINY_SOURCES_API,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
@@ -24,12 +24,12 @@ const FilterCreateRoute = ({ history, location }) => {
 
   const { data: mdSources = { tinyMetadataSources: [] } } = useQuery(
     ['mdSources'],
-    () => ky.get(MDSOURCES_API).json()
+    () => ky.get(TINY_SOURCES_API).json()
   );
 
   const { mutateAsync: createFilter } = useMutation(
     ['createFilter'],
-    (payload) => ky.post(FILTER_API, { json: payload }).json()
+    (payload) => ky.post(FILTERS_API, { json: payload }).json()
   );
 
   const handleClose = () => {

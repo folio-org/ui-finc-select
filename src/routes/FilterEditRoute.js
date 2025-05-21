@@ -10,9 +10,9 @@ import {
 } from '@folio/stripes/core';
 
 import {
-  COLLECTIONS_API,
-  FILTER_API,
-  MDSOURCES_API,
+  COLLECTIONS_BY_FILTER_ID_API,
+  FILTERS_API,
+  TINY_SOURCES_API,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
@@ -28,21 +28,21 @@ const FilterEditRoute = ({
   const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
 
   const { data: filter = {}, isLoading: isFilterLoading } = useQuery(
-    [FILTER_API, filterId],
-    () => ky.get(`${FILTER_API}/${filterId}`).json(),
+    [FILTERS_API, filterId],
+    () => ky.get(`${FILTERS_API}/${filterId}`).json(),
     { enabled: Boolean(filterId) }
   );
 
   const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
     ['collections', filterId],
-    () => ky.get(COLLECTIONS_API(filterId)).json().catch(() => ({ collectionIds: [] })),
+    () => ky.get(COLLECTIONS_BY_FILTER_ID_API(filterId)).json().catch(() => ({ collectionIds: [] })),
     // The query will not execute until the id exists
     { enabled: Boolean(filterId) }
   );
 
   const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useQuery(
     ['mdSources'],
-    () => ky.get(MDSOURCES_API).json()
+    () => ky.get(TINY_SOURCES_API).json()
   );
 
   const isLoading = isFilterLoading || isCollectionsLoading || isMdSourcesLoading;
@@ -61,13 +61,13 @@ const FilterEditRoute = ({
   };
 
   const handleDelete = async () => {
-    await ky.delete(`${FILTER_API}/${filterId}`);
+    await ky.delete(`${FILTERS_API}/${filterId}`);
     history.push(`${urls.filters()}${location.search}`);
   };
 
   const { mutateAsync: updateFilter } = useMutation(
     ['updateFilter', filterId],
-    (payload) => ky.put(`${FILTER_API}/${filterId}`, { json: payload })
+    (payload) => ky.put(`${FILTERS_API}/${filterId}`, { json: payload })
   );
 
   const handleSubmit = async (formValues) => {

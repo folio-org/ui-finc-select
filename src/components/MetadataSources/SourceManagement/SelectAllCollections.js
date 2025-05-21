@@ -11,7 +11,7 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import { COLLECTIONS_SELECT_ALL_API } from '../../../util/constants';
+import { COLLECTIONS_SELECT_ALL_BY_SOURCE_ID_API } from '../../../util/constants';
 
 const SelectAllCollections = ({
   sourceId,
@@ -25,7 +25,7 @@ const SelectAllCollections = ({
 
   const { mutate: selectAllCollections } = useMutation({
     mutationFn: async (id) => {
-      return ky.put(COLLECTIONS_SELECT_ALL_API(id), { json: { select: true } });
+      return ky.put(COLLECTIONS_SELECT_ALL_BY_SOURCE_ID_API(id), { json: { select: true } });
     },
     onSuccess: () => {
       setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />);

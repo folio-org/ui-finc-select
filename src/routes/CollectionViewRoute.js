@@ -7,7 +7,7 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
-import { COLLECTION_API } from '../util/constants';
+import { COLLECTIONS_API } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataCollectionView from '../components/MetadataCollections/MetadataCollectionView';
 
@@ -22,8 +22,8 @@ const CollectionViewRoute = ({
     const ky = useOkapiKy();
 
     const { isLoading, data: collection = {} } = useQuery(
-      [COLLECTION_API, collectionId],
-      () => ky.get(`${COLLECTION_API}/${collectionId}`).json(),
+      [COLLECTIONS_API, collectionId],
+      () => ky.get(`${COLLECTIONS_API}/${collectionId}`).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(collectionId) }
     );

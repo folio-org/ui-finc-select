@@ -8,8 +8,8 @@ import {
 } from '@folio/stripes/core';
 
 import {
-  COLLECTIONS_API,
-  FILTER_API,
+  COLLECTIONS_BY_FILTER_ID_API,
+  FILTERS_API,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterView from '../components/Filters/FilterView';
@@ -26,8 +26,8 @@ const FilterViewRoute = ({
     const ky = useOkapiKy();
 
     const { isLoading, data: filter = {} } = useQuery(
-      [FILTER_API, filterId],
-      () => ky.get(`${FILTER_API}/${filterId}`).json(),
+      [FILTERS_API, filterId],
+      () => ky.get(`${FILTERS_API}/${filterId}`).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(filterId) }
     );
@@ -43,7 +43,7 @@ const FilterViewRoute = ({
 
     const { isLoading, data = {}, error } = useQuery(
       [filterId],
-      () => ky.get(COLLECTIONS_API(filterId)).json(),
+      () => ky.get(COLLECTIONS_BY_FILTER_ID_API(filterId)).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(filterId) }
     );
