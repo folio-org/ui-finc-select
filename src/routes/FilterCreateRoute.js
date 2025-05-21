@@ -1,65 +1,69 @@
-import PropTypes from 'prop-types';
 import { omit } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useMutation, useQuery } from 'react-query';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
-import FilterForm from '../components/Filters/FilterForm';
+import {
+  FILTERS_API,
+  TINY_SOURCES_API,
+} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
+import FilterForm from '../components/Filters/FilterForm';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
-const FilterCreateRoute = ({
-  history,
-  location,
-  mutator,
-  resources,
-  stripes,
-}) => {
+const FilterCreateRoute = ({ history, location }) => {
+  const stripes = useStripes();
+  const ky = useOkapiKy();
+
   const hasPerms = stripes.hasPerm('finc-select.filters.item.post');
-  const collectionIds = [];
+
+  const { data: mdSources = { tinyMetadataSources: [] } } = useQuery(
+    ['mdSources'],
+    () => ky.get(TINY_SOURCES_API).json()
+  );
+
+  const { mutateAsync: createFilter } = useMutation(
+    ['createFilter'],
+    (payload) => ky.post(FILTERS_API, { json: payload }).json()
+  );
 
   const handleClose = () => {
     history.push(`${urls.filters()}${location.search}`);
   };
 
-  const handleSubmit = (filter) => {
-    const collectionIdsForSave = filter.collectionIds;
-    const filterForSave = omit(filter, ['collectionIds']);
+  const handleSubmit = async (formValues) => {
+    const collectionIdsForSave = formValues.collectionIds;
+    const filterForSave = omit(formValues, ['collectionIds']);
 
-    // THIS IS WHERE THE FUCKING PROBLEM IS: filter object has no collectionIds
-    mutator.filters
-      .POST(filterForSave)
-      .then(({ id }) => {
-        saveCollectionIds(id, collectionIdsForSave, stripes.okapi);
-        history.push(`${urls.filterView(id)}${location.search}`);
-      });
+    const { id } = await createFilter(filterForSave);
+
+    if (collectionIdsForSave?.length) {
+      await saveCollectionIds(id, collectionIdsForSave, stripes.okapi);
+    }
+
+    history.push(`${urls.filterView(id)}${location.search}`);
   };
 
-  if (!hasPerms) return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
+  if (!hasPerms) {
+    return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
+  }
 
   return (
     <FilterForm
-      contentData={resources}
-      collectionIds={collectionIds}
+      initialValues={{ collectionIds: [] }}
+      collectionIds={[]}
+      filterData={{ mdSources: mdSources.tinyMetadataSources }}
       handlers={{ onClose: handleClose }}
       onSubmit={handleSubmit}
       stripes={stripes}
     />
   );
 };
-
-FilterCreateRoute.manifest = Object.freeze({
-  filters: {
-    type: 'okapi',
-    path: 'finc-select/filters',
-    fetch: false,
-    shouldRefresh: () => false,
-  },
-  collectionsIds: {
-    type: 'okapi',
-    path: 'finc-select/filters/:{id}/collections',
-  },
-});
 
 FilterCreateRoute.propTypes = {
   history: PropTypes.shape({
@@ -68,21 +72,6 @@ FilterCreateRoute.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,
-  mutator: PropTypes.shape({
-    filters: PropTypes.shape({
-      POST: PropTypes.func.isRequired,
-    }).isRequired,
-    collectionsIds: PropTypes.shape({
-    }).isRequired,
-  }).isRequired,
-  resources: PropTypes.shape({
-    filter: PropTypes.object,
-    collectionsIds: PropTypes.object,
-  }).isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
-  }).isRequired,
 };
 
-export default stripesConnect(FilterCreateRoute);
+export default FilterCreateRoute;

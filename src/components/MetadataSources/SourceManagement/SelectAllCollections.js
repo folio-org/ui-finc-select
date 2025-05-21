@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useMutation } from 'react-query';
 
+import { useOkapiKy } from '@folio/stripes/core';
 import {
   Button,
   Col,
@@ -9,39 +11,31 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+import { COLLECTIONS_SELECT_ALL_BY_SOURCE_ID_API } from '../../../util/constants';
 
 const SelectAllCollections = ({
   sourceId,
   stripes,
 }) => {
+  const ky = useOkapiKy();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [modalText, setModalText] = useState('');
 
   const hasSelectAllCollectionsPerms = stripes.hasPerm('finc-select.metadata-sources.item.collections.select-all.item.put');
 
-  const selectAllCollections = (id) => {
-    const selectTrue = { select: true };
-    const selectJson = JSON.stringify(selectTrue);
-
-    fetchWithDefaultOptions(stripes.okapi, `/finc-select/metadata-sources/${id}/collections/select-all`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: selectJson
-      })
-      .then((response) => {
-        if (response.status >= 400) {
-          // show error
-          setShowInfoModal(true);
-          setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.error" />);
-        } else {
-          // show success
-          setShowInfoModal(true);
-          setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />);
-        }
-      });
-  };
+  const { mutate: selectAllCollections } = useMutation({
+    mutationFn: async (id) => {
+      return ky.put(COLLECTIONS_SELECT_ALL_BY_SOURCE_ID_API(id), { json: { select: true } });
+    },
+    onSuccess: () => {
+      setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />);
+      setShowInfoModal(true);
+    },
+    onError: () => {
+      setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.error" />);
+      setShowInfoModal(true);
+    }
+  });
 
   const handleClose = () => {
     setShowInfoModal(false);
@@ -75,17 +69,6 @@ const SelectAllCollections = ({
     </div>
   );
 };
-
-SelectAllCollections.manifest = Object.freeze({
-  selectAll: {
-    type: 'okapi',
-    fetch: false,
-    accumulate: 'true',
-    PUT: {
-      path: 'finc-select/metadata-sources/!{sourceId}/collections/select-all'
-    }
-  }
-});
 
 SelectAllCollections.propTypes = {
   sourceId: PropTypes.string.isRequired,

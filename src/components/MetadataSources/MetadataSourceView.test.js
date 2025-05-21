@@ -1,33 +1,54 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
+import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 
 import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import SOURCE from '../../../test/fixtures/metadatasource';
 import MetadataSourceView from './MetadataSourceView';
+
+const mockPut = jest.fn();
+const mockGet = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ name: 'Test organization', id: 'uuid-1234' }),
+  }));
+
+jest.mock('@folio/stripes/core', () => {
+  const original = jest.requireActual('@folio/stripes/core');
+  return {
+    ...original,
+    useOkapiKy: () => ({
+      put: mockPut,
+      get: mockGet,
+    }),
+  };
+});
 
 const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn,
 };
 
+const queryClient = new QueryClient();
 const okapiState = { okapi: { token: {} } };
 
 const stripes = {
-  // we need to set okapi token here
   okapi: {
     tenant: 'diku',
     token: 'someToken',
     url: 'https://folio-testing-okapi.dev.folio.org',
   },
-  // we need to set store here
-  store: { getState: () => { return okapiState; } },
+  store: { getState: () => okapiState },
   hasPerm: () => jest.fn(),
 };
 
-const renderMetadataSourceView = (record = SOURCE) => (
-  renderWithIntlConfiguration(
+const renderMetadataSourceView = (record = SOURCE) => renderWithIntlConfiguration(
+  <QueryClientProvider client={queryClient}>
     <MemoryRouter>
       <StripesContext.Provider value={stripes}>
         <MetadataSourceView
@@ -39,7 +60,7 @@ const renderMetadataSourceView = (record = SOURCE) => (
         />
       </StripesContext.Provider>
     </MemoryRouter>
-  )
+  </QueryClientProvider>
 );
 
 jest.unmock('react-intl');
@@ -60,15 +81,19 @@ describe('MetadataSourceView', () => {
   });
 
   it('should display description', () => {
-    expect(screen.getByText('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.')).toBeInTheDocument();
+    expect(screen.getByText(
+      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.'
+    )).toBeInTheDocument();
   });
 
   it('should display status', () => {
     expect(screen.getByText('Implementation')).toBeInTheDocument();
   });
 
-  it('should display organization', () => {
-    expect(screen.getByText('Test organization')).toBeInTheDocument();
+  it('should display organization', async () => {
+    await waitFor(() => {
+      expect(screen.getByText('Test organization')).toBeInTheDocument();
+    });
   });
 
   it('should display indexing level', () => {
@@ -79,15 +104,41 @@ describe('MetadataSourceView', () => {
     expect(screen.getByText('Test licensing note')).toBeInTheDocument();
   });
 
-  test('should display buttons', async () => {
+  it('should display buttons', () => {
     expect(screen.getByText('Show selected collections')).toBeInTheDocument();
     expect(screen.getByText('Select all collections')).toBeInTheDocument();
     expect(screen.getByText('Show all collections')).toBeInTheDocument();
   });
 
-  it('should not disable button', () => {
-    const sourcesButton = screen.getByRole('button', { name: 'Select all collections' });
-    expect(sourcesButton).not.toBeDisabled();
+  describe('Select all collections', () => {
+    it('should be enabled button', () => {
+      const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
+      expect(selectAllCollectionsButton).toBeEnabled();
+    });
+
+    it('should show success modal on failed collection selection', async () => {
+      const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
+      mockPut.mockRejectedValueOnce(new Error('Mocked error'));
+
+      userEvent.click(selectAllCollectionsButton);
+
+      await waitFor(() => {
+        expect(screen.getByText('The process could not start.')).toBeInTheDocument();
+      });
+    });
+
+    it('should show success modal on successful collection selection', async () => {
+      const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
+      mockPut.mockResolvedValueOnce();
+
+      userEvent.click(selectAllCollectionsButton);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText('The process has been started. It can take some time, until all ISILs will be added to the selected by field.')
+        ).toBeInTheDocument();
+      });
+    });
   });
 });
 

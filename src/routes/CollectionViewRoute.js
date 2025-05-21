@@ -1,19 +1,41 @@
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { get } from 'lodash';
 
-import { stripesConnect } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
+import { COLLECTIONS_API } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataCollectionView from '../components/MetadataCollections/MetadataCollectionView';
 
 const CollectionViewRoute = ({
   history,
   location,
-  match,
-  resources,
-  stripes,
+  match: { params: { id: collectionId } },
 }) => {
+  const stripes = useStripes();
+
+  const useCollection = () => {
+    const ky = useOkapiKy();
+
+    const { isLoading, data: collection = {} } = useQuery(
+      [COLLECTIONS_API, collectionId],
+      () => ky.get(`${COLLECTIONS_API}/${collectionId}`).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(collectionId) }
+    );
+
+    return ({
+      isLoading,
+      collection,
+    });
+  };
+
+  const { collection, isLoading: isCollectionLoading } = useCollection();
+
   const handleClose = () => {
     history.push(`${urls.collections()}${location.search}`);
   };
@@ -21,20 +43,12 @@ const CollectionViewRoute = ({
   return (
     <MetadataCollectionView
       handlers={{ onClose: handleClose }}
-      isLoading={get(resources, 'collection.isPending', true)}
-      record={get(resources, 'collection.records', []).find(i => i.id === match.params.id)}
+      isLoading={isCollectionLoading}
+      record={collection}
       stripes={stripes}
     />
   );
 };
-
-CollectionViewRoute.manifest = Object.freeze({
-  collection: {
-    type: 'okapi',
-    path: 'finc-select/metadata-collections/:{id}',
-  },
-  query: {},
-});
 
 CollectionViewRoute.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
@@ -44,14 +58,6 @@ CollectionViewRoute.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  resources: PropTypes.shape({
-    collection: PropTypes.object,
-  }).isRequired,
-  stripes: PropTypes.shape({
-    hasPerm: PropTypes.func.isRequired,
-    okapi: PropTypes.object.isRequired,
-    connect: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default stripesConnect(CollectionViewRoute);
+export default CollectionViewRoute;

@@ -1,23 +1,34 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import {
   render,
   screen,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import routeProps from '../../test/fixtures/routeProps';
 import FilterEditRoute from './FilterEditRoute';
 
+const queryClient = new QueryClient();
+
 jest.mock('../components/Filters/FilterForm', () => () => <div>FilterForm</div>);
 
 describe('render FilterEditRoute', () => {
-  it('should render FilterForm', () => {
+  it('should render FilterForm', async () => {
     render(
-      <MemoryRouter>
-        <FilterEditRoute {...routeProps} />
-      </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <FilterEditRoute {...routeProps} />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
-    expect(screen.getByText('FilterForm')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('FilterForm')).toBeInTheDocument();
+    });
   });
 });
