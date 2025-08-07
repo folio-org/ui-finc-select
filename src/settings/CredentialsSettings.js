@@ -31,10 +31,12 @@ const CredentialsSettings = () => {
 
   return (
     <div style={{ width: '100%' }}>
-      <CredentialsSettingsForm
-        initialValues={credentials}
-        onSubmit={handleSubmit}
-      />
+      {credentials && (
+        <CredentialsSettingsForm
+          initialValues={credentials}
+          onSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 };
