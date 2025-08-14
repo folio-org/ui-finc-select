@@ -25,7 +25,7 @@ const FilterEditRoute = ({
 }) => {
   const stripes = useStripes();
   const ky = useOkapiKy();
-  const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
+  const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const { data: filter = {}, isLoading: isFilterLoading } = useQuery(
     [FILTERS_API, filterId],

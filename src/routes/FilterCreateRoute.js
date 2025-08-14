@@ -20,7 +20,7 @@ const FilterCreateRoute = ({ history, location }) => {
   const stripes = useStripes();
   const ky = useOkapiKy();
 
-  const hasPerms = stripes.hasPerm('finc-select.filters.item.post');
+  const hasPerms = stripes.hasPerm('ui-finc-select.create');
 
   const { data: mdSources = { tinyMetadataSources: [] } } = useQuery(
     ['mdSources'],
