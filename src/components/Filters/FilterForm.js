@@ -92,7 +92,7 @@ const FilterForm = ({
     return (
       <PaneMenu>
         {isEditing && (
-        <IfPermission perm="finc-select.filters.item.delete">
+        <IfPermission perm="ui-finc-select.delete">
           <Button
             buttonStyle="danger"
             disabled={confirmDelete}

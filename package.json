@@ -104,16 +104,8 @@
         "subPermissions": [
           "ui-finc-select.settings.manage",
           "ui-finc-select.view",
-          "finc-select.metadata-collections.item.select.item.put",
-          "finc-select.metadata-sources.item.collections.select-all.item.put",
-          "finc-select.filters.item.collections.item.put",
-          "finc-select.filters.item.put",
-          "finc-select.filters.item.delete",
-          "finc-select.filters.item.post",
-          "finc-select.files.item.delete",
-          "finc-select.files.item.post",
-          "finc-select.ezb-credentials.item.put",
-          "finc-select.ezb-credentials.item.delete"
+          "ui-finc-select.create-edit",
+          "ui-finc-select.delete"
         ],
         "visible": true
       },
@@ -136,6 +128,48 @@
           "finc-config.tiny-metadata-sources.collection.get",
           "organizations-storage.organizations.collection.get",
           "organizations-storage.organizations.item.get"
+        ],
+        "visible": true
+      },
+      {
+        "permissionName": "ui-finc-select.create",
+        "displayName": "Finc select: Can create filters and upload files",
+        "description": "Can create filters and upload files",
+        "subPermissions": [
+          "finc-select.filters.item.post",
+          "finc-select.files.item.post"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-finc-select.edit",
+        "displayName": "Finc select: Can edit filters and select sources and collections",
+        "description": "Can edit filters and select sources and collections",
+        "subPermissions": [
+          "finc-select.metadata-collections.item.select.item.put",
+          "finc-select.metadata-sources.item.collections.select-all.item.put",
+          "finc-select.filters.item.collections.item.put",
+          "finc-select.filters.item.put"
+        ],
+        "visible": false
+      },
+      {
+        "permissionName": "ui-finc-select.create-edit",
+        "displayName": "Finc select: Can create and edit filters and upload files",
+        "description": "Can create and edit filters, upload files and select sources and collections",
+        "subPermissions": [
+          "ui-finc-select.create",
+          "ui-finc-select.edit"
+        ],
+        "visible": true
+      },
+      {
+        "permissionName": "ui-finc-select.delete",
+        "displayName": "Finc select: Can delete filters and files",
+        "description": "Can delete filters and files",
+        "subPermissions": [
+          "finc-select.filters.item.delete",
+          "finc-select.files.item.delete"
         ],
         "visible": true
       }

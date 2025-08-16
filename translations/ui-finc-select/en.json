@@ -119,7 +119,12 @@
   "settings.changePassword.showPassword": "Show password",
 
   "permission.module.enabled": "Finc select: module is enabled",
+  "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
   "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
   "permission.all": "Finc select: All permissions",
-  "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters"
+  "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters",
+  "permission.create": "Finc select: Can create filters and upload files",
+  "permission.edit": "Finc select: Can edit filters and select sources and collections",
+  "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
+  "permission.delete": "Finc select: Can delete filters and files"
 }

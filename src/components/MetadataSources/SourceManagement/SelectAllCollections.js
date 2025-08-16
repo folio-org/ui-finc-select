@@ -21,7 +21,7 @@ const SelectAllCollections = ({
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [modalText, setModalText] = useState('');
 
-  const hasSelectAllCollectionsPerms = stripes.hasPerm('finc-select.metadata-sources.item.collections.select-all.item.put');
+  const hasSelectAllCollectionsPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const { mutate: selectAllCollections } = useMutation({
     mutationFn: async (id) => {
