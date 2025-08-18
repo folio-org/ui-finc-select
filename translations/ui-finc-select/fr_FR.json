@@ -103,5 +103,10 @@
     "collection.modal.selectCollection.error.400": "Erreur 4xx: la sélection de cette collection de métadonnées n'est pas autorisée.",
     "collection.modal.selectCollection.error.300": "Erreur 3xx: la sélection de cette collection de métadonnées n'est pas possible.",
     "filter.file.placeholder.name": "Entrez un nom pour identifier le fichier connecté",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "An error occurred during upload",
+    "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
+    "permission.create": "Finc select: Can create filters and upload files",
+    "permission.edit": "Finc select: Can edit filters and select sources and collections",
+    "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
+    "permission.delete": "Finc select: Can delete filters and files"
 }
