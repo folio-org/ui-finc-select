@@ -20,7 +20,7 @@ const FilterViewRoute = ({
   match: { params: { id: filterId } },
 }) => {
   const stripes = useStripes();
-  const hasPerms = stripes.hasPerm('finc-select.filters.item.put');
+  const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const useFilter = () => {
     const ky = useOkapiKy();

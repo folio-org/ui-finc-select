@@ -157,7 +157,7 @@ const Filters = ({
                   disableRecordCreation,
                   filterPaneIsVisible,
                   paneTitleId: 'ui-finc-select.filters.title',
-                  permission: 'finc-select.filters.item.post',
+                  permission: 'ui-finc-select.create',
                   result: filter,
                   toggleFilterPane,
                 })}

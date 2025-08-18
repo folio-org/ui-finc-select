@@ -5,6 +5,7 @@
 * Add NoPermissionsMessage ([UIFC-434](https://folio-org.atlassian.net/browse/UIFC-434))
 * use useOkapiKy and useQuery ([UIFC-374](https://folio-org.atlassian.net/browse/UIFC-374))
 * Fix bug in settings - EZB credentials ([UIFC-444](https://folio-org.atlassian.net/browse/UIFC-444))
+* Fix use of permissions ([UIFC-436](https://folio-org.atlassian.net/browse/UIFC-436))
 
 ## [8.0.0](https://github.com/folio-org/ui-finc-select/tree/v8.0.0) (2025-03-13)
 * Restructure localStorage, simplify urls for ShowCollections ([UIFC-370](https://folio-org.atlassian.net/browse/UIFC-370))
