@@ -103,5 +103,10 @@
     "collection.modal.selectCollection.error.400": "Error 4xx: No se permite seleccionar esta colección de metadatos.",
     "collection.modal.selectCollection.error.300": "Error 3xx: No es posible seleccionar esta colección de metadatos.",
     "filter.file.placeholder.name": "Ingrese un nombre para identificar el archivo conectado",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "An error occurred during upload",
+    "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
+    "permission.create": "Finc select: Can create filters and upload files",
+    "permission.edit": "Finc select: Can edit filters and select sources and collections",
+    "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
+    "permission.delete": "Finc select: Can delete filters and files"
 }

@@ -103,5 +103,10 @@
     "collection.modal.selectCollection.error.400": "Chyba 4xx: Výběr této kolekce metadat není povolen.",
     "collection.modal.selectCollection.error.300": "Chyba 3xx: Výběr této kolekce metadat není možný.",
     "filter.file.placeholder.name": "Zadat název pro identifikaci připojeného souboru",
-    "filter.file.uploadError": "Při nahrávání došlo k chybě"
+    "filter.file.uploadError": "Při nahrávání došlo k chybě",
+    "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
+    "permission.create": "Finc select: Can create filters and upload files",
+    "permission.edit": "Finc select: Can edit filters and select sources and collections",
+    "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
+    "permission.delete": "Finc select: Can delete filters and files"
 }

@@ -103,5 +103,10 @@
     "collection.modal.selectCollection.error.400": "4xx錯誤 : 不允许選擇詮釋資料集合。",
     "collection.modal.selectCollection.error.300": "3xx錯誤 : 無法選擇詮釋資料集合。",
     "filter.file.placeholder.name": "輸入名稱以識別連接的檔案",
-    "filter.file.uploadError": "An error occurred during upload"
+    "filter.file.uploadError": "An error occurred during upload",
+    "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
+    "permission.create": "Finc select: Can create filters and upload files",
+    "permission.edit": "Finc select: Can edit filters and select sources and collections",
+    "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
+    "permission.delete": "Finc select: Can delete filters and files"
 }
