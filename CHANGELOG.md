@@ -1,6 +1,9 @@
 # Change history for ui-finc-select
 
-## 8.1.0 (IN PROGRESS)
+## 8.2.0 (IN PROGRESS)
+
+
+## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
 * Add NoPermissionsMessage ([UIFC-434](https://folio-org.atlassian.net/browse/UIFC-434))
 * use useOkapiKy and useQuery ([UIFC-374](https://folio-org.atlassian.net/browse/UIFC-374))
