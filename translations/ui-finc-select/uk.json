@@ -106,7 +106,7 @@
     "filter.file.uploadError": "Під час завантаження сталася помилка.",
     "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
     "permission.create": "Finc select: Can create filters and upload files",
-    "permission.edit": "Finc select: Can edit filters and select sources and collections",
-    "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
-    "permission.delete": "Finc select: Can delete filters and files"
+    "permission.edit": "Відбір Finc: Редагування фільтрів та вибір джерел та колекцій",
+    "permission.create-edit": "Відбір Finc: Створення та редагування фільтрів, завантаження файлів та вибір джерел та колекцій",
+    "permission.delete": "Відбір Finc: Видалення фільтрів та файлів"
 }
