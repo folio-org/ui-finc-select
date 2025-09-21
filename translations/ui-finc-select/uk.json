@@ -104,8 +104,8 @@
     "collection.modal.selectCollection.error.300": "Помилка 3xx: Вибір цієї колекції метаданих неможливий.",
     "filter.file.placeholder.name": "Введіть ім'я/назву, щоб ідентифікувати приєднаний файл",
     "filter.file.uploadError": "Під час завантаження сталася помилка.",
-    "permission.settings.finc-select.enabled": "Settings (Finc select): Display list of settings pages",
-    "permission.create": "Finc select: Can create filters and upload files",
+    "permission.settings.finc-select.enabled": "Налаштування (відбір Finc): Відображення списку сторінок налаштувань",
+    "permission.create": "Відбір Finc: Створення фільтрів та завантаження файлів",
     "permission.edit": "Відбір Finc: Редагування фільтрів та вибір джерел та колекцій",
     "permission.create-edit": "Відбір Finc: Створення та редагування фільтрів, завантаження файлів та вибір джерел та колекцій",
     "permission.delete": "Відбір Finc: Видалення фільтрів та файлів"
