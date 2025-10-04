@@ -24,7 +24,7 @@
     "source.button.showselectedCollections": "Показати вибрані колекції",
     "source.button.selectAllCollections": "Вибрати всі колекції",
     "source.button.showAllCollections": "Показати всі колекції",
-    "source.modal.selectAllCollections.success": "The process has been started. It can take some time, until all ISILs will be added to the selected by field.",
+    "source.modal.selectAllCollections.success": "Процес розпочато. Може знадобитися деякий час, поки всі ISIL будуть додані вибраного за полем.",
     "source.modal.selectAllCollections.error": "Процес не зміг розпочатися.",
     "filter.label": "Ім'я/Назва",
     "filter.type": "Тип",
