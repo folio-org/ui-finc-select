@@ -48,7 +48,7 @@ describe('DocumentsFieldArray', () => {
     expect(screen.getByRole('textbox', { name: 'File' })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: 'Criteria' })).toBeInTheDocument();
 
-    const deleteButton = screen.getByLabelText('delete-document');
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
     expect(deleteButton).toBeInTheDocument();
     await userEvent.click(deleteButton);
     expect(screen.queryByRole('textbox', { name: 'File' })).not.toBeInTheDocument();
