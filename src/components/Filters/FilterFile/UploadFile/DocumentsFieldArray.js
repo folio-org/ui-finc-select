@@ -57,13 +57,12 @@ const DocumentsFieldArray = ({
   };
 
   const renderDocs = () => {
-    return fields.map((doc, i) => (
+    return fields.map((doc, index) => (
       <EditCard
-        deletebuttonarialabel={`delete filter file ${name}`}
-        deleteBtnProps={{ 'id': `${name}-delete-${i}` }}
-        header={<FormattedMessage id="ui-finc-select.filter.file.label" values={{ number: i + 1 }} />}
-        key={doc}
-        onDelete={() => fields.remove(i)}
+        deleteButtonTooltipText={`${intl.formatMessage({ id: 'ui-finc-select.form.delete' })} ${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
+        header={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
+        key={index}
+        onDelete={() => fields.remove(index)}
       >
         <Row>
           <Col xs={12} md={onUploadFile ? 6 : 12}>
@@ -72,9 +71,9 @@ const DocumentsFieldArray = ({
                 <Field
                   autoFocus
                   component={TextField}
-                  id={`filter-file-label-${i}`}
+                  id={`filter-file-label-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
-                  name={`${name}[${i}].label`}
+                  name={`${name}[${index}].label`}
                   placeholder={intl.formatMessage({ id: 'ui-finc-select.filter.file.placeholder.name' })}
                   required
                   validate={Required}
@@ -85,14 +84,14 @@ const DocumentsFieldArray = ({
               <Col xs={12}>
                 <Field
                   component={TextField}
-                  id={`filter-file-criteria-${i}`}
+                  id={`filter-file-criteria-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.criteria" />}
-                  name={`${name}[${i}].criteria`}
+                  name={`${name}[${index}].criteria`}
                 />
               </Col>
             </Row>
           </Col>
-          {renderFileUpload(doc, i)}
+          {renderFileUpload(doc, index)}
         </Row>
       </EditCard>
     ));
