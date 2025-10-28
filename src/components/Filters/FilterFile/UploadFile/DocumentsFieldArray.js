@@ -11,8 +11,8 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { EditCard } from '@folio/stripes-leipzig-components';
 
-import EditCard from '../../../DisplayUtils/EditCard/EditCard';
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 

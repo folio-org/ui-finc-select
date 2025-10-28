@@ -1,7 +1,7 @@
 # Change history for ui-finc-select
 
 ## 8.2.0 (IN PROGRESS)
-
+* Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
