@@ -30,12 +30,15 @@ const FilterFileForm = ({
       onToggle={onToggle}
       open={expanded}
     >
-      <FieldArray
-        addDocBtnLabel={<FormattedMessage id="ui-finc-select.filter.file.addFile" />}
-        component={DocumentsFieldArray}
-        name="filterFiles"
-        onUploadFile={handleUploadFile}
-      />
+      <FieldArray name="filterFiles">
+        {({ fields }) => (
+          <DocumentsFieldArray
+            name="filterFiles"
+            fields={fields}
+            onUploadFile={handleUploadFile}
+          />
+        )}
+      </FieldArray>
     </Accordion>
   );
 };

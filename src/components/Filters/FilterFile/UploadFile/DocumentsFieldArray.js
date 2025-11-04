@@ -18,46 +18,44 @@ import Required from '../../../DisplayUtils/Validate';
 
 const DocumentsFieldArray = ({
   intl,
-  fields: { name },
+  name,
   onUploadFile,
 }) => {
   const { fields } = useFieldArray(name);
 
-  const renderFileUpload = (doc, i) => {
-    if (isEmpty(doc.fileId)) {
+  const renderFileUpload = (field, i) => {
+    const file = fields.value[i];
+
+    if (isEmpty(file?.fileId)) {
       return (
         <>
           {onUploadFile &&
             <Col xs={12} md={6}>
-              <Row>
-                <Col xs={12}>
-                  <Field
-                    component={FileUploaderField}
-                    id={`filter-file-card-fileId-${i}`}
-                    name={`${name}[${i}].fileId`}
-                    onUploadFile={onUploadFile}
-                    required
-                    validate={Required}
-                  />
-                </Col>
-              </Row>
+              <Field
+                component={FileUploaderField}
+                id={`filter-file-card-fileId-${i}`}
+                name={`${field}.fileId`}
+                onUploadFile={onUploadFile}
+                required
+                validate={Required}
+              />
             </Col>
           }
         </>
       );
     } else {
-      const filename = doc.label;
+      const filename = file.label;
       const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
       return (
-        <>
-          {fileConnectedText}
-        </>
+        <Col xs={12} md={6}>
+          <p>{fileConnectedText}</p>
+        </Col>
       );
     }
   };
 
-  const renderDocs = () => {
-    return fields.map((doc, index) => (
+  const renderFields = () => {
+    return fields.map((field, index) => (
       <EditCard
         deleteButtonTooltipText={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label.delete' })} #${index + 1}`}
         header={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
@@ -73,7 +71,7 @@ const DocumentsFieldArray = ({
                   component={TextField}
                   id={`filter-file-label-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
-                  name={`${name}[${index}].label`}
+                  name={`${field}.label`}
                   placeholder={intl.formatMessage({ id: 'ui-finc-select.filter.file.placeholder.name' })}
                   required
                   validate={Required}
@@ -86,12 +84,12 @@ const DocumentsFieldArray = ({
                   component={TextField}
                   id={`filter-file-criteria-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.criteria" />}
-                  name={`${name}[${index}].criteria`}
+                  name={`${field}.criteria`}
                 />
               </Col>
             </Row>
           </Col>
-          {renderFileUpload(doc, index)}
+          {renderFileUpload(field, index)}
         </Row>
       </EditCard>
     ));
@@ -106,7 +104,7 @@ const DocumentsFieldArray = ({
   return (
     <div>
       <div>
-        { fields.length ? renderDocs() : renderEmpty() }
+        { fields.length ? renderFields() : renderEmpty() }
       </div>
       <Button
         id="add-filter-file-btn"
@@ -123,9 +121,6 @@ DocumentsFieldArray.propTypes = {
     formatMessage: PropTypes.func.isRequired,
   }),
   name: PropTypes.string,
-  fields: PropTypes.shape({
-    name: PropTypes.string,
-  }),
   onUploadFile: PropTypes.func,
 };
 

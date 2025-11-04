@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
-import { screen } from '@folio/jest-config-stripes/testing-library/react';
+import { act, screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -19,7 +19,7 @@ const renderDocumentsFieldArray = (stripes) => {
             ...arrayMutators,
           }}
           render={() => (
-            <DocumentsFieldArray fields={{ name: 'filterFiles' }} />
+            <DocumentsFieldArray fields={{ name: 'filterFiles' }} name="filterFiles" />
           )}
         />
       </MemoryRouter>
@@ -43,20 +43,26 @@ describe('DocumentsFieldArray', () => {
 
     const addFileToFilterButton = screen.getByRole('button', { name: 'Add file to filter' });
     expect(addFileToFilterButton).toBeInTheDocument();
-    await userEvent.click(addFileToFilterButton);
+    await act(async () => {
+      await userEvent.click(addFileToFilterButton);
+    });
 
-    expect(screen.getByRole('textbox', { name: 'File' })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: 'Criteria' })).toBeInTheDocument();
+    expect(await screen.findByRole('textbox', { name: 'File' })).toBeInTheDocument();
+    expect(await screen.findByRole('textbox', { name: 'Criteria' })).toBeInTheDocument();
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
     expect(deleteButton).toBeInTheDocument();
-    await userEvent.click(deleteButton);
+    await act(async () => {
+      await userEvent.click(deleteButton);
+    });
     expect(screen.queryByRole('textbox', { name: 'File' })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: 'Criteria' })).not.toBeInTheDocument();
 
-    await userEvent.click(addFileToFilterButton);
-    await userEvent.click(addFileToFilterButton);
-    expect(screen.getAllByRole('textbox', { name: 'File' })).toHaveLength(2);
-    expect(screen.getAllByRole('textbox', { name: 'Criteria' })).toHaveLength(2);
+    await act(async () => {
+      await userEvent.click(addFileToFilterButton);
+      await userEvent.click(addFileToFilterButton);
+    });
+    expect(await screen.findAllByRole('textbox', { name: 'File' })).toHaveLength(2);
+    expect(await screen.findAllByRole('textbox', { name: 'Criteria' })).toHaveLength(2);
   });
 });
