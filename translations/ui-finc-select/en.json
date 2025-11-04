@@ -89,6 +89,7 @@
   "filter.type": "Type",
 
   "filter.file.label": "File",
+  "filter.file.label.delete": "Delete file",
   "filter.file.criteria": "Criteria",
   "filter.file.download": "Download",
   "filter.file.name": "Name",

@@ -59,7 +59,7 @@ const DocumentsFieldArray = ({
   const renderDocs = () => {
     return fields.map((doc, index) => (
       <EditCard
-        deleteButtonTooltipText={`${intl.formatMessage({ id: 'ui-finc-select.form.delete' })} ${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
+        deleteButtonTooltipText={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label.delete' })} #${index + 1}`}
         header={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
         key={index}
         onDelete={() => fields.remove(index)}
