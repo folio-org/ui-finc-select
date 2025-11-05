@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { FieldArray } from 'react-final-form-arrays';
 
 import { Accordion } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
@@ -30,15 +29,10 @@ const FilterFileForm = ({
       onToggle={onToggle}
       open={expanded}
     >
-      <FieldArray name="filterFiles">
-        {({ fields }) => (
-          <DocumentsFieldArray
-            name="filterFiles"
-            fields={fields}
-            onUploadFile={handleUploadFile}
-          />
-        )}
-      </FieldArray>
+      <DocumentsFieldArray
+        name="filterFiles"
+        onUploadFile={handleUploadFile}
+      />
     </Accordion>
   );
 };

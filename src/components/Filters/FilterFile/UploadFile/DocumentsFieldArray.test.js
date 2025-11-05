@@ -19,7 +19,7 @@ const renderDocumentsFieldArray = (stripes) => {
             ...arrayMutators,
           }}
           render={() => (
-            <DocumentsFieldArray fields={{ name: 'filterFiles' }} name="filterFiles" />
+            <DocumentsFieldArray name="filterFiles" />
           )}
         />
       </MemoryRouter>

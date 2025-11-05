@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
@@ -26,7 +25,7 @@ const DocumentsFieldArray = ({
   const renderFileUpload = (field, i) => {
     const file = fields.value[i];
 
-    if (isEmpty(file?.fileId)) {
+    if (!file?.fileId) {
       return (
         <>
           {onUploadFile &&
@@ -59,7 +58,7 @@ const DocumentsFieldArray = ({
       <EditCard
         deleteButtonTooltipText={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label.delete' })} #${index + 1}`}
         header={`${intl.formatMessage({ id: 'ui-finc-select.filter.file.label' })} #${index + 1}`}
-        key={index}
+        key={field}
         onDelete={() => fields.remove(index)}
       >
         <Row>
@@ -120,7 +119,7 @@ DocumentsFieldArray.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }),
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   onUploadFile: PropTypes.func,
 };
 

@@ -42,7 +42,6 @@ const renderFilterFileForm = (stripes, initialValues = FILTER) => {
                 stripes={stripes}
               >
                 <FieldArray
-                  addDocBtnLabel="Add file to filter"
                   name="filterFiles"
                   onDownloadFile={onDownloadFile}
                   onUploadFile={onUploadFile}
