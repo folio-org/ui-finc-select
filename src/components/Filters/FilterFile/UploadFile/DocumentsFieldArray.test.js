@@ -2,7 +2,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 
-import { act, screen } from '@folio/jest-config-stripes/testing-library/react';
+import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
@@ -43,25 +43,23 @@ describe('DocumentsFieldArray', () => {
 
     const addFileToFilterButton = screen.getByRole('button', { name: 'Add file to filter' });
     expect(addFileToFilterButton).toBeInTheDocument();
-    await act(async () => {
-      await userEvent.click(addFileToFilterButton);
-    });
+
+    await userEvent.click(addFileToFilterButton);
 
     expect(await screen.findByRole('textbox', { name: 'File' })).toBeInTheDocument();
     expect(await screen.findByRole('textbox', { name: 'Criteria' })).toBeInTheDocument();
 
     const deleteButton = screen.getByRole('button', { name: /delete/i });
     expect(deleteButton).toBeInTheDocument();
-    await act(async () => {
-      await userEvent.click(deleteButton);
-    });
+
+    await userEvent.click(deleteButton);
+
     expect(screen.queryByRole('textbox', { name: 'File' })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: 'Criteria' })).not.toBeInTheDocument();
 
-    await act(async () => {
-      await userEvent.click(addFileToFilterButton);
-      await userEvent.click(addFileToFilterButton);
-    });
+    await userEvent.click(addFileToFilterButton);
+    await userEvent.click(addFileToFilterButton);
+
     expect(await screen.findAllByRole('textbox', { name: 'File' })).toHaveLength(2);
     expect(await screen.findAllByRole('textbox', { name: 'Criteria' })).toHaveLength(2);
   });
