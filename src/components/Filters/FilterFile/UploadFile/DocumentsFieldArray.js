@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
@@ -25,7 +26,7 @@ const DocumentsFieldArray = ({
   const renderFileUpload = (field, i) => {
     const file = fields.value[i];
 
-    if (!file?.fileId) {
+    if (isEmpty(file?.fileId)) {
       return (
         <>
           {onUploadFile &&
