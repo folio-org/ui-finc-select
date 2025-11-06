@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
@@ -26,7 +25,15 @@ const DocumentsFieldArray = ({
   const renderFileUpload = (field, i) => {
     const file = fields.value[i];
 
-    if (isEmpty(file?.fileId)) {
+    if (file?.fileId) {
+      const filename = file.label;
+      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
+      return (
+        <Col xs={12} md={6}>
+          <p>{fileConnectedText}</p>
+        </Col>
+      );
+    } else {
       return (
         <>
           {onUploadFile &&
@@ -42,14 +49,6 @@ const DocumentsFieldArray = ({
             </Col>
           }
         </>
-      );
-    } else {
-      const filename = file.label;
-      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
-      return (
-        <Col xs={12} md={6}>
-          <p>{fileConnectedText}</p>
-        </Col>
       );
     }
   };
