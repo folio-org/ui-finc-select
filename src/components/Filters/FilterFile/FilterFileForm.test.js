@@ -8,11 +8,14 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 
 import renderWithIntlConfiguration from '../../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterFileForm from './FilterFileForm';
+import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
 
 const onToggle = jest.fn();
 const onSubmit = jest.fn();
 
 const file = new File(['foo'], 'file.json', { type: 'text/plain' });
+
+jest.mock('../../DisplayUtils/fetchWithDefaultOptions');
 
 const mockPost = jest.fn(() => Promise.resolve({
   ok: true,
@@ -44,7 +47,7 @@ jest.unmock('react-intl');
 describe('FilterFileForm', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.fetch = mockPost;
+    fetchWithDefaultOptions.mockImplementation(mockPost);
   });
 
   describe('render FilterFileForm', () => {
@@ -81,7 +84,8 @@ describe('FilterFileForm', () => {
         await userEvent.upload(uploadFileInput, file);
 
         await waitFor(() => {
-          expect(mockPost).toHaveBeenCalledWith(
+          expect(fetchWithDefaultOptions).toHaveBeenCalledWith(
+            expect.any(Object),
             expect.stringContaining('/finc-select/files'),
             expect.objectContaining({
               method: 'POST',

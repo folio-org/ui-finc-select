@@ -9,7 +9,7 @@ import { StripesContext, useStripes } from '@folio/stripes/core';
 import DocumentsFieldArray from './DocumentsFieldArray';
 import renderWithIntlConfiguration from '../../../../../test/jest/helpers/renderWithIntlConfiguration';
 
-const renderDocumentsFieldArray = (stripes) => {
+const renderDocumentsFieldArray = (stripes, filterFileMock = {}) => {
   return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
@@ -18,6 +18,7 @@ const renderDocumentsFieldArray = (stripes) => {
           mutators={{
             ...arrayMutators,
           }}
+          initialValues={filterFileMock}
           render={() => (
             <DocumentsFieldArray name="filterFiles" />
           )}
@@ -34,10 +35,11 @@ describe('DocumentsFieldArray', () => {
 
   beforeEach(() => {
     stripes = useStripes();
-    renderDocumentsFieldArray(stripes);
   });
 
   test('adding EditCards for documents', async () => {
+    renderDocumentsFieldArray(stripes);
+
     expect(screen.queryByRole('textbox', { name: 'File' })).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox', { name: 'Criteria' })).not.toBeInTheDocument();
 
@@ -62,5 +64,21 @@ describe('DocumentsFieldArray', () => {
 
     expect(await screen.findAllByRole('textbox', { name: 'File' })).toHaveLength(2);
     expect(await screen.findAllByRole('textbox', { name: 'Criteria' })).toHaveLength(2);
+  });
+
+  test('shows connected filename text', async () => {
+    const filterFileMock = {
+      filterFiles: [
+        {
+          fileId: '12345',
+          label: 'filename.txt',
+        },
+      ],
+    };
+
+    renderDocumentsFieldArray(stripes, filterFileMock);
+
+    const connectedFileText = await screen.findByText('The filter file filename.txt is connected.');
+    expect(connectedFileText).toBeInTheDocument();
   });
 });
