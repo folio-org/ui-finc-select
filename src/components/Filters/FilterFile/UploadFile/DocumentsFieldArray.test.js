@@ -81,4 +81,25 @@ describe('DocumentsFieldArray', () => {
     const connectedFileText = await screen.findByText('The filter file filename.txt is connected.');
     expect(connectedFileText).toBeInTheDocument();
   });
+
+  test('show correct numbering after delete EditCard number 2 of 3', async () => {
+    renderDocumentsFieldArray(stripes);
+
+    const addFileToFilterButton = screen.getByRole('button', { name: 'Add file to filter' });
+    expect(addFileToFilterButton).toBeInTheDocument();
+
+    await userEvent.click(addFileToFilterButton);
+    await userEvent.click(addFileToFilterButton);
+    await userEvent.click(addFileToFilterButton);
+
+    expect(screen.getByText('File #1')).toBeInTheDocument();
+    expect(screen.getByText('File #2')).toBeInTheDocument();
+    expect(screen.getByText('File #3')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: /delete file #2/i }));
+
+    expect(screen.getByText('File #1')).toBeInTheDocument();
+    expect(screen.getByText('File #2')).toBeInTheDocument();
+    expect(screen.queryByText('File #3')).not.toBeInTheDocument();
+  });
 });
