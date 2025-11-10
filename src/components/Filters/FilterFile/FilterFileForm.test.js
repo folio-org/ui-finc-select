@@ -19,7 +19,7 @@ jest.mock('../../DisplayUtils/fetchWithDefaultOptions');
 
 const mockPost = jest.fn(() => Promise.resolve({
   ok: true,
-  json: () => Promise.resolve({ file }),
+  text: () => Promise.resolve('34bdd9da-b765-448a-8519-11d460a4df5d'),
 }));
 
 const renderFilterFileForm = (stripes) => {
