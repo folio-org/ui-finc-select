@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { FieldArray } from 'react-final-form-arrays';
 
 import { Accordion } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
@@ -30,9 +29,7 @@ const FilterFileForm = ({
       onToggle={onToggle}
       open={expanded}
     >
-      <FieldArray
-        addDocBtnLabel={<FormattedMessage id="ui-finc-select.filter.file.addFile" />}
-        component={DocumentsFieldArray}
+      <DocumentsFieldArray
         name="filterFiles"
         onUploadFile={handleUploadFile}
       />
