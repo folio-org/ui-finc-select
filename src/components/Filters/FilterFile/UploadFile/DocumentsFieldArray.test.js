@@ -82,24 +82,34 @@ describe('DocumentsFieldArray', () => {
     expect(connectedFileText).toBeInTheDocument();
   });
 
-  test('show correct numbering after delete EditCard number 2 of 3', async () => {
-    renderDocumentsFieldArray(stripes);
+  test('show correct file labels after delete EditCard', async () => {
+    const filterFilesMock = {
+      filterFiles: [
+        {
+          fileId: '1111',
+          label: 'file 1.txt',
+        },
+        {
+          fileId: '2222',
+          label: 'file 2.txt',
+        },
+        {
+          fileId: '3333',
+          label: 'file 3.txt',
+        },
+      ],
+    };
 
-    const addFileToFilterButton = screen.getByRole('button', { name: 'Add file to filter' });
-    expect(addFileToFilterButton).toBeInTheDocument();
+    renderDocumentsFieldArray(stripes, filterFilesMock);
 
-    await userEvent.click(addFileToFilterButton);
-    await userEvent.click(addFileToFilterButton);
-    await userEvent.click(addFileToFilterButton);
-
-    expect(screen.getByText('File #1')).toBeInTheDocument();
-    expect(screen.getByText('File #2')).toBeInTheDocument();
-    expect(screen.getByText('File #3')).toBeInTheDocument();
+    expect(screen.getByText('The filter file file 1.txt is connected.')).toBeInTheDocument();
+    expect(screen.getByText('The filter file file 2.txt is connected.')).toBeInTheDocument();
+    expect(screen.getByText('The filter file file 3.txt is connected.')).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: /delete file #2/i }));
 
-    expect(screen.getByText('File #1')).toBeInTheDocument();
-    expect(screen.getByText('File #2')).toBeInTheDocument();
-    expect(screen.queryByText('File #3')).not.toBeInTheDocument();
+    expect(screen.getByText('The filter file file 1.txt is connected.')).toBeInTheDocument();
+    expect(screen.queryByText('The filter file file 2.txt is connected.')).not.toBeInTheDocument();
+    expect(screen.getByText('The filter file file 3.txt is connected.')).toBeInTheDocument();
   });
 });
