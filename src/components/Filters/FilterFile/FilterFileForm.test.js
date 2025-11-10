@@ -56,10 +56,6 @@ describe('FilterFileForm', () => {
       renderFilterFileForm(stripes);
     });
 
-    afterEach(() => {
-      delete global.fetch;
-    });
-
     test('Add file button is rendered', () => {
       const selectFile = screen.getByRole('button', { name: 'Add file to filter' });
       expect(selectFile).toBeInTheDocument();
