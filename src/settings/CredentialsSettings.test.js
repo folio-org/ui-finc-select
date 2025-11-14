@@ -7,14 +7,13 @@ import CredentialsSettings from './CredentialsSettings';
 
 jest.mock('./CredentialsSettingsForm', () => () => <div>CredentialsSettingsForm</div>);
 
+const mockUseQuery = jest.fn();
+
 jest.mock('react-query', () => {
   const actual = jest.requireActual('react-query');
   return {
     ...actual,
-    useQuery: () => ({
-      data: { user: 'test', password: 'test', libId: '123' },
-      refetch: jest.fn(),
-    }),
+    useQuery: (...args) => mockUseQuery(...args),
     useMutation: () => ({
       mutate: jest.fn(),
     }),
@@ -33,7 +32,37 @@ const renderComponent = () => {
 };
 
 describe('CredentialsSettings', () => {
-  test('rendering CredentialsSettingsForm component', async () => {
+  test('renders loading state', () => {
+    mockUseQuery.mockReturnValue({
+      data: undefined,
+      error: null,
+      isLoading: true,
+    });
+
+    renderComponent();
+
+    expect(screen.getByText('Icon')).toBeInTheDocument();
+  });
+
+  test('renders error state', () => {
+    mockUseQuery.mockReturnValue({
+      data: undefined,
+      error: { message: 'Network error' },
+      isLoading: false,
+    });
+
+    renderComponent();
+
+    expect(screen.getByText('ui-finc-select.settings.ezbCredentials.error')).toBeInTheDocument();
+  });
+
+  test('renders form when credentials are defined', async () => {
+    mockUseQuery.mockReturnValue({
+      data: {},
+      error: null,
+      isLoading: false,
+    });
+
     renderComponent();
 
     await waitFor(() => {
