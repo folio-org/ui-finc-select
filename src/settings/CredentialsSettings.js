@@ -12,7 +12,7 @@ const CredentialsSettings = () => {
     queryKey: ['ezbCredentials'],
     queryFn: async () => {
       const res = await ky.get(EZB_CREDENTIALS_API).json();
-      return res;
+      return res ?? {};
     }
   });
 

@@ -70,7 +70,7 @@
       "finc-select-metadata-collections": "1.0",
       "finc-select-filters": "1.0",
       "finc-select-files": "1.0",
-      "finc-select-ezb-credentials": "1.0",
+      "finc-select-ezb-credentials": "1.0 2.0",
       "organizations-storage.organizations": "3.0"
     },
     "stripesDeps": [
