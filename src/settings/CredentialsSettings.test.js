@@ -8,6 +8,7 @@ import CredentialsSettings from './CredentialsSettings';
 jest.mock('./CredentialsSettingsForm', () => () => <div>CredentialsSettingsForm</div>);
 
 const mockUseQuery = jest.fn();
+const mockKyGet = jest.fn();
 
 jest.mock('react-query', () => {
   const actual = jest.requireActual('react-query');
@@ -19,6 +20,13 @@ jest.mock('react-query', () => {
     }),
   };
 });
+
+jest.mock('@folio/stripes/core', () => ({
+  useOkapiKy: () => ({
+    get: mockKyGet,
+    put: jest.fn(),
+  }),
+}));
 
 const renderComponent = () => {
   const queryClient = new QueryClient();
@@ -32,6 +40,11 @@ const renderComponent = () => {
 };
 
 describe('CredentialsSettings', () => {
+  beforeEach(() => {
+    mockUseQuery.mockReset();
+    mockKyGet.mockReset();
+  });
+
   test('renders loading state', () => {
     mockUseQuery.mockReturnValue({
       data: undefined,
@@ -61,6 +74,23 @@ describe('CredentialsSettings', () => {
       data: {},
       error: null,
       isLoading: false,
+    });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('CredentialsSettingsForm')).toBeInTheDocument();
+    });
+  });
+
+  test('renders form when ky.get().json() returns null', async () => {
+    // Use actual useQuery implementation
+    const { useQuery: actualUseQuery } = jest.requireActual('react-query');
+    mockUseQuery.mockImplementation(actualUseQuery);
+
+    // Mock ky.get().json() to return null
+    mockKyGet.mockReturnValue({
+      json: jest.fn().mockResolvedValue(null),
     });
 
     renderComponent();
