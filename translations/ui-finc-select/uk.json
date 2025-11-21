@@ -108,5 +108,7 @@
     "permission.create": "Відбір Finc: Створення фільтрів та завантаження файлів",
     "permission.edit": "Відбір Finc: Редагування фільтрів та вибір джерел та колекцій",
     "permission.create-edit": "Відбір Finc: Створення та редагування фільтрів, завантаження файлів та вибір джерел та колекцій",
-    "permission.delete": "Відбір Finc: Видалення фільтрів та файлів"
+    "permission.delete": "Відбір Finc: Видалення фільтрів та файлів",
+    "filter.file.label.number": "File #{number}",
+    "filter.file.label.delete.number": "Delete file #{number}"
 }
