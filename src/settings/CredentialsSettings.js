@@ -2,7 +2,7 @@ import { useQuery, useMutation } from 'react-query';
 import { FormattedMessage } from 'react-intl';
 
 import { useOkapiKy } from '@folio/stripes/core';
-import { Icon, Layout } from '@folio/stripes/components';
+import { Loading, MessageBanner } from '@folio/stripes/components';
 
 import { EZB_CREDENTIALS_API } from '../util/constants';
 import CredentialsSettingsForm from './CredentialsSettingsForm';
@@ -32,20 +32,14 @@ const CredentialsSettings = () => {
   };
 
   if (isLoading) {
-    return (
-      <Layout className="marginTop1">
-        <Icon icon="spinner-ellipsis" width="10px" />
-      </Layout>
-    );
+    return <Loading />;
   }
 
   if (error) {
     return (
-      <div style={{ padding: '1rem' }}>
-        <p>
-          <FormattedMessage id="ui-finc-select.settings.ezbCredentials.error" />
-        </p>
-      </div>
+      <MessageBanner type="error">
+        <FormattedMessage id="ui-finc-select.settings.ezbCredentials.error" />
+      </MessageBanner>
     );
   }
 

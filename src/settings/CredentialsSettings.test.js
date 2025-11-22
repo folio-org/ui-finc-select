@@ -7,6 +7,11 @@ import CredentialsSettings from './CredentialsSettings';
 
 jest.mock('./CredentialsSettingsForm', () => () => <div>CredentialsSettingsForm</div>);
 
+jest.mock('@folio/stripes/components', () => ({
+  ...jest.requireActual('@folio/stripes/components'),
+  Loading: () => <div>Loading</div>,
+}));
+
 const mockUseQuery = jest.fn();
 const mockKyGet = jest.fn();
 
@@ -54,7 +59,7 @@ describe('CredentialsSettings', () => {
 
     renderComponent();
 
-    expect(screen.getByText('Icon')).toBeInTheDocument();
+    expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
   test('renders error state', () => {
