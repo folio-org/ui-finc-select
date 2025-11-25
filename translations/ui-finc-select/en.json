@@ -117,6 +117,7 @@
   "settings.ezbCredentials.libId": "LibID",
   "settings.ezbCredentials.isil": "Isil",
   "settings.ezbCredentials.save": "Save",
+  "settings.ezbCredentials.error": "Error loading EZB credentials",
   "settings.changePassword.hidePassword": "Hide password",
   "settings.changePassword.showPassword": "Show password",
 
