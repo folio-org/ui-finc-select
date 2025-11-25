@@ -108,5 +108,7 @@
     "permission.create": "Seleção de filtros: Pode criar filtros e carregar de arquivos",
     "permission.edit": "Seleção de filtros: Pode editar filtros e selecionar fontes e coleções",
     "permission.create-edit": "Seleção de filtros: Pode criar e editar filtros, carregar arquivos e selecionar fontes e coleções",
-    "permission.delete": "Seleção de filtros: Pode excluir filtros e arquivos"
+    "permission.delete": "Seleção de filtros: Pode excluir filtros e arquivos",
+    "filter.file.label.number": "Arquivo #{number}",
+    "filter.file.label.delete.number": "Excluir arquivo #{number}"
 }
