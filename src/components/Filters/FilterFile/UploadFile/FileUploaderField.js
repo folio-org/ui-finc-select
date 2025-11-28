@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
+import { isFileSizeValid, createFileSizeErrorDetails } from '../../../../util/fileUtils';
 
 const FileUploaderField = ({
   input: { onChange, value },
@@ -30,13 +31,29 @@ const FileUploaderField = ({
   const handleDrop = (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
 
+    const file = acceptedFiles[0];
     let mounted = true;
+
+    if (!isFileSizeValid(file.size)) {
+      const errorDetails = createFileSizeErrorDetails(file.size);
+      const errorMessage = intl.formatMessage(
+        { id: 'ui-finc-select.filter.file.uploadError.fileTooLarge' },
+        {
+          actualSize: errorDetails.actualSize,
+          maxSize: errorDetails.maxSize,
+        }
+      );
+      setError(errorMessage);
+      setIsDropZoneActive(false);
+      setUploadInProgress(false);
+      return;
+    }
 
     setError(undefined);
     setIsDropZoneActive(false);
     setUploadInProgress(true);
 
-    onUploadFile(acceptedFiles[0])
+    onUploadFile(file)
       .then(response => {
         if (response.ok) {
           // example: file = "34bdd9da-b765-448a-8519-11d460a4df5d"
@@ -47,8 +64,30 @@ const FileUploaderField = ({
               setFile({ fileId });
             }
           });
+        } else if (response.status === 413) {
+          response.text().then(backendMessage => {
+            const errorMessage = intl.formatMessage(
+              { id: 'ui-finc-select.filter.file.uploadError.backendRejected' },
+              { message: backendMessage }
+            );
+            throw new Error(errorMessage);
+          }).catch(() => {
+            // Fallback if reading response body fails
+            const errorDetails = createFileSizeErrorDetails(file.size);
+            const errorMessage = intl.formatMessage(
+              { id: 'ui-finc-select.filter.file.uploadError.fileTooLarge' },
+              {
+                actualSize: errorDetails.actualSize,
+                maxSize: errorDetails.maxSize,
+              }
+            );
+            throw new Error(errorMessage);
+          });
         } else {
-          throw new Error(intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' }));
+          // Other HTTP errors
+          throw new Error(
+            intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError.network' })
+          );
         }
       })
       .catch(err => {
@@ -62,7 +101,7 @@ const FileUploaderField = ({
 
   return (
     <FileUploaderFieldView
-      error={meta.error || error}
+      error={error || meta.error}
       isDropZoneActive={isDropZoneActive}
       onDragEnter={() => setIsDropZoneActive(true)}
       onDragLeave={() => setIsDropZoneActive(false)}

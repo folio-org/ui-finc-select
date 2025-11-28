@@ -2,6 +2,7 @@
 
 ## 8.2.0 (IN PROGRESS)
 
+* Add file upload size validation and improved error handling ([UIFC-262](https://folio-org.atlassian.net/browse/UIFC-262))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
