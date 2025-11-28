@@ -3,6 +3,52 @@ import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
+import { isFileSizeValid, createFileSizeErrorDetails } from '../../../../util/fileUtils';
+
+const HTTP_STATUS_PAYLOAD_TOO_LARGE = 413;
+
+/**
+ * Helper function to create file size error message
+ * @param {number} fileSize - Size of the file in bytes
+ * @param {object} intl - Internationalization object
+ * @returns {string} Formatted error message
+ */
+const createFileSizeErrorMessage = (fileSize, intl) => {
+  const errorDetails = createFileSizeErrorDetails(fileSize);
+  return intl.formatMessage(
+    { id: 'ui-finc-select.filter.file.uploadError.fileTooLarge' },
+    {
+      actualSize: errorDetails.actualSize,
+      maxSize: errorDetails.maxSize,
+    }
+  );
+};
+
+/**
+ * Helper function to handle HTTP 413 Payload Too Large errors
+ * Sanitizes backend messages to prevent information disclosure
+ * @param {Response} response - HTTP response object
+ * @param {File} file - The uploaded file
+ * @param {object} intl - Internationalization object
+ * @returns {Promise<string>} Error message
+ */
+const handlePayloadTooLargeError = async (response, file, intl) => {
+  try {
+    const backendMessage = await response.text();
+    // Sanitize backend message - only show if it's a simple size message
+    // Reject messages that are too long or contain HTML tags (potential XSS)
+    if (backendMessage && backendMessage.length < 200 && !/<[^>]*>/.test(backendMessage)) {
+      return intl.formatMessage(
+        { id: 'ui-finc-select.filter.file.uploadError.backendRejected' },
+        { message: backendMessage }
+      );
+    }
+  } catch (error) {
+    // Fall through to default message if reading response body fails
+  }
+
+  return createFileSizeErrorMessage(file.size, intl);
+};
 
 const FileUploaderField = ({
   input: { onChange, value },
@@ -27,42 +73,50 @@ const FileUploaderField = ({
     }
   }, [value, file]);
 
-  const handleDrop = (acceptedFiles) => {
+  const handleDrop = async (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
 
-    let mounted = true;
+    const file = acceptedFiles[0];
+
+    if (!isFileSizeValid(file.size)) {
+      const errorMessage = createFileSizeErrorMessage(file.size, intl);
+      setError(errorMessage);
+      setIsDropZoneActive(false);
+      setUploadInProgress(false);
+      return;
+    }
 
     setError(undefined);
     setIsDropZoneActive(false);
     setUploadInProgress(true);
 
-    onUploadFile(acceptedFiles[0])
-      .then(response => {
-        if (response.ok) {
-          // example: file = "34bdd9da-b765-448a-8519-11d460a4df5d"
-          response.text().then(fileId => {
-            // the value of the fieldId will connected with the Field in DocuemtsFieldArray with onChange(file);
-            onChange(fileId);
-            if (mounted) {
-              setFile({ fileId });
-            }
-          });
-        } else {
-          throw new Error(intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' }));
-        }
-      })
-      .catch(err => {
-        console.error(err); // eslint-disable-line no-console
-        setError(err.message);
-        setFile({});
-      })
-      .finally(() => setUploadInProgress(false));
-    mounted = false;
+    try {
+      const response = await onUploadFile(file);
+
+      if (response.ok) {
+        const fileId = await response.text();
+        onChange(fileId);
+        setFile({ fileId });
+      } else if (response.status === HTTP_STATUS_PAYLOAD_TOO_LARGE) {
+        const errorMessage = await handlePayloadTooLargeError(response, file, intl);
+        throw new Error(errorMessage);
+      } else {
+        throw new Error(
+          intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError.network' })
+        );
+      }
+    } catch (err) {
+      console.error(err); // eslint-disable-line no-console
+      setError(err.message);
+      setFile({});
+    } finally {
+      setUploadInProgress(false);
+    }
   };
 
   return (
     <FileUploaderFieldView
-      error={meta.error || error}
+      error={error || ((meta.touched || meta.submitFailed) && meta.error)}
       isDropZoneActive={isDropZoneActive}
       onDragEnter={() => setIsDropZoneActive(true)}
       onDragLeave={() => setIsDropZoneActive(false)}
