@@ -36,8 +36,9 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
   try {
     const backendMessage = await response.text();
     // Sanitize backend message - only show if it's a simple size message
-    // Reject messages that are too long or contain HTML tags (potential XSS)
-    if (backendMessage && backendMessage.length < 200 && !/<[^>]*>/.test(backendMessage)) {
+    // Reject messages that are too long or contain HTML/script tags (potential XSS)
+    const hasHtmlTags = backendMessage.includes('<') && backendMessage.includes('>');
+    if (backendMessage && backendMessage.length < 200 && !hasHtmlTags) {
       return intl.formatMessage(
         { id: 'ui-finc-select.filter.file.uploadError.backendRejected' },
         { message: backendMessage }
