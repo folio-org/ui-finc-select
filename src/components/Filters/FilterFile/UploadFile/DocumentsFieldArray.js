@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
@@ -11,59 +10,62 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
+import { EditCard } from '@folio/stripes-leipzig-components';
 
-import EditCard from '../../../DisplayUtils/EditCard/EditCard';
 import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
 
 const DocumentsFieldArray = ({
   intl,
-  fields: { name },
+  name,
   onUploadFile,
 }) => {
   const { fields } = useFieldArray(name);
 
-  const renderFileUpload = (doc, i) => {
-    if (isEmpty(doc.fileId)) {
+  const renderFileUpload = (field, i) => {
+    const file = fields.value[i];
+
+    if (file?.fileId) {
+      const filename = file.label;
+      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
+      return (
+        <Col xs={12} md={6}>
+          <p>{fileConnectedText}</p>
+        </Col>
+      );
+    } else {
       return (
         <>
           {onUploadFile &&
             <Col xs={12} md={6}>
-              <Row>
-                <Col xs={12}>
-                  <Field
-                    component={FileUploaderField}
-                    id={`filter-file-card-fileId-${i}`}
-                    name={`${name}[${i}].fileId`}
-                    onUploadFile={onUploadFile}
-                    required
-                    validate={Required}
-                  />
-                </Col>
-              </Row>
+              <Field
+                component={FileUploaderField}
+                id={`filter-file-card-fileId-${i}`}
+                name={`${field}.fileId`}
+                onUploadFile={onUploadFile}
+                required
+                validate={Required}
+              />
             </Col>
           }
-        </>
-      );
-    } else {
-      const filename = doc.label;
-      const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
-      return (
-        <>
-          {fileConnectedText}
         </>
       );
     }
   };
 
-  const renderDocs = () => {
-    return fields.map((doc, i) => (
+  const renderFields = () => {
+    return fields.map((field, index) => (
       <EditCard
-        deletebuttonarialabel={`delete filter file ${name}`}
-        deleteBtnProps={{ 'id': `${name}-delete-${i}` }}
-        header={<FormattedMessage id="ui-finc-select.filter.file.label" values={{ number: i + 1 }} />}
-        key={doc}
-        onDelete={() => fields.remove(i)}
+        deleteButtonTooltipText={intl.formatMessage(
+          { id: 'ui-finc-select.filter.file.label.delete.number' },
+          { number: index + 1 },
+        )}
+        header={intl.formatMessage(
+          { id: 'ui-finc-select.filter.file.label.number' },
+          { number: index + 1 },
+        )}
+        key={field}
+        onDelete={() => fields.remove(index)}
       >
         <Row>
           <Col xs={12} md={onUploadFile ? 6 : 12}>
@@ -72,9 +74,9 @@ const DocumentsFieldArray = ({
                 <Field
                   autoFocus
                   component={TextField}
-                  id={`filter-file-label-${i}`}
+                  id={`filter-file-label-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.label" />}
-                  name={`${name}[${i}].label`}
+                  name={`${field}.label`}
                   placeholder={intl.formatMessage({ id: 'ui-finc-select.filter.file.placeholder.name' })}
                   required
                   validate={Required}
@@ -85,14 +87,14 @@ const DocumentsFieldArray = ({
               <Col xs={12}>
                 <Field
                   component={TextField}
-                  id={`filter-file-criteria-${i}`}
+                  id={`filter-file-criteria-${index}`}
                   label={<FormattedMessage id="ui-finc-select.filter.file.criteria" />}
-                  name={`${name}[${i}].criteria`}
+                  name={`${field}.criteria`}
                 />
               </Col>
             </Row>
           </Col>
-          {renderFileUpload(doc, i)}
+          {renderFileUpload(field, index)}
         </Row>
       </EditCard>
     ));
@@ -107,7 +109,7 @@ const DocumentsFieldArray = ({
   return (
     <div>
       <div>
-        { fields.length ? renderDocs() : renderEmpty() }
+        { fields.length ? renderFields() : renderEmpty() }
       </div>
       <Button
         id="add-filter-file-btn"
@@ -123,10 +125,7 @@ DocumentsFieldArray.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }),
-  name: PropTypes.string,
-  fields: PropTypes.shape({
-    name: PropTypes.string,
-  }),
+  name: PropTypes.string.isRequired,
   onUploadFile: PropTypes.func,
 };
 

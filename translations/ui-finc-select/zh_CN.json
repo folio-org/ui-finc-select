@@ -108,5 +108,7 @@
     "permission.create": "Finc选择：可以创建筛选器并上传文件",
     "permission.edit": "Finc选择：可以编辑筛选器并选择来源和集合",
     "permission.create-edit": "Finc选择：可以创建和编辑筛选器、上传文件以及选择来源和集合",
-    "permission.delete": "Finc选择：可以删除筛选器和文件"
+    "permission.delete": "Finc选择：可以删除筛选器和文件",
+    "filter.file.label.number": "File #{number}",
+    "filter.file.label.delete.number": "Delete file #{number}"
 }

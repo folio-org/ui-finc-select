@@ -108,5 +108,7 @@
     "permission.create": "Finc selecteren: Kan filters aanmaken en bestanden Uploaden",
     "permission.edit": "Finc selecteren: Kan filters bewerken en bronnen en collecties selecteren",
     "permission.create-edit": "Finc selecteren: Kan filters aanmaken en bewerken, bestanden Uploaden en bronnen en collecties selecteren.",
-    "permission.delete": "Finc selecteren: Kan filters en bestanden verwijderen"
+    "permission.delete": "Finc selecteren: Kan filters en bestanden verwijderen",
+    "filter.file.label.number": "File #{number}",
+    "filter.file.label.delete.number": "Delete file #{number}"
 }

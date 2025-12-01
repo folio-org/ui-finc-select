@@ -34,6 +34,7 @@
     "react-router-dom": "^5.2.0"
   },
   "dependencies": {
+    "@folio/stripes-leipzig-components": "^1.0.0",
     "file-saver": "^2.0.0",
     "final-form": "^4.18.7",
     "final-form-arrays": "^3.0.2",
@@ -72,6 +73,9 @@
       "finc-select-ezb-credentials": "1.0",
       "organizations-storage.organizations": "3.0"
     },
+    "stripesDeps": [
+      "@folio/stripes-leipzig-components"
+    ],
     "permissionSets": [
       {
         "permissionName": "module.finc-select.enabled",
