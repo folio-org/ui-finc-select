@@ -36,15 +36,16 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
   try {
     const backendMessage = await response.text();
     // Sanitize backend message - only show if it's a simple size message
-    // Reject messages that are too long or contain HTML tags (potential XSS)
-    if (backendMessage && backendMessage.length < 200 && !/<[^>]*>/.test(backendMessage)) {
+    // Reject messages that are too long or contain HTML/script tags (potential XSS)
+    const hasHtmlTags = backendMessage.includes('<') && backendMessage.includes('>');
+    if (backendMessage && backendMessage.length < 200 && !hasHtmlTags) {
       return intl.formatMessage(
         { id: 'ui-finc-select.filter.file.uploadError.backendRejected' },
         { message: backendMessage }
       );
     }
   } catch (error) {
-    // Fall through to default message if reading response body fails
+    console.error(error); // eslint-disable-line no-console
   }
 
   return createFileSizeErrorMessage(file.size, intl);
@@ -76,10 +77,10 @@ const FileUploaderField = ({
   const handleDrop = async (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
 
-    const file = acceptedFiles[0];
+    const droppedFile = acceptedFiles[0];
 
-    if (!isFileSizeValid(file.size)) {
-      const errorMessage = createFileSizeErrorMessage(file.size, intl);
+    if (!isFileSizeValid(droppedFile.size)) {
+      const errorMessage = createFileSizeErrorMessage(droppedFile.size, intl);
       setError(errorMessage);
       setIsDropZoneActive(false);
       setUploadInProgress(false);
@@ -91,14 +92,14 @@ const FileUploaderField = ({
     setUploadInProgress(true);
 
     try {
-      const response = await onUploadFile(file);
+      const response = await onUploadFile(droppedFile);
 
       if (response.ok) {
         const fileId = await response.text();
         onChange(fileId);
         setFile({ fileId });
       } else if (response.status === HTTP_STATUS_PAYLOAD_TOO_LARGE) {
-        const errorMessage = await handlePayloadTooLargeError(response, file, intl);
+        const errorMessage = await handlePayloadTooLargeError(response, droppedFile, intl);
         throw new Error(errorMessage);
       } else {
         throw new Error(
