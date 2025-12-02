@@ -110,5 +110,6 @@
     "permission.create-edit": "Finc选择：可以创建和编辑筛选器、上传文件以及选择来源和集合",
     "permission.delete": "Finc选择：可以删除筛选器和文件",
     "filter.file.label.number": "File #{number}",
-    "filter.file.label.delete.number": "Delete file #{number}"
+    "filter.file.label.delete.number": "Delete file #{number}",
+    "settings.ezbCredentials.error": "Error loading EZB credentials"
 }
