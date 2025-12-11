@@ -52,7 +52,8 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
         { message: backendMessage }
       );
     }
-  } catch (error) {
+  } catch {
+    // Unable to read server response - return generic error message
     return intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' });
   }
 
