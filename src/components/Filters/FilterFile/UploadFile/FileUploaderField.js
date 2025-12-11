@@ -34,7 +34,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
   // Check Content-Length header first to avoid fetching large error message bodies
   const contentLength = response.headers.get('Content-Length');
   if (contentLength) {
-    const length = parseInt(contentLength, 10);
+    const length = Number.parseInt(contentLength, 10);
     if (Number.isNaN(length) || length === 0 || length > 200) {
       return createFileSizeErrorMessage(file.size, intl);
     }
@@ -42,6 +42,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
 
   try {
     const backendMessage = await response.text();
+
     // Sanitize backend message - only show if it's a simple size message
     // Reject messages that are too long or contain HTML/script tags (potential XSS)
     const hasHtmlTags = backendMessage.includes('<') && backendMessage.includes('>');
@@ -52,7 +53,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
       );
     }
   } catch (error) {
-    // Error fetching backend message - fall through to use formatted error
+    return intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' });
   }
 
   return createFileSizeErrorMessage(file.size, intl);

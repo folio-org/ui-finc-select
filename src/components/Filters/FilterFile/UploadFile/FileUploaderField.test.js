@@ -269,7 +269,7 @@ describe('FileUploaderField', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
+        expect(screen.getByText(/An error occurred during upload/i)).toBeInTheDocument();
       });
     });
   });
