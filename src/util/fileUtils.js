@@ -1,6 +1,16 @@
-// Maximum file upload size in bytes (50 MB)
+/**
+ * File upload size limits
+ *
+ * 50 MB limit chosen based on current usage patterns:
+ * - Largest files currently uploaded are ~22 MB
+ * - Typical file sizes are under 30 MB
+ * - 50 MB provides safe upper boundary while preventing abuse
+ */
 export const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024; // 52,428,800 bytes
 export const MAX_FILE_SIZE_MB = 50;
+
+// HTTP status code for payload too large error
+export const HTTP_STATUS_PAYLOAD_TOO_LARGE = 413;
 
 /**
  * Validates if a file size is within the allowed limit
@@ -20,15 +30,15 @@ export const isFileSizeValid = (sizeInBytes) => {
 export const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
 
-  const k = 1024;
-  const dm = Math.max(0, decimals);
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const base = 1024;
+  const decimalPlaces = Math.max(0, decimals);
+  const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const unitIndex = Math.floor(Math.log(bytes) / Math.log(base));
 
-  const value = Number.parseFloat((bytes / (k ** i)).toFixed(dm));
+  const value = Number((bytes / base ** unitIndex).toFixed(decimalPlaces));
 
-  return `${value} ${sizes[i]}`;
+  return `${value} ${units[unitIndex]}`;
 };
 
 /**

@@ -102,7 +102,6 @@
   "filter.file.uploadError": "An error occurred during upload",
   "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
   "filter.file.uploadError.backendRejected": "Server rejected the file: {message}",
-  "filter.file.uploadError.network": "Network error occurred during upload. Please try again.",
 
   "filter.generalAccordion": "General",
   "filter.fileAccordion": "File",

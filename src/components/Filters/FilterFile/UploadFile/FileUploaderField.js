@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
-import { isFileSizeValid, createFileSizeErrorDetails } from '../../../../util/fileUtils';
-
-const HTTP_STATUS_PAYLOAD_TOO_LARGE = 413;
+import { isFileSizeValid, createFileSizeErrorDetails, HTTP_STATUS_PAYLOAD_TOO_LARGE } from '../../../../util/fileUtils';
 
 /**
  * Helper function to create file size error message
@@ -33,6 +31,15 @@ const createFileSizeErrorMessage = (fileSize, intl) => {
  * @returns {Promise<string>} Error message
  */
 const handlePayloadTooLargeError = async (response, file, intl) => {
+  // Check Content-Length header first to avoid fetching large error message bodies
+  const contentLength = response.headers.get('Content-Length');
+  if (contentLength) {
+    const length = parseInt(contentLength, 10);
+    if (Number.isNaN(length) || length === 0 || length > 200) {
+      return createFileSizeErrorMessage(file.size, intl);
+    }
+  }
+
   try {
     const backendMessage = await response.text();
     // Sanitize backend message - only show if it's a simple size message
@@ -45,7 +52,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
       );
     }
   } catch (error) {
-    console.error(error); // eslint-disable-line no-console
+    // Error fetching backend message - fall through to use formatted error
   }
 
   return createFileSizeErrorMessage(file.size, intl);
@@ -103,11 +110,10 @@ const FileUploaderField = ({
         throw new Error(errorMessage);
       } else {
         throw new Error(
-          intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError.network' })
+          intl.formatMessage({ id: 'ui-finc-select.filter.file.uploadError' })
         );
       }
     } catch (err) {
-      console.error(err); // eslint-disable-line no-console
       setError(err.message);
       setFile({});
     } finally {
@@ -130,7 +136,7 @@ const FileUploaderField = ({
 FileUploaderField.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }).isRequired,
   meta: PropTypes.object,
   onUploadFile: PropTypes.func.isRequired,

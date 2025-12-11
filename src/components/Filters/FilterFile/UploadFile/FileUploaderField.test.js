@@ -1,7 +1,8 @@
 import { MemoryRouter } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
+import { act } from 'react';
 
-import { waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext, useStripes } from '@folio/stripes/core';
 
 import FileUploaderField from './FileUploaderField';
@@ -60,33 +61,30 @@ describe('FileUploaderField', () => {
 
   describe('Validation error timing', () => {
     it('should not show validation error when untouched', () => {
-      const { container } = renderComponent(stripes, {
+      renderComponent(stripes, {
         touched: false,
         error: 'Required',
       });
 
-      const errorElement = container.querySelector('.errorMessage:not([hidden])');
-      expect(errorElement).not.toBeInTheDocument();
+      expect(screen.queryByText('Required')).not.toBeInTheDocument();
     });
 
     it('should show validation error when touched', () => {
-      const { container } = renderComponent(stripes, {
+      renderComponent(stripes, {
         touched: true,
         error: 'Required',
       });
 
-      const errorElement = container.querySelector('.errorMessage');
-      expect(errorElement).not.toHaveAttribute('hidden');
+      expect(screen.getByText('Required')).toBeInTheDocument();
     });
 
     it('should show validation error when submit failed', () => {
-      const { container } = renderComponent(stripes, {
+      renderComponent(stripes, {
         submitFailed: true,
         error: 'Required',
       });
 
-      const errorElement = container.querySelector('.errorMessage');
-      expect(errorElement).not.toHaveAttribute('hidden');
+      expect(screen.getByText('Required')).toBeInTheDocument();
     });
   });
 
@@ -103,7 +101,9 @@ describe('FileUploaderField', () => {
         text: () => Promise.resolve('file-id-123'),
       });
 
-      await mockOnDrop([smallFile]);
+      await act(async () => {
+        await mockOnDrop([smallFile]);
+      });
 
       expect(mockOnUploadFile).toHaveBeenCalledWith(smallFile);
       await waitFor(() => {
@@ -122,7 +122,9 @@ describe('FileUploaderField', () => {
         text: () => Promise.resolve('file-id-456'),
       });
 
-      await mockOnDrop([maxFile]);
+      await act(async () => {
+        await mockOnDrop([maxFile]);
+      });
 
       expect(mockOnUploadFile).toHaveBeenCalledWith(maxFile);
       await waitFor(() => {
@@ -131,64 +133,69 @@ describe('FileUploaderField', () => {
     });
 
     it('should reject files over the limit', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const largeFile = new File(['test'], 'large.txt');
       Object.defineProperty(largeFile, 'size', { value: MAX_FILE_SIZE_BYTES + 1 });
 
-      await mockOnDrop([largeFile]);
+      await act(async () => {
+        await mockOnDrop([largeFile]);
+      });
 
       expect(mockOnUploadFile).not.toHaveBeenCalled();
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });
   });
 
   describe('Upload error handling', () => {
     it('should handle 413 with valid backend message', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
 
       mockOnUploadFile.mockResolvedValue({
         ok: false,
         status: 413,
+        headers: new Headers({ 'Content-Length': '25' }),
         text: () => Promise.resolve('File size limit exceeded'),
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText(/Server rejected the file/i)).toBeInTheDocument();
       });
     });
 
     it('should sanitize HTML in backend messages', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
 
       mockOnUploadFile.mockResolvedValue({
         ok: false,
         status: 413,
+        headers: new Headers({ 'Content-Length': '29' }),
         text: () => Promise.resolve('<script>alert("xss")</script>'),
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
-        expect(errorElement.textContent).not.toContain('<script>');
+        expect(screen.queryByText(/<script>/)).not.toBeInTheDocument();
+        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });
 
     it('should reject overly long backend messages', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
       const longMessage = 'a'.repeat(250);
@@ -196,20 +203,22 @@ describe('FileUploaderField', () => {
       mockOnUploadFile.mockResolvedValue({
         ok: false,
         status: 413,
+        headers: new Headers({ 'Content-Length': '250' }),
         text: () => Promise.resolve(longMessage),
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
-        expect(errorElement.textContent).not.toContain(longMessage);
+        expect(screen.queryByText(longMessage)).not.toBeInTheDocument();
+        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });
 
     it('should handle network errors', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
 
@@ -218,45 +227,49 @@ describe('FileUploaderField', () => {
         status: 500,
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText(/An error occurred during upload/i)).toBeInTheDocument();
       });
     });
 
     it('should handle rejected promises', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
 
       mockOnUploadFile.mockRejectedValue(new Error('Network failure'));
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText('Network failure')).toBeInTheDocument();
       });
     });
 
     it('should handle response.text() failure', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       const file = new File(['test'], 'test.txt');
 
       mockOnUploadFile.mockResolvedValue({
         ok: false,
         status: 413,
+        headers: new Headers({ 'Content-Length': '11' }),
         text: () => Promise.reject(new Error('Read failed')),
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });
   });
@@ -268,7 +281,9 @@ describe('FileUploaderField', () => {
       const file1 = new File(['test1'], 'test1.txt');
       const file2 = new File(['test2'], 'test2.txt');
 
-      await mockOnDrop([file1, file2]);
+      await act(async () => {
+        await mockOnDrop([file1, file2]);
+      });
 
       expect(mockOnUploadFile).not.toHaveBeenCalled();
     });
@@ -284,23 +299,26 @@ describe('FileUploaderField', () => {
         text: () => Promise.resolve('empty-file-id'),
       });
 
-      await mockOnDrop([file]);
+      await act(async () => {
+        await mockOnDrop([file]);
+      });
 
       expect(mockOnUploadFile).toHaveBeenCalledWith(file);
     });
 
     it('should clear errors on successful upload', async () => {
-      const { container } = renderComponent(stripes);
+      renderComponent(stripes);
 
       // First, trigger an error
       const largeFile = new File(['test'], 'large.txt');
       Object.defineProperty(largeFile, 'size', { value: MAX_FILE_SIZE_BYTES + 1 });
 
-      await mockOnDrop([largeFile]);
+      await act(async () => {
+        await mockOnDrop([largeFile]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).toBeInTheDocument();
+        expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
 
       // Now upload a valid file
@@ -312,11 +330,12 @@ describe('FileUploaderField', () => {
         text: () => Promise.resolve('valid-file-id'),
       });
 
-      await mockOnDrop([validFile]);
+      await act(async () => {
+        await mockOnDrop([validFile]);
+      });
 
       await waitFor(() => {
-        const errorElement = container.querySelector('.errorMessage:not([hidden])');
-        expect(errorElement).not.toBeInTheDocument();
+        expect(screen.queryByText(/exceeds the maximum allowed size/i)).not.toBeInTheDocument();
       });
     });
   });
