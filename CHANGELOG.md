@@ -1,7 +1,9 @@
 # Change history for ui-finc-select
 
 ## 8.2.0 (IN PROGRESS)
-
+* Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))
+* Add error handling and loading states to EZB Credentials settings page ([UIFC-457](https://folio-org.atlassian.net/browse/UIFC-457))
+* Include mod-settings global permissions ([UIFC-459](https://folio-org.atlassian.net/browse/UIFC-459))
 * Add file upload size validation and improved error handling ([UIFC-262](https://folio-org.atlassian.net/browse/UIFC-262))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)

@@ -89,6 +89,8 @@
   "filter.type": "Type",
 
   "filter.file.label": "File",
+  "filter.file.label.number": "File #{number}",
+  "filter.file.label.delete.number": "Delete file #{number}",
   "filter.file.criteria": "Criteria",
   "filter.file.download": "Download",
   "filter.file.name": "Name",
@@ -117,6 +119,7 @@
   "settings.ezbCredentials.libId": "LibID",
   "settings.ezbCredentials.isil": "Isil",
   "settings.ezbCredentials.save": "Save",
+  "settings.ezbCredentials.error": "Error loading EZB credentials",
   "settings.changePassword.hidePassword": "Hide password",
   "settings.changePassword.showPassword": "Show password",
 

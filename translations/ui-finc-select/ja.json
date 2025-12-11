@@ -108,5 +108,8 @@
     "permission.create": "Finc select: Can create filters and upload files",
     "permission.edit": "Finc select: Can edit filters and select sources and collections",
     "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
-    "permission.delete": "Finc select: Can delete filters and files"
+    "permission.delete": "Finc select: Can delete filters and files",
+    "filter.file.label.number": "File #{number}",
+    "filter.file.label.delete.number": "Delete file #{number}",
+    "settings.ezbCredentials.error": "Error loading EZB credentials"
 }

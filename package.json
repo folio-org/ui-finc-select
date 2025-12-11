@@ -34,6 +34,7 @@
     "react-router-dom": "^5.2.0"
   },
   "dependencies": {
+    "@folio/stripes-leipzig-components": "^1.0.0",
     "file-saver": "^2.0.0",
     "final-form": "^4.18.7",
     "final-form-arrays": "^3.0.2",
@@ -72,17 +73,26 @@
       "finc-select-ezb-credentials": "1.0",
       "organizations-storage.organizations": "3.0"
     },
+    "stripesDeps": [
+      "@folio/stripes-leipzig-components"
+    ],
     "permissionSets": [
       {
         "permissionName": "module.finc-select.enabled",
         "displayName": "UI: finc-select module is enabled",
+        "subPermissions": [
+          "mod-settings.global.read.stripes-core.prefs.manage",
+          "mod-settings.entries.collection.get"
+        ],
         "visible": false
       },
       {
         "permissionName": "settings.finc-select.enabled",
         "displayName": "Settings (finc-select): display list of settings pages",
         "subPermissions": [
-          "settings.enabled"
+          "settings.enabled",
+          "mod-settings.global.read.stripes-core.prefs.manage",
+          "mod-settings.entries.collection.get"
         ],
         "visible": false
       },

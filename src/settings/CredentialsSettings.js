@@ -1,6 +1,8 @@
 import { useQuery, useMutation } from 'react-query';
+import { FormattedMessage } from 'react-intl';
 
 import { useOkapiKy } from '@folio/stripes/core';
+import { Loading, MessageBanner } from '@folio/stripes/components';
 
 import { EZB_CREDENTIALS_API } from '../util/constants';
 import CredentialsSettingsForm from './CredentialsSettingsForm';
@@ -8,11 +10,11 @@ import CredentialsSettingsForm from './CredentialsSettingsForm';
 const CredentialsSettings = () => {
   const ky = useOkapiKy();
 
-  const { data: credentials, refetch } = useQuery({
+  const { data: credentials, error, isLoading, refetch } = useQuery({
     queryKey: ['ezbCredentials'],
     queryFn: async () => {
       const res = await ky.get(EZB_CREDENTIALS_API).json();
-      return res;
+      return res ?? {};
     }
   });
 
@@ -29,14 +31,24 @@ const CredentialsSettings = () => {
     updateCredentials(values);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <MessageBanner type="error">
+        <FormattedMessage id="ui-finc-select.settings.ezbCredentials.error" />
+      </MessageBanner>
+    );
+  }
+
   return (
     <div style={{ width: '100%' }}>
-      {credentials && (
-        <CredentialsSettingsForm
-          initialValues={credentials}
-          onSubmit={handleSubmit}
-        />
-      )}
+      <CredentialsSettingsForm
+        initialValues={credentials}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };
