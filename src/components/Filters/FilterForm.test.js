@@ -70,9 +70,9 @@ describe('FilterForm', () => {
     });
 
     test('should display accordions', () => {
-      expect(screen.getByRole('button', { name: 'Icon General' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: 'Icon File' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: 'Icon Metadata collections' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'General' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'File' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Metadata collections' })).toBeInTheDocument();
     });
 
     test('should display all fields', () => {
