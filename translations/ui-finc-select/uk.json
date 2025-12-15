@@ -111,5 +111,7 @@
     "permission.delete": "Відбір Finc: Видалення фільтрів та файлів",
     "filter.file.label.number": "File #{number}",
     "filter.file.label.delete.number": "Delete file #{number}",
-    "settings.ezbCredentials.error": "Error loading EZB credentials"
+    "settings.ezbCredentials.error": "Error loading EZB credentials",
+    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
+    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
 }
