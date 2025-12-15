@@ -111,5 +111,7 @@
     "permission.delete": "Finc selecteren: Kan filters en bestanden verwijderen",
     "filter.file.label.number": "Bestand #{number}",
     "filter.file.label.delete.number": "Bestand verwijderen #{number}",
-    "settings.ezbCredentials.error": "Fout bij het invoeren van EZB referenties"
+    "settings.ezbCredentials.error": "Fout bij het invoeren van EZB referenties",
+    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
+    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
 }

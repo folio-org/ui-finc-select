@@ -111,5 +111,7 @@
     "permission.delete": "Seleção de filtros: Pode excluir filtros e arquivos",
     "filter.file.label.number": "Arquivo #{number}",
     "filter.file.label.delete.number": "Excluir arquivo #{number}",
-    "settings.ezbCredentials.error": "Erro ao carregar as credenciais do EZB"
+    "settings.ezbCredentials.error": "Erro ao carregar as credenciais do EZB",
+    "filter.file.uploadError.fileTooLarge": "O tamanho do arquivo ({actualSize}) excede o tamanho máximo permitido de {maxSize}.",
+    "filter.file.uploadError.backendRejected": "O servidor rejeitou o arquivo: {message}"
 }
