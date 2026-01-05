@@ -6,6 +6,7 @@
 * Include mod-settings global permissions ([UIFC-459](https://folio-org.atlassian.net/browse/UIFC-459))
 * Support `finc-select-ezb-credentials 2.0` ([UIFC-458](https://folio-org.atlassian.net/browse/UIFC-458))
 * Add file upload size validation and improved error handling ([UIFC-262](https://folio-org.atlassian.net/browse/UIFC-262))
+* Move hooks folder into src ([UIFC-466](https://folio-org.atlassian.net/browse/UIFC-466))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
