@@ -112,6 +112,6 @@
     "filter.file.label.number": "Bestand #{number}",
     "filter.file.label.delete.number": "Bestand verwijderen #{number}",
     "settings.ezbCredentials.error": "Fout bij het invoeren van EZB referenties",
-    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
-    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
+    "filter.file.uploadError.fileTooLarge": "Bestandsgrootte ({actualSize}) overschrijdt de maximaal toegestane grootte van {maxSize}.",
+    "filter.file.uploadError.backendRejected": "De server heeft het bestand geweigerd: {message}"
 }

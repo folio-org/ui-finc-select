@@ -27,7 +27,7 @@
     "source.modal.selectAllCollections.success": "The process has been started. It can take some time, until all ISILs will be added to the selected by field.",
     "source.modal.selectAllCollections.error": "プロセスを開始できませんでした",
     "filter.label": "名称",
-    "filter.type": "種類",
+    "filter.type": "タイプ",
     "filter.file.label": "ファイル",
     "filter.file.criteria": "条件",
     "filter.file.download": "ダウンロード",
