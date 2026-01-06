@@ -14,12 +14,6 @@ import FilterViewRoute from './FilterViewRoute';
 
 const queryClient = new QueryClient();
 
-jest.mock('react-query', () => ({
-  ...jest.requireActual('react-query'),
-  useQuery: jest.fn().mockReturnValue({}),
-  useMutation: jest.fn().mockReturnValue({}),
-}));
-
 jest.mock('../components/Filters/FilterView', () => () => <div>FilterView</div>);
 
 describe('render FilterViewRoute', () => {

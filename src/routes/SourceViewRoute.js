@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import {
-  useOkapiKy,
-  useStripes,
-} from '@folio/stripes/core';
+import { useStripes } from '@folio/stripes/core';
+import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
 
-import { SOURCES_API } from '../util/constants';
+import {
+  API_SOURCES,
+  QK_SOURCES,
+} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 
@@ -18,23 +18,12 @@ const SourceViewRoute = ({
 }) => {
   const stripes = useStripes();
 
-  const useSource = () => {
-    const ky = useOkapiKy();
-
-    const { isLoading, data: source = {} } = useQuery(
-      [SOURCES_API, sourceId],
-      () => ky.get(`${SOURCES_API}/${sourceId}`).json(),
-      // The query will not execute until the id exists
-      { enabled: Boolean(sourceId) }
-    );
-
-    return ({
-      isLoading,
-      source,
-    });
-  };
-
-  const { source, isLoading: isSourceLoading } = useSource();
+  const { source, isLoading: isSourceLoading } = useOkapiKyQuery({
+    queryKey: [QK_SOURCES, sourceId],
+    id: sourceId,
+    api: API_SOURCES,
+    options: { enabled: Boolean(sourceId) }
+  });
 
   const handleClose = () => {
     history.push(`${urls.sources()}${location.search}`);

@@ -2,35 +2,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
 import { render, screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
 
 import CredentialsSettings from './CredentialsSettings';
 
 jest.mock('./CredentialsSettingsForm', () => () => <div>CredentialsSettingsForm</div>);
 
-jest.mock('@folio/stripes/components', () => ({
-  ...jest.requireActual('@folio/stripes/components'),
-  Loading: () => <div>Loading</div>,
-}));
-
-const mockUseQuery = jest.fn();
-const mockKyGet = jest.fn();
-
-jest.mock('react-query', () => {
-  const actual = jest.requireActual('react-query');
-  return {
-    ...actual,
-    useQuery: (...args) => mockUseQuery(...args),
-    useMutation: () => ({
-      mutate: jest.fn(),
-    }),
-  };
-});
-
-jest.mock('@folio/stripes/core', () => ({
-  useOkapiKy: () => ({
-    get: mockKyGet,
-    put: jest.fn(),
-  }),
+jest.mock('@folio/stripes-leipzig-components', () => ({
+  ...jest.requireActual('@folio/stripes-leipzig-components'),
+  useOkapiKyQuery: jest.fn(),
 }));
 
 const renderComponent = () => {
@@ -46,27 +26,28 @@ const renderComponent = () => {
 
 describe('CredentialsSettings', () => {
   beforeEach(() => {
-    mockUseQuery.mockReset();
-    mockKyGet.mockReset();
+    useOkapiKyQuery.mockReset();
   });
 
   test('renders loading state', () => {
-    mockUseQuery.mockReturnValue({
+    useOkapiKyQuery.mockReturnValue({
       data: undefined,
-      error: null,
+      isError: false,
       isLoading: true,
+      refetch: jest.fn(),
     });
 
     renderComponent();
 
-    expect(screen.getByText('Loading')).toBeInTheDocument();
+    expect(document.querySelector('.spinner')).toBeInTheDocument();
   });
 
   test('renders error state', () => {
-    mockUseQuery.mockReturnValue({
+    useOkapiKyQuery.mockReturnValue({
       data: undefined,
-      error: { message: 'Network error' },
+      isError: true,
       isLoading: false,
+      refetch: jest.fn(),
     });
 
     renderComponent();
@@ -75,10 +56,11 @@ describe('CredentialsSettings', () => {
   });
 
   test('renders form when credentials are defined', async () => {
-    mockUseQuery.mockReturnValue({
+    useOkapiKyQuery.mockReturnValue({
       data: {},
-      error: null,
+      isError: false,
       isLoading: false,
+      refetch: jest.fn(),
     });
 
     renderComponent();
@@ -89,13 +71,11 @@ describe('CredentialsSettings', () => {
   });
 
   test('renders form when ky.get().json() returns null', async () => {
-    // Use actual useQuery implementation
-    const { useQuery: actualUseQuery } = jest.requireActual('react-query');
-    mockUseQuery.mockImplementation(actualUseQuery);
-
-    // Mock ky.get().json() to return null
-    mockKyGet.mockReturnValue({
-      json: jest.fn().mockResolvedValue(null),
+    useOkapiKyQuery.mockReturnValue({
+      data: null,
+      isError: false,
+      isLoading: false,
+      refetch: jest.fn(),
     });
 
     renderComponent();

@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import {
-  useOkapiKy,
-  useStripes,
-} from '@folio/stripes/core';
+import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
+import { useStripes } from '@folio/stripes/core';
 
 import {
-  COLLECTIONS_BY_FILTER_ID_API,
-  FILTERS_API,
+  API_COLLECTIONS_BY_FILTER_ID,
+  API_FILTERS,
+  QK_COLLECTIONS,
+  QK_FILTERS,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterView from '../components/Filters/FilterView';
@@ -22,46 +21,18 @@ const FilterViewRoute = ({
   const stripes = useStripes();
   const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
-  const useFilter = () => {
-    const ky = useOkapiKy();
+  const { data: filter = {}, isLoading: isFilterLoading } = useOkapiKyQuery({
+    queryKey: [QK_FILTERS, filterId],
+    id: filterId,
+    api: API_FILTERS,
+    options: { enabled: Boolean(filterId) }
+  });
 
-    const { isLoading, data: filter = {} } = useQuery(
-      [FILTERS_API, filterId],
-      () => ky.get(`${FILTERS_API}/${filterId}`).json(),
-      // The query will not execute until the id exists
-      { enabled: Boolean(filterId) }
-    );
-
-    return ({
-      isLoading,
-      filter,
-    });
-  };
-
-  const useCollections = () => {
-    const ky = useOkapiKy();
-
-    const { isLoading, data = {}, error } = useQuery(
-      [filterId],
-      () => ky.get(COLLECTIONS_BY_FILTER_ID_API(filterId)).json(),
-      // The query will not execute until the id exists
-      { enabled: Boolean(filterId) }
-    );
-
-    if (error && error.response?.status === 404) {
-      return { isLoading, collectionIds: [] };
-    }
-
-    const formattedData = data?.collectionIds ? [data] : [];
-
-    return ({
-      isLoading,
-      collectionIds: formattedData,
-    });
-  };
-
-  const { filter, isLoading: isFilterLoading } = useFilter();
-  const { collectionIds, isLoading: isCollectionIdsLoading } = useCollections();
+  const { collectionIds, isLoading: isCollectionIdsLoading } = useOkapiKyQuery({
+    queryKey: [QK_COLLECTIONS, filterId],
+    api: API_COLLECTIONS_BY_FILTER_ID(filterId),
+    options: { enabled: Boolean(filterId) }
+  });
 
   const handleClose = () => {
     history.push(`${urls.filters()}${location.search}`);
