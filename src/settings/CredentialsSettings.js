@@ -1,32 +1,31 @@
+import { useQuery, useMutation } from 'react-query';
 import { FormattedMessage } from 'react-intl';
 
+import { useOkapiKy } from '@folio/stripes/core';
 import { Loading, MessageBanner } from '@folio/stripes/components';
-import {
-  useOkapiKyMutation,
-  useOkapiKyQuery,
-} from '@folio/stripes-leipzig-components';
 
-import {
-  API_EZB_CREDENTIALS,
-  QK_EZB_CREDENTIALS,
-} from '../util/constants';
+import { API_EZB_CREDENTIALS } from '../util/constants';
 import CredentialsSettingsForm from './CredentialsSettingsForm';
 
 const CredentialsSettings = () => {
-  const { data: credentials = {}, isError, isLoading, refetch } = useOkapiKyQuery({
-    queryKey: [QK_EZB_CREDENTIALS],
-    api: API_EZB_CREDENTIALS,
+  const ky = useOkapiKy();
+
+  const { data: credentials, error, isLoading, refetch } = useQuery({
+    queryKey: ['ezbCredentials'],
+    queryFn: async () => {
+      const res = await ky.get(API_EZB_CREDENTIALS).json();
+      return res ?? {};
+    }
   });
 
-  const { useUpdate } = useOkapiKyMutation({
-    mutationKey: [QK_EZB_CREDENTIALS],
-    api: API_EZB_CREDENTIALS,
+  const { mutate: updateCredentials } = useMutation({
+    mutationFn: async (values) => {
+      return ky.put(API_EZB_CREDENTIALS, { json: values });
+    },
     onSuccess: () => {
       refetch();
     }
   });
-
-  const { mutateAsync: updateCredentials } = useUpdate();
 
   const handleSubmit = (values) => {
     updateCredentials(values);
@@ -36,7 +35,7 @@ const CredentialsSettings = () => {
     return <Loading />;
   }
 
-  if (isError) {
+  if (error) {
     return (
       <MessageBanner type="error">
         <FormattedMessage id="ui-finc-select.settings.ezbCredentials.error" />
