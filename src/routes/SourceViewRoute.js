@@ -18,7 +18,7 @@ const SourceViewRoute = ({
 }) => {
   const stripes = useStripes();
 
-  const { source, isLoading: isSourceLoading } = useOkapiKyQuery({
+  const { data: source, isLoading: isSourceLoading } = useOkapiKyQuery({
     queryKey: [QK_SOURCES, sourceId],
     id: sourceId,
     api: API_SOURCES,

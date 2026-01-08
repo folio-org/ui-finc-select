@@ -1,9 +1,13 @@
 import { omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { useStripes } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 import {
   useOkapiKyMutation,
   useOkapiKyQuery,
@@ -27,6 +31,7 @@ const FilterEditRoute = ({
   match: { params: { id: filterId } },
 }) => {
   const stripes = useStripes();
+  const ky = useOkapiKy();
   const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const { data: filter = {}, isLoading: isFilterLoading } = useOkapiKyQuery({
@@ -36,13 +41,12 @@ const FilterEditRoute = ({
     options: { enabled: Boolean(filterId) }
   });
 
-  const { data: collectionsRaw = {}, isError: isCollectionsError, isLoading: isCollectionsLoading } = useOkapiKyQuery({
-    queryKey: [QK_COLLECTIONS, filterId],
-    api: API_COLLECTIONS_BY_FILTER_ID(filterId),
-    options: {
-      enabled: Boolean(filterId),
-    }
-  });
+  const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
+    [QK_COLLECTIONS, filterId],
+    () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json().catch(() => ({ collectionIds: [] })),
+    // The query will not execute until the id exists
+    { enabled: Boolean(filterId) }
+  );
 
   const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useOkapiKyQuery({
     queryKey: [QK_TINY_SOURCES],
@@ -51,7 +55,7 @@ const FilterEditRoute = ({
 
   const isLoading = isFilterLoading || isCollectionsLoading || isMdSourcesLoading;
 
-  const formattedCollections = !isCollectionsError && collectionsRaw?.collectionIds
+  const formattedCollections = collectionsRaw?.collectionIds
     ? [collectionsRaw]
     : [];
 

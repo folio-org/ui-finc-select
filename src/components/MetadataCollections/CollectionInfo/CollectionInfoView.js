@@ -22,6 +22,8 @@ const CollectionInfoView = ({ metadataCollection, stripes }) => {
     }
   };
 
+  console.log(metadataCollection);
+
   const collectionId = get(metadataCollection, 'id', '-');
   const selectedInitial = get(metadataCollection, 'selected');
   const permittedLabel = getDataLable('permitted');

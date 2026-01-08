@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
-import { useStripes } from '@folio/stripes/core';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
 import {
   API_COLLECTIONS_BY_FILTER_ID,
@@ -28,11 +32,29 @@ const FilterViewRoute = ({
     options: { enabled: Boolean(filterId) }
   });
 
-  const { collectionIds, isLoading: isCollectionIdsLoading } = useOkapiKyQuery({
-    queryKey: [QK_COLLECTIONS, filterId],
-    api: API_COLLECTIONS_BY_FILTER_ID(filterId),
-    options: { enabled: Boolean(filterId) }
-  });
+  const useCollections = () => {
+    const ky = useOkapiKy();
+
+    const { isLoading, data = {}, error } = useQuery(
+      [QK_COLLECTIONS, filterId],
+      () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(filterId) }
+    );
+
+    if (error && error.response?.status === 404) {
+      return { isLoading, collectionIds: [] };
+    }
+
+    const formattedData = data?.collectionIds ? [data] : [];
+
+    return ({
+      isLoading,
+      collectionIds: formattedData,
+    });
+  };
+
+  const { collectionIds, isLoading: isCollectionIdsLoading } = useCollections();
 
   const handleClose = () => {
     history.push(`${urls.filters()}${location.search}`);

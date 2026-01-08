@@ -97,7 +97,9 @@ describe('MetadataSourceView', () => {
   });
 
   it('should display organization', async () => {
-    expect(screen.getByText('Test organization')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Test organization')).toBeInTheDocument();
+    });
   });
 
   it('should display indexing level', () => {
@@ -123,7 +125,7 @@ describe('MetadataSourceView', () => {
     it('should show success modal on successful collection selection', async () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
 
-      await userEvent.click(selectAllCollectionsButton);
+      userEvent.click(selectAllCollectionsButton);
 
       await waitFor(() => {
         expect(

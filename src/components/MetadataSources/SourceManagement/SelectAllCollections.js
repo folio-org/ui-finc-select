@@ -1,33 +1,32 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useMutation } from 'react-query';
 
+import { useOkapiKy } from '@folio/stripes/core';
 import {
   Button,
   Col,
   Modal,
   Row,
 } from '@folio/stripes/components';
-import { useOkapiKyMutation } from '@folio/stripes-leipzig-components';
 
-import {
-  API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID,
-  QK_SOURCES,
-} from '../../../util/constants';
+import { API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID } from '../../../util/constants';
 
 const SelectAllCollections = ({
   sourceId,
   stripes,
 }) => {
+  const ky = useOkapiKy();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [modalText, setModalText] = useState('');
 
   const hasSelectAllCollectionsPerms = stripes.hasPerm('ui-finc-select.edit');
 
-  const { useUpdate } = useOkapiKyMutation({
-    queryKey: [QK_SOURCES, sourceId],
-    mutationKey: [API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID(sourceId)],
-    api: API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID(sourceId),
+  const { mutate: selectAllCollections } = useMutation({
+    mutationFn: async (id) => {
+      return ky.put(API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID(id), { json: { select: true } });
+    },
     onSuccess: () => {
       setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.success" />);
       setShowInfoModal(true);
@@ -37,8 +36,6 @@ const SelectAllCollections = ({
       setShowInfoModal(true);
     }
   });
-
-  const { mutateAsync: selectAllCollections } = useUpdate();
 
   const handleClose = () => {
     setShowInfoModal(false);
@@ -52,8 +49,7 @@ const SelectAllCollections = ({
             buttonStyle="primary"
             disabled={!hasSelectAllCollectionsPerms}
             id="selectAllCollections"
-            // onClick={() => selectAllCollections(sourceId)}
-            onClick={() => selectAllCollections({ select: true })}
+            onClick={() => selectAllCollections(sourceId)}
           >
             <FormattedMessage id="ui-finc-select.source.button.selectAllCollections" />
           </Button>
