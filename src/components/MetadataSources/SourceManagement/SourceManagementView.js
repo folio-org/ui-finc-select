@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
-import {
-  get,
-  isEmpty,
-} from 'lodash';
+import { get } from 'lodash';
 import { withRouter, Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from 'react-query';
 
-import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
 import {
   Button,
   Col,
@@ -14,43 +11,44 @@ import {
   NoValue,
   Row,
 } from '@folio/stripes/components';
+import { useOkapiKy } from '@folio/stripes/core';
 
-import {
-  API_ORGANIZATIONS,
-  QK_ORGANIZATIONS,
-} from '../../../util/constants';
+import { API_ORGANIZATION_BY_ID } from '../../../util/constants';
 import urls from '../../DisplayUtils/urls';
 import SelectAllCollections from './SelectAllCollections';
 
 const SourceManagementView = ({
   metadataSource,
-  organizationId,
   stripes,
 }) => {
-  let orgValue;
   const sourceId = get(metadataSource, 'id', '-');
-  const sourcesOrganization = get(metadataSource, 'organization', <NoValue />);
+  const organization = get(metadataSource, 'organization', <NoValue />);
 
-  const { data: organization, isLoading: isLoadingOrganization, isError } = useOkapiKyQuery({
-    queryKey: [QK_ORGANIZATIONS, organizationId],
-    id: organizationId,
-    api: API_ORGANIZATIONS,
-  });
+  const useOrganization = () => {
+    const ky = useOkapiKy();
 
-  if (!isEmpty(organizationId) && !isLoadingOrganization) {
-    if (isError) {
-      if (sourcesOrganization.name) {
-        orgValue = sourcesOrganization.name;
-      } else {
-        orgValue = <NoValue />;
-      }
-    } else {
-      orgValue = (
-        <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
-          {sourcesOrganization.name}
-        </Link>
-      );
-    }
+    const { isError } = useQuery(
+      [organization?.id],
+      () => ky.get(API_ORGANIZATION_BY_ID(organization?.id)).json(),
+      // The query will not execute until the id exists
+      { enabled: Boolean(organization?.id) }
+    );
+    return ({ isError });
+  };
+
+  const { isError } = useOrganization();
+
+  let orgValue;
+  if (!organization?.name) {
+    orgValue = <NoValue />;
+  } else if (isError) {
+    orgValue = organization.name;
+  } else {
+    orgValue = (
+      <Link to={{ pathname: `${urls.organizationView(organization.id)}` }}>
+        {organization.name}
+      </Link>
+    );
   }
 
   return (
@@ -107,7 +105,6 @@ const SourceManagementView = ({
 
 SourceManagementView.propTypes = {
   metadataSource: PropTypes.object,
-  organizationId: PropTypes.string,
   stripes: PropTypes.object,
 };
 
