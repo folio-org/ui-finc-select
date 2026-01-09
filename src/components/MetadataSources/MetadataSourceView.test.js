@@ -12,28 +12,22 @@ import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIn
 import SOURCE from '../../../test/fixtures/metadatasource';
 import MetadataSourceView from './MetadataSourceView';
 
-const mockMutateAsync = jest.fn().mockResolvedValue({});
+const mockPut = jest.fn();
+const mockGet = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ name: 'Test organization', id: 'uuid-1234' }),
+  }));
 
-jest.mock('@folio/stripes-leipzig-components', () => ({
-  ...jest.requireActual('@folio/stripes-leipzig-components'),
-  useOkapiKyQuery: jest.fn().mockReturnValue({
-    data: {},
-    isLoading: false,
-    isError: false,
-  }),
-  useOkapiKyMutation: jest.fn(({ onSuccess }) => ({
-    useUpdate: jest.fn(() => ({
-      mutateAsync: mockMutateAsync.mockImplementation(async () => {
-        const result = {};
-        await Promise.resolve();
-        if (onSuccess) {
-          onSuccess(result);
-        }
-        return result;
-      }),
-    })),
-  })),
-}));
+jest.mock('@folio/stripes/core', () => {
+  const original = jest.requireActual('@folio/stripes/core');
+  return {
+    ...original,
+    useOkapiKy: () => ({
+      put: mockPut,
+      get: mockGet,
+    }),
+  };
+});
 
 const handlers = {
   onClose: jest.fn,
@@ -117,13 +111,29 @@ describe('MetadataSourceView', () => {
   });
 
   describe('Select all collections', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should be enabled button', () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
       expect(selectAllCollectionsButton).toBeEnabled();
     });
 
+    it('should show success modal on failed collection selection', async () => {
+      const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
+      mockPut.mockRejectedValueOnce(new Error('Mocked error'));
+
+      userEvent.click(selectAllCollectionsButton);
+
+      await waitFor(() => {
+        expect(screen.getByText('The process could not start.')).toBeInTheDocument();
+      });
+    });
+
     it('should show success modal on successful collection selection', async () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
+      mockPut.mockResolvedValueOnce();
 
       userEvent.click(selectAllCollectionsButton);
 
