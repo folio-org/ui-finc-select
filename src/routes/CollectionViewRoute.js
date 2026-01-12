@@ -22,7 +22,7 @@ const CollectionViewRoute = ({
     queryKey: [QK_COLLECTIONS, collectionId],
     id: collectionId,
     api: API_COLLECTIONS,
-    options:{ enabled: Boolean(collectionId) },
+    options: { enabled: Boolean(collectionId) },
   });
 
   const handleClose = () => {
