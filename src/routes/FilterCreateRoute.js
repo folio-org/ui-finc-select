@@ -1,16 +1,18 @@
 import { omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { useMutation, useQuery } from 'react-query';
+
+import { useStripes } from '@folio/stripes/core';
+import {
+  useOkapiKyMutation,
+  useOkapiKyQuery,
+} from '@folio/stripes-leipzig-components';
 
 import {
-  useOkapiKy,
-  useStripes,
-} from '@folio/stripes/core';
-
-import {
-  FILTERS_API,
-  TINY_SOURCES_API,
+  API_FILTERS,
+  QK_FILTERS,
+  API_TINY_SOURCES,
+  QK_TINY_SOURCES,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
@@ -18,19 +20,19 @@ import saveCollectionIds from './utilities/saveCollectionIds';
 
 const FilterCreateRoute = ({ history, location }) => {
   const stripes = useStripes();
-  const ky = useOkapiKy();
-
   const hasPerms = stripes.hasPerm('ui-finc-select.create');
 
-  const { data: mdSources = { tinyMetadataSources: [] } } = useQuery(
-    ['mdSources'],
-    () => ky.get(TINY_SOURCES_API).json()
-  );
+  const { data: mdSources = { tinyMetadataSources: [] } } = useOkapiKyQuery({
+    queryKey: [QK_TINY_SOURCES],
+    api: API_TINY_SOURCES,
+  });
 
-  const { mutateAsync: createFilter } = useMutation(
-    ['createFilter'],
-    (payload) => ky.post(FILTERS_API, { json: payload }).json()
-  );
+  const { useCreate } = useOkapiKyMutation({
+    mutationKey: [QK_FILTERS],
+    api: API_FILTERS,
+  });
+
+  const { mutateAsync: createFilter } = useCreate();
 
   const handleClose = () => {
     history.push(`${urls.filters()}${location.search}`);

@@ -111,6 +111,10 @@ describe('MetadataSourceView', () => {
   });
 
   describe('Select all collections', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should be enabled button', () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
       expect(selectAllCollectionsButton).toBeEnabled();

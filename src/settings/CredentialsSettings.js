@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { useOkapiKy } from '@folio/stripes/core';
 import { Loading, MessageBanner } from '@folio/stripes/components';
 
-import { EZB_CREDENTIALS_API } from '../util/constants';
+import { API_EZB_CREDENTIALS } from '../util/constants';
 import CredentialsSettingsForm from './CredentialsSettingsForm';
 
 const CredentialsSettings = () => {
@@ -13,14 +13,14 @@ const CredentialsSettings = () => {
   const { data: credentials, error, isLoading, refetch } = useQuery({
     queryKey: ['ezbCredentials'],
     queryFn: async () => {
-      const res = await ky.get(EZB_CREDENTIALS_API).json();
+      const res = await ky.get(API_EZB_CREDENTIALS).json();
       return res ?? {};
     }
   });
 
   const { mutate: updateCredentials } = useMutation({
     mutationFn: async (values) => {
-      return ky.put(EZB_CREDENTIALS_API, { json: values });
+      return ky.put(API_EZB_CREDENTIALS, { json: values });
     },
     onSuccess: () => {
       refetch();

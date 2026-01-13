@@ -9,6 +9,7 @@ jest.mock('./CredentialsSettingsForm', () => () => <div>CredentialsSettingsForm<
 
 jest.mock('@folio/stripes/components', () => ({
   ...jest.requireActual('@folio/stripes/components'),
+  useOkapiKyQuery: jest.fn(),
   Loading: () => <div>Loading</div>,
 }));
 
@@ -55,6 +56,7 @@ describe('CredentialsSettings', () => {
       data: undefined,
       error: null,
       isLoading: true,
+      refetch: jest.fn(),
     });
 
     renderComponent();
@@ -67,6 +69,7 @@ describe('CredentialsSettings', () => {
       data: undefined,
       error: { message: 'Network error' },
       isLoading: false,
+      refetch: jest.fn(),
     });
 
     renderComponent();
@@ -79,6 +82,7 @@ describe('CredentialsSettings', () => {
       data: {},
       error: null,
       isLoading: false,
+      refetch: jest.fn(),
     });
 
     renderComponent();
@@ -88,7 +92,7 @@ describe('CredentialsSettings', () => {
     });
   });
 
-  test('renders form when ky.get().json() returns null', async () => {
+  test('renders form when GET returns null', async () => {
     // Use actual useQuery implementation
     const { useQuery: actualUseQuery } = jest.requireActual('react-query');
     mockUseQuery.mockImplementation(actualUseQuery);

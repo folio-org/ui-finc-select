@@ -1,18 +1,25 @@
 import { omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
   useOkapiKy,
   useStripes,
 } from '@folio/stripes/core';
+import {
+  useOkapiKyMutation,
+  useOkapiKyQuery,
+} from '@folio/stripes-leipzig-components';
 
 import {
-  COLLECTIONS_BY_FILTER_ID_API,
-  FILTERS_API,
-  TINY_SOURCES_API,
+  API_COLLECTIONS_BY_FILTER_ID,
+  API_FILTERS,
+  API_TINY_SOURCES,
+  QK_COLLECTIONS,
+  QK_FILTERS,
+  QK_TINY_SOURCES,
 } from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
@@ -27,23 +34,24 @@ const FilterEditRoute = ({
   const ky = useOkapiKy();
   const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
-  const { data: filter = {}, isLoading: isFilterLoading } = useQuery(
-    [FILTERS_API, filterId],
-    () => ky.get(`${FILTERS_API}/${filterId}`).json(),
-    { enabled: Boolean(filterId) }
-  );
+  const { data: filter = {}, isLoading: isFilterLoading } = useOkapiKyQuery({
+    queryKey: [QK_FILTERS, filterId],
+    api: API_FILTERS,
+    id: filterId,
+    options: { enabled: Boolean(filterId) }
+  });
 
   const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
-    ['collections', filterId],
-    () => ky.get(COLLECTIONS_BY_FILTER_ID_API(filterId)).json().catch(() => ({ collectionIds: [] })),
+    [QK_COLLECTIONS, filterId],
+    () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json().catch(() => ({ collectionIds: [] })),
     // The query will not execute until the id exists
     { enabled: Boolean(filterId) }
   );
 
-  const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useQuery(
-    ['mdSources'],
-    () => ky.get(TINY_SOURCES_API).json()
-  );
+  const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useOkapiKyQuery({
+    queryKey: [QK_TINY_SOURCES],
+    api: API_TINY_SOURCES,
+  });
 
   const isLoading = isFilterLoading || isCollectionsLoading || isMdSourcesLoading;
 
@@ -60,21 +68,25 @@ const FilterEditRoute = ({
     history.push(`${urls.filterView(filterId)}${location.search}`);
   };
 
+  const { useUpdate, useDelete } = useOkapiKyMutation({
+    mutationKey: [QK_FILTERS, filterId],
+    id: filterId,
+    api: API_FILTERS,
+  });
+
+  const { mutateAsync: putFilter } = useUpdate();
+  const { mutateAsync: deleteFilter } = useDelete();
+
   const handleDelete = async () => {
-    await ky.delete(`${FILTERS_API}/${filterId}`);
+    await deleteFilter();
     history.push(`${urls.filters()}${location.search}`);
   };
-
-  const { mutateAsync: updateFilter } = useMutation(
-    ['updateFilter', filterId],
-    (payload) => ky.put(`${FILTERS_API}/${filterId}`, { json: payload })
-  );
 
   const handleSubmit = async (formValues) => {
     const collectionIdsForSave = formValues.collectionIds;
     const filterForSave = omit(formValues, ['collectionIds']);
 
-    await updateFilter(filterForSave);
+    await putFilter(filterForSave);
 
     if (collectionIdsForSave) {
       await saveCollectionIds(filterId, collectionIdsForSave, stripes.okapi);
