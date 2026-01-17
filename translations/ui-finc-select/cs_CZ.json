@@ -108,10 +108,10 @@
     "permission.create": "Finc select: Can create filters and upload files",
     "permission.edit": "Finc select: Can edit filters and select sources and collections",
     "permission.create-edit": "Finc select: Can create and edit filters, upload files and select sources and collections",
-    "permission.delete": "Finc select: Can delete filters and files",
+    "permission.delete": "Finc select: Může mazat filtry a soubory",
     "filter.file.label.number": "Soubor #{number}",
     "filter.file.label.delete.number": "Smazat soubor #{number}",
     "settings.ezbCredentials.error": "Chyba při načítání přihlašovacích údajů EZB",
-    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
-    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
+    "filter.file.uploadError.fileTooLarge": "Velikost souboru ({actualSize}) překračuje maximální povolenou velikost {maxSize}.",
+    "filter.file.uploadError.backendRejected": "Server odmítl soubor: {message}"
 }
