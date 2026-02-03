@@ -61,7 +61,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
 };
 
 const FileUploaderField = ({
-  input: { onChange, value },
+  input: { onChange },
   meta,
   onUploadFile,
 }) => {
@@ -123,7 +123,6 @@ const FileUploaderField = ({
 FileUploaderField.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string,
   }).isRequired,
   meta: PropTypes.object,
   onUploadFile: PropTypes.func.isRequired,
