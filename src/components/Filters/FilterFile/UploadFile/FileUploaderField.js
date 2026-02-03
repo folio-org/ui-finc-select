@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import FileUploaderFieldView from './FileUploaderFieldView';
@@ -61,27 +61,14 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
 };
 
 const FileUploaderField = ({
-  input: { onChange, value },
+  input: { onChange },
   meta,
   onUploadFile,
 }) => {
   const intl = useIntl();
   const [error, setError] = useState(null);
-  const [file, setFile] = useState({});
   const [isDropZoneActive, setIsDropZoneActive] = useState(false);
   const [uploadInProgress, setUploadInProgress] = useState(false);
-
-  useEffect(() => {
-    if (value?.fileId) {
-      // We've been passed an initial value for the field that is an object
-      // with an ID. This means we're currently showing a previously-saved file.
-      // So if this is different from the file we've saved to our internal state,
-      // save it off so we can properly render the metadata.
-      if (file && (file.fileId !== value.fileId)) {
-        setFile(value);
-      }
-    }
-  }, [value, file]);
 
   const handleDrop = async (acceptedFiles) => {
     if (acceptedFiles.length !== 1) return;
@@ -106,7 +93,6 @@ const FileUploaderField = ({
       if (response.ok) {
         const fileId = await response.text();
         onChange(fileId);
-        setFile({ fileId });
       } else if (response.status === HTTP_STATUS_PAYLOAD_TOO_LARGE) {
         const errorMessage = await handlePayloadTooLargeError(response, droppedFile, intl);
         throw new Error(errorMessage);
@@ -117,7 +103,6 @@ const FileUploaderField = ({
       }
     } catch (err) {
       setError(err.message);
-      setFile({});
     } finally {
       setUploadInProgress(false);
     }
@@ -138,7 +123,6 @@ const FileUploaderField = ({
 FileUploaderField.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }).isRequired,
   meta: PropTypes.object,
   onUploadFile: PropTypes.func.isRequired,

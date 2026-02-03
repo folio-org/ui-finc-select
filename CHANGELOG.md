@@ -8,6 +8,7 @@
 * Add file upload size validation and improved error handling ([UIFC-262](https://folio-org.atlassian.net/browse/UIFC-262))
 * Move hooks folder into src ([UIFC-466](https://folio-org.atlassian.net/browse/UIFC-466))
 * Use generic hook form stripes-leipzig-components ([UIFC-437](https://folio-org.atlassian.net/browse/UIFC-437))
+* Fix FileUploaderField value type inconsistency ([UIFC-465](https://folio-org.atlassian.net/browse/UIFC-465))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
