@@ -3,12 +3,12 @@
 ## 8.2.0 (IN PROGRESS)
 * Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))
 * Add error handling and loading states to EZB Credentials settings page ([UIFC-457](https://folio-org.atlassian.net/browse/UIFC-457))
-* Include mod-settings global permissions ([UIFC-459](https://folio-org.atlassian.net/browse/UIFC-459))
 * Support `finc-select-ezb-credentials 2.0` ([UIFC-458](https://folio-org.atlassian.net/browse/UIFC-458))
 * Add file upload size validation and improved error handling ([UIFC-262](https://folio-org.atlassian.net/browse/UIFC-262))
 * Move hooks folder into src ([UIFC-466](https://folio-org.atlassian.net/browse/UIFC-466))
 * Use generic hook form stripes-leipzig-components ([UIFC-437](https://folio-org.atlassian.net/browse/UIFC-437))
 * Fix FileUploaderField value type inconsistency ([UIFC-465](https://folio-org.atlassian.net/browse/UIFC-465))
+* Include mod-settings global permissions ([UIFC-459](https://folio-org.atlassian.net/browse/UIFC-459))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
