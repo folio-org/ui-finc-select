@@ -85,7 +85,7 @@
     "navigation.collections": "Колекції",
     "navigation.filters": "Фільтри",
     "dataOption.active": "Активно",
-    "dataOption.request": "Замовлення",
+    "dataOption.request": "Замовлення (від користувача)",
     "dataOption.implementation": "Впровадження",
     "dataOption.closed": "Закрито",
     "dataOption.impossible": "Неможливо",

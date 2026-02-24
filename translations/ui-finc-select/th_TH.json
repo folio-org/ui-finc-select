@@ -112,6 +112,6 @@
     "filter.file.label.number": "File #{number}",
     "filter.file.label.delete.number": "Delete file #{number}",
     "settings.ezbCredentials.error": "Error loading EZB credentials",
-    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
-    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
+    "filter.file.uploadError.fileTooLarge": "ขนาดไฟล์ ({actualSize}) เกินขนาดสูงสุดที่อนุญาตคือ {maxSize}.",
+    "filter.file.uploadError.backendRejected": "เซิร์ฟเวอร์ปฏิเสธไฟล์: {message}"
 }
