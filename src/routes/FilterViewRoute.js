@@ -8,14 +8,14 @@ import {
   useStripes,
 } from '@folio/stripes/core';
 
+import urls from '../components/DisplayUtils/urls';
+import FilterView from '../components/Filters/FilterView';
 import {
   API_COLLECTIONS_BY_FILTER_ID,
   API_FILTERS,
   QK_COLLECTIONS,
   QK_FILTERS,
 } from '../util/constants';
-import urls from '../components/DisplayUtils/urls';
-import FilterView from '../components/Filters/FilterView';
 
 const FilterViewRoute = ({
   history,
@@ -29,7 +29,7 @@ const FilterViewRoute = ({
     queryKey: [QK_FILTERS, filterId],
     id: filterId,
     api: API_FILTERS,
-    options: { enabled: Boolean(filterId) }
+    options: { enabled: Boolean(filterId) },
   });
 
   const useCollections = () => {

@@ -1,7 +1,7 @@
 const path = require('path');
 const config = require('@folio/jest-config-stripes');
 
-const esModules = ['@folio', '@k-int', 'ky', 'uuid'].join('|');
+const esModules = ['@folio', 'ky', 'uuid'].join('|');
 
 module.exports = {
   ...config,

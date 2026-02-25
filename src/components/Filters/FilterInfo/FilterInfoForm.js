@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  FormattedMessage,
+  useIntl,
+} from 'react-intl';
 
 import {
   Accordion,
@@ -10,8 +13,8 @@ import {
   TextField,
 } from '@folio/stripes/components';
 
-import Required from '../../DisplayUtils/Validate';
 import typeOptions from '../../DataOptions/type';
+import Required from '../../DisplayUtils/Validate';
 
 const FilterInfoForm = ({
   accordionId,
@@ -22,7 +25,7 @@ const FilterInfoForm = ({
 
   const getDataOptions = (field) => {
     return field.map((item) => ({
-      label: intl.formatMessage({ id:`ui-finc-select.dataOption.${item.value}` }),
+      label: intl.formatMessage({ id: `ui-finc-select.dataOption.${item.value}` }),
       value: item.value,
     }));
   };

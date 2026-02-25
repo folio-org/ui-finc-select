@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -10,8 +10,8 @@ import {
 
 import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
-import MetadataCollections from '../components/MetadataCollections/MetadataCollections';
 import filterConfig from '../components/MetadataCollections/filterConfigData';
+import MetadataCollections from '../components/MetadataCollections/MetadataCollections';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -31,12 +31,12 @@ class CollectionsRoute extends React.Component {
             'cql.allRecords=1',
             '(label="%{query.query}*" or description="%{query.query}*" or collectionId="%{query.query}*")',
             {
-              'label': 'label',
-              'description': 'description',
-              'collectionId': 'collectionId',
+              label: 'label',
+              description: 'description',
+              collectionId: 'collectionId',
             },
             filterConfig,
-            2,
+            2
           ),
         },
         staticFallback: { params: {} },
@@ -47,7 +47,7 @@ class CollectionsRoute extends React.Component {
       type: 'okapi',
       records: 'tinyMetadataSources',
       path: 'finc-config/tiny-metadata-sources',
-      resourceShouldRefresh: true
+      resourceShouldRefresh: true,
     },
     query: { initialValue: {} },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
@@ -141,18 +141,18 @@ class CollectionsRoute extends React.Component {
 
     return (
       <MetadataCollections
+        collection={this.collection}
         contentData={_.get(this.props.resources, 'collections.records', [])}
         filterData={{
           mdSources: _.get(this.props.resources, 'mdSources.records', []),
         }}
+        onChangeIndex={this.onChangeIndex}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
         querySetter={this.querySetter}
         searchString={location.search}
-        selectedRecordId={match.params.id}
-        collection={this.collection}
         // add values for search-selectbox
-        onChangeIndex={this.onChangeIndex}
+        selectedRecordId={match.params.id}
       >
         {children}
       </MetadataCollections>

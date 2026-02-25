@@ -1,18 +1,17 @@
-import ReactRouterPropTypes from 'react-router-prop-types';
 import PropTypes from 'prop-types';
 import { Switch } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Route } from '@folio/stripes/core';
 
-import SourcesRoute from './routes/SourcesRoute';
-import SourceViewRoute from './routes/SourceViewRoute';
 import CollectionsRoute from './routes/CollectionsRoute';
 import CollectionViewRoute from './routes/CollectionViewRoute';
+import FilterCreateRoute from './routes/FilterCreateRoute';
+import FilterEditRoute from './routes/FilterEditRoute';
 import FiltersRoute from './routes/FiltersRoute';
 import FilterViewRoute from './routes/FilterViewRoute';
-import FilterEditRoute from './routes/FilterEditRoute';
-import FilterCreateRoute from './routes/FilterCreateRoute';
-
+import SourcesRoute from './routes/SourcesRoute';
+import SourceViewRoute from './routes/SourceViewRoute';
 import Settings from './settings';
 
 const FincSelect = ({
@@ -31,16 +30,16 @@ const FincSelect = ({
 
   return (
     <Switch>
-      <Route path={`${match.path}/metadata-sources/:id?`} component={SourcesRoute}>
-        <Route path={`${match.path}/metadata-sources/:id`} component={SourceViewRoute} />
+      <Route component={SourcesRoute} path={`${match.path}/metadata-sources/:id?`}>
+        <Route component={SourceViewRoute} path={`${match.path}/metadata-sources/:id`} />
       </Route>
-      <Route path={`${match.path}/metadata-collections/:id?`} component={CollectionsRoute}>
-        <Route path={`${match.path}/metadata-collections/:id`} component={CollectionViewRoute} />
+      <Route component={CollectionsRoute} path={`${match.path}/metadata-collections/:id?`}>
+        <Route component={CollectionViewRoute} path={`${match.path}/metadata-collections/:id`} />
       </Route>
-      <Route path={`${match.path}/filters/create`} component={FilterCreateRoute} />
-      <Route path={`${match.path}/filters/:id/edit`} component={FilterEditRoute} />
-      <Route path={`${match.path}/filters/:id?`} component={FiltersRoute}>
-        <Route path={`${match.path}/filters/:id`} component={FilterViewRoute} />
+      <Route component={FilterCreateRoute} path={`${match.path}/filters/create`} />
+      <Route component={FilterEditRoute} path={`${match.path}/filters/:id/edit`} />
+      <Route component={FiltersRoute} path={`${match.path}/filters/:id?`}>
+        <Route component={FilterViewRoute} path={`${match.path}/filters/:id`} />
       </Route>
     </Switch>
   );

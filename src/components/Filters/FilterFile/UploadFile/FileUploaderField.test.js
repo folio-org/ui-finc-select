@@ -1,13 +1,22 @@
-import { MemoryRouter } from 'react-router-dom';
-import { Form, Field } from 'react-final-form';
 import { act } from 'react';
+import {
+  Field,
+  Form,
+} from 'react-final-form';
+import { MemoryRouter } from 'react-router-dom';
 
-import { waitFor, screen } from '@folio/jest-config-stripes/testing-library/react';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
-import FileUploaderField from './FileUploaderField';
-import { MAX_FILE_SIZE_BYTES } from '../../../../util/fileUtils';
 import renderWithIntlConfiguration from '../../../../../test/jest/helpers/renderWithIntlConfiguration';
+import { MAX_FILE_SIZE_BYTES } from '../../../../util/fileUtils';
+import FileUploaderField from './FileUploaderField';
 
 // Mock react-dropzone to control onDrop directly
 let mockOnDrop;
@@ -190,6 +199,9 @@ describe('FileUploaderField', () => {
 
       await waitFor(() => {
         expect(screen.queryByText(/<script>/)).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
         expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });
@@ -213,6 +225,9 @@ describe('FileUploaderField', () => {
 
       await waitFor(() => {
         expect(screen.queryByText(longMessage)).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
         expect(screen.getByText(/exceeds the maximum allowed size/i)).toBeInTheDocument();
       });
     });

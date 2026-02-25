@@ -1,9 +1,9 @@
 import {
+  createFileSizeErrorDetails,
+  formatBytes,
+  isFileSizeValid,
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
-  isFileSizeValid,
-  formatBytes,
-  createFileSizeErrorDetails,
 } from './fileUtils';
 
 describe('fileUtils', () => {

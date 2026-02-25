@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -9,10 +9,11 @@ import {
 } from '@folio/stripes/components';
 
 const FilterInfoView = ({
-  filter
+  filter,
 }) => {
   const getDataLable = (field) => {
     const fieldValue = get(filter, field, '');
+
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {

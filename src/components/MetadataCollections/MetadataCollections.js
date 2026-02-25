@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types';
 import {
   get,
   isEqual,
 } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
-  injectIntl,
   FormattedMessage,
+  injectIntl,
 } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 
-import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 import {
   Button,
   Icon,
@@ -20,6 +19,7 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
+import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 
 import {
   createRowFormatter,
@@ -30,11 +30,15 @@ import {
   renderNavigation,
   renderResultsPaneHeader,
 } from '../DisplayUtils/renderListUtils';
-import CollectionFilters from './CollectionFilters';
 import urls from '../DisplayUtils/urls';
+import CollectionFilters from './CollectionFilters';
 
 const rawSearchableIndexes = [
-  { label: 'all', value: '', makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")` },
+  {
+    label: 'all',
+    value: '',
+    makeQuery: term => `(label="${term}*" or description="${term}*" or collectionId="${term}*")`,
+  },
   { label: 'label', value: 'label', makeQuery: term => `(label="${term}*")` },
   { label: 'description', value: 'description', makeQuery: term => `(description="${term}*")` },
   { label: 'collectionId', value: 'collectionId', makeQuery: term => `(collectionId="${term}*")` },
@@ -101,11 +105,11 @@ const MetadataCollections = ({
       initialSortState={defaultSort}
       queryGetter={queryGetter}
       querySetter={querySetter}
-      setQueryOnMount
       searchParamsMapping={{
         query: (q) => ({ query: q }),
         qindex: (q) => ({ qindex: q }),
       }}
+      setQueryOnMount
     >
       {
         ({
@@ -152,11 +156,11 @@ const MetadataCollections = ({
                             getSearchHandlers().reset();
                           }
                         }}
-                        onClear={getSearchHandlers().reset}
-                        value={searchValue.query}
                         onChangeIndex={doChangeIndex}
+                        onClear={getSearchHandlers().reset}
                         searchableIndexes={searchableIndexes}
                         selectedIndex={searchValue.qindex}
+                        value={searchValue.query}
                       />
                       <Button
                         buttonStyle="primary"
@@ -244,15 +248,14 @@ MetadataCollections.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }),
+  onChangeIndex: PropTypes.func,
   onNeedMoreData: PropTypes.func,
   onSelectRow: PropTypes.func,
   queryGetter: PropTypes.func,
   querySetter: PropTypes.func,
+  searchField: PropTypes.object,
   searchString: PropTypes.string,
   selectedRecordId: PropTypes.string,
-  searchField: PropTypes.object,
-  // add values for search-selectbox
-  onChangeIndex: PropTypes.func,
 };
 
 export default injectIntl(withRouter(MetadataCollections));

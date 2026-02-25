@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 
 import ViewContainer from '../DisplayUtils/ViewContainer';
 import SourceInfoView from './SourceInfo/SourceInfoView';

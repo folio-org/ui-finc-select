@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types';
 import {
   get,
   isEqual,
 } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 import { withRouter } from 'react-router-dom';
-import { injectIntl, FormattedMessage } from 'react-intl';
 
-import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 import {
   Button,
   Icon,
@@ -16,6 +18,7 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
+import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 
 import {
   createRowFormatter,
@@ -95,11 +98,11 @@ const MetadataSources = ({
       initialSortState={defaultSort}
       queryGetter={queryGetter}
       querySetter={querySetter}
-      setQueryOnMount
       searchParamsMapping={{
         query: (q) => ({ query: q }),
         qindex: (q) => ({ qindex: q }),
       }}
+      setQueryOnMount
     >
       {
         ({
@@ -146,12 +149,12 @@ const MetadataSources = ({
                             getSearchHandlers().reset();
                           }
                         }}
-                        onClear={getSearchHandlers().reset}
-                        value={searchValue.query}
-                        // add values for search-selectbox
                         onChangeIndex={doChangeIndex}
+                        onClear={getSearchHandlers().reset}
+                        // add values for search-selectbox
                         searchableIndexes={searchableIndexes}
                         selectedIndex={searchValue.qindex}
+                        value={searchValue.query}
                       />
                       <Button
                         buttonStyle="primary"
@@ -233,16 +236,15 @@ MetadataSources.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }),
+  onChangeIndex: PropTypes.func,
   onNeedMoreData: PropTypes.func,
   onSelectRow: PropTypes.func,
   queryGetter: PropTypes.func,
   querySetter: PropTypes.func,
   searchField: PropTypes.object,
   searchString: PropTypes.string,
-  source: PropTypes.object,
-  // add values for search-selectbox
-  onChangeIndex: PropTypes.func,
   selectedRecordId: PropTypes.string,
+  source: PropTypes.object,
 };
 
 export default injectIntl(withRouter(MetadataSources));

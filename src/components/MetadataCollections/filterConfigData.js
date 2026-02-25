@@ -7,7 +7,7 @@ const filterConfig = [
     operator: '=',
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.yes" />, cql: 'yes' },
-      { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' }
+      { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' },
     ],
   },
   {
@@ -16,7 +16,7 @@ const filterConfig = [
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.yes" />, cql: 'yes' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' },
-      { name: <FormattedMessage id="ui-finc-select.dataOption.undetermined" />, cql: 'undetermined' }
+      { name: <FormattedMessage id="ui-finc-select.dataOption.undetermined" />, cql: 'undetermined' },
     ],
   },
   {
@@ -25,7 +25,7 @@ const filterConfig = [
     operator: '=',
     values: [
       { name: <FormattedMessage id="ui-finc-select.dataOption.yes" />, cql: 'yes' },
-      { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' }
+      { name: <FormattedMessage id="ui-finc-select.dataOption.no" />, cql: 'no' },
     ],
   },
   {
@@ -33,7 +33,7 @@ const filterConfig = [
     cql: 'mdSource.id',
     operator: '==',
     values: [],
-  }
+  },
 ];
 
 export default filterConfig;

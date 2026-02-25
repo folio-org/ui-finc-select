@@ -14,7 +14,7 @@ const FincNavigation = ({ id }) => {
   const filtersSearchString = localStorage.getItem('finc-select-filters-search-string') || '';
 
   return (
-    <ButtonGroup fullWidth data-test-navigation>
+    <ButtonGroup data-test-navigation fullWidth>
       <Button
         buttonStyle={id === 'source' ? 'primary' : 'default'}
         data-test-navigation-source

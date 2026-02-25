@@ -1,22 +1,25 @@
 import {
   QueryClient,
   QueryClientProvider,
+  setLogger,
 } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
-import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
-import { StripesContext } from '@folio/stripes/core';
+import {
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import { StripesContext } from '@folio/stripes/core';
 
-import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import SOURCE from '../../../test/fixtures/metadatasource';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import MetadataSourceView from './MetadataSourceView';
 
 const mockPut = jest.fn();
-const mockGet = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ name: 'Test organization', id: 'uuid-1234' }),
-  }));
+const mockGet = jest.fn(() => ({
+  json: jest.fn().mockResolvedValue({ name: 'Test organization', id: 'uuid-1234' }),
+}));
 
 jest.mock('@folio/stripes/core', () => {
   const original = jest.requireActual('@folio/stripes/core');
@@ -33,6 +36,12 @@ const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn,
 };
+
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  error: () => {},
+});
 
 const queryClient = new QueryClient();
 const okapiState = { okapi: { token: {} } };
@@ -71,6 +80,10 @@ describe('MetadataSourceView', () => {
     renderMetadataSourceView(SOURCE);
   });
 
+  afterEach(() => {
+    queryClient.clear();
+  });
+
   it('accordions should be present', () => {
     expect(document.querySelector('#managementAccordion')).toBeInTheDocument();
     expect(document.querySelector('#technicalAccordion')).toBeInTheDocument();
@@ -82,7 +95,8 @@ describe('MetadataSourceView', () => {
 
   it('should display description', () => {
     expect(screen.getByText(
-      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore.'
+      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, ' +
+      'sed diam nonumy eirmod tempor invidunt ut labore et dolore.'
     )).toBeInTheDocument();
   });
 
@@ -124,7 +138,7 @@ describe('MetadataSourceView', () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
       mockPut.mockRejectedValueOnce(new Error('Mocked error'));
 
-      userEvent.click(selectAllCollectionsButton);
+      await userEvent.click(selectAllCollectionsButton);
 
       await waitFor(() => {
         expect(screen.getByText('The process could not start.')).toBeInTheDocument();
@@ -135,12 +149,13 @@ describe('MetadataSourceView', () => {
       const selectAllCollectionsButton = screen.getByRole('button', { name: 'Select all collections' });
       mockPut.mockResolvedValueOnce();
 
-      userEvent.click(selectAllCollectionsButton);
+      await userEvent.click(selectAllCollectionsButton);
 
       await waitFor(() => {
-        expect(
-          screen.getByText('The process has been started. It can take some time, until all ISILs will be added to the selected by field.')
-        ).toBeInTheDocument();
+        expect(screen.getByText(
+          'The process has been started. ' +
+          'It can take some time, until all ISILs will be added to the selected by field.'
+        )).toBeInTheDocument();
       });
     });
   });

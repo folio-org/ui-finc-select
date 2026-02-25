@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -20,13 +20,15 @@ const CollectionTechnicalView = ({ metadataCollection }) => {
       return isEmptyMessage;
     } else {
       const valueItems = metadataCollection[values];
-      const valueFormatter = (valueItem) => (<li key={valueItem}><a href={valueItem} target="_blank" rel="noopener noreferrer">{valueItem}</a></li>);
+      const valueFormatter = valueItem => (
+        <li key={valueItem}><a href={valueItem} rel="noopener noreferrer" target="_blank">{valueItem}</a></li>
+      );
 
       return (
         <List
           isEmptyMessage={isEmptyMessage}
-          items={valueItems}
           itemFormatter={valueFormatter}
+          items={valueItems}
         />
       );
     }
@@ -64,6 +66,5 @@ const CollectionTechnicalView = ({ metadataCollection }) => {
 CollectionTechnicalView.propTypes = {
   metadataCollection: PropTypes.object,
 };
-
 
 export default CollectionTechnicalView;

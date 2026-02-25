@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -11,6 +11,7 @@ import {
 const SourceInfoView = ({ metadataSource }) => {
   const getDataLable = (field) => {
     const fieldValue = get(metadataSource, field, '');
+
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {

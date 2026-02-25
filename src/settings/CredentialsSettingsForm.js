@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
@@ -18,8 +18,8 @@ import {
 } from '@folio/stripes/components';
 import stripesForm from '@folio/stripes/form';
 
-import Required from '../components/DisplayUtils/Validate';
 import BasicStyle from '../components/BasicStyle.css';
+import Required from '../components/DisplayUtils/Validate';
 
 const CredentialsSettingsForm = ({
   handleSubmit,

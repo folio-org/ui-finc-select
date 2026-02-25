@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import { StripesContext } from '@folio/stripes/core';
 
-import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FILTER from '../../../test/fixtures/filter';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterView from './FilterView';
 
 const handlers = {

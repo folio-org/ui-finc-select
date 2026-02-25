@@ -5,14 +5,16 @@ import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
-  useOkapiKy,
-  useStripes,
-} from '@folio/stripes/core';
-import {
   useOkapiKyMutation,
   useOkapiKyQuery,
 } from '@folio/stripes-leipzig-components';
+import {
+  useOkapiKy,
+  useStripes,
+} from '@folio/stripes/core';
 
+import urls from '../components/DisplayUtils/urls';
+import FilterForm from '../components/Filters/FilterForm';
 import {
   API_COLLECTIONS_BY_FILTER_ID,
   API_FILTERS,
@@ -21,8 +23,6 @@ import {
   QK_FILTERS,
   QK_TINY_SOURCES,
 } from '../util/constants';
-import urls from '../components/DisplayUtils/urls';
-import FilterForm from '../components/Filters/FilterForm';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
 const FilterEditRoute = ({
@@ -38,12 +38,13 @@ const FilterEditRoute = ({
     queryKey: [QK_FILTERS, filterId],
     api: API_FILTERS,
     id: filterId,
-    options: { enabled: Boolean(filterId) }
+    options: { enabled: Boolean(filterId) },
   });
 
   const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
     [QK_COLLECTIONS, filterId],
-    () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json().catch(() => ({ collectionIds: [] })),
+    () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json()
+      .catch(() => ({ collectionIds: [] })),
     // The query will not execute until the id exists
     { enabled: Boolean(filterId) }
   );
@@ -101,10 +102,10 @@ const FilterEditRoute = ({
 
   return (
     <FilterForm
-      initialValues={getInitialValues()}
       collectionIds={formattedCollections}
       filterData={{ mdSources: mdSources.tinyMetadataSources }}
       handlers={{ onClose: handleClose }}
+      initialValues={getInitialValues()}
       isLoading={isLoading}
       onDelete={handleDelete}
       onSubmit={handleSubmit}

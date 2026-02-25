@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useMutation } from 'react-query';
 
-import { useOkapiKy } from '@folio/stripes/core';
 import {
   Button,
   Col,
   Modal,
   Row,
 } from '@folio/stripes/components';
+import { useOkapiKy } from '@folio/stripes/core';
 
 import { API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID } from '../../../util/constants';
 
@@ -34,7 +34,7 @@ const SelectAllCollections = ({
     onError: () => {
       setModalText(<FormattedMessage id="ui-finc-select.source.modal.selectAllCollections.error" />);
       setShowInfoModal(true);
-    }
+    },
   });
 
   const handleClose = () => {

@@ -31,7 +31,6 @@ const metadatasource = {
   'indexingLevel' : 'bibliographic',
   'generalNotes' : 'Test licensing note',
   'organization' : {
-    'id' : 'uuid-1234',
     'name' : 'Test organization'
   },
 };

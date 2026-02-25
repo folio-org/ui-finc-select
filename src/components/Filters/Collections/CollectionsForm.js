@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
+import { FormattedMessage } from 'react-intl';
 
 import { Accordion } from '@folio/stripes/components';
 
@@ -51,7 +51,7 @@ CollectionsForm.propTypes = {
   form: PropTypes.shape({
     mutators: PropTypes.shape({
       setCollection: PropTypes.func,
-    })
+    }),
   }),
   onToggle: PropTypes.func,
 };

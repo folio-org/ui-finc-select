@@ -1,10 +1,9 @@
-
 import PropTypes from 'prop-types';
 
 import ViewContainer from '../DisplayUtils/ViewContainer';
-import FilterInfoView from './FilterInfo/FilterInfoView';
-import FilterFileView from './FilterFile/FilterFileView';
 import CollectionsView from './Collections/CollectionsView';
+import FilterFileView from './FilterFile/FilterFileView';
+import FilterInfoView from './FilterInfo/FilterInfoView';
 
 const FilterView = (props) => {
   const { collectionIds } = props;

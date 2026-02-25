@@ -1,14 +1,20 @@
-import { MemoryRouter } from 'react-router-dom';
-import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import { Form } from 'react-final-form';
+import { MemoryRouter } from 'react-router-dom';
 
-import { screen, waitFor } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  screen,
+  waitFor,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
 import renderWithIntlConfiguration from '../../../../test/jest/helpers/renderWithIntlConfiguration';
-import FilterFileForm from './FilterFileForm';
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+import FilterFileForm from './FilterFileForm';
 
 const onToggle = jest.fn();
 const onSubmit = jest.fn();
@@ -27,8 +33,8 @@ const renderFilterFileForm = (stripes) => {
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
-          onSubmit={onSubmit}
           mutators={arrayMutators}
+          onSubmit={onSubmit}
           render={() => (
             <FilterFileForm
               accordionId="accordionId"

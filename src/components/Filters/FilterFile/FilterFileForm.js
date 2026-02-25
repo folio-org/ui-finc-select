@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { Accordion } from '@folio/stripes/components';
 import { useStripes } from '@folio/stripes/core';
 
-import DocumentsFieldArray from './UploadFile/DocumentsFieldArray';
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
+import DocumentsFieldArray from './UploadFile/DocumentsFieldArray';
 
 const FilterFileForm = ({
   accordionId,
