@@ -7,3 +7,4 @@ npm-debug.log
 package-lock.json
 junit.xml
 .vscode/launch.json
+yarn.lock
