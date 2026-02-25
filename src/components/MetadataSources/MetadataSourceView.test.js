@@ -1,6 +1,7 @@
 import {
   QueryClient,
   QueryClientProvider,
+  setLogger,
 } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -16,8 +17,8 @@ import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIn
 import MetadataSourceView from './MetadataSourceView';
 
 const mockPut = jest.fn();
-const mockGet = jest.fn(() => Promise.resolve({
-  json: () => Promise.resolve({ name: 'Test organization', id: 'uuid-1234' }),
+const mockGet = jest.fn(() => ({
+  json: jest.fn().mockResolvedValue({ name: 'Test organization', id: 'uuid-1234' }),
 }));
 
 jest.mock('@folio/stripes/core', () => {
@@ -35,6 +36,12 @@ const handlers = {
   onClose: jest.fn,
   onEdit: jest.fn,
 };
+
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  error: () => {},
+});
 
 const queryClient = new QueryClient();
 const okapiState = { okapi: { token: {} } };
@@ -71,6 +78,10 @@ describe('MetadataSourceView', () => {
   beforeEach(() => {
     stripes.hasPerm = () => true;
     renderMetadataSourceView(SOURCE);
+  });
+
+  afterEach(() => {
+    queryClient.clear();
   });
 
   it('accordions should be present', () => {

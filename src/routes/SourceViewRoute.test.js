@@ -7,6 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   render,
   screen,
+  waitFor,
 } from '@folio/jest-config-stripes/testing-library/react';
 
 import routeProps from '../../test/fixtures/routeProps';
@@ -17,7 +18,7 @@ const queryClient = new QueryClient();
 jest.mock('../components/MetadataSources/MetadataSourceView', () => () => <div>MetadataSourceView</div>);
 
 describe('render SourceViewRoute', () => {
-  it('should render MetadataSourceView', () => {
+  it('should render MetadataSourceView', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -26,6 +27,8 @@ describe('render SourceViewRoute', () => {
       </QueryClientProvider>
     );
 
-    expect(screen.getByText('MetadataSourceView')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('MetadataSourceView')).toBeInTheDocument();
+    });
   });
 });
