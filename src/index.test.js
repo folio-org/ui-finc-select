@@ -34,9 +34,9 @@ const renderComponent = (actAs, testPath) => (
   render(
     <MemoryRouter initialEntries={[testPath]}>
       <FincSelect
+        actAs={actAs}
         location={{}}
         match={match}
-        actAs={actAs}
         stripes={{}}
       />
     </MemoryRouter>

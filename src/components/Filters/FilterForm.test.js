@@ -1,13 +1,19 @@
-import { MemoryRouter } from 'react-router-dom';
 import { Form } from 'react-final-form';
+import { MemoryRouter } from 'react-router-dom';
 
-import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  screen,
+  within,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
+import FILTER from '../../../test/fixtures/filter';
 import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import FilterForm from './FilterForm';
-import FILTER from '../../../test/fixtures/filter';
 
 const onDelete = jest.fn();
 const onClose = jest.fn();
@@ -22,9 +28,9 @@ const renderEmptyFilterForm = (stripes, initialValues = {}) => {
           onSubmit={jest.fn}
           render={() => (
             <FilterForm
-              initialValues={initialValues}
               handlers={{ onClose, onDelete }}
               handleSubmit={handleSubmit}
+              initialValues={initialValues}
               onSubmit={onSubmit}
             />
           )}
@@ -42,11 +48,11 @@ const renderFilterForm = (stripes, initialValues = FILTER) => {
           onSubmit={jest.fn}
           render={() => (
             <FilterForm
-              initialValues={initialValues}
               handlers={{ onClose, onDelete }}
               handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
+              initialValues={initialValues}
               onDelete={onDelete}
+              onSubmit={onSubmit}
             />
           )}
         />
@@ -83,7 +89,7 @@ describe('FilterForm', () => {
     test('if select type and click save is showing required fields', async () => {
       await userEvent.selectOptions(screen.getByRole('combobox', { name: /Type/ }), 'Blacklist');
       await userEvent.click(screen.getByRole('button', { name: 'Save & close' }));
-      expect(screen.getAllByText('Required!', { exact: false })).toHaveLength(1);
+      expect(screen.getByText('Required!', { exact: false })).toBeInTheDocument();
       expect(onSubmit).not.toHaveBeenCalled();
     });
   });

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { useStripes } from '@folio/stripes/core';
 import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
+import { useStripes } from '@folio/stripes/core';
 
+import urls from '../components/DisplayUtils/urls';
+import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 import {
   API_SOURCES,
   QK_SOURCES,
 } from '../util/constants';
-import urls from '../components/DisplayUtils/urls';
-import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 
 const SourceViewRoute = ({
   history,
@@ -22,7 +22,7 @@ const SourceViewRoute = ({
     queryKey: [QK_SOURCES, sourceId],
     id: sourceId,
     api: API_SOURCES,
-    options: { enabled: Boolean(sourceId) }
+    options: { enabled: Boolean(sourceId) },
   });
 
   const handleClose = () => {

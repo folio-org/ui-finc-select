@@ -1,24 +1,27 @@
-import { MemoryRouter } from 'react-router-dom';
-import { Form } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import { Form } from 'react-final-form';
+import { MemoryRouter } from 'react-router-dom';
 
 import { screen } from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
-import { StripesContext, useStripes } from '@folio/stripes/core';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
-import DocumentsFieldArray from './DocumentsFieldArray';
 import renderWithIntlConfiguration from '../../../../../test/jest/helpers/renderWithIntlConfiguration';
+import DocumentsFieldArray from './DocumentsFieldArray';
 
 const renderDocumentsFieldArray = (stripes, filterFileMock = {}) => {
   return renderWithIntlConfiguration(
     <StripesContext.Provider value={stripes}>
       <MemoryRouter>
         <Form
-          onSubmit={jest.fn()}
+          initialValues={filterFileMock}
           mutators={{
             ...arrayMutators,
           }}
-          initialValues={filterFileMock}
+          onSubmit={jest.fn()}
           render={() => (
             <DocumentsFieldArray name="filterFiles" />
           )}

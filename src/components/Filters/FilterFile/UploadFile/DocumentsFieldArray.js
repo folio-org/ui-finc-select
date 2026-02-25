@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
 import { Field } from 'react-final-form';
 import { useFieldArray } from 'react-final-form-arrays';
+import {
+  FormattedMessage,
+  injectIntl,
+} from 'react-intl';
 
+import { EditCard } from '@folio/stripes-leipzig-components';
 import {
   Button,
   Col,
@@ -10,10 +14,9 @@ import {
   Row,
   TextField,
 } from '@folio/stripes/components';
-import { EditCard } from '@folio/stripes-leipzig-components';
 
-import FileUploaderField from './FileUploaderField';
 import Required from '../../../DisplayUtils/Validate';
+import FileUploaderField from './FileUploaderField';
 
 const DocumentsFieldArray = ({
   intl,
@@ -29,7 +32,7 @@ const DocumentsFieldArray = ({
       const filename = file.label;
       const fileConnectedText = <FormattedMessage id="ui-finc-select.filter.file.connected" values={{ filename }} />;
       return (
-        <Col xs={12} md={6}>
+        <Col md={6} xs={12}>
           <p>{fileConnectedText}</p>
         </Col>
       );
@@ -37,7 +40,7 @@ const DocumentsFieldArray = ({
       return (
         <>
           {onUploadFile &&
-            <Col xs={12} md={6}>
+            <Col md={6} xs={12}>
               <Field
                 component={FileUploaderField}
                 id={`filter-file-card-fileId-${i}`}
@@ -56,19 +59,19 @@ const DocumentsFieldArray = ({
   const renderFields = () => {
     return fields.map((field, index) => (
       <EditCard
+        key={field}
         deleteButtonTooltipText={intl.formatMessage(
           { id: 'ui-finc-select.filter.file.label.delete.number' },
-          { number: index + 1 },
+          { number: index + 1 }
         )}
         header={intl.formatMessage(
           { id: 'ui-finc-select.filter.file.label.number' },
-          { number: index + 1 },
+          { number: index + 1 }
         )}
-        key={field}
         onDelete={() => fields.remove(index)}
       >
         <Row>
-          <Col xs={12} md={onUploadFile ? 6 : 12}>
+          <Col md={onUploadFile ? 6 : 12} xs={12}>
             <Row>
               <Col xs={12}>
                 <Field

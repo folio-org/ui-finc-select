@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { withRouter, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
+import {
+  Link,
+  withRouter,
+} from 'react-router-dom';
 
 import {
   Button,
@@ -39,6 +42,7 @@ const SourceManagementView = ({
   const { isError } = useOrganization();
 
   let orgValue;
+
   if (!organization?.name) {
     orgValue = <NoValue />;
   } else if (isError) {

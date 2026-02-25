@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
-  Col,
   Button,
+  Col,
   KeyValue,
-  NoValue,
   Modal,
+  NoValue,
 } from '@folio/stripes/components';
 
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
@@ -77,6 +80,7 @@ const SelectUnselect = ({
     let inverseSelected = '';
 
     if (selected === 'no') { inverseSelected = 'yes'; } else { inverseSelected = 'no'; }
+
     const invertSelectedButtonLable = getSelectedButtonLable(inverseSelected);
 
     fetchWithDefaultOptions(stripes.okapi, `/finc-select/metadata-collections/${collectionId}/select`,
@@ -109,12 +113,14 @@ const SelectUnselect = ({
   const getSelectedDataLable = () => {
     if (selected !== undefined) {
       const fieldValue = selected;
+
       if (fieldValue !== '') {
         return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
       } else {
         return <NoValue />;
       }
     }
+
     return null;
   };
 

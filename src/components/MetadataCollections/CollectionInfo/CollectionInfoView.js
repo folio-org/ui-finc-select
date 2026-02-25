@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
@@ -9,12 +9,13 @@ import {
   Row,
 } from '@folio/stripes/components';
 
-import SelectUnselect from './SelectUnselect';
 import urls from '../../DisplayUtils/urls';
+import SelectUnselect from './SelectUnselect';
 
 const CollectionInfoView = ({ metadataCollection, stripes }) => {
   const getDataLable = (field) => {
     const fieldValue = get(metadataCollection, field, '');
+
     if (fieldValue !== '') {
       return <FormattedMessage id={`ui-finc-select.dataOption.${fieldValue}`} />;
     } else {

@@ -11,15 +11,15 @@ const FincConfigSettings = ({ match, ...props }) => {
       component: CredentialsSettings,
       label: <FormattedMessage id="ui-finc-select.settings.ezbCredentials.label" />,
       route: 'ezb-credentials',
-    }
+    },
   ];
 
   return (
     <Settings
       data-test-settings-finc-select
+      match={match}
       pages={pages}
       paneTitle={<FormattedMessage id="ui-finc-select.meta.title" />}
-      match={match}
       {...props}
     />
   );

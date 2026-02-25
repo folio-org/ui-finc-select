@@ -1,6 +1,6 @@
 import ViewContainer from '../DisplayUtils/ViewContainer';
-import CollectionInfoView from './CollectionInfo/CollectionInfoView';
 import CollectionContentView from './CollectionContent/CollectionContentView';
+import CollectionInfoView from './CollectionInfo/CollectionInfoView';
 import CollectionTechnicalView from './CollectionTechnical/CollectionTechnicalView';
 
 const MetadataCollectionView = (props) => {

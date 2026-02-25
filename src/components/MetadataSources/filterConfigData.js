@@ -9,7 +9,7 @@ const filterConfig = [
       { name: <FormattedMessage id="ui-finc-select.dataOption.request" />, cql: 'request' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.implementation" />, cql: 'implementation' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.closed" />, cql: 'closed' },
-      { name: <FormattedMessage id="ui-finc-select.dataOption.impossible" />, cql: 'impossible' }
+      { name: <FormattedMessage id="ui-finc-select.dataOption.impossible" />, cql: 'impossible' },
     ],
   },
   {
@@ -21,7 +21,7 @@ const filterConfig = [
       { name: <FormattedMessage id="ui-finc-select.dataOption.some" />, cql: 'some' },
       { name: <FormattedMessage id="ui-finc-select.dataOption.none" />, cql: 'none' },
     ],
-  }
+  },
 ];
 
 export default filterConfig;

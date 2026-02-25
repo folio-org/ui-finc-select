@@ -4,12 +4,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { useOkapiKyQuery } from '@folio/stripes-leipzig-components';
 import { useStripes } from '@folio/stripes/core';
 
+import urls from '../components/DisplayUtils/urls';
+import MetadataCollectionView from '../components/MetadataCollections/MetadataCollectionView';
 import {
   API_COLLECTIONS,
   QK_COLLECTIONS,
 } from '../util/constants';
-import urls from '../components/DisplayUtils/urls';
-import MetadataCollectionView from '../components/MetadataCollections/MetadataCollectionView';
 
 const CollectionViewRoute = ({
   history,

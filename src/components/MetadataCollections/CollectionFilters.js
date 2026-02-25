@@ -103,8 +103,8 @@ const CollectionFilters = ({
 
 CollectionFilters.propTypes = {
   activeFilters: PropTypes.object,
-  filterHandlers: PropTypes.object,
   filterData: PropTypes.object,
+  filterHandlers: PropTypes.object,
 };
 
 export default CollectionFilters;

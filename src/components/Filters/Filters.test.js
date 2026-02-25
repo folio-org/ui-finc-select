@@ -1,11 +1,17 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import { StripesContext, useStripes } from '@folio/stripes/core';
-import { screen, within } from '@folio/jest-config-stripes/testing-library/react';
+import {
+  screen,
+  within,
+} from '@folio/jest-config-stripes/testing-library/react';
 import userEvent from '@folio/jest-config-stripes/testing-library/user-event';
+import {
+  StripesContext,
+  useStripes,
+} from '@folio/stripes/core';
 
-import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import filters from '../../../test/fixtures/filters';
+import renderWithIntlConfiguration from '../../../test/jest/helpers/renderWithIntlConfiguration';
 import Filters from './Filters';
 
 jest.mock('react-virtualized-auto-sizer', () => ({ children }) => children({ width: 1920, height: 1080 }));

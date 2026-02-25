@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -10,8 +10,8 @@ import {
 
 import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
-import MetadataSources from '../components/MetadataSources/MetadataSources';
 import filterConfig from '../components/MetadataSources/filterConfigData';
+import MetadataSources from '../components/MetadataSources/MetadataSources';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -30,12 +30,12 @@ class SourcesRoute extends React.Component {
             'cql.allRecords=1',
             '(label="%{query.query}*" or description="%{query.query}*" or sourceId="%{query.query}*")',
             {
-              'label': 'label',
-              'description': 'description',
-              'sourceId': 'sourceId/number',
+              label: 'label',
+              description: 'description',
+              sourceId: 'sourceId/number',
             },
             filterConfig,
-            2,
+            2
           ),
         },
         staticFallback: { params: {} },
@@ -45,8 +45,8 @@ class SourcesRoute extends React.Component {
       initialValue: {
         query: '',
         filters: 'status.active,status.implementation',
-        sort: 'label'
-      }
+        sort: 'label',
+      },
     },
     resultCount: { initialValue: INITIAL_RESULT_COUNT },
   });
@@ -141,14 +141,14 @@ class SourcesRoute extends React.Component {
     return (
       <MetadataSources
         contentData={_.get(this.props.resources, 'sources.records', [])}
+        onChangeIndex={this.onChangeIndex}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
         querySetter={this.querySetter}
         searchString={location.search}
         selectedRecordId={match.params.id}
-        source={this.source}
         // add values for search-selectbox
-        onChangeIndex={this.onChangeIndex}
+        source={this.source}
       >
         {children}
       </MetadataSources>

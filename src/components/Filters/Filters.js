@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import {
   get,
   isEqual,
 } from 'lodash';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 
-import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 import {
   Button,
   Icon,
@@ -16,6 +15,7 @@ import {
   Paneset,
   SearchField,
 } from '@folio/stripes/components';
+import { SearchAndSortQuery } from '@folio/stripes/smart-components';
 
 import {
   createRowFormatter,
@@ -150,7 +150,6 @@ const Filters = ({
                 defaultWidth="fill"
                 id="pane-filter-results"
                 padContent={false}
-                style={{ minWidth: '42%' }}
                 renderHeader={() => renderResultsPaneHeader({
                   activeFilters,
                   createUrl: `${urls.filterCreate()}${searchString}`,
@@ -161,6 +160,7 @@ const Filters = ({
                   result: filter,
                   toggleFilterPane,
                 })}
+                style={{ minWidth: '42%' }}
               >
                 <MultiColumnList
                   autosize

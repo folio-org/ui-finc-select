@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { stripesConnect } from '@folio/stripes/core';
 import {
@@ -10,8 +10,8 @@ import {
 
 import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
-import Filters from '../components/Filters/Filters';
 import filterConfig from '../components/Filters/filterConfigData';
+import Filters from '../components/Filters/Filters';
 
 const INITIAL_RESULT_COUNT = 30;
 const RESULT_COUNT_INCREMENT = 30;
@@ -31,10 +31,10 @@ class FiltersRoute extends React.Component {
             'cql.allRecords=1',
             '(label="%{query.query}*")',
             {
-              'Filter Name': 'label'
+              'Filter Name': 'label',
             },
             filterConfig,
-            2,
+            2
           ),
         },
         staticFallback: { params: {} },

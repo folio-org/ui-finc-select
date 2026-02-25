@@ -1,6 +1,7 @@
 export const API_COLLECTIONS = 'finc-select/metadata-collections';
 export const API_COLLECTIONS_BY_FILTER_ID = (filterId) => `finc-select/filters/${filterId}/collections`;
-export const API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID = (sourceId) => `finc-select/metadata-sources/${sourceId}/collections/select-all`;
+export const API_COLLECTIONS_SELECT_ALL_BY_SOURCE_ID =
+  (sourceId) => `finc-select/metadata-sources/${sourceId}/collections/select-all`;
 export const API_EZB_CREDENTIALS = 'finc-select/ezb-credentials';
 export const API_FILTERS = 'finc-select/filters';
 export const API_ORGANIZATIONS = 'organizations-storage/organizations';

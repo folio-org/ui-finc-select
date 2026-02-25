@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
-import { Button, Icon } from '@folio/stripes/components';
+import {
+  Button,
+  Icon,
+} from '@folio/stripes/components';
 
 import css from './FileUploader.css';
 

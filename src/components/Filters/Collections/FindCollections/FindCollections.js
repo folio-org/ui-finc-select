@@ -9,7 +9,9 @@ const FindCollections = ({
   isEditable,
   selectRecords,
 }) => {
-  const searchLabel = isEditable ? <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" /> : <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />;
+  const searchLabel = isEditable ?
+    <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.add" /> :
+    <FormattedMessage id="ui-finc-select.plugin.buttonLabel.collection.view" />;
 
   return (
     <Pluggable

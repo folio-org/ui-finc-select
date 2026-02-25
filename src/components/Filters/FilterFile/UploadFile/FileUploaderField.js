@@ -2,8 +2,12 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 
+import {
+  createFileSizeErrorDetails,
+  HTTP_STATUS_PAYLOAD_TOO_LARGE,
+  isFileSizeValid,
+} from '../../../../util/fileUtils';
 import FileUploaderFieldView from './FileUploaderFieldView';
-import { isFileSizeValid, createFileSizeErrorDetails, HTTP_STATUS_PAYLOAD_TOO_LARGE } from '../../../../util/fileUtils';
 
 /**
  * Helper function to create file size error message
@@ -33,8 +37,10 @@ const createFileSizeErrorMessage = (fileSize, intl) => {
 const handlePayloadTooLargeError = async (response, file, intl) => {
   // Check Content-Length header first to avoid fetching large error message bodies
   const contentLength = response.headers.get('Content-Length');
+
   if (contentLength) {
     const length = Number.parseInt(contentLength, 10);
+
     if (Number.isNaN(length) || length === 0 || length > 200) {
       return createFileSizeErrorMessage(file.size, intl);
     }
@@ -46,6 +52,7 @@ const handlePayloadTooLargeError = async (response, file, intl) => {
     // Sanitize backend message - only show if it's a simple size message
     // Reject messages that are too long or contain HTML/script tags (potential XSS)
     const hasHtmlTags = backendMessage.includes('<') && backendMessage.includes('>');
+
     if (backendMessage && backendMessage.length < 200 && !hasHtmlTags) {
       return intl.formatMessage(
         { id: 'ui-finc-select.filter.file.uploadError.backendRejected' },

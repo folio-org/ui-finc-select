@@ -1,18 +1,18 @@
-import PropTypes from 'prop-types';
-import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
 import { saveAs } from 'file-saver';
+import { get } from 'lodash';
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import {
-  MultiColumnList,
   Button,
+  MultiColumnList,
 } from '@folio/stripes/components';
 
 import fetchWithDefaultOptions from '../../DisplayUtils/fetchWithDefaultOptions';
 
 const FilterFileView = ({
   filter,
-  stripes
+  stripes,
 }) => {
   const handleDownloadFile = (file) => {
     return fetchWithDefaultOptions(stripes.okapi, `/finc-select/files/${file.fileId}`)
@@ -52,7 +52,7 @@ const FilterFileView = ({
       columnMapping={{
         label: <FormattedMessage id="ui-finc-select.filter.file.label" />,
         criteria: <FormattedMessage id="ui-finc-select.filter.file.criteria" />,
-        fileId: ''
+        fileId: '',
       }}
       contentData={get(filter, 'filterFiles', [])}
       formatter={formatter}
@@ -67,9 +67,9 @@ FilterFileView.propTypes = {
   filter: PropTypes.shape({
     docs: PropTypes.arrayOf(
       PropTypes.shape({
-        lable: PropTypes.string.isRequired,
         criteria: PropTypes.string,
-      }),
+        lable: PropTypes.string.isRequired,
+      })
     ),
   }),
   stripes: PropTypes.shape({

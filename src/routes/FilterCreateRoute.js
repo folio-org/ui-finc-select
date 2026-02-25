@@ -2,20 +2,20 @@ import { omit } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { useStripes } from '@folio/stripes/core';
 import {
   useOkapiKyMutation,
   useOkapiKyQuery,
 } from '@folio/stripes-leipzig-components';
+import { useStripes } from '@folio/stripes/core';
 
-import {
-  API_FILTERS,
-  QK_FILTERS,
-  API_TINY_SOURCES,
-  QK_TINY_SOURCES,
-} from '../util/constants';
 import urls from '../components/DisplayUtils/urls';
 import FilterForm from '../components/Filters/FilterForm';
+import {
+  API_FILTERS,
+  API_TINY_SOURCES,
+  QK_FILTERS,
+  QK_TINY_SOURCES,
+} from '../util/constants';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
 const FilterCreateRoute = ({ history, location }) => {
@@ -57,10 +57,10 @@ const FilterCreateRoute = ({ history, location }) => {
 
   return (
     <FilterForm
-      initialValues={{ collectionIds: [] }}
       collectionIds={[]}
       filterData={{ mdSources: mdSources.tinyMetadataSources }}
       handlers={{ onClose: handleClose }}
+      initialValues={{ collectionIds: [] }}
       onSubmit={handleSubmit}
       stripes={stripes}
     />

@@ -1,6 +1,6 @@
+import { isEqual } from 'lodash';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { isEqual } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -18,14 +18,14 @@ import {
   Paneset,
   Row,
 } from '@folio/stripes/components';
-import { ViewMetaData } from '@folio/stripes/smart-components';
 import { IfPermission } from '@folio/stripes/core';
 import stripesFinalForm from '@folio/stripes/final-form';
+import { ViewMetaData } from '@folio/stripes/smart-components';
 
-import FilterInfoForm from './FilterInfo/FilterInfoForm';
-import FilterFileForm from './FilterFile/FilterFileForm';
-import CollectionsForm from './Collections/CollectionsForm';
 import BasicStyle from '../BasicStyle.css';
+import CollectionsForm from './Collections/CollectionsForm';
+import FilterFileForm from './FilterFile/FilterFileForm';
+import FilterInfoForm from './FilterInfo/FilterInfoForm';
 
 const FilterForm = ({
   collectionIds,
@@ -45,7 +45,7 @@ const FilterForm = ({
     {
       editFilterInfo: true,
       editFilterFile: true,
-      editCollections: true
+      editCollections: true,
     }
   );
 
@@ -138,7 +138,7 @@ const FilterForm = ({
       </Button>
     );
 
-    return <PaneFooter renderStart={startButton} renderEnd={endButton} />;
+    return <PaneFooter renderEnd={endButton} renderStart={startButton} />;
   };
 
   const renderPaneHeader = () => {
