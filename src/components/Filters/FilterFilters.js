@@ -9,24 +9,14 @@ import {
 } from '@folio/stripes/components';
 import { CheckboxFilter } from '@folio/stripes/smart-components';
 
-import { useUpdatedFilters } from '../../hooks';
+import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
 
 const FilterFilters = ({
   activeFilters = { type: [] },
   filterHandlers,
 }) => {
-  const [filterState, setFilterState] = useState({
-    type: [],
-  });
-
-  useUpdatedFilters({
-    dynamicKey: '',
-    filterConfig,
-    filterData: [],
-    filterState,
-    setFilterState,
-  });
+  const [filterState] = useState(() => buildFilterState(filterConfig));
 
   const renderCheckboxFilter = (key, props) => {
     const groupFilters = activeFilters[key] || [];

@@ -10,7 +10,7 @@ import {
 } from '@folio/stripes/components';
 import { CheckboxFilter } from '@folio/stripes/smart-components';
 
-import { useUpdatedFilters } from '../../hooks';
+import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
 
 const CollectionFilters = ({
@@ -24,20 +24,10 @@ const CollectionFilters = ({
   filterData,
   ...props
 }) => {
-  const [filterState, setFilterState] = useState({
-    selected: [],
-    freeContent: [],
-    permitted: [],
-    mdSource: [],
-  });
-
-  useUpdatedFilters({
-    dynamicKey: 'mdSource',
-    filterConfig,
-    filterData,
-    filterState,
-    setFilterState,
-  });
+  const [filterState] = useState(() => buildFilterState(
+    // skip for mdSource filter as it is dynamic and handled separately
+    filterConfig.filter(f => f.name !== 'mdSource')
+  ));
 
   const renderCheckboxFilter = (key) => {
     const groupFilters = activeFilters[key] || [];
@@ -63,8 +53,8 @@ const CollectionFilters = ({
   };
 
   const renderMetadataSourceFilter = () => {
-    const mdSources = filterData.mdSources;
-    const dataOptions = mdSources.map(mdSource => ({
+    // use dynamic filter values from okapi
+    const dataOptions = (filterData.mdSources || []).map(mdSource => ({
       value: mdSource.id,
       label: mdSource.label,
     }));
