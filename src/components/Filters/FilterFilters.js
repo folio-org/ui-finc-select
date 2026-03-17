@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -16,7 +16,7 @@ const FilterFilters = ({
   activeFilters = { type: [] },
   filterHandlers,
 }) => {
-  const [filterState] = useState(() => buildFilterState(filterConfig));
+  const filterState = useMemo(() => buildFilterState(filterConfig), []);
 
   const renderCheckboxFilter = (key, props) => {
     const groupFilters = activeFilters[key] || [];
