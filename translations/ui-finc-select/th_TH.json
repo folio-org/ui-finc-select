@@ -85,7 +85,7 @@
     "navigation.collections": "Collections",
     "navigation.filters": "Filters",
     "dataOption.active": "Active",
-    "dataOption.request": "Request",
+    "dataOption.request": "คำขอ",
     "dataOption.implementation": "Implementation",
     "dataOption.closed": "Closed",
     "dataOption.impossible": "Impossible",
