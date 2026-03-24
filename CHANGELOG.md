@@ -10,6 +10,7 @@
 * Fix FileUploaderField value type inconsistency ([UIFC-465](https://folio-org.atlassian.net/browse/UIFC-465))
 * Include mod-settings global permissions ([UIFC-459](https://folio-org.atlassian.net/browse/UIFC-459))
 * Add eslint rules ([UIFC-476](https://folio-org.atlassian.net/browse/UIFC-476))
+* Refactor useUpdatedFilters hook ([UIFC-483](https://folio-org.atlassian.net/browse/UIFC-483))
 
 ## [8.1.0](https://github.com/folio-org/ui-finc-select/tree/v8.1.0) (2025-08-21)
 * Address code duplications ([UIFC-342](https://folio-org.atlassian.net/browse/UIFC-342))
