@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -12,6 +11,8 @@ import { CheckboxFilter } from '@folio/stripes/smart-components';
 import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
 
+const filterState = buildFilterState(filterConfig);
+
 const SourceFilters = ({
   activeFilters = {
     status: [],
@@ -20,8 +21,6 @@ const SourceFilters = ({
   filterHandlers,
   ...props
 }) => {
-  const filterState = useMemo(() => buildFilterState(filterConfig), []);
-
   const renderCheckboxFilter = (key) => {
     const groupFilters = activeFilters[key] || [];
 
