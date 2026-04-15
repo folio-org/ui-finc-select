@@ -109,9 +109,9 @@
     "permission.edit": "Відбір Finc: Редагування фільтрів та вибір джерел та колекцій",
     "permission.create-edit": "Відбір Finc: Створення та редагування фільтрів, завантаження файлів та вибір джерел та колекцій",
     "permission.delete": "Відбір Finc: Видалення фільтрів та файлів",
-    "filter.file.label.number": "File #{number}",
-    "filter.file.label.delete.number": "Delete file #{number}",
-    "settings.ezbCredentials.error": "Error loading EZB credentials",
-    "filter.file.uploadError.fileTooLarge": "File size ({actualSize}) exceeds the maximum allowed size of {maxSize}.",
-    "filter.file.uploadError.backendRejected": "Server rejected the file: {message}"
+    "filter.file.label.number": "Файл №{number}",
+    "filter.file.label.delete.number": "Видалити файл №{number}",
+    "settings.ezbCredentials.error": "Помилка завантаження облікових даних EZB",
+    "filter.file.uploadError.fileTooLarge": "Розмір файлу ({actualSize}) перевищує максимально дозволений розмір {maxSize}.",
+    "filter.file.uploadError.backendRejected": "Сервер відхилив файл: {message}"
 }
