@@ -1,6 +1,9 @@
 # Change history for ui-finc-select
 
-## 8.2.0 (IN PROGRESS)
+## IN PROGRESS
+
+
+## [8.2.0](https://github.com/folio-org/ui-finc-select/tree/v8.2.0) (2026-04-20)
 * Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))
 * Add error handling and loading states to EZB Credentials settings page ([UIFC-457](https://folio-org.atlassian.net/browse/UIFC-457))
 * Support `finc-select-ezb-credentials 2.0` ([UIFC-458](https://folio-org.atlassian.net/browse/UIFC-458))
