@@ -2,13 +2,13 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { NoPermissionMessage } from '@folio/stripes-leipzig-components';
 import { stripesConnect } from '@folio/stripes/core';
 import {
   makeQueryFunction,
   StripesConnectedSource,
 } from '@folio/stripes/smart-components';
 
-import NoPermissionsMessage from '../components/DisplayUtils/NoPermissionsMessage';
 import urls from '../components/DisplayUtils/urls';
 import filterConfig from '../components/Filters/filterConfigData';
 import Filters from '../components/Filters/Filters';
@@ -119,7 +119,7 @@ class FiltersRoute extends React.Component {
     const hasPerms = stripes.hasPerm('ui-finc-select.view');
 
     if (!hasPerms) {
-      return <NoPermissionsMessage />;
+      return <NoPermissionMessage />;
     }
 
     if (this.filter) {

@@ -1,7 +1,7 @@
 # Change history for ui-finc-select
 
 ## IN PROGRESS
-
+* Use NoPermissionMessage from stripes-leipzig-components ([UIFC-475](https://folio-org.atlassian.net/browse/UIFC-475))
 
 ## [8.2.0](https://github.com/folio-org/ui-finc-select/tree/v8.2.0) (2026-04-20)
 * Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))

@@ -1,10 +1,10 @@
 import { omit } from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useQuery } from 'react-query';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import {
+  NoPermissionMessage,
   useOkapiKyMutation,
   useOkapiKyQuery,
 } from '@folio/stripes-leipzig-components';
@@ -97,7 +97,7 @@ const FilterEditRoute = ({
   };
 
   if (!hasPerms) {
-    return <div><FormattedMessage id="ui-finc-select.noPermission" /></div>;
+    return <NoPermissionMessage />;
   }
 
   return (
