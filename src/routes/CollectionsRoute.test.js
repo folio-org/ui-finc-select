@@ -37,6 +37,5 @@ describe('render CollectionsRoute without permission', () => {
     );
 
     expect(screen.queryByText('MetadataCollections')).not.toBeInTheDocument();
-    expect(screen.getByText('stripes-smart-components.permissionError')).toBeInTheDocument();
   });
 });

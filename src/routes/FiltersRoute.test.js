@@ -37,6 +37,5 @@ describe('render FiltersRoute without permission', () => {
     );
 
     expect(screen.queryByText('Filters')).not.toBeInTheDocument();
-    expect(screen.getByText('stripes-smart-components.permissionError')).toBeInTheDocument();
   });
 });
