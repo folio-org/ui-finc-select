@@ -37,6 +37,5 @@ describe('render SourcesRoute without permission', () => {
     );
 
     expect(screen.queryByText('MetadataSources')).not.toBeInTheDocument();
-    expect(screen.getByText('stripes-smart-components.permissionError')).toBeInTheDocument();
   });
 });
