@@ -62,7 +62,6 @@
     "permission.settings.manage": "Ayarlar (Finc select): Ayarları görüntüleyebilir ve düzenleyebilir",
     "permission.all": "Finc seçin: Tüm izinler",
     "permission.view": "Finc seçimi: Meta veri kaynaklarını, meta veri koleksiyonlarını ve filtreleri görüntüleyebilir",
-    "noPermission": "İzin yok",
     "renderList.isEmpty": "Gösterilecek kopya yok",
     "noSourceYet": "Henüz kaynak yok",
     "button.ok": "TAMAM.",

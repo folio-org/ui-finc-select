@@ -62,7 +62,6 @@
     "permission.settings.manage": "Einstellungen (Finc Select): Kann Einstellungen anzeigen und bearbeiten",
     "permission.all": "Finc Select: Alle Berechtigungen",
     "permission.view": "Finc Select: Kann Metadatenquellen, -kollektionen und Filter anzeigen",
-    "noPermission": "Keine Berechtigung",
     "renderList.isEmpty": "Keine Inhalte anzuzeigen",
     "noSourceYet": "Noch keine Quelle",
     "button.ok": "OK",

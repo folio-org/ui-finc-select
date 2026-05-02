@@ -62,7 +62,6 @@
     "permission.settings.manage": "Ajustes (selección de Finc): Puede ver y editar los ajustes",
     "permission.all": "Finc select: todos los permisos",
     "permission.view": "Finc selecciona: Puede ver las fuentes de metadatos, las colecciones de metadatos y los filtros",
-    "noPermission": "No hay permiso",
     "renderList.isEmpty": "No hay ítems que mostrar",
     "noSourceYet": "Sin fuente todavía",
     "button.ok": "OK",

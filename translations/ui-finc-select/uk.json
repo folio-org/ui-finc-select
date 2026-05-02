@@ -62,7 +62,6 @@
     "permission.settings.manage": "Налаштування (відбір для Finc): Перегляд та редагування налаштувань",
     "permission.all": "Finc select: Всі дозволи",
     "permission.view": "Відбір Finc: Перегляд джерел метаданих, колекцій метаданих та фільтрів",
-    "noPermission": "Дозвіл відсутній",
     "renderList.isEmpty": "Примірники для відображення відсутні",
     "noSourceYet": "Джерела поки що немає",
     "button.ok": "ОК",

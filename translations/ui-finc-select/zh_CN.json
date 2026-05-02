@@ -62,7 +62,6 @@
     "permission.settings.manage": "设置 : Finc选择 )  : 可以查看和编辑设置",
     "permission.all": "Finc选择 : 所有权限",
     "permission.view": "Finc选择 : 可以查看元数据来源、元数据集合和筛选器",
-    "noPermission": "没有权限",
     "renderList.isEmpty": "没有可显示的单件",
     "noSourceYet": "尚无来源",
     "button.ok": "OK",

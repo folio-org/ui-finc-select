@@ -62,7 +62,6 @@
     "permission.settings.manage": "Settings (Finc select): Can view and edit settings",
     "permission.all": "Finc select: All permissions",
     "permission.view": "Finc select: Can view metadatasources, metadatacollections and filters",
-    "noPermission": "Aucune autorisation",
     "renderList.isEmpty": "Aucun élément à afficher",
     "noSourceYet": "Pas encore de source",
     "button.ok": "OK",

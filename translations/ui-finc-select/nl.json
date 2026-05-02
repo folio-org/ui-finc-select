@@ -62,7 +62,6 @@
     "permission.settings.manage": "Instellingen (Finc select): Kan instellingen bekijken en bewerken",
     "permission.all": "Finc select: Alle rechten",
     "permission.view": "Finc selecteren: Kan metadatabronnen, metadatacollecties en filters bekijken.",
-    "noPermission": "Geen toestemming",
     "renderList.isEmpty": "Geen items om te tonen",
     "noSourceYet": "Nog geen bron",
     "button.ok": "OK",

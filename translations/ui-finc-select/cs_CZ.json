@@ -62,7 +62,6 @@
     "permission.settings.manage": "Nastavení (vybr. Fin.): Může zobrazit a upravit nastavení",
     "permission.all": "Vybrat Finance: Všechna oprávnění",
     "permission.view": "Vybrat Finance: Může zobrazit zdroje metadat, kolekce metadat a filtry",
-    "noPermission": "Bez povolení",
     "renderList.isEmpty": "Žádné jednotky k zobrazení",
     "noSourceYet": "Zatím žádný zdroj",
     "button.ok": "OK",
