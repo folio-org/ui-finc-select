@@ -62,7 +62,6 @@
     "permission.settings.manage": "Ustawienia (Wybór Finc): Może wyświetlać i edytować ustawienia",
     "permission.all": "Wybór Finc: Wszystkie uprawnienia",
     "permission.view": "Wybór Finc: Może wyświetlać źródła metadanych, kolekcje metadanych i filtry",
-    "noPermission": "Brak pozwolenia",
     "renderList.isEmpty": "Brak elementów do pokazania",
     "noSourceYet": "Nie ma jeszcze źródła",
     "button.ok": "OK",
