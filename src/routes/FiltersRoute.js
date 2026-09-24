@@ -63,7 +63,7 @@ class FiltersRoute extends React.Component {
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
     }),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -102,11 +102,11 @@ class FiltersRoute extends React.Component {
 
   querySetter = ({ nsValues }) => {
     this.props.mutator.query.update(nsValues);
-  }
+  };
 
   queryGetter = () => {
     return _.get(this.props.resources, 'query', {});
-  }
+  };
 
   handleNeedMoreData = () => {
     if (this.filter) {

@@ -1,17 +1,19 @@
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { CheckboxFilterAccordion } from '@folio/stripes-leipzig-components';
 import {
   Accordion,
   AccordionSet,
   FilterAccordionHeader,
   Selection,
 } from '@folio/stripes/components';
-import { CheckboxFilter } from '@folio/stripes/smart-components';
 
 import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
+
+// skip for mdSource filter as it is dynamic and handled separately
+const filterState = buildFilterState(filterConfig.filter(f => f.name !== 'mdSource'));
 
 const CollectionFilters = ({
   activeFilters = {
@@ -24,34 +26,16 @@ const CollectionFilters = ({
   filterData,
   ...props
 }) => {
-  const filterState = useMemo(
-    // skip for mdSource filter as it is dynamic and handled separately
-    () => buildFilterState(filterConfig.filter(f => f.name !== 'mdSource')),
-    []
+  const renderCheckboxFilter = (key) => (
+    <CheckboxFilterAccordion
+      activeFilters={activeFilters}
+      dataOptions={filterState[key]}
+      filterHandlers={filterHandlers}
+      filterKey={key}
+      label={<FormattedMessage id={`ui-finc-select.collection.${key}`} />}
+      {...props}
+    />
   );
-
-  const renderCheckboxFilter = (key) => {
-    const groupFilters = activeFilters[key] || [];
-
-    return (
-      <Accordion
-        displayClearButton={groupFilters.length > 0}
-        header={FilterAccordionHeader}
-        id={`filter-accordion-${key}`}
-        label={<FormattedMessage id={`ui-finc-select.collection.${key}`} />}
-        onClearFilter={() => { filterHandlers.clearGroup(key); }}
-        separator={false}
-        {...props}
-      >
-        <CheckboxFilter
-          dataOptions={filterState[key]}
-          name={key}
-          onChange={(group) => { filterHandlers.state({ ...activeFilters, [group.name]: group.values }); }}
-          selectedValues={groupFilters}
-        />
-      </Accordion>
-    );
-  };
 
   const renderMetadataSourceFilter = () => {
     // use dynamic filter values from okapi

@@ -72,7 +72,7 @@ class CollectionsRoute extends React.Component {
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
     }),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -111,11 +111,11 @@ class CollectionsRoute extends React.Component {
 
   querySetter = ({ nsValues }) => {
     this.props.mutator.query.update(nsValues);
-  }
+  };
 
   queryGetter = () => {
     return _.get(this.props.resources, 'query', {});
-  }
+  };
 
   handleNeedMoreData = () => {
     if (this.collection) {
@@ -125,7 +125,7 @@ class CollectionsRoute extends React.Component {
 
   onChangeIndex = (qindex) => {
     this.props.mutator.query.update({ qindex });
-  }
+  };
 
   render() {
     const { location, match, children, stripes } = this.props;
