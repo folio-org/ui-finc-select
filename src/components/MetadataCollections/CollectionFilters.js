@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { CheckboxFilterAccordion } from '@folio/stripes-leipzig-components';
@@ -12,9 +13,6 @@ import {
 import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
 
-// skip for mdSource filter as it is dynamic and handled separately
-const filterState = buildFilterState(filterConfig.filter(f => f.name !== 'mdSource'));
-
 const CollectionFilters = ({
   activeFilters = {
     selected: [],
@@ -26,6 +24,12 @@ const CollectionFilters = ({
   filterData,
   ...props
 }) => {
+  const filterState = useMemo(
+    // skip for mdSource filter as it is dynamic and handled separately
+    () => buildFilterState(filterConfig.filter(f => f.name !== 'mdSource')),
+    []
+  );
+
   const renderCheckboxFilter = (key) => (
     <CheckboxFilterAccordion
       activeFilters={activeFilters}
