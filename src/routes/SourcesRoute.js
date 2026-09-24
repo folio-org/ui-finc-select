@@ -70,7 +70,7 @@ class SourcesRoute extends React.Component {
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
     }),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -109,11 +109,11 @@ class SourcesRoute extends React.Component {
 
   querySetter = ({ nsValues }) => {
     this.props.mutator.query.update(nsValues);
-  }
+  };
 
   queryGetter = () => {
     return _.get(this.props.resources, 'query', {});
-  }
+  };
 
   handleNeedMoreData = () => {
     if (this.source) {
@@ -124,7 +124,7 @@ class SourcesRoute extends React.Component {
   // add update if search-selectbox is changing
   onChangeIndex = (qindex) => {
     this.props.mutator.query.update({ qindex });
-  }
+  };
 
   render() {
     const { location, match, children, stripes } = this.props;

@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import {
-  Accordion,
-  AccordionSet,
-  FilterAccordionHeader,
-} from '@folio/stripes/components';
-import { CheckboxFilter } from '@folio/stripes/smart-components';
+import { CheckboxFilterAccordion } from '@folio/stripes-leipzig-components';
+import { AccordionSet } from '@folio/stripes/components';
 
 import { buildFilterState } from '../../util/filterUtils';
 import filterConfig from './filterConfigData';
@@ -21,28 +17,16 @@ const SourceFilters = ({
   filterHandlers,
   ...props
 }) => {
-  const renderCheckboxFilter = (key) => {
-    const groupFilters = activeFilters[key] || [];
-
-    return (
-      <Accordion
-        displayClearButton={groupFilters.length > 0}
-        header={FilterAccordionHeader}
-        id={`filter-accordion-${key}`}
-        label={<FormattedMessage id={`ui-finc-select.source.${key}`} />}
-        onClearFilter={() => { filterHandlers.clearGroup(key); }}
-        separator={false}
-        {...props}
-      >
-        <CheckboxFilter
-          dataOptions={filterState[key]}
-          name={key}
-          onChange={(group) => { filterHandlers.state({ ...activeFilters, [group.name]: group.values }); }}
-          selectedValues={groupFilters}
-        />
-      </Accordion>
-    );
-  };
+  const renderCheckboxFilter = (key) => (
+    <CheckboxFilterAccordion
+      activeFilters={activeFilters}
+      dataOptions={filterState[key]}
+      filterHandlers={filterHandlers}
+      filterKey={key}
+      label={<FormattedMessage id={`ui-finc-select.source.${key}`} />}
+      {...props}
+    />
+  );
 
   return (
     <AccordionSet>
