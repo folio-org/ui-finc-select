@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -63,7 +63,7 @@ class FiltersRoute extends React.Component {
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
     }),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -102,11 +102,11 @@ class FiltersRoute extends React.Component {
 
   querySetter = ({ nsValues }) => {
     this.props.mutator.query.update(nsValues);
-  }
+  };
 
   queryGetter = () => {
-    return _.get(this.props.resources, 'query', {});
-  }
+    return get(this.props.resources, 'query', {});
+  };
 
   handleNeedMoreData = () => {
     if (this.filter) {
@@ -128,7 +128,7 @@ class FiltersRoute extends React.Component {
 
     return (
       <Filters
-        contentData={_.get(this.props.resources, 'filters.records', [])}
+        contentData={get(this.props.resources, 'filters.records', [])}
         filter={this.filter}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}

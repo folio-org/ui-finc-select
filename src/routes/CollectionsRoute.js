@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -72,7 +72,7 @@ class CollectionsRoute extends React.Component {
       hasPerm: PropTypes.func.isRequired,
       logger: PropTypes.object,
     }),
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -111,11 +111,11 @@ class CollectionsRoute extends React.Component {
 
   querySetter = ({ nsValues }) => {
     this.props.mutator.query.update(nsValues);
-  }
+  };
 
   queryGetter = () => {
-    return _.get(this.props.resources, 'query', {});
-  }
+    return get(this.props.resources, 'query', {});
+  };
 
   handleNeedMoreData = () => {
     if (this.collection) {
@@ -125,7 +125,7 @@ class CollectionsRoute extends React.Component {
 
   onChangeIndex = (qindex) => {
     this.props.mutator.query.update({ qindex });
-  }
+  };
 
   render() {
     const { location, match, children, stripes } = this.props;
@@ -142,9 +142,9 @@ class CollectionsRoute extends React.Component {
     return (
       <MetadataCollections
         collection={this.collection}
-        contentData={_.get(this.props.resources, 'collections.records', [])}
+        contentData={get(this.props.resources, 'collections.records', [])}
         filterData={{
-          mdSources: _.get(this.props.resources, 'mdSources.records', []),
+          mdSources: get(this.props.resources, 'mdSources.records', []),
         }}
         onChangeIndex={this.onChangeIndex}
         onNeedMoreData={this.handleNeedMoreData}
