@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -112,7 +112,7 @@ class SourcesRoute extends React.Component {
   };
 
   queryGetter = () => {
-    return _.get(this.props.resources, 'query', {});
+    return get(this.props.resources, 'query', {});
   };
 
   handleNeedMoreData = () => {
@@ -140,7 +140,7 @@ class SourcesRoute extends React.Component {
 
     return (
       <MetadataSources
-        contentData={_.get(this.props.resources, 'sources.records', [])}
+        contentData={get(this.props.resources, 'sources.records', [])}
         onChangeIndex={this.onChangeIndex}
         onNeedMoreData={this.handleNeedMoreData}
         queryGetter={this.queryGetter}
