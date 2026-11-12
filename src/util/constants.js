@@ -9,9 +9,9 @@ export const API_ORGANIZATION_BY_ID = (organizationId) => `organizations-storage
 export const API_SOURCES = 'finc-select/metadata-sources';
 export const API_TINY_SOURCES = 'finc-config/tiny-metadata-sources';
 
-export const QK_COLLECTIONS = 'collections';
-export const QK_EZB_CREDENTIALS = 'ezbCredentials';
-export const QK_FILTERS = 'filters';
-export const QK_ORGANIZATIONS = 'organizations';
-export const QK_SOURCES = 'sources';
-export const QK_TINY_SOURCES = 'tiny-sources';
+export const KEY_COLLECTIONS = 'collections';
+export const KEY_EZB_CREDENTIALS = 'ezbCredentials';
+export const KEY_FILTERS = 'filters';
+export const KEY_ORGANIZATIONS = 'organizations';
+export const KEY_SOURCES = 'sources';
+export const KEY_TINY_SOURCES = 'tiny-sources';

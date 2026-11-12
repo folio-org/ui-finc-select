@@ -8,7 +8,7 @@ import urls from '../components/DisplayUtils/urls';
 import MetadataSourceView from '../components/MetadataSources/MetadataSourceView';
 import {
   API_SOURCES,
-  QK_SOURCES,
+  KEY_SOURCES,
 } from '../util/constants';
 
 const SourceViewRoute = ({
@@ -19,7 +19,7 @@ const SourceViewRoute = ({
   const stripes = useStripes();
 
   const { data: source, isLoading: isSourceLoading } = useOkapiKyQuery({
-    queryKey: [QK_SOURCES, sourceId],
+    queryKey: [KEY_SOURCES, sourceId],
     id: sourceId,
     api: API_SOURCES,
     options: { enabled: Boolean(sourceId) },

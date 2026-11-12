@@ -13,8 +13,8 @@ import FilterForm from '../components/Filters/FilterForm';
 import {
   API_FILTERS,
   API_TINY_SOURCES,
-  QK_FILTERS,
-  QK_TINY_SOURCES,
+  KEY_FILTERS,
+  KEY_TINY_SOURCES,
 } from '../util/constants';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
@@ -23,12 +23,12 @@ const FilterCreateRoute = ({ history, location }) => {
   const hasPerms = stripes.hasPerm('ui-finc-select.create');
 
   const { data: mdSources = { tinyMetadataSources: [] } } = useOkapiKyQuery({
-    queryKey: [QK_TINY_SOURCES],
+    queryKey: [KEY_TINY_SOURCES],
     api: API_TINY_SOURCES,
   });
 
   const { useCreate } = useOkapiKyMutation({
-    mutationKey: [QK_FILTERS],
+    mutationKey: [KEY_FILTERS],
     api: API_FILTERS,
   });
 

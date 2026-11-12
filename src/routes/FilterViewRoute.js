@@ -13,8 +13,8 @@ import FilterView from '../components/Filters/FilterView';
 import {
   API_COLLECTIONS_BY_FILTER_ID,
   API_FILTERS,
-  QK_COLLECTIONS,
-  QK_FILTERS,
+  KEY_COLLECTIONS,
+  KEY_FILTERS,
 } from '../util/constants';
 
 const FilterViewRoute = ({
@@ -26,7 +26,7 @@ const FilterViewRoute = ({
   const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const { data: filter = {}, isLoading: isFilterLoading } = useOkapiKyQuery({
-    queryKey: [QK_FILTERS, filterId],
+    queryKey: [KEY_FILTERS, filterId],
     id: filterId,
     api: API_FILTERS,
     options: { enabled: Boolean(filterId) },
@@ -36,7 +36,7 @@ const FilterViewRoute = ({
     const ky = useOkapiKy();
 
     const { isLoading, data = {}, error } = useQuery(
-      [QK_COLLECTIONS, filterId],
+      [KEY_COLLECTIONS, filterId],
       () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json(),
       // The query will not execute until the id exists
       { enabled: Boolean(filterId) }
