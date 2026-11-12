@@ -19,9 +19,9 @@ import {
   API_COLLECTIONS_BY_FILTER_ID,
   API_FILTERS,
   API_TINY_SOURCES,
-  QK_COLLECTIONS,
-  QK_FILTERS,
-  QK_TINY_SOURCES,
+  KEY_COLLECTIONS,
+  KEY_FILTERS,
+  KEY_TINY_SOURCES,
 } from '../util/constants';
 import saveCollectionIds from './utilities/saveCollectionIds';
 
@@ -35,14 +35,14 @@ const FilterEditRoute = ({
   const hasPerms = stripes.hasPerm('ui-finc-select.edit');
 
   const { data: filter = {}, isLoading: isFilterLoading } = useOkapiKyQuery({
-    queryKey: [QK_FILTERS, filterId],
+    queryKey: [KEY_FILTERS, filterId],
     api: API_FILTERS,
     id: filterId,
     options: { enabled: Boolean(filterId) },
   });
 
   const { data: collectionsRaw = {}, isLoading: isCollectionsLoading } = useQuery(
-    [QK_COLLECTIONS, filterId],
+    [KEY_COLLECTIONS, filterId],
     () => ky.get(API_COLLECTIONS_BY_FILTER_ID(filterId)).json()
       .catch(() => ({ collectionIds: [] })),
     // The query will not execute until the id exists
@@ -50,7 +50,7 @@ const FilterEditRoute = ({
   );
 
   const { data: mdSources = { tinyMetadataSources: [] }, isLoading: isMdSourcesLoading } = useOkapiKyQuery({
-    queryKey: [QK_TINY_SOURCES],
+    queryKey: [KEY_TINY_SOURCES],
     api: API_TINY_SOURCES,
   });
 
@@ -70,7 +70,7 @@ const FilterEditRoute = ({
   };
 
   const { useUpdate, useDelete } = useOkapiKyMutation({
-    mutationKey: [QK_FILTERS, filterId],
+    mutationKey: [KEY_FILTERS, filterId],
     id: filterId,
     api: API_FILTERS,
   });
