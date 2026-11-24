@@ -33,7 +33,6 @@ const FilterForm = ({
   handlers,
   handleSubmit,
   initialValues = {},
-  invalid,
   isLoading,
   onDelete,
   pristine,
@@ -110,7 +109,7 @@ const FilterForm = ({
   };
 
   const getPaneFooter = () => {
-    const disabled = pristine || submitting || invalid;
+    const disabled = pristine || submitting;
 
     const startButton = (
       <Button
@@ -235,7 +234,6 @@ FilterForm.propTypes = {
   }),
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.object,
-  invalid: PropTypes.bool,
   isLoading: PropTypes.bool,
   onDelete: PropTypes.func,
   pristine: PropTypes.bool,

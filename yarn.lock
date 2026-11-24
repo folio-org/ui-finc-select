@@ -1588,7 +1588,7 @@
     semver "^7.7.2"
     use-deep-compare "^1.1.0"
 
-"@folio/stripes-final-form@^9.0.0", "@folio/stripes-final-form@~9.0.0":
+"@folio/stripes-final-form@~9.0.0":
   version "9.0.1"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-final-form/-/stripes-final-form-9.0.1.tgz#cf992961b0068caf4f877c6554e2f28c63d693a0"
   integrity sha512-P2rG4Swh+iM5A8/5vRkgb7xnO8v+qBApEROE5wwoBpHW+BllJG34hH240lOy7IukKtwgF8qxoTSPWOTIe0hauA==

@@ -5,6 +5,7 @@
 * Add yarn.lock
 * Use CheckboxFilterAccordion ([UIFC-496](https://folio-org.atlassian.net/browse/UIFC-496))
 * Rename constants prefix QK to KEY ([UIFC-514](https://folio-org.atlassian.net/browse/UIFC-514))
+* Keep Save enabled on invalid filter forms, so missing required fields are shown on save ([UIFC-516](https://folio-org.atlassian.net/browse/UIFC-516))
 
 ## [8.2.0](https://github.com/folio-org/ui-finc-select/tree/v8.2.0) (2026-04-20)
 * Use EditCard from stripes-leipzig-components ([UIFC-451](https://folio-org.atlassian.net/browse/UIFC-451))
