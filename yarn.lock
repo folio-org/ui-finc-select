@@ -1509,7 +1509,7 @@
     webpack-bundle-analyzer "^4.4.2"
     yargs "^17.3.1"
 
-"@folio/stripes-components@^13.0.0", "@folio/stripes-components@~13.1.0":
+"@folio/stripes-components@^13.0.0":
   version "13.1.0"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-components/-/stripes-components-13.1.0.tgz#dfee3b5d589dfa70357143110bc17a9ec404fc95"
   integrity sha512-cvvVzGxW2xmCqqncShsIyiGpFcoRzfJGZfZZ8Yi0B9+wI3bl1v+GXAuNJhZiMrqHLtbob+cWMHlrdihGyGZMig==
@@ -1540,21 +1540,21 @@
     tai-password-strength "^1.1.1"
     usehooks-ts "^3.1.1"
 
-"@folio/stripes-connect@~10.1.0":
-  version "10.1.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-connect/-/stripes-connect-10.1.0.tgz#a75281f9f8fe8079d8f4dacc07eacc0508550931"
-  integrity sha512-BwCHLPe0JhHwzALxgcKT64oyb+/DcwjU0+WRgcuQ3AbyddJ0H5HIoyKWwaVfGxOW02JMClFjuACSTWcTp47Fxg==
+"@folio/stripes-connect@^10.0.0":
+  version "10.1.1099000000000110"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-connect/-/stripes-connect-10.1.1099000000000110.tgz#601cbeccf86881b8339a9056b1b06c6a1c2b5e3b"
+  integrity sha512-N8aNKY6QH/X9WtNNYM/jX7HmJvkF6uSSVHoangYQUQ/PzP9hNzUv7GpKIyWkMNyhqKV9mc0xFaXmStDI0nwuqg==
   dependencies:
     lodash "^4.17.11"
     prop-types "^15.5.10"
-    query-string "^7.1.2"
+    query-string "^9.5.1"
     redux "^4.2.1"
-    uuid "^9.0.0"
+    uuid "^14.0.2"
 
-"@folio/stripes-core@^11.0.0", "@folio/stripes-core@~11.1.0":
-  version "11.1.1"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-core/-/stripes-core-11.1.1.tgz#02957f1e137156795b9237331677a0a5a36c1fa6"
-  integrity sha512-u02A9hhAkUO30NRkb4V9MLkkgB73lw8zKbIkdOpTJ+vUhtwl1UgJr+SRaCd5HBmYeCAqZj+I0O6DMkoBCeYE8A==
+"@folio/stripes-core@^11.0.0", "@folio/stripes-core@^11.2.0":
+  version "11.2.1099000000002139"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-core/-/stripes-core-11.2.1099000000002139.tgz#7dde6af31da6b57a3978399ce5813a10a2cafa2e"
+  integrity sha512-9+J3UqgxV+IYhH8njmopq//AaLdnEuy0ddvwRXHqrdY5ToO1mqmBWhKQKvGZ4uCW/qwCh2oZhn/5n9FsmGNBew==
   dependencies:
     "@apollo/client" "^3.2.1"
     "@module-federation/runtime" "^2.0.0"
@@ -1588,10 +1588,10 @@
     semver "^7.7.2"
     use-deep-compare "^1.1.0"
 
-"@folio/stripes-final-form@~9.0.0":
-  version "9.0.1"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-final-form/-/stripes-final-form-9.0.1.tgz#cf992961b0068caf4f877c6554e2f28c63d693a0"
-  integrity sha512-P2rG4Swh+iM5A8/5vRkgb7xnO8v+qBApEROE5wwoBpHW+BllJG34hH240lOy7IukKtwgF8qxoTSPWOTIe0hauA==
+"@folio/stripes-final-form@^10.0.0":
+  version "10.0.1099000000000173"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-final-form/-/stripes-final-form-10.0.1099000000000173.tgz#d806fd81fcc7e61cdbff8c3d0908dfdaf4087d71"
+  integrity sha512-sQ5+ePy3voidOqbDhnA/dG0Qdz0ROqHzuIWy9M3WwN2pBZEKAkJGiQCvpZ6SVLVZGUwl6hGf9qycd8DgC+YQ3w==
   dependencies:
     final-form "^4.18.2"
     final-form-arrays "^3.0.1"
@@ -1601,10 +1601,10 @@
     react-final-form "^6.3.0"
     react-final-form-arrays "^3.1.0"
 
-"@folio/stripes-form@~10.1.0":
-  version "10.1.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-form/-/stripes-form-10.1.0.tgz#ced3c73a2732900df18a45f1dc46e3e59c9afb76"
-  integrity sha512-6319S+5z3muCP7CZs3NFRAD2Q9VAIhXnQy2i08DGQltG3DBe48NAVYxnO8t5wq2Bo+NnxD0JaN5RDaNam1wGjQ==
+"@folio/stripes-form@^11.0.0":
+  version "11.0.1099000000000147"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-form/-/stripes-form-11.0.1099000000000147.tgz#58676f693aae9a1ad388d4c196f54cd94616676b"
+  integrity sha512-PVIJs9yot8ENVZ2i/9juNxIOFI8/lClnlV4aQ9QeGDMrpIdd3QAv7VG9jc/raTJzGiyCtgUR7HH6ZqkCczyyIw==
   dependencies:
     flat "^5.0.2"
     prop-types "^15.5.10"
@@ -1622,11 +1622,6 @@
     react-final-form "^6.3.5"
     react-final-form-arrays "^3.1.1"
 
-"@folio/stripes-logger@~1.0.0":
-  version "1.0.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-logger/-/stripes-logger-1.0.0.tgz#588cdf4d27f90ce99389ccbb87a221fa6dd9e683"
-  integrity sha512-YPd1NKDvEpr5d35o/P5Z1aCT37lujH0FR1CrJMJ9hiqe/qtva5ACte3BQdGGV02+M5sC13gBiITs6Vcx7A+GEg==
-
 "@folio/stripes-react-hotkeys@^3.0.0", "@folio/stripes-react-hotkeys@^3.2.1":
   version "3.2.1"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-react-hotkeys/-/stripes-react-hotkeys-3.2.1.tgz#fffa6e03850b03da8994e07dc8e972cc8c405369"
@@ -1637,7 +1632,7 @@
     lodash "^4.17.15"
     prop-types "^15.7.2"
 
-"@folio/stripes-smart-components@^10.0.0", "@folio/stripes-smart-components@~10.1.0":
+"@folio/stripes-smart-components@^10.0.0":
   version "10.1.0"
   resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-smart-components/-/stripes-smart-components-10.1.0.tgz#53181986d0b6fe1b920353b474bd66b561c33eef"
   integrity sha512-Tkw5FIQoSlE6ucHJBbtS8TsVQ6obciR8rT6XeVDYeSocfF+powFqDDn6zmLans5EZFulazdZPSM1chQp4u+5yQ==
@@ -1676,10 +1671,10 @@
     element-is-visible "^1.0.0"
     minimist "^1.2.0"
 
-"@folio/stripes-types@~3.0.1":
-  version "3.0.1"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-types/-/stripes-types-3.0.1.tgz#332972f9d485d1eccd4829b35c44ff100648d20c"
-  integrity sha512-TOhWsRDUolW+0r9YwUZRscC4OUVgK0VMYloHgDq5drJTuGaoNR8LE83BxjSl/TA2wuJi3wweg10MTahPLWKiWA==
+"@folio/stripes-types@^3.0.0":
+  version "3.1.1099000000000146"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-types/-/stripes-types-3.1.1099000000000146.tgz#b0fc0495e6b77e1f4dfd4f17e597180fb8a1bc2b"
+  integrity sha512-X/rg/ukc8TLMcQFE17jkSeb9u+LuSYt5U04B77hmZtA0OieFgLx1fZZa2h9UlDN1H1uP1mtd9z0r4NLiUxlHKw==
   dependencies:
     "@folio/stripes-react-hotkeys" "^3.0.0"
     dayjs "^1.11.10"
@@ -1689,15 +1684,15 @@
     popper.js "^1.16.1"
     type-fest "^4.12.0"
 
-"@folio/stripes-ui@~3.0.0":
-  version "3.0.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-ui/-/stripes-ui-3.0.0.tgz#f89157fc80303e0f9b321b81c762a79b96815ba7"
-  integrity sha512-ZgC158bgczJDkHawVPq2d2N0Qk3f0XOg3dELmx92EJjyq2N+Zy7KgOvfTetzltqTtKEDSZz+Mj/VfATmnTV9zw==
+"@folio/stripes-ui@^3.0.0":
+  version "3.0.1099000000000028"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-ui/-/stripes-ui-3.0.1099000000000028.tgz#ca838988f28e8aa676deb27e33248647bf3742ac"
+  integrity sha512-6gki12sdLWJavDFJD6HnvNAiannZyaHy61bJjaAK1nMP29DBZcsImknGuinYMKawot4vSfZNKMu1b4OcWcu4pw==
 
-"@folio/stripes-util@~7.0.1":
-  version "7.0.1"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes-util/-/stripes-util-7.0.1.tgz#b5e4eabb0c123f351d3e721acc760e87d375d836"
-  integrity sha512-Xkv12m9TEIIVI9huivC/58ByieecAHPnmJlesiZMO9GK5tpRqyaQdXyVUfIBrzBu9GIPkr2h4zCOIeP4vcy+6w==
+"@folio/stripes-util@^7.0.0":
+  version "7.3.1099000000000119"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes-util/-/stripes-util-7.3.1099000000000119.tgz#cc3e8e273a511a0acf8652c997bea58773e015b5"
+  integrity sha512-HfcEZxRuehFhv40GdoxbH30jhVP1/bl0PMmtklsii/d52j0mqN4zPX58aJABAnrl2x3/ePTSWarWMU1fmgSnRw==
   dependencies:
     json2csv "^4.2.1"
     lodash "^4.17.4"
@@ -1773,20 +1768,20 @@
     webpack-virtual-modules "^0.4.3"
 
 "@folio/stripes@^10.0.0":
-  version "10.1.0"
-  resolved "https://repository.folio.org/repository/npm-folio/@folio/stripes/-/stripes-10.1.0.tgz#e13c1295f437d19b86a40a49d4e28486f7d3dc4e"
-  integrity sha512-A16lKQGJhHggDe6eP12Qx1B4O1jKfVvRflAz6WYI0BHPHIwtAQspqVKCVAda2Mw95eSvkzWWDUUx5dp8mZ0atA==
+  version "10.2.1099000000000289"
+  resolved "https://repository.folio.org/repository/npm-folioci/@folio/stripes/-/stripes-10.2.1099000000000289.tgz#4ad1629e4a76e3a43a22473a62a12e3205e37c38"
+  integrity sha512-xZ0ypv6LdPCXbcffwGYtxdLiNSatWCx9aa8QfUpdQnKQ2dqBHjI9HOvnak3xIOWi2ijWTlKovKxREt1n63bBIQ==
   dependencies:
-    "@folio/stripes-components" "~13.1.0"
-    "@folio/stripes-connect" "~10.1.0"
-    "@folio/stripes-core" "~11.1.0"
-    "@folio/stripes-final-form" "~9.0.0"
-    "@folio/stripes-form" "~10.1.0"
-    "@folio/stripes-logger" "~1.0.0"
-    "@folio/stripes-smart-components" "~10.1.0"
-    "@folio/stripes-types" "~3.0.1"
-    "@folio/stripes-ui" "~3.0.0"
-    "@folio/stripes-util" "~7.0.1"
+    "@folio/stripes-components" "^13.0.0"
+    "@folio/stripes-connect" "^10.0.0"
+    "@folio/stripes-core" "^11.2.0"
+    "@folio/stripes-final-form" "^10.0.0"
+    "@folio/stripes-form" "^11.0.0"
+    "@folio/stripes-smart-components" "^10.0.0"
+    "@folio/stripes-types" "^3.0.0"
+    "@folio/stripes-ui" "^3.0.0"
+    "@folio/stripes-util" "^7.0.0"
+    categorical-logger "^1.0.0"
     redux "^4.2.1"
 
 "@formatjs/cli-lib@^6.1.3":
@@ -4724,6 +4719,11 @@ capital-case@^1.0.4:
     tslib "^2.0.3"
     upper-case-first "^2.0.2"
 
+categorical-logger@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/categorical-logger/-/categorical-logger-1.0.0.tgz#dc93d3f3cc1a281261ab63d5698ddd646ae45cd2"
+  integrity sha512-/7547NN23px6XFVVs+gtpkWZYuy8JlI6O9sy9G37m8qiuMpbn6dGECKb/QEk0UVFmN7S8Ynl0kQadPzs65+G3Q==
+
 chalk@4, chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
@@ -5482,6 +5482,11 @@ decode-uri-component@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.4.1.tgz#2ac4859663c704be22bf7db760a1494a49ab2cc5"
   integrity sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==
+
+decode-uri-component@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.5.1.tgz#7f66b25bf435df723f9af55713dcf860a1c297d2"
+  integrity sha512-vWHQkXgg2cE3BB4rR0c+PYw9BCQzLoNIRMI7AunIkZst74tw/vpPp7VLoYtsR/cy1f55g3XDWUslfeCZjiZJyA==
 
 decompress-response@^6.0.0:
   version "6.0.0"
@@ -10852,6 +10857,15 @@ query-string@^8.1.0:
     filter-obj "^5.1.0"
     split-on-first "^3.0.0"
 
+query-string@^9.5.1:
+  version "9.5.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-9.5.1.tgz#aecdc091d3dc7ce293eed83957e220d523a3d0f7"
+  integrity sha512-/zO3RwuRCMTIcEgq6YMv4OrtEE1XzBG7w5N6zc6ydYnkWYOWsnLI/5894hYEzfESfMOT4cHCsRTIdxsSl1KjGg==
+  dependencies:
+    decode-uri-component "^0.5.0"
+    filter-obj "^5.1.0"
+    split-on-first "^3.0.0"
+
 querystringify@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
@@ -12932,6 +12946,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^14.0.2:
+  version "14.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-14.0.3.tgz#48c9b0dcf5a42d983c23162399eeb9af8b2cc617"
+  integrity sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==
 
 uuid@^8.3.2:
   version "8.3.2"
