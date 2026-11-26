@@ -15,7 +15,7 @@
     "formatjs-compile": "stripes translate compile"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.0",
+    "@babel/core": "^7.29.6",
     "@babel/eslint-parser": "^7.17.0",
     "@folio/eslint-config-stripes": "^8.0.0",
     "@folio/jest-config-stripes": "^3.0.0",
